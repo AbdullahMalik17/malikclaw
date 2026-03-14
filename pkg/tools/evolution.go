@@ -71,6 +71,24 @@ func (t *EvolutionTool) Execute(ctx context.Context, args map[string]any) *ToolR
 	operation, _ := args["operation"].(string)
 	path, _ := args["path"].(string)
 
+	if path == "" {
+		return ErrorResult("path is required")
+	}
+
+	// Clean path and ensure it's relative to repo root
+	path = filepath.Clean(path)
+	if strings.HasPrefix(path, "..") || filepath.IsAbs(path) {
+		// If it's an absolute path, check if it's within repo root
+		if filepath.IsAbs(path) {
+			rel, err := filepath.Rel(t.repoRoot, path)
+			if err != nil || strings.HasPrefix(rel, "..") {
+				return ErrorResult("access denied: path outside repository")
+			}
+		} else {
+			return ErrorResult("access denied: path outside repository")
+		}
+	}
+
 	fullPath := filepath.Join(t.repoRoot, path)
 
 	switch operation {
@@ -81,6 +99,9 @@ func (t *EvolutionTool) Execute(ctx context.Context, args map[string]any) *ToolR
 		return t.proposePatch(fullPath, reason)
 	case "apply_patch":
 		patch, _ := args["patch"].(string)
+		if patch == "" {
+			return ErrorResult("patch is required for apply_patch")
+		}
 		return t.applyPatch(fullPath, patch)
 	default:
 		return ErrorResult(fmt.Sprintf("unknown operation: %s", operation))
