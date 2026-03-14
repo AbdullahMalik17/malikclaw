@@ -11,7 +11,7 @@ import (
 
 	"golang.org/x/time/rate"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
 )
 
 // mockChannel is a test double that delegates Send to a configurable function.

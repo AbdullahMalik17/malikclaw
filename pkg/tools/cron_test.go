@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/cron"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/cron"
 )
 
 func newTestCronTool(t *testing.T) *CronTool {

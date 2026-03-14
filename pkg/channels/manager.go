@@ -17,12 +17,12 @@ import (
 
 	"golang.org/x/time/rate"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/constants"
-	"github.com/sipeed/malikclaw/pkg/health"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/media"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/constants"
+	"github.com/AbdullahMalik17/malikclaw/pkg/health"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/media"
 )
 
 const (

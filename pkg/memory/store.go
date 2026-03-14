@@ -3,7 +3,7 @@ package memory
 import (
 	"context"
 
-	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
 // Store defines an interface for persistent session storage.

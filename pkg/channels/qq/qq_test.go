@@ -7,8 +7,8 @@ import (
 
 	"github.com/tencent-connect/botgo/dto"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/channels"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/channels"
 )
 
 func TestHandleC2CMessage_IncludesAccountIDMetadata(t *testing.T) {

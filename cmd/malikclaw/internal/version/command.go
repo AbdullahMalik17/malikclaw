@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func NewVersionCommand() *cobra.Command {

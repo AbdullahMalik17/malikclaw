@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 // registerModelRoutes binds model list management endpoints to the ServeMux.

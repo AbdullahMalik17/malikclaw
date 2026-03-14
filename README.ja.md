@@ -97,12 +97,12 @@ https://private-user-images.githubusercontent.com/83055338/547056448-e7b031ff-d6
 
 ### コンパイル済みバイナリでインストール
 
-[リリースページ](https://github.com/sipeed/malikclaw/releases) からお使いのプラットフォーム用のファームウェアをダウンロードしてください。
+[リリースページ](https://github.com/AbdullahMalik17/malikclaw/releases) からお使いのプラットフォーム用のファームウェアをダウンロードしてください。
 
 ### ソースからインストール（最新機能、開発向け推奨）
 
 ```bash
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 
 cd malikclaw
 make deps
@@ -123,7 +123,7 @@ Docker Compose を使えば、ローカルにインストールせずに MalikCl
 
 ```bash
 # 1. リポジトリをクローン
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 cd malikclaw
 
 # 2. 初回起動 — docker/data/config.json を自動生成して終了

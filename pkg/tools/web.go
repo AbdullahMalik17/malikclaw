@@ -15,7 +15,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 const (

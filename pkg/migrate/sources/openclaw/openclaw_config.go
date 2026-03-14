@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 type OpenClawConfig struct {

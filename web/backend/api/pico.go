@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 // registerPicoRoutes binds Pico Channel management endpoints to the ServeMux.

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func (h *Handler) effectiveLauncherPublic() bool {

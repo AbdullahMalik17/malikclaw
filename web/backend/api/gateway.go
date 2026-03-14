@@ -17,8 +17,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/web/backend/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/utils"
 )
 
 // gateway holds the state for the managed gateway process.

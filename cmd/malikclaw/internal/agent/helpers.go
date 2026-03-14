@@ -11,11 +11,11 @@ import (
 
 	"github.com/ergochat/readline"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/pkg/agent"
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
 func agentCmd(message, sessionKey, model string, debug bool) error {

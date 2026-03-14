@@ -9,7 +9,7 @@ import (
 
 	"github.com/caarlos0/env/v11"
 
-	"github.com/sipeed/malikclaw/pkg/fileutil"
+	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
 )
 
 // rrCounter is a global counter for round-robin load balancing across models.
@@ -754,6 +754,7 @@ type ToolsConfig struct {
 	WriteFile       ToolConfig         `json:"write_file"                                               envPrefix:"MALIKCLAW_TOOLS_WRITE_FILE_"`
 	Gmail           ToolConfig         `json:"gmail"                                                    envPrefix:"MALIKCLAW_TOOLS_GMAIL_"`
 	SelfImprove     ToolConfig         `json:"self_improve"                                             envPrefix:"MALIKCLAW_TOOLS_SELF_IMPROVE_"`
+	AndroidControl  ToolConfig         `json:"android_control"                                          envPrefix:"MALIKCLAW_TOOLS_ANDROID_CONTROL_"`
 }
 
 type SearchCacheConfig struct {
@@ -1061,6 +1062,8 @@ func (t *ToolsConfig) IsToolEnabled(name string) bool {
 		return t.Gmail.Enabled
 	case "self_improve":
 		return t.SelfImprove.Enabled
+	case "android_control":
+		return t.AndroidControl.Enabled
 	default:
 		return true
 	}

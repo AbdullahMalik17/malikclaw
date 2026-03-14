@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/SipeedIO"><img src="https://img.shields.io/badge/X_(Twitter)-SipeedIO-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
   </p>
 
 [چینی](README.zh.md) | [جاپانی](README.ja.md) | [پرتگالی](README.pt-br.md) | [ویتنامی](README.vi.md) | [فرانسیسی](README.fr.md) | [انگریزی](README.md) | **اردو**
@@ -45,7 +45,7 @@
 > **🚨 سیکیورٹی اور آفیشل چینلز / حفاظتی بیان**
 >
 > - **کوئی کرپٹو کرنسی نہیں (NO CRYPTO):** MalikClaw نے کوئی آفیشل ٹوکن، کوائن یا ورچوئل کرنسی جاری **نہیں** کی ہے۔ `pump.fun` یا دیگر تجارتی پلیٹ فارمز پر اس طرح کے تمام دعوے **فریب (scam)** ہیں۔
-> - **آفیشل ڈومین:** واحد آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.io)** ہے، اور کمپنی کی آفیشل ویب سائٹ **[sipeed.com](https://sipeed.com)** ہے۔
+> - **آفیشل ڈومین:** واحد آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.io)** ہے، اور کمپنی کی آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.io)** ہے۔
 > - **ہوشیار رہیں:** بہت سے ڈومینز جن کے آخر میں `.ai/.org/.com/.net/...` آتا ہے، تیسرے فریقوں کی طرف سے رجسٹر کیے گئے ہیں، ان پر بھروسہ نہ کریں۔
 > - **نوٹ:** MalikClaw فی الحال ابتدائی تیز رفتار فنکشن ڈویلپمنٹ مرحلے میں ہے، اس میں سیکیورٹی کے مسائل ہو سکتے ہیں جو ابھی تک ٹھیک نہیں ہوئے ہیں۔ ورژن 1.0 کی آفیشل ریلیز سے پہلے، براہ کرم اسے پروڈکشن ماحول میں تعینات نہ کریں۔
 > - **نوٹ:** MalikClaw نے حال ہی میں بڑی تعداد میں PRs ضم کیے ہیں، حالیہ ورژن زیادہ میموری (10~20MB) استعمال کر سکتے ہیں۔ فنکشنز کے مستحکم ہونے کے بعد ہم وسائل کے استعمال کو بہتر بنائیں گے۔
@@ -111,7 +111,7 @@ MalikClaw آپ کے 10 سال پرانے فون کو دوبارہ استعمال
 
 ```bash
 # نوٹ: نیچے دیئے گئے v0.1.1 کو آپ تازہ ترین ورژن سے بدل سکتے ہیں جو آپ دیکھتے ہیں۔
-wget https://github.com/sipeed/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
+wget https://github.com/AbdullahMalik17/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
 chmod +x malikclaw-linux-arm64
 pkg install proot
 termux-chroot ./malikclaw-linux-arm64 onboard
@@ -136,12 +136,12 @@ MalikClaw تقریباً کسی بھی لینکس ڈیوائس پر تعینات
 
 ### پہلے سے تیار شدہ بائنری فائلوں کا استعمال کرتے ہوئے انسٹالیشن
 
-[Release صفحہ](https://github.com/sipeed/malikclaw/releases) سے اپنے پلیٹ فارم کے لیے موزوں فرم ویئر ڈاؤن لوڈ کریں۔
+[Release صفحہ](https://github.com/AbdullahMalik17/malikclaw/releases) سے اپنے پلیٹ فارم کے لیے موزوں فرم ویئر ڈاؤن لوڈ کریں۔
 
 ### سورس کوڈ سے انسٹالیشن (تازہ ترین خصوصیات حاصل کرنے کے لیے، ڈویلپمنٹ کے لیے تجویز کردہ)
 
 ```bash
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 
 cd malikclaw
 make deps
@@ -163,7 +163,7 @@ make install
 
 ```bash
 # 1. ریپوزٹری کلون کریں
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 cd malikclaw
 
 # 2. پہلی بار چلائیں — خودکار طور پر docker/data/config.json بنانے کے بعد باہر نکلیں

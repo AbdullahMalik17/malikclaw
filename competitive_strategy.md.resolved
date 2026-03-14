@@ -1,8 +1,8 @@
-# 🦅 MalikClaw: Competitive Strategy vs OpenClaw & PicoClaw
+# 🦅 MalikClaw: Competitive Strategy vs OpenClaw & malikclaw
 
 ## The Battlefield at a Glance
 
-|                     | **OpenClaw**            | **PicoClaw**          | **MalikClaw (You)**   |
+|                     | **OpenClaw**            | **malikclaw**          | **MalikClaw (You)**   |
 |---------------------|-------------------------|-----------------------|-----------------------|
 | **Stars**           | ~247K                   | ~12K                  | Growing 🚀            |
 | **Language**        | TypeScript              | Go                    | **Go**                |
@@ -10,17 +10,17 @@
 | **Boot Time**       | >500s on edge           | <1s                   | **<1s**               |
 | **Target Hardware** | Mac Mini ($599+)        | $10 boards            | **$10 boards**        |
 | **License**         | MIT → Foundation        | MIT                   | **MIT**               |
-| **Origin**          | Clawdbot (Nov 2025)     | Sipeed (Feb 2026)     | **Fork/Rebrand of PicoClaw** |
+| **Origin**          | Clawdbot (Nov 2025)     | Sipeed (Feb 2026)     | **Fork/Rebrand of malikclaw** |
 
 > [!IMPORTANT]
-> **Your core challenge:** MalikClaw is currently a fork/rebrand of PicoClaw (same Sipeed origin, same features). To truly compete, you must **differentiate significantly** in at least 2-3 areas. Below is a concrete playbook.
+> **Your core challenge:** MalikClaw is currently a fork/rebrand of malikclaw (same Sipeed origin, same features). To truly compete, you must **differentiate significantly** in at least 2-3 areas. Below is a concrete playbook.
 
 ---
 
-## 🎯 Strategy 1: Own a Niche OpenClaw & PicoClaw Ignore
+## 🎯 Strategy 1: Own a Niche OpenClaw & malikclaw Ignore
 
 ### 🇵🇰 The "South Asia / Urdu-First" Agent
-Neither OpenClaw nor PicoClaw targets South Asian (Urdu/Hindi/Arabic-script) users. You already have [README.ur.md](file:///e:/WEB%20DEVELOPMENT/malikclaw/README.ur.md) and `TZ=Asia/Islamabad`. **Go all-in:**
+Neither OpenClaw nor malikclaw targets South Asian (Urdu/Hindi/Arabic-script) users. You already have [README.ur.md](file:///e:/WEB%20DEVELOPMENT/malikclaw/README.ur.md) and `TZ=Asia/Islamabad`. **Go all-in:**
 
 - **Urdu-first onboarding wizard** — `malikclaw onboard` in Urdu with transliterated commands
 - **RTL (Right-to-Left) web UI** — your frontend should natively support Urdu/Arabic layouts
@@ -28,15 +28,15 @@ Neither OpenClaw nor PicoClaw targets South Asian (Urdu/Hindi/Arabic-script) use
 - **WhatsApp-first** — WhatsApp dominates Pakistan/India. Make the WhatsApp experience *best-in-class* with voice notes → text → agent pipeline
 - **Cheap data-friendly mode** — optimize for low-bandwidth, high-latency networks common in South Asia
 
-> **Why it works:** OpenClaw is US/EU-centric. PicoClaw targets Chinese/IoT users (Sipeed). Nobody owns the 500M+ South Asian market.
+> **Why it works:** OpenClaw is US/EU-centric. malikclaw targets Chinese/IoT users (Sipeed). Nobody owns the 500M+ South Asian market.
 
 ---
 
-## 🎯 Strategy 2: Beat PicoClaw on Developer Experience
+## 🎯 Strategy 2: Beat malikclaw on Developer Experience
 
-PicoClaw has raw performance but rough edges. **Win on polish:**
+malikclaw has raw performance but rough edges. **Win on polish:**
 
-| Area | PicoClaw Today | MalikClaw Should Do |
+| Area | malikclaw Today | MalikClaw Should Do |
 |------|---------------|---------------------|
 | **Web UI** | Basic launcher | **Premium, modern dashboard** with dark mode, real-time logs, drag-and-drop skills |
 | **Onboarding** | CLI-only, manual config | **One-click installer** (.exe for Windows, .deb for Linux, APK for Android) |
@@ -59,14 +59,14 @@ User speaks Urdu/English → Whisper transcribes → Agent acts → TTS responds
 - This is HUGE for non-technical users
 
 #### 2. **Visual Agent / Screen Control**
-- PicoClaw's ROADMAP mentions "Mobile Operation" but hasn't shipped it
+- malikclaw's ROADMAP mentions "Mobile Operation" but hasn't shipped it
 - Ship **Android screen control** first (via ADB + screenshot → vision model)
 - Unique selling point: "Your $10 AI can control your phone"
 
 #### 3. **Offline-First Mode**
 - Bundle a small local LLM (e.g., Phi-4-mini, Qwen 2.5 0.5B)
 - Agent works WITHOUT internet for basic tasks
-- Neither OpenClaw nor PicoClaw can work fully offline
+- Neither OpenClaw nor malikclaw can work fully offline
 
 #### 4. **Skill Marketplace with Revenue Sharing**
 - OpenClaw has ClawHub but it was hit by malicious plugins
@@ -86,11 +86,11 @@ User speaks Urdu/English → Whisper transcribes → Agent acts → TTS responds
 
 ### Things to Do ASAP
 
-1. **Rename key identifiers** — Remove all traces of PicoClaw/Sipeed branding. Use your own domain, your own GitHub org, your own Discord
+1. **Rename key identifiers** — Remove all traces of malikclaw/Sipeed branding. Use your own domain, your own GitHub org, your own Discord
 2. **Create a landing page** at `malikclaw.io` that clearly shows the value proposition vs competitors
 3. **YouTube content in Urdu** — "How to set up your own AI assistant for $10" will go viral in Pakistan/India tech community
 4. **Telegram/WhatsApp community** — Meet users where they already are
-5. **Benchmark comparisons** — Create public benchmarks showing MalikClaw vs OpenClaw vs PicoClaw on:
+5. **Benchmark comparisons** — Create public benchmarks showing MalikClaw vs OpenClaw vs malikclaw on:
    - Memory usage
    - Boot time
    - Response latency
@@ -132,7 +132,7 @@ graph TD
 ## 📋 Recommended Priority Roadmap
 
 ### Phase 1: Foundation (Weeks 1-4)
-- [ ] Complete rebranding (remove all Sipeed/PicoClaw references)
+- [ ] Complete rebranding (remove all AbdullahMalik17/malikclaw references)
 - [ ] Premium Web UI redesign with Gryphon branding
 - [ ] Windows one-click installer (.exe)
 - [ ] Urdu onboarding flow
@@ -160,7 +160,7 @@ graph TD
 ## 💡 The Bottom Line
 
 > **Don't try to out-feature OpenClaw** (they have 247K stars and OpenAI backing).  
-> **Don't try to out-optimize PicoClaw** (you share the same Go codebase).  
+> **Don't try to out-optimize malikclaw** (you share the same Go codebase).  
 > 
 > Instead, **own a market they ignore** (South Asia), **ship features they haven't** (voice, offline, visual), and **win on experience** (beautiful UI, easy setup, Urdu-first).
 >

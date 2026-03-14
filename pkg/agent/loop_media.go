@@ -15,9 +15,9 @@ import (
 
 	"github.com/h2non/filetype"
 
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/media"
-	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/media"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
 // resolveMediaRefs resolves media:// refs in messages.

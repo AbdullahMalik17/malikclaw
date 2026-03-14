@@ -11,7 +11,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/sipeed/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 )
 
 // IsAudioFile checks if a file is an audio file based on its filename extension and content type.

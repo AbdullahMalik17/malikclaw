@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/SipeedIO"><img src="https://img.shields.io/badge/X_(Twitter)-SipeedIO-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
   </p>
 
  [中文](README.zh.md) | [日本語](README.ja.md) | **Português** | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [English](README.md)
@@ -42,7 +42,7 @@
 > **🚨 DECLARAÇÃO DE SEGURANÇA & CANAIS OFICIAIS**
 >
 > * **SEM CRIPTOMOEDAS:** O MalikClaw **NÃO** possui nenhum token/moeda oficial. Todas as alegações no `pump.fun` ou outras plataformas de negociação são **GOLPES**.
-> * **DOMÍNIO OFICIAL:** O **ÚNICO** site oficial é o **[malikclaw.io](https://malikclaw.io)**, e o site da empresa é o **[sipeed.com](https://sipeed.com)**.
+> * **DOMÍNIO OFICIAL:** O **ÚNICO** site oficial é o **[malikclaw.io](https://malikclaw.io)**, e o site da empresa é o **[malikclaw.io](https://malikclaw.io)**.
 > * **Aviso:** Muitos domínios `.ai/.org/.com/.net/...` foram registrados por terceiros, não são nossos.
 > * **Aviso:** O MalikClaw está em fase inicial de desenvolvimento e pode ter problemas de segurança de rede não resolvidos. Não implante em ambientes de produção antes da versão v1.0.
 > * **Nota:** O MalikClaw recentemente fez merge de muitos PRs, o que pode resultar em maior consumo de memória (10-20MB) nas versões mais recentes. Planejamos priorizar a otimização de recursos assim que o conjunto de funcionalidades estiver estável.
@@ -110,7 +110,7 @@ Dê uma segunda vida ao seu celular de dez anos atrás! Transforme-o em um assis
 
 ```bash
 # Nota: Substitua v0.1.1 pela versao mais recente da pagina de Releases
-wget https://github.com/sipeed/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
+wget https://github.com/AbdullahMalik17/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
 chmod +x malikclaw-linux-arm64
 pkg install proot
 termux-chroot ./malikclaw-linux-arm64 onboard
@@ -136,12 +136,12 @@ https://private-user-images.githubusercontent.com/83055338/547056448-e7b031ff-d6
 
 ### Instalar com binário pré-compilado
 
-Baixe o binário para sua plataforma na página de [releases](https://github.com/sipeed/malikclaw/releases).
+Baixe o binário para sua plataforma na página de [releases](https://github.com/AbdullahMalik17/malikclaw/releases).
 
 ### Instalar a partir do código-fonte (funcionalidades mais recentes, recomendado para desenvolvimento)
 
 ```bash
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 
 cd malikclaw
 make deps
@@ -162,7 +162,7 @@ Você tambêm pode rodar o MalikClaw usando Docker Compose sem instalar nada loc
 
 ```bash
 # 1. Clone este repositorio
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 cd malikclaw
 
 # 2. Primeiro uso — gera docker/data/config.json automaticamente e para

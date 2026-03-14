@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
 )
 
 func newInstallCommand(installerFn func() (*skills.SkillInstaller, error)) *cobra.Command {
@@ -16,7 +16,7 @@ func newInstallCommand(installerFn func() (*skills.SkillInstaller, error)) *cobr
 		Use:   "install",
 		Short: "Install skill from GitHub",
 		Example: `
-malikclaw skills install sipeed/malikclaw-skills/weather
+malikclaw skills install AbdullahMalik17/malikclaw-skills/weather
 malikclaw skills install --registry clawhub github
 `,
 		Args: func(cmd *cobra.Command, args []string) error {

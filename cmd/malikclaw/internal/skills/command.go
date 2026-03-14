@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
 )
 
 type deps struct {

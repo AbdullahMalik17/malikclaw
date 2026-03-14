@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/fileutil"
-	"github.com/sipeed/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 )
 
 const MaxReadFileSize = 64 * 1024 // 64KB limit to avoid context overflow

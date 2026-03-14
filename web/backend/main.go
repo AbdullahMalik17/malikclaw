@@ -22,10 +22,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/sipeed/malikclaw/web/backend/api"
-	"github.com/sipeed/malikclaw/web/backend/launcherconfig"
-	"github.com/sipeed/malikclaw/web/backend/middleware"
-	"github.com/sipeed/malikclaw/web/backend/utils"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/api"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/launcherconfig"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/middleware"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/utils"
 )
 
 func main() {

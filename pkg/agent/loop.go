@@ -19,20 +19,20 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/channels"
-	"github.com/sipeed/malikclaw/pkg/commands"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/constants"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/media"
-	"github.com/sipeed/malikclaw/pkg/providers"
-	"github.com/sipeed/malikclaw/pkg/routing"
-	"github.com/sipeed/malikclaw/pkg/skills"
-	"github.com/sipeed/malikclaw/pkg/state"
-	"github.com/sipeed/malikclaw/pkg/tools"
-	"github.com/sipeed/malikclaw/pkg/utils"
-	"github.com/sipeed/malikclaw/pkg/voice"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/channels"
+	"github.com/AbdullahMalik17/malikclaw/pkg/commands"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/constants"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/media"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/pkg/state"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/voice"
 )
 
 type AgentLoop struct {
@@ -181,6 +181,11 @@ func registerSharedTools(
 		// Self-evolution tool
 		if cfg.Tools.IsToolEnabled("self_improve") {
 			agent.Tools.Register(tools.NewEvolutionTool(agent.Workspace))
+		}
+
+		// Android control tool
+		if cfg.Tools.IsToolEnabled("android_control") {
+			agent.Tools.Register(tools.NewAndroidControlTool())
 		}
 
 		// Message tool

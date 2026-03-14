@@ -10,8 +10,8 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
-	configstore "github.com/sipeed/malikclaw/cmd/malikclaw-launcher-tui/internal/config"
-	malikclawconfig "github.com/sipeed/malikclaw/pkg/config"
+	configstore "github.com/AbdullahMalik17/malikclaw/cmd/malikclaw-launcher-tui/internal/config"
+	malikclawconfig "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 type appState struct {

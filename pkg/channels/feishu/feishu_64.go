@@ -20,13 +20,13 @@ import (
 	larkim "github.com/larksuite/oapi-sdk-go/v3/service/im/v1"
 	larkws "github.com/larksuite/oapi-sdk-go/v3/ws"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/channels"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/identity"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/media"
-	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/channels"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/identity"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/media"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 type FeishuChannel struct {

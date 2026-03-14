@@ -41,11 +41,11 @@ Ultra-lightweight personal AI assistant written in Go, inspired by nanobot.
 MIT License - Free and open source
 
 ## Repository
-https://github.com/sipeed/malikclaw
+https://github.com/AbdullahMalik17/malikclaw
 
 ## Contact
-Issues: https://github.com/sipeed/malikclaw/issues
-Discussions: https://github.com/sipeed/malikclaw/discussions
+Issues: https://github.com/AbdullahMalik17/malikclaw/issues
+Discussions: https://github.com/AbdullahMalik17/malikclaw/discussions
 
 ---
 

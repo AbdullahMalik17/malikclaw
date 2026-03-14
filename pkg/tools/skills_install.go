@@ -9,10 +9,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/fileutil"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/skills"
-	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 // InstallSkillTool allows the LLM agent to install skills from registries.

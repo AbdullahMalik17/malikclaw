@@ -25,7 +25,7 @@ func TestParseGitHubRef(t *testing.T) {
 	}{
 		{
 			name:         "simple owner/repo",
-			repo:         "sipeed/malikclaw",
+			repo:         "AbdullahMalik17/malikclaw",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
@@ -33,7 +33,7 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "owner/repo with subpath",
-			repo:         "sipeed/malikclaw/skills/test",
+			repo:         "AbdullahMalik17/malikclaw/skills/test",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
@@ -41,7 +41,7 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "full URL with tree",
-			repo:         "https://github.com/sipeed/malikclaw/tree/dev/skills/test",
+			repo:         "https://github.com/AbdullahMalik17/malikclaw/tree/dev/skills/test",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "dev",
@@ -49,7 +49,7 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "full URL with blob",
-			repo:         "https://github.com/sipeed/malikclaw/blob/main/README.md",
+			repo:         "https://github.com/AbdullahMalik17/malikclaw/blob/main/README.md",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
@@ -57,7 +57,7 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "full URL without ref",
-			repo:         "https://github.com/sipeed/malikclaw",
+			repo:         "https://github.com/AbdullahMalik17/malikclaw",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
@@ -83,7 +83,7 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "with whitespace",
-			repo:         "  sipeed/malikclaw  ",
+			repo:         "  AbdullahMalik17/malikclaw  ",
 			wantOwner:    "sipeed",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
@@ -436,7 +436,7 @@ func TestSkillInstaller_InstallFromGitHub_SkillAlreadyExists(t *testing.T) {
 	os.WriteFile(filepath.Join(existingSkill, "SKILL.md"), []byte("existing"), 0o644)
 
 	// Try to install the same skill - should fail
-	err = installer.InstallFromGitHub(context.Background(), "sipeed/malikclaw")
+	err = installer.InstallFromGitHub(context.Background(), "AbdullahMalik17/malikclaw")
 	if err == nil {
 		t.Error("InstallFromGitHub() expected error for existing skill, got nil")
 	}

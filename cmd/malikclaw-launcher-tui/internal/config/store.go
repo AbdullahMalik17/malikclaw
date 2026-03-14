@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	malikclawconfig "github.com/sipeed/malikclaw/pkg/config"
+	malikclawconfig "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 const (

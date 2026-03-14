@@ -1,4 +1,4 @@
-module github.com/sipeed/malikclaw
+module github.com/AbdullahMalik17/malikclaw
 
 go 1.25.7
 

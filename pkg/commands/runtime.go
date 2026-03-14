@@ -1,6 +1,6 @@
 package commands
 
-import "github.com/sipeed/malikclaw/pkg/config"
+import "github.com/AbdullahMalik17/malikclaw/pkg/config"
 
 // Runtime provides runtime dependencies to command handlers. It is constructed
 // per-request by the agent loop so that per-request state (like session scope)

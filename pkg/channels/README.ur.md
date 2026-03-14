@@ -149,10 +149,10 @@ pkg/identity/
 package telegram
 
 import (
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/channels"     // پیرنٹ پیکیج کا حوالہ
-    "github.com/sipeed/malikclaw/pkg/config"
-    "github.com/sipeed/malikclaw/pkg/identity"
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/channels"     // پیرنٹ پیکیج کا حوالہ
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/identity"
 )
 ```
 

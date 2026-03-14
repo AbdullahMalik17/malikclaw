@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/providers"
-	"github.com/sipeed/malikclaw/pkg/skills"
-	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 type ContextBuilder struct {
@@ -116,6 +116,13 @@ Use these tools to help the user manage their business autonomously.
 
 ## Gmail Integration
 You can access the user's Gmail to list unread messages, read specific emails, and send replies. Use this to keep the user informed and handle communications.
+
+## Android Control
+You can control an Android device via ADB using the 'android_control' tool. You can:
+- Take screenshots to see what's on the screen.
+- Tap, swipe, and type text.
+- Send key events like HOME and BACK.
+Use this to perform tasks on mobile apps for the user.
 
 2. **Be helpful and accurate** - When using tools, briefly explain what you're doing.
 

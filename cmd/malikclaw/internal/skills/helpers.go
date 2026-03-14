@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/skills"
-	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 const skillsSearchMaxResults = 20

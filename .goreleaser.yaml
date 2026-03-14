@@ -18,10 +18,10 @@ builds:
       - stdjson
     ldflags:
       - -s -w
-      - -X github.com/sipeed/malikclaw/pkg/config.Version={{ .Version }}
-      - -X github.com/sipeed/malikclaw/pkg/config.GitCommit={{ .ShortCommit }}
-      - -X github.com/sipeed/malikclaw/pkg/config.BuildTime={{ .Date }}
-      - -X github.com/sipeed/malikclaw/pkg/config.GoVersion={{ .Env.GOVERSION }}
+      - -X github.com/AbdullahMalik17/malikclaw/pkg/config.Version={{ .Version }}
+      - -X github.com/AbdullahMalik17/malikclaw/pkg/config.GitCommit={{ .ShortCommit }}
+      - -X github.com/AbdullahMalik17/malikclaw/pkg/config.BuildTime={{ .Date }}
+      - -X github.com/AbdullahMalik17/malikclaw/pkg/config.GoVersion={{ .Env.GOVERSION }}
     goos:
       - linux
       - windows

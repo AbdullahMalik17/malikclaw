@@ -10,13 +10,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/channels"
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/media"
-	"github.com/sipeed/malikclaw/pkg/providers"
-	"github.com/sipeed/malikclaw/pkg/routing"
-	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/channels"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/media"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
 type fakeChannel struct{ id string }

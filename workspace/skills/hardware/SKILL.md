@@ -1,8 +1,8 @@
 ---
 name: hardware
-description: Read and control I2C and SPI peripherals on Sipeed boards (LicheeRV Nano, MaixCAM, NanoKVM).
-homepage: https://wiki.sipeed.com/hardware/en/lichee/RV_Nano/1_intro.html
-metadata: {"nanobot":{"emoji":"🔧","requires":{"tools":["i2c","spi"]}}}
+description: Read and control I2C and SPI peripherals on supported boards (LicheeRV Nano, MaixCAM, NanoKVM).
+homepage: https://wiki.malikclaw.io/hardware/en/lichee/RV_Nano/1_intro.html
+metadata: {"malikclaw":{"emoji":"🔧","requires":{"tools":["i2c","spi"]}}}
 ---
 
 # Hardware (I2C / SPI)
@@ -28,7 +28,7 @@ spi read  (device: "2.0", length: 4)
 
 ## Before You Start — Pinmux Setup
 
-Most I2C/SPI pins are shared with WiFi on Sipeed boards. You must configure pinmux before use.
+Most I2C/SPI pins are shared with WiFi on supported boards. You must configure pinmux before use.
 
 See `references/board-pinout.md` for board-specific commands.
 

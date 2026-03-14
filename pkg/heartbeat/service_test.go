@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
 func TestExecuteHeartbeat_Async(t *testing.T) {

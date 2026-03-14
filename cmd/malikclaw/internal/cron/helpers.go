@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/cron"
+	"github.com/AbdullahMalik17/malikclaw/pkg/cron"
 )
 
 func cronListCmd(storePath string) {

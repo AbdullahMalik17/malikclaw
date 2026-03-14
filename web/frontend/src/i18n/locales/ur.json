@@ -1,0 +1,460 @@
+{
+  "navigation": {
+    "chat": "چیٹ",
+    "model_group": "ماڈلز",
+    "models": "ماڈلز",
+    "credentials": "اسناد",
+    "agent_group": "ایجنٹ",
+    "skills": "مہارتیں",
+    "tools": "اوزار",
+    "services": "خدمات",
+    "channels_group": "چینلز",
+    "show_more_channels": "مزید",
+    "show_less_channels": "کم",
+    "config": "کنفیگ",
+    "logs": "لاگز"
+  },
+  "chat": {
+    "welcome": "میں آج آپ کی کیسے مدد کر سکتا ہوں؟",
+    "welcomeDesc": "مجھ سے موسم، سیٹنگز، یا کسی دوسرے کام کے بارے میں پوچھیں۔ میں یہاں آپ کی مدد کے لیے ہوں۔",
+    "placeholder": "نیا پیغام شروع کریں...",
+    "newChat": "نئی چیٹ",
+    "notConnected": "گیٹ وے نہیں چل رہا ہے۔ چیٹ کرنے کے لیے اسے شروع کریں۔",
+    "thinking": {
+      "step1": "سوچ رہا ہے...",
+      "step2": "آپ کی درخواست کا تجزیہ کر رہا ہے...",
+      "step3": "جواب تیار کر رہا ہے...",
+      "step4": "بس تھوڑی دیر میں..."
+    },
+    "history": "تاریخ",
+    "noHistory": "ابھی تک کوئی چیٹ ہسٹری نہیں ہے",
+    "historyLoadFailed": "چیٹ ہسٹری لوڈ کرنے میں ناکامی",
+    "historyOpenFailed": "اس چیٹ ہسٹری کو کھولنے میں ناکامی",
+    "loadingMore": "مزید لوڈ ہو رہا ہے...",
+    "deleteSession": "سیشن حذف کریں",
+    "messagesCount": "{{count}} پیغامات",
+    "noModel": "ماڈل منتخب کریں",
+    "empty": {
+      "noConfiguredModel": "کوئی ماڈل کنفیگر نہیں کیا گیا",
+      "noConfiguredModelDescription": "چیٹ شروع کرنے سے پہلے آپ کو کم از کم ایک اے آئی (AI) ماڈل کو API کی (key) کے ساتھ کنفیگر کرنا ہوگا۔",
+      "goToModels": "ماڈلز پر جائیں",
+      "noSelectedModel": "کوئی ماڈل منتخب نہیں کیا گیا",
+      "noSelectedModelDescription": "آپ نے ماڈلز کنفیگر کیے ہیں، لیکن کوئی بھی ڈیفالٹ کے طور پر سیٹ نہیں ہے۔ چیٹ شروع کرنے سے پہلے ایک ماڈل منتخب کریں۔",
+      "notRunning": "گیٹ وے نہیں چل رہا",
+      "notRunningDescription": "چیٹ شروع کرنے کے لیے گیٹ وے سروس شروع کریں۔ ٹاپ بار میں 'اسٹارٹ گیٹ وے' بٹن استعمال کریں۔"
+    },
+    "modelGroup": {
+      "apikey": "API کی (key)",
+      "oauth": "OAuth",
+      "local": "لوکل"
+    }
+  },
+  "header": {
+    "gateway": {
+      "stopDialog": {
+        "title": "گیٹ وے سروس روکیں؟",
+        "description": "کیا آپ واقعی گیٹ وے کو روکنا چاہتے ہیں؟ اس سے آپ کے فعال چیٹ سیشنز منقطع ہو جائیں گے اور انفارنس (inference) رک جائے گی۔",
+        "confirm": "گیٹ وے روکیں"
+      },
+      "action": {
+        "start": "گیٹ وے شروع کریں",
+        "stop": "گیٹ وے روکیں",
+        "restart": "گیٹ وے دوبارہ شروع کریں"
+      },
+      "status": {
+        "starting": "گیٹ وے شروع ہو رہا ہے...",
+        "restarting": "گیٹ وے دوبارہ شروع ہو رہا ہے..."
+      },
+      "restartRequired": "ماڈل کی تبدیلیوں کو لاگو کرنے کے لیے گیٹ وے کو دوبارہ شروع کرنے کی ضرورت ہے۔"
+    }
+  },
+  "common": {
+    "cancel": "منسوخ کریں",
+    "save": "محفوظ کریں",
+    "saving": "محفوظ ہو رہا ہے...",
+    "reset": "ری سیٹ کریں",
+    "confirm": "تصدیق کریں"
+  },
+  "labels": {
+    "loading": "لوڈ ہو رہا ہے..."
+  },
+  "credentials": {
+    "description": "معاون فراہم کنندگان کے لیے OAuth اور ٹوکن پر مبنی اسناد کا انتظام کریں۔",
+    "loading": "اسناد لوڈ ہو رہی ہیں...",
+    "providers": {
+      "openai": {
+        "description": "براؤزر OAuth، ڈیوائس کوڈ، اور ٹوکن لاگ ان کی حمایت کرتا ہے۔"
+      },
+      "anthropic": {
+        "description": "کلاڈ (Claude) تک رسائی کے لیے ٹوکن لاگ ان استعمال کرتا ہے۔"
+      },
+      "antigravity": {
+        "description": "گوگل کلاؤڈ کوڈ اسسٹ کے لیے براؤزر OAuth استعمال کرتا ہے۔"
+      }
+    },
+    "status": {
+      "connected": "منسلک",
+      "needsRefresh": "ریفریش کی ضرورت ہے",
+      "expired": "میعاد ختم ہوگئی",
+      "notLoggedIn": "لاگ ان نہیں ہے"
+    },
+    "actions": {
+      "browser": "براؤزر OAuth",
+      "deviceCode": "ڈیوائس کوڈ",
+      "stopLoading": "لوڈنگ روکیں",
+      "saveToken": "محفوظ کریں",
+      "logout": "لاگ آؤٹ"
+    },
+    "logoutDialog": {
+      "title": "فراہم کنندہ لاگ آؤٹ کریں؟",
+      "description": "اس سے {{provider}} کے لیے آپ کی محفوظ کردہ سند ہٹ جائے گی۔"
+    },
+    "fields": {
+      "openaiToken": "OpenAI ٹوکن",
+      "anthropicToken": "Anthropic ٹوکن"
+    },
+    "labels": {
+      "account": "اکاؤنٹ",
+      "email": "ای میل",
+      "project": "پروجیکٹ"
+    },
+    "errors": {
+      "loadFailed": "اسناد لوڈ کرنے میں ناکامی",
+      "flowFailed": "تصدیقی بہاؤ چیک کرنے میں ناکامی",
+      "loginFailed": "لاگ ان ناکام رہا",
+      "logoutFailed": "لاگ آؤٹ ناکام رہا",
+      "invalidBrowserResponse": "غلط براؤزر لاگ ان جواب",
+      "invalidDeviceResponse": "غلط ڈیوائس کوڈ جواب",
+      "popupBlocked": "نئی ٹیب کھولنے میں ناکامی۔ براہ کرم پاپ اپس کی اجازت دیں اور دوبارہ کوشش کریں۔"
+    },
+    "flow": {
+      "current": "موجودہ تصدیقی حیثیت",
+      "pending": "اجازت کا انتظار ہے...",
+      "success": "تصدیق کامیاب رہی",
+      "error": "تصدیق ناکام رہی",
+      "expired": "تصدیقی سیشن کی میعاد ختم ہوگئی"
+    },
+    "device": {
+      "title": "OpenAI ڈیوائس لاگ ان",
+      "description": "تصدیقی صفحہ کھولیں اور نیچے دیا گیا کوڈ درج کریں۔ یہ صفحہ خود بخود ریفریش ہو جائے گا۔",
+      "code": "صارف کوڈ",
+      "url": "تصدیقی URL",
+      "polling": "لاگ ان کی حیثیت چیک کی جا رہی ہے...",
+      "open": "تصدیقی صفحہ کھولیں"
+    }
+  },
+  "models": {
+    "description": "AI فراہم کنندگان کے لیے API کیز (keys) کنفیگر کریں۔ صرف کنفیگر شدہ ماڈلز ہی چیٹ کے لیے دستیاب ہیں۔",
+    "loadError": "ماڈلز لوڈ کرنے میں ناکامی",
+    "noDefaultHintPrefix": "ابھی تک کوئی ڈیفالٹ ماڈل سیٹ نہیں کیا گیا۔ کلک کریں",
+    "noDefaultHintSuffix": "ایک سیٹ کرنے کے لیے۔",
+    "status": {
+      "configured": "کنفیگر شدہ",
+      "unconfigured": "کنفیگر نہیں کیا گیا"
+    },
+    "badge": {
+      "default": "ڈیفالٹ"
+    },
+    "action": {
+      "edit": "API کی (key) ترمیم کریں",
+      "setDefault": "ڈیفالٹ کے طور پر سیٹ کریں",
+      "delete": "ماڈل حذف کریں"
+    },
+    "defaultOnSave": {
+      "label": "ڈیفالٹ ماڈل",
+      "description": "محفوظ کرنے کے بعد خود بخود اس ماڈل کو ڈیفالٹ کے طور پر سیٹ کریں۔"
+    },
+    "add": {
+      "button": "ماڈل شامل کریں",
+      "title": "حسب ضرورت ماڈل شامل کریں",
+      "description": "ایک OpenAI سے ہم آہنگ یا مقامی ماڈل اینڈ پوائنٹ شامل کریں۔",
+      "modelName": "ماڈل عرف",
+      "modelNamePlaceholder": "مثلاً my-gpt4",
+      "modelNameHint": "گفتگو میں اس ماڈل کی شناخت کے لیے استعمال ہونے والا ایک مختصر نام۔",
+      "modelId": "ماڈل شناخت کنندہ",
+      "modelIdPlaceholder": "مثلاً openai/gpt-4o",
+      "modelIdHint": "فارمیٹ: protocol/model-id۔ معاون: openai, anthropic, gemini, groq, …",
+      "errorRequired": "یہ فیلڈ درکار ہے۔",
+      "errorDuplicateModelName": "ماڈل کا عرف پہلے سے موجود ہے۔ براہ کرم ایک مختلف نام استعمال کریں۔",
+      "saveError": "ماڈل شامل کرنے میں ناکامی",
+      "confirm": "ماڈل شامل کریں"
+    },
+    "delete": {
+      "title": "ماڈل حذف کریں؟",
+      "description": "\"{{name}}\" آپ کی ماڈل لسٹ سے مستقل طور پر ہٹا دیا جائے گا۔ اسے واپس نہیں لایا جا سکتا۔",
+      "confirm": "حذف کریں"
+    },
+    "advanced": {
+      "toggle": "اعلی درجے کے اختیارات"
+    },
+    "field": {
+      "apiBase": "API بیس URL",
+      "apiKey": "API کی (key)",
+      "apiKeyPlaceholder": "اپنی API کی (key) درج کریں",
+      "apiKeyPlaceholderSet": "موجودہ کی (key) رکھنے کے لیے خالی چھوڑ دیں",
+      "proxy": "HTTP پراکسی",
+      "proxyHint": "اختیاری۔ مثلاً http://127.0.0.1:7890",
+      "authMethod": "تصدیقی طریقہ",
+      "authMethodHint": "تصدیقی طریقہ: oauth, token۔ API کی (key) تصدیق کے لیے خالی چھوڑ دیں۔",
+      "connectMode": "کنیکٹ موڈ",
+      "connectModeHint": "CLI پر مبنی فراہم کنندگان کے لیے کنکشن موڈ: stdio یا grpc۔",
+      "workspace": "ورک اسپیس پاتھ",
+      "workspaceHint": "CLI پر مبنی فراہم کنندگان کے لیے ورکنگ ڈائرکٹری (مثلاً GitHub Copilot)۔",
+      "requestTimeout": "درخواست کا ٹائم آؤٹ (سیکنڈ)",
+      "requestTimeoutHint": "جواب کا انتظار کرنے کے لیے زیادہ سے زیادہ سیکنڈ۔ 0 = ڈیفالٹ استعمال کریں۔",
+      "rpm": "ریٹ لمیٹ (RPM)",
+      "rpmHint": "فی منٹ زیادہ سے زیادہ درخواستیں۔ 0 = کوئی حد نہیں۔",
+      "thinkingLevel": "سوچنے کی سطح",
+      "thinkingLevelHint": "توسیعی سوچ کا بجٹ: off, low, medium, high, xhigh, adaptive.",
+      "maxTokensField": "زیادہ سے زیادہ ٹوکن فیلڈ",
+      "maxTokensFieldHint": "زیادہ سے زیادہ ٹوکنز کے لیے درخواست فیلڈ کا نام اوور رائیڈ کریں، مثلاً max_completion_tokens۔"
+    },
+    "edit": {
+      "title": "کنفیگر کریں {{name}}",
+      "apiKeyHint": "ایک کی (key) پہلے سے سیٹ ہے۔ اسے تبدیل نہ کرنے کے لیے خالی چھوڑ دیں۔",
+      "oauthNote": "یہ فراہم کنندہ OAuth استعمال کرتا ہے — کسی API کی (key) کی ضرورت نہیں ہے۔",
+      "saveError": "محفوظ کرنے میں ناکامی"
+    }
+  },
+  "channels": {
+    "loadError": "چینلز لوڈ کرنے میں ناکامی",
+    "edit": "کنفیگر کریں {{name}}",
+    "status": {
+      "configured": "کنفیگر شدہ"
+    },
+    "name": {
+      "telegram": "Telegram",
+      "discord": "Discord",
+      "slack": "Slack",
+      "feishu": "Feishu",
+      "dingtalk": "DingTalk",
+      "line": "LINE",
+      "qq": "QQ",
+      "onebot": "OneBot",
+      "wecom": "WeCom",
+      "wecom_app": "WeCom App",
+      "wecom_aibot": "WeCom AI Bot",
+      "whatsapp": "WhatsApp",
+      "whatsapp_native": "WhatsApp Native",
+      "pico": "Web",
+      "maixcam": "MaixCam",
+      "matrix": "Matrix",
+      "irc": "IRC"
+    },
+    "field": {
+      "token": "بوٹ ٹوکن",
+      "tokenPlaceholder": "بوٹ ٹوکن درج کریں",
+      "botToken": "بوٹ ٹوکن",
+      "appToken": "ایپ ٹوکن",
+      "appId": "ایپ آئی ڈی (ID)",
+      "appSecret": "ایپ سیکریٹ (Secret)",
+      "verificationToken": "تصدیقی ٹوکن",
+      "encryptKey": "انکرپشن کی (key)",
+      "baseUrl": "API بیس URL",
+      "proxy": "HTTP پراکسی",
+      "mentionOnly": "صرف تذکرہ (Mention Only)",
+      "typingEnabled": "ٹائپنگ انڈیکیٹر",
+      "placeholderEnabled": "پلیس ہولڈر پیغام",
+      "placeholderText": "پلیس ہولڈر ٹیکسٹ",
+      "groupTriggerMentionOnly": "گروپ میں صرف تذکرہ",
+      "groupTriggerPrefixes": "گروپ ٹرگر پریفکس",
+      "allowFrom": "اجازت ہے منجانب",
+      "allowFromPlaceholder": "مثلاً 123456, 789012",
+      "allowOrigins": "اجازت یافتہ اوریجنز",
+      "allowOriginsPlaceholder": "مثلاً https://example.com, http://localhost:5173",
+      "secretPlaceholder": "سیکریٹ درج کریں",
+      "secretHintSet": "ایک ویلیو پہلے سے سیٹ ہے۔ اسے تبدیل نہ کرنے کے لیے خالی چھوڑ دیں۔"
+    },
+    "page": {
+      "notFound": "چینل \"{{name}}\" معاون نہیں ہے۔",
+      "saveSuccess": "چینل کنفیگریشن محفوظ ہوگئی۔",
+      "saveError": "چینل کنفیگریشن محفوظ کرنے میں ناکامی",
+      "enabled": "فعال",
+      "docLink": "دستاویزات",
+      "enableLabel": "چینل فعال کریں"
+    },
+    "form": {
+      "desc": {
+        "token": "پلیٹ فارم API سے منسلک ہونے کے لیے استعمال ہونے والا بوٹ ایکسیس ٹوکن۔",
+        "botToken": "پیغامات بھیجنے اور وصول کرنے کے لیے استعمال ہونے والا بوٹ ٹوکن۔",
+        "appToken": "ساکٹ موڈ کنکشنز کے لیے استعمال ہونے والا ایپ ٹوکن۔",
+        "appId": "تصدیق کے لیے استعمال ہونے والی منفرد ایپلیکیشن آئی ڈی۔",
+        "appSecret": "سائننگ اور تصدیق کے لیے استعمال ہونے والا ایپلیکیشن سیکریٹ۔",
+        "verificationToken": "ایونٹ کال بیکس کے لیے تصدیقی ٹوکن۔",
+        "encryptKey": "کال بیک پے لوڈز کو ڈیکرپٹ کرنے کے لیے استعمال ہونے والی انکرپشن کی (key)۔",
+        "baseUrl": "پلیٹ فارم API بیس URL۔ ڈیفالٹ کے طور پر آفیشل اینڈ پوائنٹ استعمال کیا جاتا ہے۔",
+        "proxy": "آؤٹ باؤنڈ نیٹ ورک رسائی کے لیے HTTP پراکسی ایڈریس۔",
+        "mentionOnly": "صرف تب جواب دیں جب گروپ چیٹس میں بوٹ کا واضح طور پر تذکرہ کیا گیا ہو۔",
+        "typingEnabled": "جب اسسٹنٹ جواب تیار کر رہا ہو تو ٹائپنگ کی حیثیت دکھائیں۔",
+        "placeholderEnabled": "حتمی جواب بھیجنے سے پہلے عارضی پلیس ہولڈر پیغامات کو فعال کریں۔",
+        "groupTriggerMentionOnly": "گروپ چیٹس میں، صرف تب جواب دیں جب بوٹ کا تذکرہ کیا گیا ہو۔",
+        "groupTriggerPrefixes": "حسب ضرورت گروپ چیٹ ٹرگر پریفکس، کوما سے الگ کیے گئے ہوں۔",
+        "allowFrom": "اجازت یافتہ صارف یا گروپ آئی ڈیز، کوما سے الگ کیے گئے ہوں۔",
+        "allowOrigins": "اجازت یافتہ اوریجن ڈومینز، کوما سے الگ کیے گئے ہوں۔",
+        "wsUrl": "WebSocket سروس URL۔",
+        "reconnectInterval": "منقطع ہونے کے بعد دوبارہ منسلک ہونے کا وقفہ (سیکنڈ)۔",
+        "bridgeUrl": "برج سروس URL۔",
+        "sessionStorePath": "سیشن اسٹوریج کے لیے مقامی راستہ۔",
+        "useNative": "آیا مقامی کلائنٹ موڈ استعمال کرنا ہے۔",
+        "host": "سروس ہوسٹ ایڈریس۔",
+        "port": "سروس پورٹ۔",
+        "homeserver": "Matrix ہوم سرور URL۔",
+        "userId": "اکاؤنٹ صارف آئی ڈی (ID)۔",
+        "deviceId": "ڈیوائس آئی ڈی (ID)۔",
+        "joinOnInvite": "مدعو کیے جانے پر خود بخود کمروں (rooms) میں شامل ہو جائیں۔",
+        "clientId": "پلیٹ فارم کی تصدیق کے لیے استعمال ہونے والی کلائنٹ آئی ڈی (ID)۔",
+        "corpId": "انٹرپرائز کارپ آئی ڈی (Corp ID)۔",
+        "agentId": "انٹرپرائز ایپلیکیشن ایجنٹ آئی ڈی (Agent ID)۔",
+        "webhookUrl": "مکمل ویب ہک (webhook) URL۔",
+        "webhookHost": "ویب ہک لسننگ ہوسٹ۔",
+        "webhookPort": "ویب ہک لسننگ پورٹ۔",
+        "webhookPath": "ویب ہک روٹ پاتھ۔",
+        "replyTimeout": "سیکنڈوں میں جواب کا ٹائم آؤٹ۔",
+        "maxSteps": "پروسیسنگ کے مراحل کی زیادہ سے زیادہ تعداد۔",
+        "welcomeMessage": "نئے سیشنز کے لیے خوش آمدید پیغام کا مواد۔",
+        "allowTokenQuery": "URL کوئری پیرامیٹرز میں ٹوکن کی اجازت دیں۔",
+        "pingInterval": "سیکنڈوں میں کنکشن ہارٹ بیٹ کا وقفہ۔",
+        "readTimeout": "سیکنڈوں میں ریڈ ٹائم آؤٹ۔",
+        "writeTimeout": "سیکنڈوں میں رائٹ ٹائم آؤٹ۔",
+        "maxConnections": "ہم وقت ساز کنکشنز کی زیادہ سے زیادہ تعداد۔",
+        "server": "IRC سرور ایڈریس۔",
+        "tls": "آیا TLS کو فعال کرنا ہے۔",
+        "nick": "بوٹ کا عرفی نام۔",
+        "user": "IRC صارف نام۔",
+        "realName": "ظاہر کردہ اصلی نام۔",
+        "channels": "شامل ہونے کے لیے IRC چینلز۔",
+        "requestCaps": "کنیکٹ پر درخواست کردہ IRC قابلیت کی فہرست۔",
+        "genericField": "{{field}} کو کنفیگر کرنے کے لیے استعمال کیا جاتا ہے۔"
+      }
+    },
+    "validation": {
+      "requiredField": "یہ فیلڈ درکار ہے۔"
+    }
+  },
+  "pages": {
+    "agent": {
+      "load_error": "ایجنٹ کی معاونت کی معلومات لوڈ کرنے میں ناکامی۔",
+      "skills": {
+        "description": "مہارتیں ورک اسپیس، گلوبل MalikClaw ہوم، اور بلٹ ان ڈائریکٹریز سے لوڈ کی جاتی ہیں۔",
+        "empty": "فی حال کوئی مہارت دستیاب نہیں ہے۔",
+        "import": "مہارت درآمد کریں",
+        "import_success": "مہارت درآمد ہوگئی۔",
+        "import_error": "مہارت درآمد کرنے میں ناکامی۔",
+        "view": "دیکھیں",
+        "delete": "حذف کریں",
+        "delete_title": "مہارت حذف کریں؟",
+        "delete_description": "\"{{name}}\" کو ورک اسپیس کی مہارتوں سے ہٹا دیا جائے گا۔",
+        "delete_confirm": "حذف کریں",
+        "delete_success": "مہارت حذف ہوگئی۔",
+        "delete_error": "مہارت حذف کرنے میں ناکامی۔",
+        "viewer_title": "مہارت کا مواد",
+        "viewer_description": "موجودہ موثر SKILL.md مواد یہاں پڑھیں۔",
+        "loading_detail": "مہارت کا مواد لوڈ ہو رہا ہے...",
+        "load_detail_error": "مہارت کا مواد لوڈ کرنے میں ناکامی۔",
+        "path": "مہارت کا راستہ",
+        "no_description": "کوئی تفصیل فراہم نہیں کی گئی۔"
+      },
+      "tools": {
+        "description": "یہ ویو ظاہر کرتا ہے کہ آیا ایجنٹ کا ہر ٹول فعال ہے، غیر فعال ہے، یا کسی لاپتہ ضرورت کی وجہ سے بلاک ہے۔",
+        "empty": "کوئی ٹولز دستیاب نہیں ہیں۔",
+        "enable": "فعال کریں",
+        "disable": "غیر فعال کریں",
+        "enable_success": "ٹول فعال ہوگیا۔",
+        "disable_success": "ٹول غیر فعال ہوگیا۔",
+        "toggle_error": "ٹول کی حیثیت اپ ڈیٹ کرنے میں ناکامی۔",
+        "config_key": "tools.{{key}} کے ذریعے کنٹرول کیا جاتا ہے",
+        "status": {
+          "enabled": "فعال",
+          "disabled": "غیر فعال",
+          "blocked": "بلاک شدہ"
+        },
+        "categories": {
+          "automation": "آٹومیشن",
+          "filesystem": "فائل سسٹم",
+          "web": "ویب",
+          "communication": "مواصلات",
+          "skills": "مہارتیں",
+          "agents": "ایجنٹس",
+          "hardware": "ہارڈ ویئر",
+          "discovery": "دریافت"
+        },
+        "reasons": {
+          "requires_linux": "یہ ٹول صرف لینکس ہوسٹس پر کام کرتا ہے جہاں مطلوبہ ڈیوائس فائلیں دستیاب ہوں۔",
+          "requires_skills": "اس اسکل رجسٹری ٹول کو استعمال کرنے سے پہلے `tools.skills` کو فعال کریں۔",
+          "requires_subagent": "اسپون (spawn) ٹول کام تفویض کرنے سے پہلے `tools.subagent` کو فعال کریں۔",
+          "requires_mcp_discovery": "MCP دریافت کے ٹولز دستیاب ہونے سے پہلے `tools.mcp.discovery` کو فعال کریں۔"
+        }
+      }
+    },
+    "config": {
+      "load_error": "کنفیگریشن لوڈ کرنے میں ناکامی۔ براہ کرم ریفریش کریں اور دوبارہ کوشش کریں۔",
+      "workspace": "ورک اسپیس ڈائرکٹری",
+      "workspace_hint": "ایجنٹ فائل آپریشنز کے لیے بنیادی ڈائرکٹری۔",
+      "restrict_workspace": "ورک اسپیس تک محدود رکھیں",
+      "restrict_workspace_hint": "صرف ورک اسپیس کے اندر فائل آپریشنز کی اجازت دیں۔",
+      "allow_remote": "ریموٹ شیل ایگزیکیوشن کی اجازت دیں",
+      "allow_remote_hint": "جب فعال ہو، شیل کمانڈز ریموٹ سیشنز یا غیر مقامی سیاق و سباق کے لیے بھی چل سکتے ہیں۔ جب غیر فعال ہو، شیل ایگزیکیوشن مقامی محفوظ سیاق و سباق تک محدود رہتی ہے۔",
+      "max_tokens": "زیادہ سے زیادہ ٹوکنز",
+      "max_tokens_hint": "ماڈل کے فی جواب ٹوکن کی بالائی حد۔",
+      "max_tool_iterations": "زیادہ سے زیادہ ٹول تکرار",
+      "max_tool_iterations_hint": "ایک ہی ٹاسک میں ٹول کال لوپس کی زیادہ سے زیادہ تعداد۔",
+      "summarize_threshold": "پیغام خلاصہ کی حد",
+      "summarize_threshold_hint": "اتنے پیغامات کے بعد خلاصہ بنانا شروع کریں۔",
+      "summarize_token_percent": "خلاصہ ٹوکن فیصد",
+      "summarize_token_percent_hint": "تب استعمال کیا جاتا ہے جب گفتگو کا خلاصہ شروع ہو۔",
+      "session_scope": "سیشن کا دائرہ کار",
+      "session_scope_hint": "چیٹ سیاق و سباق کو ساتھیوں/چینلز کے درمیان کیسے الگ تھلگ رکھا جاتا ہے۔",
+      "session_scope_per_channel_peer": "فی چینل + پیئر (Peer)",
+      "session_scope_per_channel_peer_desc": "ہر چینل میں ہر صارف کے لیے الگ سیاق و سباق۔",
+      "session_scope_per_channel": "فی چینل",
+      "session_scope_per_channel_desc": "فی چینل ایک مشترکہ سیاق و سباق۔",
+      "session_scope_per_peer": "فی پیئر (Peer)",
+      "session_scope_per_peer_desc": "چینلز بھر میں فی صارف ایک سیاق و سباق۔",
+      "session_scope_global": "عالمی (Global)",
+      "session_scope_global_desc": "تمام پیغامات ایک ہی عالمی سیاق و سباق کا اشتراک کرتے ہیں۔",
+      "heartbeat_enabled": "ہارٹ بیٹ (Heartbeat)",
+      "heartbeat_enabled_hint": "وقتاً فوقتاً ہارٹ بیٹ پیغامات بھیجیں۔",
+      "heartbeat_interval": "ہارٹ بیٹ کا وقفہ (منٹ)",
+      "heartbeat_interval_hint": "ہارٹ بیٹ سگنلز کے درمیان منٹوں میں وقفہ۔",
+      "devices_enabled": "ڈیوائسز فعال کریں",
+      "devices_enabled_hint": "ہارڈ ویئر ڈیوائس انٹیگریشنز کو فعال کریں۔",
+      "monitor_usb": "USB مانیٹر کریں",
+      "monitor_usb_hint": "ڈیوائسز فعال ہونے پر USB پلگ/ان پلگ ایونٹس پر نظر رکھیں۔",
+      "autostart_label": "لاگ ان پر لانچ کریں",
+      "autostart_hint": "جب آپ لاگ ان ہوں تو MalikClaw ویب خود بخود شروع کریں۔",
+      "autostart_unsupported": "اس پلیٹ فارم پر لاگ ان پر لانچ کرنا معاون نہیں ہے۔",
+      "autostart_load_error": "لاگ ان پر لانچ کرنے کی حیثیت لوڈ کرنے میں ناکامی۔",
+      "server_port": "سروس پورٹ",
+      "server_port_hint": "MalikClaw ویب کے ذریعے استعمال ہونے والی HTTP پورٹ۔",
+      "lan_access": "LAN رسائی فعال کریں",
+      "lan_access_hint": "اپنے مقامی نیٹ ورک پر موجود دیگر آلات سے رسائی کی اجازت دیں۔",
+      "allowed_cidrs": "اجازت یافتہ نیٹ ورک CIDRs",
+      "allowed_cidrs_hint": "صرف ان CIDR رینجز کے کلائنٹس ہی سروس تک رسائی حاصل کر سکتے ہیں۔ فی لائن ایک یا کوما سے الگ۔ سب کی اجازت دینے کے لیے خالی چھوڑ دیں۔",
+      "allowed_cidrs_placeholder": "192.168.1.0/24\n10.0.0.0/8",
+      "sections": {
+        "agent": "ایجنٹ",
+        "runtime": "رن ٹائم",
+        "launcher": "سروس",
+        "devices": "ڈیوائسز"
+      },
+      "open_raw": "را (Raw) کنفیگ",
+      "back_to_visual": "ویژول کنفیگ",
+      "raw_json_title": "را (Raw) JSON کنفیگریشن",
+      "json_placeholder": "درست JSON کنفیگریشن درج کریں...",
+      "save_success": "کنفیگریشن کامیابی کے ساتھ محفوظ ہوگئی۔",
+      "save_error": "کنفیگریشن محفوظ کرنے میں ناکامی۔",
+      "reset_confirm_title": "تبدیلیاں ری سیٹ کریں",
+      "reset_confirm_desc": "کیا آپ واقعی اپنی غیر محفوظ شدہ تبدیلیوں کو آخری محفوظ کردہ حالت پر واپس کرنا چاہتے ہیں؟",
+      "reset_success": "تبدیلیاں آخری محفوظ کردہ حالت پر ری سیٹ کر دی گئی ہیں۔",
+      "invalid_json": "غلط JSON فارمیٹ۔",
+      "format_success": "JSON کامیابی کے ساتھ فارمیٹ ہو گیا۔",
+      "format_error": "غلط JSON فارمیٹ۔",
+      "format": "فارمیٹ",
+      "unsaved_changes": "آپ کے پاس غیر محفوظ شدہ تبدیلیاں ہیں۔"
+    },
+    "logs": {
+      "clear": "لاگز صاف کریں",
+      "empty": "لاگز کا انتظار ہے..."
+    }
+  }
+}

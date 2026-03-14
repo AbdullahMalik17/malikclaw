@@ -15,12 +15,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/constants"
-	"github.com/sipeed/malikclaw/pkg/fileutil"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/state"
-	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/constants"
+	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/state"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
 const (

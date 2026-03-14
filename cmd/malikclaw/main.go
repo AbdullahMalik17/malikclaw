@@ -12,18 +12,18 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/agent"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/auth"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/cron"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/gateway"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/migrate"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/model"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/onboard"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/skills"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/status"
-	"github.com/sipeed/malikclaw/cmd/malikclaw/internal/version"
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/agent"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/auth"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/cron"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/gateway"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/migrate"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/model"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/onboard"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/skills"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/status"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/version"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func NewMalikclawCommand() *cobra.Command {

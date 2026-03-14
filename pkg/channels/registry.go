@@ -3,8 +3,8 @@ package channels
 import (
 	"sync"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 // ChannelFactory is a constructor function that creates a Channel from config and message bus.

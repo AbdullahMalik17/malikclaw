@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/fileutil"
+	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
 )
 
 type AuthCredential struct {

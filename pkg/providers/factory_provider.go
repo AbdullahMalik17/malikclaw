@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sipeed/malikclaw/pkg/config"
-	anthropicmessages "github.com/sipeed/malikclaw/pkg/providers/anthropic_messages"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	anthropicmessages "github.com/AbdullahMalik17/malikclaw/pkg/providers/anthropic_messages"
 )
 
 // createClaudeAuthProvider creates a Claude provider using OAuth credentials from auth store.

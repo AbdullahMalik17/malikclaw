@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/SipeedIO"><img src="https://img.shields.io/badge/X_(Twitter)-SipeedIO-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
     <br>
     <a href="./assets/wechat.png"><img src="https://img.shields.io/badge/WeChat-Group-41d56b?style=flat&logo=wechat&logoColor=white"></a>
     <a href="https://discord.gg/V4sAZ9XWpN"><img src="https://img.shields.io/badge/Discord-Community-4c60eb?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
@@ -47,7 +47,7 @@
 >
 > * **NO CRYPTO:** Malikclaw has **NO** official token/coin. All claims on `pump.fun` or other trading platforms are **SCAMS**.
 >
-> * **OFFICIAL DOMAIN:** The **ONLY** official website is **[malikclaw.io](https://malikclaw.io)**, and company website is **[sipeed.com](https://sipeed.com)**
+> * **OFFICIAL DOMAIN:** The **ONLY** official website is **[malikclaw.io](https://malikclaw.io)**, and company website is **[malikclaw.io](https://malikclaw.io)**
 > * **Warning:** Many `.ai/.org/.com/.net/...` domains are registered by third parties.
 > * **Warning:** malikclaw is in early development now and may have unresolved network security issues. Do not deploy to production environments before the v1.0 release.
 > * **Note:** malikclaw has recently merged a lot of PRs, which may result in a larger memory footprint (10–20MB) in the latest versions. We plan to prioritize resource optimization as soon as the current feature set reaches a stable state.
@@ -113,7 +113,7 @@ Give your decade-old phone a second life! Turn it into a smart AI Assistant with
 
 ```bash
 # Note: Replace v0.1.1 with the latest version from the Releases page
-wget https://github.com/sipeed/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
+wget https://github.com/AbdullahMalik17/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
 chmod +x malikclaw-linux-arm64
 pkg install proot
 termux-chroot ./malikclaw-linux-arm64 onboard
@@ -138,12 +138,12 @@ Malikclaw can be deployed on almost any Linux device!
 
 ### Install with precompiled binary
 
-Download the firmware for your platform from the [release](https://github.com/sipeed/malikclaw/releases) page.
+Download the firmware for your platform from the [release](https://github.com/AbdullahMalik17/malikclaw/releases) page.
 
 ### Install from source (latest features, recommended for development)
 
 ```bash
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 
 cd malikclaw
 make deps
@@ -169,7 +169,7 @@ You can also run Malikclaw using Docker Compose without installing anything loca
 
 ```bash
 # 1. Clone this repo
-git clone https://github.com/sipeed/malikclaw.git
+git clone https://github.com/AbdullahMalik17/malikclaw.git
 cd malikclaw
 
 # 2. First run — auto-generates docker/data/config.json then exits
@@ -1416,7 +1416,7 @@ Jobs are stored in `~/.malikclaw/workspace/cron/` and processed automatically.
 
 PRs welcome! The codebase is intentionally small and readable. 🤗
 
-See our full [Community Roadmap](https://github.com/sipeed/malikclaw/blob/main/ROADMAP.md).
+See our full [Community Roadmap](https://github.com/AbdullahMalik17/malikclaw/blob/main/ROADMAP.md).
 
 Developer group building, join after your first merged PR!
 

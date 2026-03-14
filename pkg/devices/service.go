@@ -6,12 +6,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/bus"
-	"github.com/sipeed/malikclaw/pkg/constants"
-	"github.com/sipeed/malikclaw/pkg/devices/events"
-	"github.com/sipeed/malikclaw/pkg/devices/sources"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/state"
+	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
+	"github.com/AbdullahMalik17/malikclaw/pkg/constants"
+	"github.com/AbdullahMalik17/malikclaw/pkg/devices/events"
+	"github.com/AbdullahMalik17/malikclaw/pkg/devices/sources"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/state"
 )
 
 type Service struct {

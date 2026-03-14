@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
 // ── ExtractFeatures ──────────────────────────────────────────────────────────

@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/auth"
+	"github.com/AbdullahMalik17/malikclaw/pkg/auth"
 )
 
 type GmailTool struct {

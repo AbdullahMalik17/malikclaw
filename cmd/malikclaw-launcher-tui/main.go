@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sipeed/malikclaw/cmd/malikclaw-launcher-tui/internal/ui"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw-launcher-tui/internal/ui"
 )
 
 func main() {

@@ -3,11 +3,11 @@ package agent
 import (
 	"sync"
 
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/logger"
-	"github.com/sipeed/malikclaw/pkg/providers"
-	"github.com/sipeed/malikclaw/pkg/routing"
-	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
 // AgentRegistry manages multiple agent instances and routes messages to them.

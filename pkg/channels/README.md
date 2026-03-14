@@ -162,19 +162,19 @@ Using Telegram as an example, the main changes are:
 package channels
 
 import (
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 // New code (refactored branch)
 package telegram
 
 import (
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/channels"     // Reference parent package
-    "github.com/sipeed/malikclaw/pkg/config"
-    "github.com/sipeed/malikclaw/pkg/identity"      // New
-    "github.com/sipeed/malikclaw/pkg/media"          // New (if media support needed)
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/channels"     // Reference parent package
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/identity"      // New
+    "github.com/AbdullahMalik17/malikclaw/pkg/media"          // New (if media support needed)
 )
 ```
 
@@ -321,9 +321,9 @@ Create `init.go` for your channel:
 package telegram
 
 import (
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/channels"
-    "github.com/sipeed/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/channels"
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func init() {
@@ -338,9 +338,9 @@ func init() {
 ```go
 // cmd/malikclaw/internal/gateway/helpers.go
 import (
-    _ "github.com/sipeed/malikclaw/pkg/channels/telegram"   // Triggers init() registration
-    _ "github.com/sipeed/malikclaw/pkg/channels/discord"
-    _ "github.com/sipeed/malikclaw/pkg/channels/your_new_channel"  // New addition
+    _ "github.com/AbdullahMalik17/malikclaw/pkg/channels/telegram"   // Triggers init() registration
+    _ "github.com/AbdullahMalik17/malikclaw/pkg/channels/discord"
+    _ "github.com/AbdullahMalik17/malikclaw/pkg/channels/your_new_channel"  // New addition
 )
 ```
 
@@ -421,9 +421,9 @@ To add a new chat platform (e.g., `matrix`), you need to:
 package matrix
 
 import (
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/channels"
-    "github.com/sipeed/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/channels"
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func init() {
@@ -442,11 +442,11 @@ import (
     "context"
     "fmt"
 
-    "github.com/sipeed/malikclaw/pkg/bus"
-    "github.com/sipeed/malikclaw/pkg/channels"
-    "github.com/sipeed/malikclaw/pkg/config"
-    "github.com/sipeed/malikclaw/pkg/identity"
-    "github.com/sipeed/malikclaw/pkg/logger"
+    "github.com/AbdullahMalik17/malikclaw/pkg/bus"
+    "github.com/AbdullahMalik17/malikclaw/pkg/channels"
+    "github.com/AbdullahMalik17/malikclaw/pkg/config"
+    "github.com/AbdullahMalik17/malikclaw/pkg/identity"
+    "github.com/AbdullahMalik17/malikclaw/pkg/logger"
 )
 
 // MatrixChannel implements channels.Channel for the Matrix protocol.
@@ -812,7 +812,7 @@ if m.config.Channels.Matrix.Enabled && m.config.Channels.Matrix.Token != "" {
 ```go
 // cmd/malikclaw/internal/gateway/helpers.go
 import (
-    _ "github.com/sipeed/malikclaw/pkg/channels/matrix"
+    _ "github.com/AbdullahMalik17/malikclaw/pkg/channels/matrix"
 )
 ```
 

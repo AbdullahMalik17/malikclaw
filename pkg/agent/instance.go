@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/sipeed/malikclaw/pkg/config"
-	"github.com/sipeed/malikclaw/pkg/memory"
-	"github.com/sipeed/malikclaw/pkg/providers"
-	"github.com/sipeed/malikclaw/pkg/routing"
-	"github.com/sipeed/malikclaw/pkg/session"
-	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/memory"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
+	"github.com/AbdullahMalik17/malikclaw/pkg/session"
+	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
 // AgentInstance represents a fully configured agent with its own workspace,

@@ -516,6 +516,9 @@
     },
     "self_improve": {
       "enabled": true
+    },
+    "android_control": {
+      "enabled": false
     }
   },
   "heartbeat": {

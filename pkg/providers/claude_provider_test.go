@@ -9,7 +9,7 @@ import (
 	"github.com/anthropics/anthropic-sdk-go"
 	anthropicoption "github.com/anthropics/anthropic-sdk-go/option"
 
-	anthropicprovider "github.com/sipeed/malikclaw/pkg/providers/anthropic"
+	anthropicprovider "github.com/AbdullahMalik17/malikclaw/pkg/providers/anthropic"
 )
 
 func TestClaudeProvider_ChatRoundTrip(t *testing.T) {

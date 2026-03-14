@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/malikclaw/pkg/auth"
-	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/auth"
+	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func resetModelProbeHooks(t *testing.T) {

@@ -1,7 +1,7 @@
 package routing
 
 import (
-	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
 // defaultThreshold is used when the config threshold is zero or negative.

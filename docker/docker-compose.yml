@@ -4,7 +4,7 @@ services:
   #   docker compose -f docker/docker-compose.yml run --rm malikclaw-agent -m "Hello"
   # ─────────────────────────────────────────────
   malikclaw-agent:
-    image: docker.io/sipeed/malikclaw:latest
+    image: docker.io/AbdullahMalik17/malikclaw:latest
     container_name: malikclaw-agent
     profiles:
       - agent
@@ -22,7 +22,7 @@ services:
   #   docker compose -f docker/docker-compose.yml --profile gateway up
   # ─────────────────────────────────────────────
   malikclaw-gateway:
-    image: docker.io/sipeed/malikclaw:latest
+    image: docker.io/AbdullahMalik17/malikclaw:latest
     container_name: malikclaw-gateway
     restart: on-failure
     profiles:
@@ -38,7 +38,7 @@ services:
   #   docker compose -f docker/docker-compose.yml --profile launcher up
   # ─────────────────────────────────────────────
   malikclaw-launcher:
-    image: docker.io/sipeed/malikclaw:launcher
+    image: docker.io/AbdullahMalik17/malikclaw:launcher
     container_name: malikclaw-launcher
     restart: on-failure
     profiles:

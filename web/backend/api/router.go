@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/sipeed/malikclaw/web/backend/launcherconfig"
+	"github.com/AbdullahMalik17/malikclaw/web/backend/launcherconfig"
 )
 
 // Handler serves HTTP API requests.

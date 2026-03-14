@@ -10,7 +10,7 @@ import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 
-	malikclawconfig "github.com/sipeed/malikclaw/pkg/config"
+	malikclawconfig "github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func (s *appState) modelMenu() tview.Primitive {
