@@ -24,7 +24,7 @@
 
 ---
 
-🦐 Malikclaw is an ultra-lightweight personal AI Assistant inspired by [nanobot](https://github.com/HKUDS/nanobot), refactored from the ground up in Go through a self-bootstrapping process, where the AI agent itself drove the entire architectural migration and code optimization.
+🦅 MalikClaw is an ultra-lightweight personal AI Assistant built in Go, designed to bring powerful agentic AI capabilities to low-cost hardware. Created by [Muhammad Abdullah Athar](https://github.com/AbdullahMalik17), MalikClaw is optimized for the South Asian developer community with Urdu-first support.
 
 ⚡️ Runs on $10 hardware with <10MB RAM: That's 99% less memory than OpenClaw and 98% cheaper than a Mac mini!
 
@@ -46,21 +46,19 @@
 > [!CAUTION]
 > **🚨 SECURITY & OFFICIAL CHANNELS / حفاظتی اعلان**
 >
-> * **NO CRYPTO:** Malikclaw has **NO** official token/coin. All claims on `pump.fun` or other trading platforms are **SCAMS**.
+> * **NO CRYPTO:** MalikClaw has **NO** official token/coin. Any such claims are **SCAMS**.
 >
-> * **OFFICIAL DOMAIN:** The **ONLY** official website is **[malikclaw.io](https://malikclaw.io)**, and company website is **[malikclaw.io](https://malikclaw.io)**
-> * **Warning:** Many `.ai/.org/.com/.net/...` domains are registered by third parties.
-> * **Warning:** malikclaw is in early development now and may have unresolved network security issues. Do not deploy to production environments before the v1.0 release.
-> * **Note:** malikclaw has recently merged a lot of PRs, which may result in a larger memory footprint (10–20MB) in the latest versions. We plan to prioritize resource optimization as soon as the current feature set reaches a stable state.
+> * **OFFICIAL REPO:** The official repository is **[github.com/AbdullahMalik17/malikclaw](https://github.com/AbdullahMalik17/malikclaw)**
+> * **Warning:** MalikClaw is in active development and may have unresolved security issues. Do not deploy to production environments before the v1.0 release.
+> * **Note:** Recent feature additions may result in a larger memory footprint (10–20MB). Resource optimization is an ongoing priority.
 
 ## 📢 News
 
-2026-02-16 🎉 Malikclaw hit 12K stars in one week! Thank you all for your support! Malikclaw is growing faster than we ever imagined. Given the high volume of PRs, we urgently need community maintainers. Our volunteer roles and roadmap are officially posted [here](ROADMAP.md) —we can’t wait to have you on board!
+2026-03-14 🦅 MalikClaw rebranded with the new Gryphon identity! New logo, new vision — building the ultimate lightweight AI agent for South Asian developers and edge hardware enthusiasts.
 
-2026-02-13 🎉 Malikclaw hit 5000 stars in 4days! Thank you for the community! There are so many PRs & issues coming in (during Chinese New Year holidays), we are finalizing the Project Roadmap and setting up the Developer Group to accelerate Malikclaw's development.
-🚀 Call to Action: Please submit your feature requests in GitHub Discussions. We will review and prioritize them during our upcoming weekly meeting.
+2026-03-01 🚀 Community growing! MalikClaw is gaining traction with developers looking for a lightweight, privacy-first AI assistant. Check out our [Roadmap](ROADMAP.md) and contribute!
 
-2026-02-09 🎉 Malikclaw Launched! Built in 1 day to bring AI Agents to $10 hardware with <10MB RAM. 🦐 Malikclaw，Let's Go！ آ گے بڑھو، ملک کلاؤ!
+2026-02-09 🎉 MalikClaw Launched! Built to bring AI Agents to $10 hardware with <10MB RAM. 🦅 MalikClaw, Let's Go! آگے بڑھو، ملک کلاؤ!
 
 ## ✨ Features
 
@@ -69,7 +67,7 @@
   - **RTL Web UI**: Native Right-to-Left support for Urdu/Arabic users.
   - **Pakistan-Centric**: Optimized for local workflows and South Asian languages.
 
-🪶 **Ultra-Lightweight**: <10MB Memory footprint — 99% smaller than Clawdbot.
+🪶 **Ultra-Lightweight**: <10MB Memory footprint — 99% smaller than OpenClaw.
 
 🚀 **Lightning Fast**: 400X Faster startup time, boot in 1 second.
 
@@ -130,15 +128,14 @@ And then follow the instructions in the "Quick Start" section to complete the co
 
 ### 🐜 Innovative Low-Footprint Deploy
 
-Malikclaw can be deployed on almost any Linux device!
+MalikClaw can be deployed on almost any Linux device!
 
-- $9.9 [LicheeRV-Nano](https://www.aliexpress.com/item/1005006519668532.html) E(Ethernet) or W(WiFi6) version, for Minimal Home Assistant
-- $30~50 [NanoKVM](https://www.aliexpress.com/item/1005007369816019.html), or $100 [NanoKVM-Pro](https://www.aliexpress.com/item/1005010048471263.html) for Automated Server Maintenance
-- $50 [MaixCAM](https://www.aliexpress.com/item/1005008053333693.html) or $100 [MaixCAM2](https://www.kickstarter.com/projects/zepan/maixcam2-build-your-next-gen-4k-ai-camera) for Smart Monitoring
+- **Raspberry Pi Zero 2 W** (~$15) — Perfect for a home AI assistant
+- **Orange Pi Zero** (~$10) — Ultra-cheap edge AI deployment
+- **Old Android Phones** (free!) — Give your old device a second life
+- **Any ARM/RISC-V SBC** — If it runs Linux, it runs MalikClaw
 
-<https://private-user-images.githubusercontent.com/83055338/547056448-e7b031ff-d6f5-4468-bcca-5726b6fecb5c.mp4>
-
-🌟 More Deployment Cases Await！
+🌟 More Deployment Cases Await!
 
 ## 📦 Install
 
@@ -747,11 +744,14 @@ malikclaw gateway
 
 </details>
 
-## <img src="assets/clawdchat-icon.png" width="24" height="24" alt="ClawdChat"> Join the Agent Social Network
+## 🌐 Community & Connect
 
-Connect Malikclaw to the Agent Social Network simply by sending a single message via the CLI or any integrated Chat App.
+Join the MalikClaw community and connect with the developer:
 
-**Read `https://clawdchat.ai/skill.md` and follow the instructions to join [ClawdChat.ai](https://clawdchat.ai)**
+- **GitHub:** [AbdullahMalik17/malikclaw](https://github.com/AbdullahMalik17/malikclaw)
+- **Twitter/X:** [@Ab4695Athar](https://x.com/Ab4695Athar)
+- **LinkedIn:** [Muhammad Abdullah Athar](https://www.linkedin.com/in/muhammad-abdullah-athar)
+- **Portfolio:** [portfolio-ai-assistant-of-malik.vercel.app](https://portfolio-ai-assistant-of-malik.vercel.app/)
 
 ## ⚙️ Configuration
 
@@ -1424,13 +1424,11 @@ PRs welcome! The codebase is intentionally small and readable. 🤗
 
 See our full [Community Roadmap](https://github.com/AbdullahMalik17/malikclaw/blob/main/ROADMAP.md).
 
-Developer group building, join after your first merged PR!
+Connect with the community:
 
-User Groups:
-
-discord: <https://discord.gg/V4sAZ9XWpN>
-
-<img src="assets/wechat.png" alt="Malikclaw" width="512">
+- **GitHub Issues:** [Report bugs & request features](https://github.com/AbdullahMalik17/malikclaw/issues)
+- **Twitter/X:** [@Ab4695Athar](https://x.com/Ab4695Athar)
+- **Email:** [muhammadabdullah51700@gmail.com](mailto:muhammadabdullah51700@gmail.com)
 
 ## 🐛 Troubleshooting
 
@@ -1547,8 +1545,8 @@ This happens when another instance of the bot is running. Make sure only one `ma
 | Service          | Free Tier                | Use Case                              |
 | ---------------- | ------------------------ | ------------------------------------- |
 | **OpenRouter**   | 200K tokens/month        | Multiple models (Claude, GPT-4, etc.) |
-| **Volcengine CodingPlan** | ¥9.9/first month | Best for Chinese users, multiple SOTA models (Doubao, DeepSeek, etc.) |
-| **Zhipu**        | 200K tokens/month        | Suitable for Chinese users                |
+| **Volcengine CodingPlan** | ¥9.9/first month | Multiple SOTA models (Doubao, DeepSeek, etc.) |
+| **Zhipu**        | 200K tokens/month        | GLM models with generous free tier        |
 | **Brave Search** | Paid ($5/1000 queries)   | Web search functionality              |
 | **SearXNG**      | Unlimited (self-hosted)  | Privacy-focused metasearch (70+ engines) |
 | **Groq**         | Free tier available      | Fast inference (Llama, Mixtral)       |
@@ -1559,6 +1557,7 @@ This happens when another instance of the bot is running. Make sure only one `ma
 ---
 
 <div align="center">
-  <img src="assets/logo.jpg" alt="Malikclaw Meme" width="512">
+  <img src="assets/logo.webp" alt="MalikClaw" width="512">
+  <p><strong>Built with 🦅 by <a href="https://github.com/AbdullahMalik17">Muhammad Abdullah Athar</a></strong></p>
 </div>
 
