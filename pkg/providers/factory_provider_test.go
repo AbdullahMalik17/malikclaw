@@ -1,7 +1,7 @@
-// PicoClaw - Ultra-lightweight personal AI agent
+// MalikClaw - Ultra-lightweight personal AI agent
 // License: MIT
 //
-// Copyright (c) 2026 PicoClaw contributors
+// Copyright (c) 2026 MalikClaw contributors
 
 package providers
 
@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/config"
 )
 
 func TestExtractProtocol(t *testing.T) {

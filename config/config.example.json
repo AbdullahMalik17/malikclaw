@@ -1,7 +1,7 @@
 {
   "agents": {
     "defaults": {
-      "workspace": "~/.picoclaw/workspace",
+      "workspace": "~/.malikclaw/workspace",
       "restrict_to_workspace": true,
       "model_name": "gpt-5.4",
       "max_tokens": 8192,
@@ -420,6 +420,19 @@
             "SLACK_BOT_TOKEN": "YOUR_SLACK_BOT_TOKEN",
             "SLACK_TEAM_ID": "YOUR_SLACK_TEAM_ID"
           }
+        },
+        "odoo": {
+          "enabled": false,
+          "command": "python",
+          "args": [
+            "scripts/mcp_servers/odoo_server.py"
+          ],
+          "env": {
+            "ODOO_URL": "http://your-odoo-url:8069",
+            "ODOO_DB": "your-db",
+            "ODOO_USERNAME": "admin",
+            "ODOO_PASSWORD": "your-password"
+          }
         }
       }
     },
@@ -496,6 +509,12 @@
       "enabled": true
     },
     "write_file": {
+      "enabled": true
+    },
+    "gmail": {
+      "enabled": false
+    },
+    "self_improve": {
       "enabled": true
     }
   },

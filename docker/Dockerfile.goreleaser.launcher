@@ -4,9 +4,9 @@ ARG TARGETPLATFORM
 
 RUN apk add --no-cache ca-certificates tzdata
 
-COPY $TARGETPLATFORM/picoclaw /usr/local/bin/picoclaw
-COPY $TARGETPLATFORM/picoclaw-launcher /usr/local/bin/picoclaw-launcher
-COPY $TARGETPLATFORM/picoclaw-launcher-tui /usr/local/bin/picoclaw-launcher-tui
+COPY $TARGETPLATFORM/malikclaw /usr/local/bin/malikclaw
+COPY $TARGETPLATFORM/malikclaw-launcher /usr/local/bin/malikclaw-launcher
+COPY $TARGETPLATFORM/malikclaw-launcher-tui /usr/local/bin/malikclaw-launcher-tui
 
-ENTRYPOINT ["picoclaw-launcher"]
+ENTRYPOINT ["malikclaw-launcher"]
 CMD ["-public", "-no-browser"]

@@ -1,9 +1,9 @@
 //go:build whatsapp_native
 
-// PicoClaw - Ultra-lightweight personal AI agent
+// MalikClaw - Ultra-lightweight personal AI agent
 // License: MIT
 //
-// Copyright (c) 2026 PicoClaw contributors
+// Copyright (c) 2026 MalikClaw contributors
 
 package whatsapp
 
@@ -28,12 +28,12 @@ import (
 	"google.golang.org/protobuf/proto"
 	_ "modernc.org/sqlite"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	"github.com/sipeed/picoclaw/pkg/channels"
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/identity"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/utils"
+	"github.com/sipeed/malikclaw/pkg/bus"
+	"github.com/sipeed/malikclaw/pkg/channels"
+	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/identity"
+	"github.com/sipeed/malikclaw/pkg/logger"
+	"github.com/sipeed/malikclaw/pkg/utils"
 )
 
 const (

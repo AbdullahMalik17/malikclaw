@@ -9,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/memory"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/routing"
-	"github.com/sipeed/picoclaw/pkg/session"
-	"github.com/sipeed/picoclaw/pkg/tools"
+	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/memory"
+	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/sipeed/malikclaw/pkg/routing"
+	"github.com/sipeed/malikclaw/pkg/session"
+	"github.com/sipeed/malikclaw/pkg/tools"
 )
 
 // AgentInstance represents a fully configured agent with its own workspace,
@@ -244,7 +244,7 @@ func resolveAgentWorkspace(agentCfg *config.AgentConfig, defaults *config.AgentD
 	if agentCfg != nil && strings.TrimSpace(agentCfg.Workspace) != "" {
 		return expandHome(strings.TrimSpace(agentCfg.Workspace))
 	}
-	// Use the configured default workspace (respects PICOCLAW_HOME)
+	// Use the configured default workspace (respects MALIKCLAW_HOME)
 	if agentCfg == nil || agentCfg.Default || agentCfg.ID == "" || routing.NormalizeAgentID(agentCfg.ID) == "main" {
 		return expandHome(defaults.Workspace)
 	}

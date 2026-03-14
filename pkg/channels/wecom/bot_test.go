@@ -17,8 +17,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	"github.com/sipeed/picoclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/bus"
+	"github.com/sipeed/malikclaw/pkg/config"
 )
 
 // generateTestAESKey generates a valid test AES key

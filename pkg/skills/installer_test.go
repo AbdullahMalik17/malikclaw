@@ -25,41 +25,41 @@ func TestParseGitHubRef(t *testing.T) {
 	}{
 		{
 			name:         "simple owner/repo",
-			repo:         "sipeed/picoclaw",
+			repo:         "sipeed/malikclaw",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",
 		},
 		{
 			name:         "owner/repo with subpath",
-			repo:         "sipeed/picoclaw/skills/test",
+			repo:         "sipeed/malikclaw/skills/test",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "skills/test",
 		},
 		{
 			name:         "full URL with tree",
-			repo:         "https://github.com/sipeed/picoclaw/tree/dev/skills/test",
+			repo:         "https://github.com/sipeed/malikclaw/tree/dev/skills/test",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "dev",
 			wantSubPath:  "skills/test",
 		},
 		{
 			name:         "full URL with blob",
-			repo:         "https://github.com/sipeed/picoclaw/blob/main/README.md",
+			repo:         "https://github.com/sipeed/malikclaw/blob/main/README.md",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "README.md",
 		},
 		{
 			name:         "full URL without ref",
-			repo:         "https://github.com/sipeed/picoclaw",
+			repo:         "https://github.com/sipeed/malikclaw",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",
 		},
@@ -83,9 +83,9 @@ func TestParseGitHubRef(t *testing.T) {
 		},
 		{
 			name:         "with whitespace",
-			repo:         "  sipeed/picoclaw  ",
+			repo:         "  sipeed/malikclaw  ",
 			wantOwner:    "sipeed",
-			wantRepoName: "picoclaw",
+			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",
 		},
@@ -431,12 +431,12 @@ func TestSkillInstaller_InstallFromGitHub_SkillAlreadyExists(t *testing.T) {
 	}
 
 	// Create an existing skill directory
-	existingSkill := filepath.Join(skillsDir, "picoclaw")
+	existingSkill := filepath.Join(skillsDir, "malikclaw")
 	os.MkdirAll(existingSkill, 0o755)
 	os.WriteFile(filepath.Join(existingSkill, "SKILL.md"), []byte("existing"), 0o644)
 
 	// Try to install the same skill - should fail
-	err = installer.InstallFromGitHub(context.Background(), "sipeed/picoclaw")
+	err = installer.InstallFromGitHub(context.Background(), "sipeed/malikclaw")
 	if err == nil {
 		t.Error("InstallFromGitHub() expected error for existing skill, got nil")
 	}

@@ -1,44 +1,44 @@
 services:
   # ─────────────────────────────────────────────
-  # PicoClaw Agent (one-shot query) - Full MCP Support
-  #   docker compose -f docker/docker-compose.full.yml run --rm picoclaw-agent -m "Hello"
+  # MalikClaw Agent (one-shot query) - Full MCP Support
+  #   docker compose -f docker/docker-compose.full.yml run --rm malikclaw-agent -m "Hello"
   # ─────────────────────────────────────────────
-  picoclaw-agent:
+  malikclaw-agent:
     build:
       context: ..
       dockerfile: docker/Dockerfile.full
-    container_name: picoclaw-agent-full
+    container_name: malikclaw-agent-full
     profiles:
       - agent
     volumes:
-      - ../config/config.json:/root/.picoclaw/config.json:ro
-      - picoclaw-workspace:/root/.picoclaw/workspace
-      - picoclaw-npm-cache:/root/.npm # npm cache for faster MCP server installs
-    entrypoint: ["picoclaw", "agent"]
+      - ../config/config.json:/root/.malikclaw/config.json:ro
+      - malikclaw-workspace:/root/.malikclaw/workspace
+      - malikclaw-npm-cache:/root/.npm # npm cache for faster MCP server installs
+    entrypoint: ["malikclaw", "agent"]
     stdin_open: true
     tty: true
 
   # ─────────────────────────────────────────────
-  # PicoClaw Gateway (Long-running Bot) - Full MCP Support
+  # MalikClaw Gateway (Long-running Bot) - Full MCP Support
   #   docker compose -f docker/docker-compose.full.yml --profile gateway up
   # ─────────────────────────────────────────────
-  picoclaw-gateway:
+  malikclaw-gateway:
     build:
       context: ..
       dockerfile: docker/Dockerfile.full
-    container_name: picoclaw-gateway-full
+    container_name: malikclaw-gateway-full
     restart: unless-stopped
     profiles:
       - gateway
     volumes:
       # Configuration file
-      - ../config/config.json:/root/.picoclaw/config.json:ro
+      - ../config/config.json:/root/.malikclaw/config.json:ro
       # Persistent workspace (sessions, memory, logs)
-      - picoclaw-workspace:/root/.picoclaw/workspace
+      - malikclaw-workspace:/root/.malikclaw/workspace
       # NPM cache for faster MCP server installs
-      - picoclaw-npm-cache:/root/.npm
+      - malikclaw-npm-cache:/root/.npm
     command: ["gateway"]
 
 volumes:
-  picoclaw-workspace:
-  picoclaw-npm-cache: # Cache npm packages to speed up MCP server installations
+  malikclaw-workspace:
+  malikclaw-npm-cache: # Cache npm packages to speed up MCP server installations

@@ -1,7 +1,7 @@
 <div align="center">
-<img src="assets/logo.webp" alt="PicoClaw" width="512">
+<img src="assets/logo.webp" alt="MalikClaw" width="512">
 
-<h1>PicoClaw: Assistente de IA Ultra-Eficiente em Go</h1>
+<h1>MalikClaw: Assistente de IA Ultra-Eficiente em Go</h1>
 
 <h3>Hardware de $10 · 10MB de RAM · Boot em 1s · 皮皮虾，我们走！</h3>
 
@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
-    <a href="https://picoclaw.io"><img src="https://img.shields.io/badge/Website-picoclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
+    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
     <a href="https://x.com/SipeedIO"><img src="https://img.shields.io/badge/X_(Twitter)-SipeedIO-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
   </p>
 
@@ -19,7 +19,7 @@
 
 ---
 
-🦐 **PicoClaw** é um assistente pessoal de IA ultra-leve inspirado no [nanobot](https://github.com/HKUDS/nanobot), reescrito do zero em **Go** por meio de um processo de "auto-inicialização" (self-bootstrapping) — onde o próprio agente de IA conduziu toda a migração de arquitetura e otimização de código.
+🦐 **MalikClaw** é um assistente pessoal de IA ultra-leve inspirado no [nanobot](https://github.com/HKUDS/nanobot), reescrito do zero em **Go** por meio de um processo de "auto-inicialização" (self-bootstrapping) — onde o próprio agente de IA conduziu toda a migração de arquitetura e otimização de código.
 
 ⚡️ **Extremamente leve:** Roda em hardware de apenas **$10** com **<10MB** de RAM. Isso é 99% menos memória que o OpenClaw e 98% mais barato que um Mac mini!
 
@@ -27,7 +27,7 @@
 <tr align="center">
 <td align="center" valign="top">
 <p align="center">
-<img src="assets/picoclaw_mem.gif" width="360" height="240">
+<img src="assets/malikclaw_mem.png" width="360" height="240">
 </p>
 </td>
 <td align="center" valign="top">
@@ -41,22 +41,22 @@
 > [!CAUTION]
 > **🚨 DECLARAÇÃO DE SEGURANÇA & CANAIS OFICIAIS**
 >
-> * **SEM CRIPTOMOEDAS:** O PicoClaw **NÃO** possui nenhum token/moeda oficial. Todas as alegações no `pump.fun` ou outras plataformas de negociação são **GOLPES**.
-> * **DOMÍNIO OFICIAL:** O **ÚNICO** site oficial é o **[picoclaw.io](https://picoclaw.io)**, e o site da empresa é o **[sipeed.com](https://sipeed.com)**.
+> * **SEM CRIPTOMOEDAS:** O MalikClaw **NÃO** possui nenhum token/moeda oficial. Todas as alegações no `pump.fun` ou outras plataformas de negociação são **GOLPES**.
+> * **DOMÍNIO OFICIAL:** O **ÚNICO** site oficial é o **[malikclaw.io](https://malikclaw.io)**, e o site da empresa é o **[sipeed.com](https://sipeed.com)**.
 > * **Aviso:** Muitos domínios `.ai/.org/.com/.net/...` foram registrados por terceiros, não são nossos.
-> * **Aviso:** O PicoClaw está em fase inicial de desenvolvimento e pode ter problemas de segurança de rede não resolvidos. Não implante em ambientes de produção antes da versão v1.0.
-> * **Nota:** O PicoClaw recentemente fez merge de muitos PRs, o que pode resultar em maior consumo de memória (10-20MB) nas versões mais recentes. Planejamos priorizar a otimização de recursos assim que o conjunto de funcionalidades estiver estável.
+> * **Aviso:** O MalikClaw está em fase inicial de desenvolvimento e pode ter problemas de segurança de rede não resolvidos. Não implante em ambientes de produção antes da versão v1.0.
+> * **Nota:** O MalikClaw recentemente fez merge de muitos PRs, o que pode resultar em maior consumo de memória (10-20MB) nas versões mais recentes. Planejamos priorizar a otimização de recursos assim que o conjunto de funcionalidades estiver estável.
 
 
 ## 📢 Novidades
 
-2026-02-16 🎉 PicoClaw atingiu 12K stars em uma semana! Obrigado a todos pelo apoio! O PicoClaw está crescendo mais rápido do que jamais imaginamos. Dado o alto volume de PRs, precisamos urgentemente de maintainers da comunidade. Nossos papéis de voluntários e roadmap foram publicados oficialmente [aqui](docs/ROADMAP.md) — estamos ansiosos para ter você a bordo!
+2026-02-16 🎉 MalikClaw atingiu 12K stars em uma semana! Obrigado a todos pelo apoio! O MalikClaw está crescendo mais rápido do que jamais imaginamos. Dado o alto volume de PRs, precisamos urgentemente de maintainers da comunidade. Nossos papéis de voluntários e roadmap foram publicados oficialmente [aqui](docs/ROADMAP.md) — estamos ansiosos para ter você a bordo!
 
-2026-02-13 🎉 PicoClaw atingiu 5000 stars em 4 dias! Obrigado à comunidade! Estamos finalizando o **Roadmap do Projeto** e configurando o **Grupo de Desenvolvedores** para acelerar o desenvolvimento do PicoClaw.
+2026-02-13 🎉 MalikClaw atingiu 5000 stars em 4 dias! Obrigado à comunidade! Estamos finalizando o **Roadmap do Projeto** e configurando o **Grupo de Desenvolvedores** para acelerar o desenvolvimento do MalikClaw.
 
 🚀 **Chamada para Ação:** Envie suas solicitações de funcionalidades nas GitHub Discussions. Revisaremos e priorizaremos na próxima reunião semanal.
 
-2026-02-09 🎉 PicoClaw lançado oficialmente! Construído em 1 dia para trazer Agentes de IA para hardware de $10 com <10MB de RAM. 🦐 PicoClaw, Partiu!
+2026-02-09 🎉 MalikClaw lançado oficialmente! Construído em 1 dia para trazer Agentes de IA para hardware de $10 com <10MB de RAM. 🦐 MalikClaw, Partiu!
 
 ## ✨ Funcionalidades
 
@@ -70,14 +70,14 @@
 
 🤖 **Auto-Construído por IA**: Implementação nativa em Go de forma autônoma — 95% do núcleo gerado pelo Agente com refinamento humano no loop.
 
-|                               | OpenClaw      | NanoBot                  | **PicoClaw**                              |
+|                               | OpenClaw      | NanoBot                  | **MalikClaw**                              |
 | ----------------------------- | ------------- | ------------------------ | ----------------------------------------- |
 | **Linguagem**                 | TypeScript    | Python                   | **Go**                                    |
 | **RAM**                       | >1GB          | >100MB                   | **< 10MB**                                |
 | **Inicialização**</br>(CPU 0.8GHz) | >500s         | >30s                     | **<1s**                                   |
 | **Custo**                     | Mac Mini $599 | Maioria dos SBC Linux </br>~$50 | **Qualquer placa Linux**</br>**A partir de $10** |
 
-<img src="assets/compare.jpg" alt="PicoClaw" width="512">
+<img src="assets/compare.jpg" alt="MalikClaw" width="512">
 
 ## 🦾 Demonstração
 
@@ -90,9 +90,9 @@
 <th><p align="center">🔎 Busca Web & Aprendizado</p></th>
 </tr>
 <tr>
-<td align="center"><p align="center"><img src="assets/picoclaw_code.gif" width="240" height="180"></p></td>
-<td align="center"><p align="center"><img src="assets/picoclaw_memory.gif" width="240" height="180"></p></td>
-<td align="center"><p align="center"><img src="assets/picoclaw_search.gif" width="240" height="180"></p></td>
+<td align="center"><p align="center"><img src="assets/malikclaw_code.png" width="240" height="180"></p></td>
+<td align="center"><p align="center"><img src="assets/malikclaw_memory.png" width="240" height="180"></p></td>
+<td align="center"><p align="center"><img src="assets/malikclaw_search.png" width="240" height="180"></p></td>
 </tr>
 <tr>
 <td align="center">Desenvolver • Implantar • Escalar</td>
@@ -103,26 +103,26 @@
 
 ### 📱 Rode em celulares Android antigos
 
-Dê uma segunda vida ao seu celular de dez anos atrás! Transforme-o em um assistente de IA inteligente com o PicoClaw. Início rápido:
+Dê uma segunda vida ao seu celular de dez anos atrás! Transforme-o em um assistente de IA inteligente com o MalikClaw. Início rápido:
 
 1. **Instale o Termux** (Disponível no F-Droid ou Google Play).
 2. **Execute os comandos**
 
 ```bash
 # Nota: Substitua v0.1.1 pela versao mais recente da pagina de Releases
-wget https://github.com/sipeed/picoclaw/releases/download/v0.1.1/picoclaw-linux-arm64
-chmod +x picoclaw-linux-arm64
+wget https://github.com/sipeed/malikclaw/releases/download/v0.1.1/malikclaw-linux-arm64
+chmod +x malikclaw-linux-arm64
 pkg install proot
-termux-chroot ./picoclaw-linux-arm64 onboard
+termux-chroot ./malikclaw-linux-arm64 onboard
 ```
 
 Depois siga as instruções na seção "Início Rápido" para completar a configuração!
 
-<img src="assets/termux.jpg" alt="PicoClaw" width="512">
+<img src="assets/termux.jpg" alt="MalikClaw" width="512">
 
 ### 🐜 Implantação Inovadora com Baixo Consumo
 
-O PicoClaw pode ser implantado em praticamente qualquer dispositivo Linux!
+O MalikClaw pode ser implantado em praticamente qualquer dispositivo Linux!
 
 - $9.9 [LicheeRV-Nano](https://www.aliexpress.com/item/1005006519668532.html) versão E (Ethernet) ou W (WiFi6), para Assistente Doméstico Minimalista
 - $30~50 [NanoKVM](https://www.aliexpress.com/item/1005007369816019.html), ou $100 [NanoKVM-Pro](https://www.aliexpress.com/item/1005010048471263.html) para Manutenção Automatizada de Servidores
@@ -136,14 +136,14 @@ https://private-user-images.githubusercontent.com/83055338/547056448-e7b031ff-d6
 
 ### Instalar com binário pré-compilado
 
-Baixe o binário para sua plataforma na página de [releases](https://github.com/sipeed/picoclaw/releases).
+Baixe o binário para sua plataforma na página de [releases](https://github.com/sipeed/malikclaw/releases).
 
 ### Instalar a partir do código-fonte (funcionalidades mais recentes, recomendado para desenvolvimento)
 
 ```bash
-git clone https://github.com/sipeed/picoclaw.git
+git clone https://github.com/sipeed/malikclaw.git
 
-cd picoclaw
+cd malikclaw
 make deps
 
 # Build, sem necessidade de instalar
@@ -158,12 +158,12 @@ make install
 
 ## 🐳 Docker Compose
 
-Você tambêm pode rodar o PicoClaw usando Docker Compose sem instalar nada localmente.
+Você tambêm pode rodar o MalikClaw usando Docker Compose sem instalar nada localmente.
 
 ```bash
 # 1. Clone este repositorio
-git clone https://github.com/sipeed/picoclaw.git
-cd picoclaw
+git clone https://github.com/sipeed/malikclaw.git
+cd malikclaw
 
 # 2. Primeiro uso — gera docker/data/config.json automaticamente e para
 docker compose -f docker/docker-compose.yml --profile gateway up
@@ -177,11 +177,11 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ```
 
 > [!TIP]
-> **Usuários Docker**: Por padrão, o Gateway ouve em `127.0.0.1`, o que não é acessível a partir do host. Se você precisar acessar os endpoints de integridade ou expor portas, defina `PICOCLAW_GATEWAY_HOST=0.0.0.0` em seu ambiente ou atualize o `config.json`.
+> **Usuários Docker**: Por padrão, o Gateway ouve em `127.0.0.1`, o que não é acessível a partir do host. Se você precisar acessar os endpoints de integridade ou expor portas, defina `MALIKCLAW_GATEWAY_HOST=0.0.0.0` em seu ambiente ou atualize o `config.json`.
 
 ```bash
 # 5. Ver logs
-docker compose -f docker/docker-compose.yml logs -f picoclaw-gateway
+docker compose -f docker/docker-compose.yml logs -f malikclaw-gateway
 
 # 6. Parar
 docker compose -f docker/docker-compose.yml --profile gateway down
@@ -191,10 +191,10 @@ docker compose -f docker/docker-compose.yml --profile gateway down
 
 ```bash
 # Fazer uma pergunta
-docker compose -f docker/docker-compose.yml run --rm picoclaw-agent -m "Quanto e 2+2?"
+docker compose -f docker/docker-compose.yml run --rm malikclaw-agent -m "Quanto e 2+2?"
 
 # Modo interativo
-docker compose -f docker/docker-compose.yml run --rm picoclaw-agent
+docker compose -f docker/docker-compose.yml run --rm malikclaw-agent
 ```
 
 ### Atualizar
@@ -207,15 +207,15 @@ docker compose -f docker/docker-compose.yml --profile gateway up -d
 ### 🚀 Início Rápido
 
 > [!TIP]
-> Configure sua API key em `~/.picoclaw/config.json`. Obtenha API keys: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Busca web é **opcional** — obtenha a [API Tavily](https://tavily.com) gratuita (1000 consultas grátis/mês) ou a [Brave Search API](https://brave.com/search/api) (2000 consultas grátis/mês).
+> Configure sua API key em `~/.malikclaw/config.json`. Obtenha API keys: [Volcengine (CodingPlan)](https://www.volcengine.com/activity/codingplan?utm_campaign=MalikClaw&utm_content=MalikClaw&utm_medium=devrel&utm_source=OWO&utm_term=MalikClaw) (LLM) · [OpenRouter](https://openrouter.ai/keys) (LLM) · [Zhipu](https://open.bigmodel.cn/usercenter/proj-mgmt/apikeys) (LLM). Busca web é **opcional** — obtenha a [API Tavily](https://tavily.com) gratuita (1000 consultas grátis/mês) ou a [Brave Search API](https://brave.com/search/api) (2000 consultas grátis/mês).
 
 **1. Inicializar**
 
 ```bash
-picoclaw onboard
+malikclaw onboard
 ```
 
-**2. Configurar** (`~/.picoclaw/config.json`)
+**2. Configurar** (`~/.malikclaw/config.json`)
 
 ```json
 {
@@ -256,7 +256,7 @@ picoclaw onboard
 ```
 
 > **Novo**: O formato de configuração `model_list` permite adicionar provedores sem alterar código. Veja [Configuração de Modelo](#configuração-de-modelo-model_list) para detalhes.
-> `request_timeout` é opcional e usa segundos. Se omitido ou definido como `<= 0`, o PicoClaw usa o timeout padrão (120s).
+> `request_timeout` é opcional e usa segundos. Se omitido ou definido como `<= 0`, o MalikClaw usa o timeout padrão (120s).
 
 **3. Obter API Keys**
 
@@ -268,7 +268,7 @@ picoclaw onboard
 **4. Conversar**
 
 ```bash
-picoclaw agent -m "Quanto e 2+2?"
+malikclaw agent -m "Quanto e 2+2?"
 ```
 
 Pronto! Você tem um assistente de IA funcionando em 2 minutos.
@@ -277,7 +277,7 @@ Pronto! Você tem um assistente de IA funcionando em 2 minutos.
 
 ## 💬 Integração com Apps de Chat
 
-Converse com seu PicoClaw via Telegram, Discord, DingTalk, LINE ou WeCom.
+Converse com seu MalikClaw via Telegram, Discord, DingTalk, LINE ou WeCom.
 
 | Canal | Nível de Configuração |
 | --- | --- |
@@ -316,7 +316,7 @@ Converse com seu PicoClaw via Telegram, Discord, DingTalk, LINE ou WeCom.
 **3. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 </details>
@@ -364,7 +364,7 @@ picoclaw gateway
 **6. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 </details>
@@ -397,7 +397,7 @@ picoclaw gateway
 **3. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 </details>
@@ -431,7 +431,7 @@ picoclaw gateway
 **3. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 </details>
@@ -477,7 +477,7 @@ Em seguida, configure a Webhook URL no LINE Developers Console para `https://seu
 **4. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 > Em chats de grupo, o bot responde apenas quando mencionado com @. As respostas citam a mensagem original.
@@ -489,7 +489,7 @@ picoclaw gateway
 <details>
 <summary><b>WeCom (WeChat Work)</b></summary>
 
-O PicoClaw suporta três tipos de integração WeCom:
+O MalikClaw suporta três tipos de integração WeCom:
 
 **Opção 1: WeCom Bot (Robô)** - Configuração mais fácil, suporta chats em grupo
 **Opção 2: WeCom App (Aplicativo Personalizado)** - Mais recursos, mensagens proativas, somente chat privado
@@ -559,10 +559,10 @@ Veja o [Guia de Configuração WeCom AI Bot](docs/channels/wecom/wecom_aibot/REA
 **4. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
-> **Nota**: O WeCom App (callbacks de webhook) é servido pelo Gateway compartilhado (padrão 127.0.0.1:18790). Em produção use um proxy reverso HTTPS para expor a porta do Gateway, ou atualize `PICOCLAW_GATEWAY_HOST` para `0.0.0.0` se necessário.
+> **Nota**: O WeCom App (callbacks de webhook) é servido pelo Gateway compartilhado (padrão 127.0.0.1:18790). Em produção use um proxy reverso HTTPS para expor a porta do Gateway, ou atualize `MALIKCLAW_GATEWAY_HOST` para `0.0.0.0` se necessário.
 
 **Configuração Rápida - WeCom AI Bot:**
 
@@ -592,7 +592,7 @@ picoclaw gateway
 **3. Executar**
 
 ```bash
-picoclaw gateway
+malikclaw gateway
 ```
 
 > **Nota**: O WeCom AI Bot usa protocolo de pull em streaming — sem preocupações com timeout de resposta. Tarefas longas (>5,5 min) alternam automaticamente para entrega via `response_url`.
@@ -601,45 +601,45 @@ picoclaw gateway
 
 ## <img src="assets/clawdchat-icon.png" width="24" height="24" alt="ClawdChat"> Junte-se a Rede Social de Agentes
 
-Conecte o PicoClaw a Rede Social de Agentes simplesmente enviando uma única mensagem via CLI ou qualquer App de Chat integrado.
+Conecte o MalikClaw a Rede Social de Agentes simplesmente enviando uma única mensagem via CLI ou qualquer App de Chat integrado.
 
 **Leia `https://clawdchat.ai/skill.md` e siga as instruções para entrar no [ClawdChat.ai](https://clawdchat.ai)**
 
 ## ⚙️ Configuração Detalhada
 
-Arquivo de configuração: `~/.picoclaw/config.json`
+Arquivo de configuração: `~/.malikclaw/config.json`
 
 ### Variáveis de Ambiente
 
-Você pode substituir os caminhos padrão usando variáveis de ambiente. Isso é útil para instalações portáteis, implantações em contêineres ou para executar o picoclaw como um serviço do sistema. Essas variáveis são independentes e controlam caminhos diferentes.
+Você pode substituir os caminhos padrão usando variáveis de ambiente. Isso é útil para instalações portáteis, implantações em contêineres ou para executar o malikclaw como um serviço do sistema. Essas variáveis são independentes e controlam caminhos diferentes.
 
 | Variável          | Descrição                                                                                                                             | Caminho Padrão            |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
-| `PICOCLAW_CONFIG` | Substitui o caminho para o arquivo de configuração. Isso informa diretamente ao picoclaw qual `config.json` carregar, ignorando todos os outros locais. | `~/.picoclaw/config.json` |
-| `PICOCLAW_HOME`   | Substitui o diretório raiz dos dados do picoclaw. Isso altera o local padrão do `workspace` e de outros diretórios de dados.          | `~/.picoclaw`             |
+| `MALIKCLAW_CONFIG` | Substitui o caminho para o arquivo de configuração. Isso informa diretamente ao malikclaw qual `config.json` carregar, ignorando todos os outros locais. | `~/.malikclaw/config.json` |
+| `MALIKCLAW_HOME`   | Substitui o diretório raiz dos dados do malikclaw. Isso altera o local padrão do `workspace` e de outros diretórios de dados.          | `~/.malikclaw`             |
 
 **Exemplos:**
 
 ```bash
-# Executar o picoclaw usando um arquivo de configuração específico
+# Executar o malikclaw usando um arquivo de configuração específico
 # O caminho do workspace será lido de dentro desse arquivo de configuração
-PICOCLAW_CONFIG=/etc/picoclaw/production.json picoclaw gateway
+MALIKCLAW_CONFIG=/etc/malikclaw/production.json malikclaw gateway
 
-# Executar o picoclaw com todos os seus dados armazenados em /opt/picoclaw
-# A configuração será carregada do ~/.picoclaw/config.json padrão
-# O workspace será criado em /opt/picoclaw/workspace
-PICOCLAW_HOME=/opt/picoclaw picoclaw agent
+# Executar o malikclaw com todos os seus dados armazenados em /opt/malikclaw
+# A configuração será carregada do ~/.malikclaw/config.json padrão
+# O workspace será criado em /opt/malikclaw/workspace
+MALIKCLAW_HOME=/opt/malikclaw malikclaw agent
 
 # Use ambos para uma configuração totalmente personalizada
-PICOCLAW_HOME=/srv/picoclaw PICOCLAW_CONFIG=/srv/picoclaw/main.json picoclaw gateway
+MALIKCLAW_HOME=/srv/malikclaw MALIKCLAW_CONFIG=/srv/malikclaw/main.json malikclaw gateway
 ```
 
 ### Estrutura do Workspace
 
-O PicoClaw armazena dados no workspace configurado (padrão: `~/.picoclaw/workspace`):
+O MalikClaw armazena dados no workspace configurado (padrão: `~/.malikclaw/workspace`):
 
 ```
-~/.picoclaw/workspace/
+~/.malikclaw/workspace/
 ├── sessions/          # Sessoes de conversa e historico
 ├── memory/            # Memoria de longo prazo (MEMORY.md)
 ├── state/             # Estado persistente (ultimo canal, etc.)
@@ -654,7 +654,7 @@ O PicoClaw armazena dados no workspace configurado (padrão: `~/.picoclaw/worksp
 
 ### 🔒 Sandbox de Segurança
 
-O PicoClaw roda em um ambiente sandbox por padrão. O agente so pode acessar arquivos e executar comandos dentro do workspace configurado.
+O MalikClaw roda em um ambiente sandbox por padrão. O agente so pode acessar arquivos e executar comandos dentro do workspace configurado.
 
 #### Configuração Padrão
 
@@ -662,7 +662,7 @@ O PicoClaw roda em um ambiente sandbox por padrão. O agente so pode acessar arq
 {
   "agents": {
     "defaults": {
-      "workspace": "~/.picoclaw/workspace",
+      "workspace": "~/.malikclaw/workspace",
       "restrict_to_workspace": true
     }
   }
@@ -671,7 +671,7 @@ O PicoClaw roda em um ambiente sandbox por padrão. O agente so pode acessar arq
 
 | Opção | Padrão | Descrição |
 |-------|--------|-----------|
-| `workspace` | `~/.picoclaw/workspace` | Diretório de trabalho do agente |
+| `workspace` | `~/.malikclaw/workspace` | Diretório de trabalho do agente |
 | `restrict_to_workspace` | `true` | Restringir acesso de arquivos/comandos ao workspace |
 
 #### Ferramentas Protegidas
@@ -729,7 +729,7 @@ Se você precisa que o agente acesse caminhos fora do workspace:
 **Método 2: Variável de ambiente**
 
 ```bash
-export PICOCLAW_AGENTS_DEFAULTS_RESTRICT_TO_WORKSPACE=false
+export MALIKCLAW_AGENTS_DEFAULTS_RESTRICT_TO_WORKSPACE=false
 ```
 
 > ⚠️ **Aviso**: Desabilitar esta restrição permite que o agente acesse qualquer caminho no seu sistema. Use com cuidado apenas em ambientes controlados.
@@ -748,7 +748,7 @@ Todos os caminhos compartilham a mesma restrição de workspace — nao há como
 
 ### Heartbeat (Tarefas Periódicas)
 
-O PicoClaw pode executar tarefas periódicas automaticamente. Crie um arquivo `HEARTBEAT.md` no seu workspace:
+O MalikClaw pode executar tarefas periódicas automaticamente. Crie um arquivo `HEARTBEAT.md` no seu workspace:
 
 ```markdown
 # Tarefas Periodicas
@@ -820,8 +820,8 @@ O subagente tem acesso às ferramentas (message, web_search, etc.) e pode se com
 
 **Variáveis de ambiente:**
 
-* `PICOCLAW_HEARTBEAT_ENABLED=false` para desabilitar
-* `PICOCLAW_HEARTBEAT_INTERVAL=60` para alterar o intervalo
+* `MALIKCLAW_HEARTBEAT_ENABLED=false` para desabilitar
+* `MALIKCLAW_HEARTBEAT_INTERVAL=60` para alterar o intervalo
 
 ### Provedores
 
@@ -832,7 +832,7 @@ O subagente tem acesso às ferramentas (message, web_search, etc.) e pode se com
 | --- | --- | --- |
 | `gemini` | LLM (Gemini direto) | [aistudio.google.com](https://aistudio.google.com) |
 | `zhipu` | LLM (Zhipu direto) | [bigmodel.cn](bigmodel.cn) |
-| `volcengine`             | LLM(Volcengine direto)                   | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw)           |
+| `volcengine`             | LLM(Volcengine direto)                   | [volcengine.com](https://www.volcengine.com/activity/codingplan?utm_campaign=MalikClaw&utm_content=MalikClaw&utm_medium=devrel&utm_source=OWO&utm_term=MalikClaw)           |
 | `openrouter` (Em teste) | LLM (recomendado, acesso a todos os modelos) | [openrouter.ai](https://openrouter.ai) |
 | `anthropic` (Em teste) | LLM (Claude direto) | [console.anthropic.com](https://console.anthropic.com) |
 | `openai` (Em teste) | LLM (GPT direto) | [platform.openai.com](https://platform.openai.com) |
@@ -854,7 +854,7 @@ O subagente tem acesso às ferramentas (message, web_search, etc.) e pode se com
 {
   "agents": {
     "defaults": {
-      "workspace": "~/.picoclaw/workspace",
+      "workspace": "~/.malikclaw/workspace",
       "model": "glm-4.7",
       "max_tokens": 8192,
       "temperature": 0.7,
@@ -873,7 +873,7 @@ O subagente tem acesso às ferramentas (message, web_search, etc.) e pode se com
 **3. Executar**
 
 ```bash
-picoclaw agent -m "Ola, como vai?"
+malikclaw agent -m "Ola, como vai?"
 ```
 
 </details>
@@ -952,7 +952,7 @@ picoclaw agent -m "Ola, como vai?"
 
 ### Configuração de Modelo (model_list)
 
-> **Novidade!** PicoClaw agora usa uma abordagem de configuração **centrada no modelo**. Basta especificar o formato `fornecedor/modelo` (ex: `zhipu/glm-4.7`) para adicionar novos provedores—**nenhuma alteração de código necessária!**
+> **Novidade!** MalikClaw agora usa uma abordagem de configuração **centrada no modelo**. Basta especificar o formato `fornecedor/modelo` (ex: `zhipu/glm-4.7`) para adicionar novos provedores—**nenhuma alteração de código necessária!**
 
 Este design também possibilita o **suporte multi-agent** com seleção flexível de provedores:
 
@@ -978,7 +978,7 @@ Este design também possibilita o **suporte multi-agent** com seleção flexíve
 | **OpenRouter** | `openrouter/` | `https://openrouter.ai/api/v1` | OpenAI | [Obter Chave](https://openrouter.ai/keys) |
 | **VLLM** | `vllm/` | `http://localhost:8000/v1` | OpenAI | Local |
 | **Cerebras** | `cerebras/` | `https://api.cerebras.ai/v1` | OpenAI | [Obter Chave](https://cerebras.ai) |
-| **VolcEngine (Doubao)** | `volcengine/` | `https://ark.cn-beijing.volces.com/api/v3` | OpenAI | [Obter Chave](https://www.volcengine.com/activity/codingplan?utm_campaign=PicoClaw&utm_content=PicoClaw&utm_medium=devrel&utm_source=OWO&utm_term=PicoClaw) |
+| **VolcEngine (Doubao)** | `volcengine/` | `https://ark.cn-beijing.volces.com/api/v3` | OpenAI | [Obter Chave](https://www.volcengine.com/activity/codingplan?utm_campaign=MalikClaw&utm_content=MalikClaw&utm_medium=devrel&utm_source=OWO&utm_term=MalikClaw) |
 | **ShengsuanYun** | `shengsuanyun/` | `https://router.shengsuanyun.com/api/v1` | OpenAI | - |
 | **BytePlus**        | `byteplus/`       | `https://ark.ap-southeast.bytepluses.com/api/v3`    | OpenAI    | [Obter Chave](https://www.byteplus.com)                    |
 | **LongCat**         | `longcat/`        | `https://api.longcat.chat/openai`                   | OpenAI    | [Obter Chave](https://longcat.chat/platform)                     |
@@ -1057,7 +1057,7 @@ Este design também possibilita o **suporte multi-agent** com seleção flexíve
   "auth_method": "oauth"
 }
 ```
-> Execute `picoclaw auth login --provider anthropic` para configurar credenciais OAuth.
+> Execute `malikclaw auth login --provider anthropic` para configurar credenciais OAuth.
 
 **Proxy/API personalizada**
 ```json
@@ -1072,7 +1072,7 @@ Este design também possibilita o **suporte multi-agent** com seleção flexíve
 
 #### Balanceamento de Carga
 
-Configure vários endpoints para o mesmo nome de modelo—PicoClaw fará round-robin automaticamente entre eles:
+Configure vários endpoints para o mesmo nome de modelo—MalikClaw fará round-robin automaticamente entre eles:
 
 ```json
 {
@@ -1139,23 +1139,23 @@ Para o guia de migração detalhado, consulte [docs/migration/model-list-migrati
 
 | Comando | Descrição |
 | --- | --- |
-| `picoclaw onboard` | Inicializar configuração & workspace |
-| `picoclaw agent -m "..."` | Conversar com o agente |
-| `picoclaw agent` | Modo de chat interativo |
-| `picoclaw gateway` | Iniciar o gateway (para bots de chat) |
-| `picoclaw status` | Mostrar status |
-| `picoclaw cron list` | Listar todas as tarefas agendadas |
-| `picoclaw cron add ...` | Adicionar uma tarefa agendada |
+| `malikclaw onboard` | Inicializar configuração & workspace |
+| `malikclaw agent -m "..."` | Conversar com o agente |
+| `malikclaw agent` | Modo de chat interativo |
+| `malikclaw gateway` | Iniciar o gateway (para bots de chat) |
+| `malikclaw status` | Mostrar status |
+| `malikclaw cron list` | Listar todas as tarefas agendadas |
+| `malikclaw cron add ...` | Adicionar uma tarefa agendada |
 
 ### Tarefas Agendadas / Lembretes
 
-O PicoClaw suporta lembretes agendados e tarefas recorrentes por meio da ferramenta `cron`:
+O MalikClaw suporta lembretes agendados e tarefas recorrentes por meio da ferramenta `cron`:
 
 * **Lembretes únicos**: "Remind me in 10 minutes" (Me lembre em 10 minutos) → dispara uma vez após 10min
 * **Tarefas recorrentes**: "Remind me every 2 hours" (Me lembre a cada 2 horas) → dispara a cada 2 horas
 * **Expressões Cron**: "Remind me at 9am daily" (Me lembre às 9h todos os dias) → usa expressão cron
 
-As tarefas são armazenadas em `~/.picoclaw/workspace/cron/` e processadas automaticamente.
+As tarefas são armazenadas em `~/.malikclaw/workspace/cron/` e processadas automaticamente.
 
 ## 🤝 Contribuir & Roadmap
 
@@ -1169,20 +1169,20 @@ Grupos de usuários:
 
 Discord: <https://discord.gg/V4sAZ9XWpN>
 
-<img src="assets/wechat.png" alt="PicoClaw" width="512">
+<img src="assets/wechat.png" alt="MalikClaw" width="512">
 
 ## 🐛 Solução de Problemas
 
 ### Busca web mostra "API 配置问题"
 
-Isso é normal se você ainda não configurou uma API key de busca. O PicoClaw fornecerá links úteis para busca manual.
+Isso é normal se você ainda não configurou uma API key de busca. O MalikClaw fornecerá links úteis para busca manual.
 
 Para habilitar a busca web:
 
 1. **Opção 1 (Recomendado)**: Obtenha uma API key gratuita em [https://brave.com/search/api](https://brave.com/search/api) (2000 consultas grátis/mês) para os melhores resultados.
 2. **Opção 2 (Sem Cartão de Crédito)**: Se você não tem uma key, o sistema automaticamente usa o **DuckDuckGo** como fallback (sem necessidade de key).
 
-Adicione a key em `~/.picoclaw/config.json` se usar o Brave:
+Adicione a key em `~/.malikclaw/config.json` se usar o Brave:
 
 ```json
 {
@@ -1208,7 +1208,7 @@ Alguns provedores (como Zhipu) possuem filtragem de conteúdo. Tente reformular 
 
 ### Bot do Telegram diz "Conflict: terminated by other getUpdates"
 
-Isso acontece quando outra instância do bot está em execução. Certifique-se de que apenas um `picoclaw gateway` esteja rodando por vez.
+Isso acontece quando outra instância do bot está em execução. Certifique-se de que apenas um `malikclaw gateway` esteja rodando por vez.
 
 ---
 
@@ -1227,5 +1227,5 @@ Isso acontece quando outra instância do bot está em execução. Certifique-se 
 ---
 
 <div align="center">
-  <img src="assets/logo.jpg" alt="PicoClaw Meme" width="512">
+  <img src="assets/logo.jpg" alt="MalikClaw Meme" width="512">
 </div>

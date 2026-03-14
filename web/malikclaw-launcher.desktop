@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=MalikClaw Launcher
+Comment=Web-based configuration and management UI for MalikClaw
+Exec=malikclaw-launcher
+Icon=malikclaw-launcher
+Terminal=true
+Type=Application
+Categories=Utility;Network;
+Keywords=malikclaw;ai;agent;bot;

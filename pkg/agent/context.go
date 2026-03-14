@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/skills"
-	"github.com/sipeed/picoclaw/pkg/utils"
+	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/logger"
+	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/sipeed/malikclaw/pkg/skills"
+	"github.com/sipeed/malikclaw/pkg/utils"
 )
 
 type ContextBuilder struct {
@@ -52,20 +52,20 @@ func (cb *ContextBuilder) WithToolDiscovery(useBM25, useRegex bool) *ContextBuil
 }
 
 func getGlobalConfigDir() string {
-	if home := os.Getenv("PICOCLAW_HOME"); home != "" {
+	if home := os.Getenv("MALIKCLAW_HOME"); home != "" {
 		return home
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(home, ".picoclaw")
+	return filepath.Join(home, ".malikclaw")
 }
 
 func NewContextBuilder(workspace string) *ContextBuilder {
 	// builtin skills: skills directory in current project
 	// Use the skills/ directory under the current working directory
-	builtinSkillsDir := strings.TrimSpace(os.Getenv("PICOCLAW_BUILTIN_SKILLS"))
+	builtinSkillsDir := strings.TrimSpace(os.Getenv("MALIKCLAW_BUILTIN_SKILLS"))
 	if builtinSkillsDir == "" {
 		wd, _ := os.Getwd()
 		builtinSkillsDir = filepath.Join(wd, "skills")
@@ -85,9 +85,9 @@ func (cb *ContextBuilder) getIdentity() string {
 	version := config.FormatVersion()
 
 	return fmt.Sprintf(
-		`# picoclaw 🦞 (%s)
+		`# malikclaw 🦞 (%s)
 
-You are picoclaw, a helpful AI assistant.
+You are malikclaw, a helpful AI assistant.
 
 ## Workspace
 Your workspace is at: %s
@@ -98,6 +98,24 @@ Your workspace is at: %s
 ## Important Rules
 
 1. **ALWAYS use tools** - When you need to perform an action (schedule reminders, send messages, execute commands, etc.), you MUST call the appropriate tool. Do NOT just say you'll do it or pretend to do it.
+
+## Self-Evolution (Guardian)
+You have the ability to improve yourself. Use the 'self_improve' tool to:
+- Analyze your own source code.
+- Propose patches to fix bugs or add features.
+- Apply improvements to your codebase.
+If you encounter an error in your logic, you should try to fix it!
+
+## Business & Accounting
+You are integrated with Odoo Accounting. You can:
+- Create customer invoices.
+- Record expenses.
+- Get financial summaries.
+- List products and partners.
+Use these tools to help the user manage their business autonomously.
+
+## Gmail Integration
+You can access the user's Gmail to list unread messages, read specific emails, and send replies. Use this to keep the user informed and handle communications.
 
 2. **Be helpful and accurate** - When using tools, briefly explain what you're doing.
 

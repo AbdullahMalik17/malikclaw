@@ -1,13 +1,13 @@
-// PicoClaw Web Console - Web-based chat and management interface
+// MalikClaw Web Console - Web-based chat and management interface
 //
-// Provides a web UI for chatting with PicoClaw via the Pico Channel WebSocket,
+// Provides a web UI for chatting with MalikClaw via the Pico Channel WebSocket,
 // with configuration management and gateway process control.
 //
 // Usage:
 //
-//	go build -o picoclaw-web ./web/backend/
-//	./picoclaw-web [config.json]
-//	./picoclaw-web -public config.json
+//	go build -o malikclaw-web ./web/backend/
+//	./malikclaw-web [config.json]
+//	./malikclaw-web -public config.json
 
 package main
 
@@ -22,10 +22,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/sipeed/picoclaw/web/backend/api"
-	"github.com/sipeed/picoclaw/web/backend/launcherconfig"
-	"github.com/sipeed/picoclaw/web/backend/middleware"
-	"github.com/sipeed/picoclaw/web/backend/utils"
+	"github.com/sipeed/malikclaw/web/backend/api"
+	"github.com/sipeed/malikclaw/web/backend/launcherconfig"
+	"github.com/sipeed/malikclaw/web/backend/middleware"
+	"github.com/sipeed/malikclaw/web/backend/utils"
 )
 
 func main() {
@@ -34,10 +34,10 @@ func main() {
 	noBrowser := flag.Bool("no-browser", false, "Do not auto-open browser on startup")
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "PicoClaw Launcher - A web-based configuration editor\n\n")
+		fmt.Fprintf(os.Stderr, "MalikClaw Launcher - A web-based configuration editor\n\n")
 		fmt.Fprintf(os.Stderr, "Usage: %s [options] [config.json]\n\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "Arguments:\n")
-		fmt.Fprintf(os.Stderr, "  config.json    Path to the configuration file (default: ~/.picoclaw/config.json)\n\n")
+		fmt.Fprintf(os.Stderr, "  config.json    Path to the configuration file (default: ~/.malikclaw/config.json)\n\n")
 		fmt.Fprintf(os.Stderr, "Options:\n")
 		flag.PrintDefaults()
 		fmt.Fprintf(os.Stderr, "\nExamples:\n")
@@ -63,7 +63,7 @@ func main() {
 	}
 	err = utils.EnsureOnboarded(absPath)
 	if err != nil {
-		log.Printf("Warning: Failed to initialize PicoClaw config automatically: %v", err)
+		log.Printf("Warning: Failed to initialize MalikClaw config automatically: %v", err)
 	}
 
 	var explicitPort bool

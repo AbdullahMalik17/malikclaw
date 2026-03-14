@@ -58,6 +58,19 @@ func GoogleAntigravityOAuthConfig() OAuthProviderConfig {
 	}
 }
 
+// GoogleGmailOAuthConfig returns the OAuth configuration for Gmail API access.
+// Note: Users should ideally provide their own ClientID and ClientSecret for Gmail.
+func GoogleGmailOAuthConfig(clientID, clientSecret string) OAuthProviderConfig {
+	return OAuthProviderConfig{
+		Issuer:       "https://accounts.google.com/o/oauth2/v2",
+		TokenURL:     "https://oauth2.googleapis.com/token",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		Scopes:       "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.modify",
+		Port:         51122,
+	}
+}
+
 func decodeBase64(s string) string {
 	data, err := base64.StdEncoding.DecodeString(s)
 	if err != nil {
@@ -462,7 +475,7 @@ func buildAuthorizeURL(cfg OAuthProviderConfig, pkce PKCECodes, state, redirectU
 		params.Set("id_token_add_organizations", "true")
 		params.Set("codex_cli_simplified_flow", "true")
 		if strings.Contains(strings.ToLower(cfg.Issuer), "auth.openai.com") {
-			params.Set("originator", "picoclaw")
+			params.Set("originator", "malikclaw")
 		}
 		if cfg.Originator != "" {
 			params.Set("originator", cfg.Originator)

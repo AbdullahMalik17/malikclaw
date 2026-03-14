@@ -1,8 +1,8 @@
-// PicoClaw - Ultra-lightweight personal AI agent
+// MalikClaw - Ultra-lightweight personal AI agent
 // Inspired by and based on nanobot: https://github.com/HKUDS/nanobot
 // License: MIT
 //
-// Copyright (c) 2026 PicoClaw contributors
+// Copyright (c) 2026 MalikClaw contributors
 
 package agent
 
@@ -19,20 +19,20 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/sipeed/picoclaw/pkg/bus"
-	"github.com/sipeed/picoclaw/pkg/channels"
-	"github.com/sipeed/picoclaw/pkg/commands"
-	"github.com/sipeed/picoclaw/pkg/config"
-	"github.com/sipeed/picoclaw/pkg/constants"
-	"github.com/sipeed/picoclaw/pkg/logger"
-	"github.com/sipeed/picoclaw/pkg/media"
-	"github.com/sipeed/picoclaw/pkg/providers"
-	"github.com/sipeed/picoclaw/pkg/routing"
-	"github.com/sipeed/picoclaw/pkg/skills"
-	"github.com/sipeed/picoclaw/pkg/state"
-	"github.com/sipeed/picoclaw/pkg/tools"
-	"github.com/sipeed/picoclaw/pkg/utils"
-	"github.com/sipeed/picoclaw/pkg/voice"
+	"github.com/sipeed/malikclaw/pkg/bus"
+	"github.com/sipeed/malikclaw/pkg/channels"
+	"github.com/sipeed/malikclaw/pkg/commands"
+	"github.com/sipeed/malikclaw/pkg/config"
+	"github.com/sipeed/malikclaw/pkg/constants"
+	"github.com/sipeed/malikclaw/pkg/logger"
+	"github.com/sipeed/malikclaw/pkg/media"
+	"github.com/sipeed/malikclaw/pkg/providers"
+	"github.com/sipeed/malikclaw/pkg/routing"
+	"github.com/sipeed/malikclaw/pkg/skills"
+	"github.com/sipeed/malikclaw/pkg/state"
+	"github.com/sipeed/malikclaw/pkg/tools"
+	"github.com/sipeed/malikclaw/pkg/utils"
+	"github.com/sipeed/malikclaw/pkg/voice"
 )
 
 type AgentLoop struct {
@@ -171,6 +171,16 @@ func registerSharedTools(
 		}
 		if cfg.Tools.IsToolEnabled("spi") {
 			agent.Tools.Register(tools.NewSPITool())
+		}
+
+		// Gmail tool
+		if cfg.Tools.IsToolEnabled("gmail") {
+			agent.Tools.Register(tools.NewGmailTool())
+		}
+
+		// Self-evolution tool
+		if cfg.Tools.IsToolEnabled("self_improve") {
+			agent.Tools.Register(tools.NewEvolutionTool(agent.Workspace))
 		}
 
 		// Message tool

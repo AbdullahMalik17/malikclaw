@@ -1,7 +1,7 @@
-// PicoClaw - Ultra-lightweight personal AI agent
+// MalikClaw - Ultra-lightweight personal AI agent
 // License: MIT
 //
-// Copyright (c) 2026 PicoClaw contributors
+// Copyright (c) 2026 MalikClaw contributors
 
 package config
 
@@ -10,16 +10,16 @@ import (
 	"path/filepath"
 )
 
-// DefaultConfig returns the default configuration for PicoClaw.
+// DefaultConfig returns the default configuration for MalikClaw.
 func DefaultConfig() *Config {
 	// Determine the base path for the workspace.
-	// Priority: $PICOCLAW_HOME > ~/.picoclaw
+	// Priority: $MALIKCLAW_HOME > ~/.malikclaw
 	var homePath string
-	if picoclawHome := os.Getenv("PICOCLAW_HOME"); picoclawHome != "" {
-		homePath = picoclawHome
+	if malikclawHome := os.Getenv("MALIKCLAW_HOME"); malikclawHome != "" {
+		homePath = malikclawHome
 	} else {
 		userHome, _ := os.UserHomeDir()
-		homePath = filepath.Join(userHome, ".picoclaw")
+		homePath = filepath.Join(userHome, ".malikclaw")
 	}
 	workspacePath := filepath.Join(homePath, "workspace")
 
