@@ -8,7 +8,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -76,14 +78,18 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 	accessToken := cred.AccessToken
 	if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
 		if cred.RefreshToken != "" {
-			// Try to refresh
-			newCred, err := auth.RefreshGoogleToken(cred.RefreshToken)
-			if err == nil {
-				accessToken = newCred.AccessToken
-				// Save updated credential
-				cred.AccessToken = newCred.AccessToken
-				cred.ExpiresAt = newCred.ExpiresAt
-				_ = auth.SetCredential("google-gmail", cred)
+			// Try to refresh - we need the config. For now, we assume the user 
+			// might have set env vars or we use the default refresh logic if available.
+			// Note: Gmail refresh requires the ClientID/Secret used during login.
+			clientID := os.Getenv("MALIKCLAW_GMAIL_CLIENT_ID")
+			clientSecret := os.Getenv("MALIKCLAW_GMAIL_CLIENT_SECRET")
+			if clientID != "" && clientSecret != "" {
+				cfg := auth.GoogleGmailOAuthConfig(clientID, clientSecret)
+				newCred, err := auth.RefreshAccessToken(cred, cfg)
+				if err == nil {
+					accessToken = newCred.AccessToken
+					_ = auth.SetCredential("google-gmail", newCred)
+				}
 			}
 		}
 	}
