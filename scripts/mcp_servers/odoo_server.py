@@ -190,5 +190,20 @@ def list_products(limit: int = 10) -> List[Dict[str, Any]]:
     products = odoo.read('product.product', ids, ['name', 'list_price'])
     return [{'id': p['id'], 'name': p['name'], 'price': p['list_price']} for p in products]
 
+@mcp.tool()
+def search_partners(name: str = None, limit: int = 10) -> List[Dict[str, Any]]:
+    """Search for customers or vendors in Odoo."""
+    odoo = get_odoo()
+    domain = []
+    if name:
+        domain = [('name', 'ilike', name)]
+    ids = odoo.search('res.partner', domain, limit=limit)
+    partners = odoo.read('res.partner', ids, ['name', 'email', 'phone'])
+    return [{'id': p['id'], 'name': p['name'], 'email': p.get('email'), 'phone': p.get('phone')} for p in partners]
+
 if __name__ == "__main__":
-    mcp.run()
+    try:
+        mcp.run()
+    except Exception as e:
+        logger.error(f"MCP server crashed: {e}")
+        sys.exit(1)

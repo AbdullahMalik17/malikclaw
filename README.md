@@ -63,15 +63,20 @@
 
 ## ✨ Features
 
-🪶 **Ultra-Lightweight**: <10MB Memory footprint — 99% smaller than Clawdbot - core functionality.
+🌍 **Urdu-First Strategy**: 
+  - **Bilingual Onboarding**: Interactive setup in Urdu and English.
+  - **RTL Web UI**: Native Right-to-Left support for Urdu/Arabic users.
+  - **Pakistan-Centric**: Optimized for local workflows and South Asian languages.
 
-💰 **Minimal Cost**: Efficient enough to run on $10 Hardware — 98% cheaper than a Mac mini.
+🪶 **Ultra-Lightweight**: <10MB Memory footprint — 99% smaller than Clawdbot.
 
-⚡️ **Lightning Fast**: 400X Faster startup time, boot in 1 second even in 0.6GHz single core.
+🚀 **Lightning Fast**: 400X Faster startup time, boot in 1 second.
 
-🌍 **True Portability**: Single self-contained binary across RISC-V, ARM, MIPS, and x86, One-click to Go!
+📱 **Mobile Operation**: Control Android devices via ADB (screenshot, tap, type, swipe).
 
-🤖 **AI-Bootstrapped**: Autonomous Go-native implementation — 95% Agent-generated core with human-in-the-loop refinement.
+💼 **Business Integration**: Built-in Gmail and Odoo Accounting support via MCP.
+
+🛠️ **Self-Evolution**: Guardian engine allows the agent to autonomously improve its own code.
 
 |                               | OpenClaw      | NanoBot                  | **Malikclaw**                              |
 | ----------------------------- | ------------- | ------------------------ | ----------------------------------------- |

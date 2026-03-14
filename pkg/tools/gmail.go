@@ -73,8 +73,19 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 	}
 
 	// Check if token is expired and needs refresh
+	accessToken := cred.AccessToken
 	if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
-		// Implement refresh logic here if needed, or assume GetCredential handles it
+		if cred.RefreshToken != "" {
+			// Try to refresh
+			newCred, err := auth.RefreshGoogleToken(cred.RefreshToken)
+			if err == nil {
+				accessToken = newCred.AccessToken
+				// Save updated credential
+				cred.AccessToken = newCred.AccessToken
+				cred.ExpiresAt = newCred.ExpiresAt
+				_ = auth.SetCredential("google-gmail", cred)
+			}
+		}
 	}
 
 	client := &http.Client{}
@@ -85,13 +96,13 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 		if m, ok := args["max_results"].(float64); ok {
 			maxResults = int(m)
 		}
-		return t.listUnread(ctx, client, cred.AccessToken, maxResults)
+		return t.listUnread(ctx, client, accessToken, maxResults)
 	case "read_email":
 		messageID, ok := args["message_id"].(string)
 		if !ok {
 			return ErrorResult("message_id is required for read_email")
 		}
-		return t.readEmail(ctx, client, cred.AccessToken, messageID)
+		return t.readEmail(ctx, client, accessToken, messageID)
 	case "send_email":
 		to, _ := args["to"].(string)
 		subject, _ := args["subject"].(string)
@@ -99,7 +110,7 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 		if to == "" || subject == "" || body == "" {
 			return ErrorResult("to, subject, and body are required for send_email")
 		}
-		return t.sendEmail(ctx, client, cred.AccessToken, to, subject, body)
+		return t.sendEmail(ctx, client, accessToken, to, subject, body)
 	default:
 		return ErrorResult(fmt.Sprintf("unknown operation: %s", operation))
 	}
