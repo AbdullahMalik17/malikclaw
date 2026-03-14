@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Github, Zap, Smartphone, Feather, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -20,7 +21,7 @@ export default function Home() {
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-400">
             <a href="#" className="hover:text-white transition-colors">Features</a>
             <a href="#" className="hover:text-white transition-colors">Performance</a>
-            <a href="#" className="hover:text-white transition-colors">Docs</a>
+            <Link href="/docs" className="hover:text-white transition-colors">Docs</Link>
           </div>
           <div className="flex items-center">
             <a href="https://github.com/AbdullahMalik17/malikclaw" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-medium text-white hover:text-[#0df2c9] transition-colors">
@@ -56,9 +57,9 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
-              <a href="#" className="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-[#0df2c9] text-black font-semibold hover:bg-[#0bc2a1] transition-colors">
+              <Link href="/docs/installation" className="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-[#0df2c9] text-black font-semibold hover:bg-[#0bc2a1] transition-colors">
                 Get Started <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
               <a href="https://github.com/AbdullahMalik17/malikclaw" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors">
                 <Github className="w-5 h-5" /> View on GitHub
               </a>
@@ -119,7 +120,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-semibold mb-2 text-white">Ultra-Lightweight</h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                Requires under 10MB of RAM. That's 99% smaller than typical bloated Javascript bots and alternatives.
+                Requires under 10MB of RAM. That&apos;s 99% smaller than typical bloated Javascript bots and alternatives.
               </p>
             </div>
             
