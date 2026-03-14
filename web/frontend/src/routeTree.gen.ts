@@ -199,6 +199,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfigRouteImport
       parentRoute: typeof rootRouteImport
     }
+
     '/agent': {
       id: '/agent'
       path: '/agent'
