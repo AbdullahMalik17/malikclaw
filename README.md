@@ -11,10 +11,11 @@
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://x.com/Ab4695Athar"><img src="https://img.shields.io/badge/X_(Twitter)-Ab4695Athar-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://www.linkedin.com/in/muhammad-abdullah-athar"><img src="https://img.shields.io/badge/LinkedIn-Muhammad_Abdullah_Athar-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
     <br>
-    <a href="./assets/wechat.png"><img src="https://img.shields.io/badge/WeChat-Group-41d56b?style=flat&logo=wechat&logoColor=white"></a>
-    <a href="https://discord.gg/V4sAZ9XWpN"><img src="https://img.shields.io/badge/Discord-Community-4c60eb?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
+    <a href="https://github.com/AbdullahMalik17"><img src="https://img.shields.io/badge/GitHub-AbdullahMalik17-181717?style=flat&logo=github&logoColor=white" alt="GitHub"></a>
+    <a href="https://portfolio-ai-assistant-of-malik.vercel.app/"><img src="https://img.shields.io/badge/Portfolio-Website-4285F4?style=flat&logo=google-chrome&logoColor=white" alt="Portfolio"></a>
   </p>
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | **English**
