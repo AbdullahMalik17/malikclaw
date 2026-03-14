@@ -13,10 +13,10 @@ import (
 func onboard() {
 	configPath := internal.GetConfigPath()
 
-	fmt.Println("Choose Language / زبان منتخب کریں:")
+	fmt.Println("Choose Language / اپنی زبان منتخب کریں:")
 	fmt.Println("1. English")
 	fmt.Println("2. Urdu (اردو)")
-	fmt.Print("Choice [1]: ")
+	fmt.Print("Choice / آپ کا انتخاب [1]: ")
 	var langChoice string
 	fmt.Scanln(&langChoice)
 
@@ -25,7 +25,7 @@ func onboard() {
 	if _, err := os.Stat(configPath); err == nil {
 		if isUrdu {
 			fmt.Printf("کنفیگریشن فائل پہلے سے %s پر موجود ہے۔\n", configPath)
-			fmt.Print("کیا آپ اسے دوبارہ لکھنا چاہتے ہیں؟ (y/n): ")
+			fmt.Print("کیا آپ اسے دوبارہ لکھنا (overwrite) چاہتے ہیں؟ (y/n): ")
 		} else {
 			fmt.Printf("Config already exists at %s\n", configPath)
 			fmt.Print("Overwrite? (y/n): ")
@@ -66,7 +66,7 @@ func onboard() {
 		fmt.Println("")
 		fmt.Println("     سپورٹ شدہ فراہم کنندگان کے لیے README.md دیکھیں۔")
 		fmt.Println("")
-		fmt.Println("  2. بات چیت شروع کریں: malikclaw agent -m \"اسلام علیکم!\"")
+		fmt.Println("  2. بات چیت شروع کریں: malikclaw agent -m \"السلام علیکم!\"")
 	} else {
 		fmt.Printf("%s malikclaw is ready!\n", internal.Logo)
 		fmt.Println("\nNext steps:")
