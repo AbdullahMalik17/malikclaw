@@ -24,8 +24,8 @@ func onboard() {
 
 	if _, err := os.Stat(configPath); err == nil {
 		if isUrdu {
-			fmt.Printf("کنفیگریشن فائل پہلے سے %s پر موجود ہے۔\n", configPath)
-			fmt.Print("کیا آپ اسے دوبارہ لکھنا (overwrite) چاہتے ہیں؟ (y/n): ")
+			fmt.Printf("تشکیلی فائل پہلے سے %s پر موجود ہے۔\n", configPath)
+			fmt.Print("کیا آپ اسے دوبارہ لکھنا چاہتے ہیں؟ (y/n): ")
 		} else {
 			fmt.Printf("Config already exists at %s\n", configPath)
 			fmt.Print("Overwrite? (y/n): ")
@@ -45,7 +45,7 @@ func onboard() {
 	cfg := config.DefaultConfig()
 	if err := config.SaveConfig(configPath, cfg); err != nil {
 		if isUrdu {
-			fmt.Printf("کنفیگریشن محفوظ کرنے میں غلطی: %v\n", err)
+			fmt.Printf("تشکیل محفوظ کرنے میں غلطی: %v\n", err)
 		} else {
 			fmt.Printf("Error saving config: %v\n", err)
 		}
