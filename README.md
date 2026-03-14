@@ -1,9 +1,10 @@
 <div align="center">
-  <img src="assets/logo.webp" alt="Malikclaw" width="512">
+  <img src="assets/logo.webp" alt="MalikClaw" width="512">
 
-  <h1>Malikclaw: Ultra-Efficient AI Assistant in Go</h1>
+  <h1>MalikClaw 🦅</h1>
 
-  <h3>$10 Hardware · 10MB RAM · 1s Boot · آگے بڑھو، ملک کلاؤ!</h3>
+  <h3>Ultra-Efficient Personal AI Assistant for Edge Hardware</h3>
+  <p><strong>$10 Hardware · &lt;10MB RAM · &lt;1s Boot · آگے بڑھو، ملک کلاؤ!</strong></p>
 
   <p>
     <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
@@ -24,9 +25,9 @@
 
 ---
 
-🦅 MalikClaw is an ultra-lightweight personal AI Assistant built in Go, designed to bring powerful agentic AI capabilities to low-cost hardware. Created by [Muhammad Abdullah Athar](https://github.com/AbdullahMalik17), MalikClaw is optimized for the South Asian developer community with Urdu-first support.
+🦅 **MalikClaw** is a high-performance, ultra-lightweight personal AI Assistant built in Go. Designed to bring powerful agentic AI capabilities to low-cost hardware ($10 SBCs, old phones, RISC-V), MalikClaw prioritizes privacy, speed, and the South Asian developer ecosystem with native Urdu-first support.
 
-⚡️ Runs on $10 hardware with <10MB RAM: That's 99% less memory than OpenClaw and 98% cheaper than a Mac mini!
+⚡️ **The Edge Champion**: Runs on $10 hardware with <10MB RAM—99% less memory than typical AI gateways and 98% cheaper than a Mac mini!
 
 <table align="center">
   <tr align="center">
