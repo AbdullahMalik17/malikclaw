@@ -1,5 +1,6 @@
 <div align="center">
-<img src="assets/logo.webp" alt="MalikClaw" width="512">
+  <img src="assets/image.png" alt="MalikClaw" width="512">
+
 
 <h1>MalikClaw: Assistente de IA Ultra-Eficiente em Go</h1>
 
