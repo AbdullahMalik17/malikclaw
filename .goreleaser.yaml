@@ -136,7 +136,7 @@ dockers_v2:
     ids:
       - malikclaw
     images:
-      - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/malikclaw"
+      - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER | toLower }}/malikclaw"
     tags:
       - '{{ if isEnvSet "NIGHTLY_BUILD" }}nightly{{ else }}{{ .Tag }}{{ end }}'
       - '{{ if isEnvSet "NIGHTLY_BUILD" }}nightly{{ else }}latest{{ end }}'
@@ -152,7 +152,7 @@ dockers_v2:
       - malikclaw-launcher
       - malikclaw-launcher-tui
     images:
-      - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/malikclaw"
+      - "ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER | toLower }}/malikclaw"
     tags:
       - '{{ if isEnvSet "NIGHTLY_BUILD" }}nightly-launcher{{ else }}{{ .Tag }}-launcher{{ end }}'
       - '{{ if isEnvSet "NIGHTLY_BUILD" }}nightly-launcher{{ else }}launcher{{ end }}'
