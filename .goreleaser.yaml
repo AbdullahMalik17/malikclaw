@@ -6,7 +6,7 @@ before:
   hooks:
     - go mod tidy
     - go generate ./...
-    - sh -c 'cd web/frontend && pnpm install && pnpm build:backend'
+    - sh -c 'cd web/frontend && pnpm install --no-frozen-lockfile && pnpm build:backend'
     - go install github.com/tc-hib/go-winres@latest
     - go-winres make --in web/backend/winres/winres.json --out web/backend/rsrc --product-version={{ .Version }} --file-version={{ .Version }}
 
