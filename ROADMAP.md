@@ -1,7 +1,7 @@
 
-# 🦐 MalikClaw Roadmap
+# 🦅 MalikClaw Roadmap
 
-> **Vision**: To build the ultimate lightweight, secure, and fully autonomous AI Agent infrastructure.automate the mundane, unleash your creativity
+> **Vision**: To build the ultimate lightweight, secure, and fully autonomous AI Agent infrastructure. Automate the mundane, unleash your creativity.
 
 ---
 
@@ -42,7 +42,7 @@
 *Connect every model, reach every platform.*
 
 * **Provider**
-  * [**Architecture Upgrade**](https://github.com/AbdullahMalik17/malikclaw/issues/283): Refactor from "Vendor-based" to "Protocol-based" classification (e.g., OpenAI-compatible, Ollama-compatible). *(Status: In progress by @Daming, ETA 5 days)*
+  * [**Architecture Upgrade**](https://github.com/AbdullahMalik17/malikclaw/issues/283): Refactor from "Vendor-based" to "Protocol-based" classification (e.g., OpenAI-compatible, Ollama-compatible).
   * **Local Models**: Deep integration with **Ollama**, **vLLM**, **LM Studio**, and **Mistral** (local inference).
   * **Online Models**: Continued support for frontier closed-source models.
 
@@ -104,8 +104,8 @@
 
 ## 🎨 7. Brand & Community
 
-* [**Logo Design**](https://github.com/AbdullahMalik17/malikclaw/issues/297): We are looking for a **Mantis Shrimp (Stomatopoda)** logo design!
-  * *Concept*: Needs to reflect "Small but Mighty" and "Lightning Fast Strikes."
+* [**Logo Design**](https://github.com/AbdullahMalik17/malikclaw/issues/297): The **Gryphon** identity is now official!
+  * *Concept*: Reflecting the vision of an eagle and the strength of a lion — fast, precise, and protective.
 
 
 

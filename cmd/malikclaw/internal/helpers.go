@@ -7,7 +7,7 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
-const Logo = "🦞"
+const Logo = "🦅"
 
 // GetMalikclawHome returns the malikclaw home directory.
 // Priority: $MALIKCLAW_HOME > ~/.malikclaw

@@ -1,64 +1,83 @@
-# MalikClaw Architecture Guide 🦞
+# MalikClaw Architecture Guide 🦅
 
-🦅 **MalikClaw** is an ultra-lightweight personal AI Assistant built in Go, designed for efficiency, performance, and self-evolution on low-cost hardware.
+🦅 **MalikClaw** is an ultra-lightweight personal AI Assistant built in Go, designed for efficiency, high performance, and autonomous self-evolution on anything from high-end servers to $10 edge devices.
 
 ---
 
 ## 🏗️ System Overview
 
-The MalikClaw architecture is built around three core layers that work together to provide a seamless, agentic experience with a minimal footprint.
+MalikClaw follows a modular, layer-based architecture that decouples the user interface (Channels) from the reasoning logic (Agent Loop) and the model backend (Providers).
 
-### 1. The Gateway (pkg/channels)
-The Gateway is a unified multi-channel messaging hub. It translates platform-specific protocols (Telegram, Discord, WhatsApp, etc.) into a canonical internal message format.
-- **Unified Registry**: All channels are registered in a central registry for easy management.
-- **Protocol Adapters**: Each channel has its own adapter to handle platform-specific message structures, media, and formatting.
-- **Shared Webhook Server**: All HTTP-based webhooks are served on a single, shared server to minimize resource usage.
+```mermaid
+graph TD
+    User((User)) --> Channels[Gateway / Channels]
+    Channels --> Bus[Unified Message Bus]
+    Bus --> Agent[Agent Loop]
+    Agent --> Tools[Sandboxed Tools]
+    Agent --> Memory[Personality & Memory]
+    Agent --> Providers[Provider Layer]
+    Providers --> LLMs((External LLMs))
+    Agent --> Guardian[Self-Evolution Engine]
+```
 
-### 2. The Agent Loop (pkg/agent)
-The core "brain" of MalikClaw. It manages the conversation flow, context building, and tool execution.
-- **Context Builder**: Intelligently constructs the system prompt by combining personality files (`SOUL.md`, `IDENTITY.md`, etc.), memory, and dynamic context (time, session).
-- **Message Bus**: A high-performance, buffered message bus for inbound/outbound communication.
-- **Tool Registry**: Dynamically manages available tools and handles sandboxed execution.
-- **Self-Evolution (Guardian)**: A specialized engine that allows the agent to analyze, improve, and apply patches to its own source code.
+### 1. The Gateway (`pkg/channels`)
+The Gateway is a unified messaging hub that manages connections to external platforms.
+- **Protocol Normalization**: Translates Telegram, Discord, WhatsApp, and Web messages into a canonical internal format.
+- **Zero-Footprint Webhooks**: Uses a single HTTP server to handle all inbound webhooks, significantly reducing idle RAM usage.
+- **Media Handling**: Automatically processes and optimizes images/files for LLM consumption.
 
-### 3. The Provider Layer (pkg/providers)
-A protocol-based abstraction layer for interacting with LLMs.
-- **Model-Centric Routing**: Uses `model_list` to decouple agents from specific providers.
-- **Protocol Families**: Supports OpenAI-compatible, Anthropic-native, and other custom protocols via a unified factory.
-- **Fault Tolerance**: Implements automatic failover and cooldown logic for high availability.
+### 2. The Agent Loop (`pkg/agent`)
+The core "orchestrator" of MalikClaw. It manages the lifecycle of a conversation.
+- **Context Construction**: Combines `SOUL.md`, `IDENTITY.md`, and `MEMORY.md` with current time and session history to build a rich system prompt.
+- **Unified Message Bus**: All communication happens over a Go-native, buffered channel system, ensuring thread safety and high throughput.
+- **Tool Iteration**: Handles complex multi-step reasoning by allowing the agent to "think" and "act" multiple times before responding.
+
+### 3. The Provider Layer (`pkg/providers`)
+A protocol-agnostic abstraction for interacting with Large Language Models.
+- **Protocol Support**: Native support for OpenAI-compatible, Anthropic-native, and Google Vertex/AntiGravity protocols.
+- **Model-Centric Routing**: The `model_list` configuration allows for seamless switching between models without changing application code.
+- **Smart Failover**: Automatically detects API failures and falls back to secondary models if configured.
+
+### 4. Self-Evolution Engine (`Guardian`)
+A unique feature that allows MalikClaw to improve itself.
+- **Source Analysis**: The agent can read its own source code and configuration.
+- **Autonomous Patching**: Using the `Guardian` engine, it can generate and apply diffs to its Go codebase to fix bugs or add small features.
+- **Safety Boundary**: Self-evolution is strictly bounded to prevent destructive changes.
 
 ---
 
-## 🛡️ Security Model
+## 🛡️ Security & Sandboxing
 
-MalikClaw is designed with a **Sandboxed Execution Policy** by default:
-- **Workspace Restriction**: Tools (file I/O, shell exec) are restricted to the configured workspace directory.
-- **Dangerous Pattern Guard**: A built-in safety layer blocks destructive shell commands (e.g., `rm -rf /`).
-- **Unified Policy**: Security boundaries are enforced consistently across the main agent, subagents, and heartbeat tasks.
+Security is a foundational pillar of MalikClaw. We implement a **Sandboxed Execution Policy** across all tools:
+- **Directory Jailing**: All file-system operations are restricted to the `workspace/` directory.
+- **Command Filtering**: A regex-based safety layer blocks dangerous shell commands (e.g., privilege escalation, disk formatting).
+- **Tool Approvals**: Sensitive tools require explicit configuration or environment flags to be enabled.
 
 ---
 
-## 🧠 Memory & Personality
+## 🧠 Personality-Driven Memory
 
-Inspired by `nanobot`, MalikClaw uses Markdown-based "Personality Files" located in the workspace:
-- **SOUL.md**: Defines the core values, tone, and character of the agent.
-- **IDENTITY.md**: Defines the agent's name, purpose, and capabilities.
-- **USER.md**: Stores user preferences and personal information to maintain long-term context.
-- **MEMORY.md**: A persistent, long-term memory file managed by the agent itself.
+MalikClaw stores its state in human-readable Markdown files, making it easy for users to inspect or edit their agent's "mind":
+- **`SOUL.md`**: Core values, ethical boundaries, and behavioral tone.
+- **`IDENTITY.md`**: Name, specialized skills, and self-described purpose.
+- **`USER.md`**: User-specific data, preferences, and important facts to remember.
+- **`MEMORY.md`**: Chronological log of key events and learned information.
 
 ---
 
 ## ⚡ Performance Optimization
 
-MalikClaw is engineered for the "10MB/1s/10$" challenge:
-- **Go implementation**: Compiled binaries with zero external dependencies for fast startup and low RAM usage.
-- **Efficient Context Caching**: Minimizes redundant processing by caching static system prompt parts.
-- **Binary Footprint**: Optional feature flags (tags) allow for building ultra-slim binaries for embedded systems.
+MalikClaw is engineered for extreme efficiency:
+- **Compiled Go**: Single static binary with minimal dependencies.
+- **Context Caching**: Uses provider-specific caching (like Anthropic Context Caching) to reduce latency and costs.
+- **Memory Management**: Optimized for low-RAM environments (functional on devices with as little as 256MB RAM).
 
 ---
 
-## 🌍 Community Focus
+## 🌍 Urdu-First Strategy
 
-MalikClaw is built with a **Urdu-First Strategy**, providing native RTL support and bilingual onboarding, specifically optimized for South Asian developers and edge hardware enthusiasts.
+MalikClaw is the first agentic framework with native, first-class support for **Urdu**.
+- **RTL Support**: Full support for Right-to-Left languages in the TUI and Web interface.
+- **Bilingual Core**: Internal logic is optimized to handle mixed-language contexts seamlessly.
 
 آگے بڑھو، ملک کلاؤ! (Go ahead, MalikClaw!)

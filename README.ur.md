@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
-    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
     <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
   </p>
 
@@ -45,7 +45,7 @@
 > **🚨 سیکیورٹی اور آفیشل چینلز / حفاظتی بیان**
 >
 > - **کوئی کرپٹو کرنسی نہیں (NO CRYPTO):** MalikClaw نے کوئی آفیشل ٹوکن، کوائن یا ورچوئل کرنسی جاری **نہیں** کی ہے۔ `pump.fun` یا دیگر تجارتی پلیٹ فارمز پر اس طرح کے تمام دعوے **فریب (scam)** ہیں۔
-> - **آفیشل ڈومین:** واحد آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.io)** ہے، اور کمپنی کی آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.io)** ہے۔
+> - **آفیشل ڈومین:** واحد آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.vercel.app)** ہے، اور کمپنی کی آفیشل ویب سائٹ **[malikclaw.io](https://malikclaw.vercel.app)** ہے۔
 > - **ہوشیار رہیں:** بہت سے ڈومینز جن کے آخر میں `.ai/.org/.com/.net/...` آتا ہے، تیسرے فریقوں کی طرف سے رجسٹر کیے گئے ہیں، ان پر بھروسہ نہ کریں۔
 > - **نوٹ:** MalikClaw فی الحال ابتدائی تیز رفتار فنکشن ڈویلپمنٹ مرحلے میں ہے، اس میں سیکیورٹی کے مسائل ہو سکتے ہیں جو ابھی تک ٹھیک نہیں ہوئے ہیں۔ ورژن 1.0 کی آفیشل ریلیز سے پہلے، براہ کرم اسے پروڈکشن ماحول میں تعینات نہ کریں۔
 > - **نوٹ:** MalikClaw نے حال ہی میں بڑی تعداد میں PRs ضم کیے ہیں، حالیہ ورژن زیادہ میموری (10~20MB) استعمال کر سکتے ہیں۔ فنکشنز کے مستحکم ہونے کے بعد ہم وسائل کے استعمال کو بہتر بنائیں گے۔

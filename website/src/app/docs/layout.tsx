@@ -7,17 +7,16 @@ const sidebarItems = [
     items: [
       { name: "Introduction", href: "/docs" },
       { name: "Installation", href: "/docs/installation" },
-      { name: "Windows", href: "/docs/installation/windows" },
-      { name: "macOS", href: "/docs/installation/macos" },
-      { name: "Linux", href: "/docs/installation/linux" },
-      { name: "Android", href: "/docs/installation/android" },
       { name: "Quick Start", href: "/docs/quick-start" },
+      { name: "Troubleshooting", href: "/docs/troubleshooting" },
+      { name: "Debug Guide", href: "/docs/debug" },
     ],
   },
   {
     title: "Core Concepts",
     items: [
       { name: "Architecture", href: "/docs/architecture" },
+      { name: "Configuration", href: "/docs/configuration" },
       { name: "Provider & Models", href: "/docs/providers" },
       { name: "Security Sandbox", href: "/docs/security" },
     ],
@@ -28,6 +27,22 @@ const sidebarItems = [
       { name: "WhatsApp", href: "/docs/channels/whatsapp" },
       { name: "Telegram", href: "/docs/channels/telegram" },
       { name: "Discord", href: "/docs/channels/discord" },
+      { name: "Slack", href: "/docs/channels/slack" },
+      { name: "Feishu", href: "/docs/channels/feishu" },
+      { name: "DingTalk", href: "/docs/channels/dingtalk" },
+      { name: "Matrix", href: "/docs/channels/matrix" },
+      { name: "Line", href: "/docs/channels/line" },
+      { name: "QQ", href: "/docs/channels/qq" },
+      { name: "WeCom", href: "/docs/channels/wecom" },
+      { name: "OneBot", href: "/docs/channels/onebot" },
+      { name: "MaixCam", href: "/docs/channels/maixcam" },
+    ],
+  },
+  {
+    title: "AntiGravity",
+    items: [
+      { name: "Authentication", href: "/docs/antigravity/auth" },
+      { name: "Usage Guide", href: "/docs/antigravity/usage" },
     ],
   },
 ];
@@ -53,7 +68,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 
       <div className="max-w-7xl mx-auto px-6 pt-24 flex gap-12">
         {/* Sidebar */}
-        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-white/5 pr-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24">
+        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-white/5 pr-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24 custom-scrollbar">
           <div className="space-y-8 pb-12">
             {sidebarItems.map((section) => (
               <div key={section.title} className="space-y-3">

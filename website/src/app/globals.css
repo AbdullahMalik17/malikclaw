@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-neon-teal: #0df2c9;
-  --color-neon-violet: #8e2de2;
-  --color-dark-bg: #09090b;
-  --color-card-bg: #18181b;
+  --color-gryphon-gold: #EAB308;
+  --color-electric-blue: #3B82F6;
+  --color-dark-obsidian: #050505;
+  --color-card-bg: #111111;
   
   --animate-glow: glow 2s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 10px -2px rgba(13, 242, 201, 0.4);
+    box-shadow: 0 0 10px -2px rgba(234, 179, 8, 0.2);
   }
   to {
-    box-shadow: 0 0 20px 2px rgba(13, 242, 201, 0.6);
+    box-shadow: 0 0 20px 2px rgba(234, 179, 8, 0.4);
   }
 }
 
 :root {
-  --background: #09090b;
-  --foreground: #ededed;
+  --background: #050505;
+  --foreground: #fafafa;
 }
 
 body {
@@ -31,7 +31,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #0df2c9, #8e2de2);
+  background: linear-gradient(to right, #EAB308, #FFFFFF, #EAB308);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

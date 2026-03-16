@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
-    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
     <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
   </p>
 
@@ -42,7 +42,7 @@
 > **🚨 TUYÊN BỐ BẢO MẬT & KÊNH CHÍNH THỨC**
 >
 > * **KHÔNG CÓ CRYPTO:** MalikClaw **KHÔNG** có bất kỳ token/coin chính thức nào. Mọi thông tin trên `pump.fun` hoặc các sàn giao dịch khác đều là **LỪA ĐẢO**.
-> * **DOMAIN CHÍNH THỨC:** Website chính thức **DUY NHẤT** là **[malikclaw.io](https://malikclaw.io)**, website công ty là **[malikclaw.io](https://malikclaw.io)**.
+> * **DOMAIN CHÍNH THỨC:** Website chính thức **DUY NHẤT** là **[malikclaw.io](https://malikclaw.vercel.app)**, website công ty là **[malikclaw.io](https://malikclaw.vercel.app)**.
 > * **Cảnh báo:** Nhiều tên miền `.ai/.org/.com/.net/...` đã bị bên thứ ba đăng ký, không phải của chúng tôi.
 > * **Cảnh báo:** MalikClaw đang trong giai đoạn phát triển sớm và có thể còn các vấn đề bảo mật mạng chưa được giải quyết. Không nên triển khai lên môi trường production trước phiên bản v1.0.
 > * **Lưu ý:** MalikClaw gần đây đã merge nhiều PR, dẫn đến bộ nhớ sử dụng có thể lớn hơn (10–20MB) ở các phiên bản mới nhất. Chúng tôi sẽ ưu tiên tối ưu tài nguyên khi bộ tính năng đã ổn định.

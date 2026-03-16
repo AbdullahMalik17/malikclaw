@@ -42,11 +42,14 @@ func OpenAIOAuthConfig() OAuthProviderConfig {
 
 // GoogleAntigravityOAuthConfig returns the OAuth configuration for Google Cloud Code Assist (Antigravity).
 func GoogleAntigravityOAuthConfig() OAuthProviderConfig {
+	clientID := os.Getenv("MALIKCLAW_ANTIGRAVITY_CLIENT_ID")
+	clientSecret := os.Getenv("MALIKCLAW_ANTIGRAVITY_CLIENT_SECRET")
+
 	return OAuthProviderConfig{
 		Issuer:       "https://accounts.google.com/o/oauth2/v2",
 		TokenURL:     "https://oauth2.googleapis.com/token",
-		ClientID:     os.Getenv("MALIKCLAW_ANTIGRAVITY_CLIENT_ID"),
-		ClientSecret: os.Getenv("MALIKCLAW_ANTIGRAVITY_CLIENT_SECRET"),
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
 		Scopes:       "https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/cclog https://www.googleapis.com/auth/experimentsandconfigs",
 		Port:         51121,
 	}
@@ -85,14 +88,14 @@ func LoginBrowser(cfg OAuthProviderConfig) (*AuthCredential, error) {
 		return nil, fmt.Errorf("generating state: %w", err)
 	}
 
-	redirectURI := fmt.Sprintf("http://localhost:%d/auth/callback", cfg.Port)
+	redirectURI := fmt.Sprintf("http://localhost:%d/oauth/callback", cfg.Port)
 
 	authURL := buildAuthorizeURL(cfg, pkce, state, redirectURI)
 
 	resultCh := make(chan callbackResult, 1)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/auth/callback", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/oauth/callback", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Query().Get("state") != state {
 			resultCh <- callbackResult{err: fmt.Errorf("state mismatch")}
 			http.Error(w, "State mismatch", http.StatusBadRequest)

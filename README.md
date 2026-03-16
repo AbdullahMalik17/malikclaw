@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
     <br>
-    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
     <a href="https://x.com/Ab4695Athar"><img src="https://img.shields.io/badge/X_(Twitter)-Ab4695Athar-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
     <a href="https://www.linkedin.com/in/muhammad-abdullah-athar"><img src="https://img.shields.io/badge/LinkedIn-Muhammad_Abdullah_Athar-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
     <br>

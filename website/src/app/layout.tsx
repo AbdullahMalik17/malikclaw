@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MalikClaw - Ultra-Efficient Personal AI Assistant for Edge Hardware",
-  description: "🦅 MalikClaw is a high-performance, ultra-lightweight AI Assistant built in Go. Runs on $10 hardware with <10MB RAM and <1s boot time. آگے بڑھو، ملک کلاؤ!",
-  keywords: ["AI Assistant", "Go", "Edge Computing", "Lightweight AI", "Urdu AI", "South Asia", "RISC-V", "ARM", "Open Source"],
+  title: "MalikClaw 🦅 - The Edge AI Champion",
+  description: "🦅 MalikClaw is a high-performance, ultra-lightweight AI Assistant built in Go. Swift as an eagle, strong as a lion. Runs on $10 hardware with <10MB RAM. آگے بڑھو، ملک کلاؤ!",
+  keywords: ["AI Assistant", "Go", "Edge Computing", "Lightweight AI", "Urdu AI", "South Asia", "RISC-V", "ARM", "Open Source", "Gryphon AI"],
   authors: [{ name: "Muhammad Abdullah Athar", url: "https://github.com/AbdullahMalik17" }],
   creator: "Muhammad Abdullah Athar",
   openGraph: {

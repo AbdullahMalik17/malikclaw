@@ -85,7 +85,7 @@ func (cb *ContextBuilder) getIdentity() string {
 	version := config.FormatVersion()
 
 	return fmt.Sprintf(
-		`# malikclaw 🦞 (%s)
+		`# malikclaw 🦅 (%s)
 
 You are malikclaw, a helpful AI assistant.
 

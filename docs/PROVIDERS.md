@@ -1,67 +1,69 @@
 # Providers & Model Configuration 🧠
 
-MalikClaw uses a **model-centric configuration** approach. This allows you to easily switch between providers (OpenAI, Anthropic, Zhipu, etc.) without changing your agent's code.
+MalikClaw uses a **protocol-first** approach to model management. This allows you to integrate dozens of different LLM providers using a unified configuration format.
 
 ---
 
-## 📋 The `model_list` Concept
+## 📋 The `model_list` System
 
-The `model_list` is an array of model configurations in your `config.json`. Each entry defines a `model_name` (your own alias) and the underlying `model` (protocol and platform name).
+All models are defined in the `model_list` array in your `config.json`. Each entry maps a friendly alias (`model_name`) to a specific protocol and provider.
 
-### Example Configuration
-```json
-{
-  "model_list": [
-    {
-      "model_name": "gpt-5.4",
-      "model": "openai/gpt-5.4",
-      "api_key": "sk-your-openai-key"
-    },
-    {
-      "model_name": "claude-sonnet-4.6",
-      "model": "anthropic/claude-sonnet-4.6",
-      "api_key": "sk-ant-your-anthropic-key"
-    },
-    {
-      "model_name": "deepseek-chat",
-      "model": "openai/deepseek-chat",
-      "api_base": "https://api.deepseek.com/v1",
-      "api_key": "sk-your-deepseek-key"
-    }
-  ],
-  "agents": {
-    "defaults": {
-      "model": "gpt-5.4"
-    }
-  }
-}
-```
+### Core Configuration Fields
+| Field | Description |
+|-------|-------------|
+| `model_name` | A unique alias you use to refer to this model. |
+| `model` | The protocol/identifier (e.g., `openai/gpt-4o`). |
+| `api_key` | Your API credential for that provider. |
+| `api_base` | (Optional) The base URL for the API endpoint. |
+| `auth_method` | (Optional) Set to `oauth` or `token` for session-based auth. |
 
 ---
 
 ## 🌐 Supported Protocols
 
-MalikClaw identifies the provider protocol via a prefix in the `model` field:
+MalikClaw supports a wide range of protocols. If a provider isn't listed, it usually works via the `openai/` protocol.
 
-| Prefix | Protocol | Description |
-|--------|----------|-------------|
-| `openai/` | OpenAI-compatible | Works with DeepSeek, Qwen, Groq, etc. |
-| `anthropic/` | Anthropic-native | Claude series direct access |
-| `gemini/` | Gemini-native | Google Gemini API (OpenAI-compat) |
-| `ollama/` | Ollama-native | Local LLM access (OpenAI-compat) |
+| Protocol Prefix | Target Provider | Typical API Base |
+|-----------------|-----------------|------------------|
+| `openai/` | OpenAI | `https://api.openai.com/v1` |
+| `anthropic/` | Anthropic (SDK) | `https://api.anthropic.com/v1` |
+| `anthropic-messages/` | Anthropic (Native) | `https://api.anthropic.com` |
+| `gemini/` | Google Gemini | `https://generativelanguage.googleapis.com/v1beta` |
+| `antigravity/` | Google Cloud Code Assist | (Managed internally) |
+| `groq/` | Groq | `https://api.groq.com/openai/v1` |
+| `deepseek/` | DeepSeek | `https://api.deepseek.com/v1` |
+| `openrouter/` | OpenRouter | `https://openrouter.ai/api/v1` |
+| `ollama/` | Ollama (Local) | `http://localhost:11434/v1` |
+| `zhipu/` | Zhipu AI (GLM) | `https://open.bigmodel.cn/api/paas/v4` |
+| `modelscope/` | ModelScope | `https://api-inference.modelscope.cn/v1` |
 
 ---
 
-## ⚡ Fallback Logic
+## 🦅 Antigravity (Google Cloud Code Assist)
 
-You can configure fallback models to ensure high availability. If the primary model fails, MalikClaw will automatically try the next one in the list.
+Antigravity provides access to high-end models (including Claude 3.5 Opus) via Google's infrastructure. It requires a specific OAuth setup.
+
+```json
+{
+  "model_name": "gemini-ultra",
+  "model": "antigravity/gemini-2.0-flash",
+  "auth_method": "oauth"
+}
+```
+> **Setup**: Run `malikclaw auth login --provider google-antigravity` to authenticate.
+
+---
+
+## ⚡ High Availability & Fallbacks
+
+MalikClaw can automatically switch to backup models if your primary provider is down or rate-limited.
 
 ```json
 {
   "agents": {
     "defaults": {
-      "model": "gpt-5.4",
-      "fallbacks": ["claude-sonnet-4.6", "deepseek-chat"]
+      "model": "primary-gpt-4o",
+      "fallbacks": ["secondary-claude-sonnet", "backup-deepseek"]
     }
   }
 }
@@ -69,61 +71,27 @@ You can configure fallback models to ensure high availability. If the primary mo
 
 ---
 
-## 🏗️ Multi-Agent Support
+## 🤖 GitHub Copilot
 
-Each agent can have its own primary and fallback models:
+MalikClaw can hook into an existing GitHub Copilot subscription.
 
-```json
-{
-  "agents": {
-    "coder": {
-      "model": "claude-sonnet-4.6"
-    },
-    "general": {
-      "model": "gpt-5.4"
-    }
-  }
-}
-```
-
----
-
-## 🚀 Migration from Legacy Config
-
-If you are using the old `providers` format, MalikClaw will automatically detect it and suggest a migration. For a detailed guide, see the [Migration Guide](/docs/migration/model-list-migration).
-
----
-
-## 🤖 GitHub Copilot Provider (`github-copilot/`)
-
-GitHub Copilot is supported through the Copilot SDK with two connection modes:
-
-- `grpc` (default): connect to an already-running external Copilot CLI server.
-- `stdio`: start a local Copilot CLI executable and communicate over stdio.
-
-### `model_list` example (gRPC)
+### Connection Modes:
+1.  **gRPC (Remote)**: Connects to a running Copilot CLI server.
+2.  **stdio (Local)**: Spawns the `copilot` binary directly.
 
 ```json
 {
-  "model_name": "copilot-gpt-4.1",
-  "model": "github-copilot/gpt-4.1",
-  "connect_mode": "grpc",
-  "api_base": "localhost:4321"
-}
-```
-
-### `model_list` example (stdio)
-
-```json
-{
-  "model_name": "copilot-gpt-4.1",
-  "model": "github-copilot/gpt-4.1",
+  "model_name": "my-copilot",
+  "model": "github-copilot/gpt-4o",
   "connect_mode": "stdio",
   "api_base": "copilot"
 }
 ```
 
-### Copilot prerequisites
+---
 
-- For `grpc` mode, ensure an external Copilot CLI server is running and reachable at `api_base` (host:port).
-- For `stdio` mode, ensure `api_base` is a local executable path/command (for example `copilot` or `/usr/local/bin/copilot`) and that GitHub authentication for Copilot CLI has been completed.
+## 🛠️ Protocol-Specific Options
+
+- **`thinking_level`**: For Claude models, set to `low`, `medium`, or `high`.
+- **`max_tokens_field`**: Specify custom field names for token limits (e.g., `max_completion_tokens`).
+- **`request_timeout`**: Integer seconds before timing out an LLM request.

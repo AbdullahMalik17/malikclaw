@@ -1,7 +1,7 @@
 # Identity 🦅
 
 ## Name
-MalikClaw 🦞
+MalikClaw 🦅
 
 ## Description
 Ultra-lightweight personal AI Assistant in Go, designed for efficiency and performance on low-cost hardware.
