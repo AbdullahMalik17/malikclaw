@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -17,7 +18,95 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
 	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
+	"github.com/AbdullahMalik17/malikclaw/pkg/voice"
 )
+
+type mediaProbeProvider struct {
+	ref               string
+	callCount         atomic.Int32
+	sawResolvedInChat atomic.Bool
+}
+
+func (p *mediaProbeProvider) Chat(
+	ctx context.Context,
+	messages []providers.Message,
+	toolDefs []providers.ToolDefinition,
+	model string,
+	opts map[string]any,
+) (*providers.LLMResponse, error) {
+	_ = ctx
+	_ = toolDefs
+	_ = model
+	_ = opts
+
+	call := p.callCount.Add(1)
+	if call == 1 {
+		for _, m := range messages {
+			if m.Role != "user" {
+				continue
+			}
+			if strings.Contains(m.Content, "[file:") {
+				p.sawResolvedInChat.Store(true)
+				break
+			}
+		}
+
+		return &providers.LLMResponse{ToolCalls: []providers.ToolCall{{
+			ID:        "probe-1",
+			Type:      "function",
+			Name:      "media_probe",
+			Arguments: map[string]any{"ref": p.ref},
+		}}}, nil
+	}
+
+	return &providers.LLMResponse{Content: "ok"}, nil
+}
+
+func (p *mediaProbeProvider) GetDefaultModel() string { return "media-probe" }
+
+type mediaProbeTool struct {
+	store    media.MediaStore
+	sawValid atomic.Bool
+}
+
+func (t *mediaProbeTool) Name() string        { return "media_probe" }
+func (t *mediaProbeTool) Description() string { return "verifies media ref resolves while tools run" }
+func (t *mediaProbeTool) Parameters() map[string]any {
+	return map[string]any{"type": "object"}
+}
+func (t *mediaProbeTool) Execute(ctx context.Context, args map[string]any) *tools.ToolResult {
+	_ = ctx
+	ref, _ := args["ref"].(string)
+	if ref == "" {
+		return tools.ErrorResult("missing ref")
+	}
+	if p, err := t.store.Resolve(ref); err == nil {
+		if _, statErr := os.Stat(p); statErr == nil {
+			t.sawValid.Store(true)
+		}
+	}
+	return tools.NewToolResult("probe_ok")
+}
+
+type testTranscriber struct {
+	text          string
+	called        atomic.Bool
+	sawAudioOnFS  atomic.Bool
+	transcribeErr error
+}
+
+func (t *testTranscriber) Name() string { return "test-transcriber" }
+func (t *testTranscriber) Transcribe(ctx context.Context, audioFilePath string) (*voice.TranscriptionResponse, error) {
+	_ = ctx
+	t.called.Store(true)
+	if _, err := os.Stat(audioFilePath); err == nil {
+		t.sawAudioOnFS.Store(true)
+	}
+	if t.transcribeErr != nil {
+		return nil, t.transcribeErr
+	}
+	return &voice.TranscriptionResponse{Text: t.text}, nil
+}
 
 type fakeChannel struct{ id string }
 
@@ -1068,6 +1157,166 @@ func TestResolveMediaRefs_ResolvesToBase64(t *testing.T) {
 	}
 	if !strings.HasPrefix(result[0].Media[0], "data:image/png;base64,") {
 		t.Fatalf("expected data:image/png;base64, prefix, got %q", result[0].Media[0][:40])
+	}
+}
+
+func TestRun_MediaScopeCleanup_HappensAfterToolAndLLMConsumption(t *testing.T) {
+	tmpDir := t.TempDir()
+	msgBus := bus.NewMessageBus()
+	probeProvider := &mediaProbeProvider{}
+
+	cfg := &config.Config{Agents: config.AgentsConfig{Defaults: config.AgentDefaults{
+		Workspace:         tmpDir,
+		Model:             "test-model",
+		MaxTokens:         4096,
+		MaxToolIterations: 10,
+	}}}
+
+	al := NewAgentLoop(cfg, msgBus, probeProvider)
+	store := media.NewFileMediaStore()
+	al.SetMediaStore(store)
+	probeTool := &mediaProbeTool{store: store}
+	al.RegisterTool(probeTool)
+
+	filePath := filepath.Join(tmpDir, "input.txt")
+	if err := os.WriteFile(filePath, []byte("payload"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	scope := "scope-run-tool"
+	ref, err := store.Store(filePath, media.MediaMeta{Filename: "input.txt", ContentType: "text/plain"}, scope)
+	if err != nil {
+		t.Fatalf("store media: %v", err)
+	}
+	probeProvider.ref = ref
+
+	runCtx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	done := make(chan error, 1)
+	go func() { done <- al.Run(runCtx) }()
+
+	if err := msgBus.PublishInbound(context.Background(), bus.InboundMessage{
+		Channel:    "test",
+		SenderID:   "u1",
+		ChatID:     "c1",
+		Content:    "please inspect [file]",
+		Media:      []string{ref},
+		MediaScope: scope,
+		SessionKey: "s1",
+	}); err != nil {
+		t.Fatalf("publish inbound: %v", err)
+	}
+
+	outCtx, outCancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer outCancel()
+	if _, ok := msgBus.SubscribeOutbound(outCtx); !ok {
+		t.Fatal("expected outbound response")
+	}
+
+	if !probeProvider.sawResolvedInChat.Load() {
+		t.Fatal("expected media to be resolved into user message before cleanup")
+	}
+	if !probeTool.sawValid.Load() {
+		t.Fatal("expected tool to resolve media ref before cleanup")
+	}
+
+	deadline := time.Now().Add(2 * time.Second)
+	for {
+		if _, err := store.Resolve(ref); err != nil {
+			break
+		}
+		if time.Now().After(deadline) {
+			t.Fatal("expected media ref to be released after message lifecycle")
+		}
+		time.Sleep(20 * time.Millisecond)
+	}
+
+	cancel()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Fatalf("run returned error: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("agent run did not stop")
+	}
+}
+
+func TestRun_MediaScopeCleanup_HappensAfterTranscription(t *testing.T) {
+	tmpDir := t.TempDir()
+	msgBus := bus.NewMessageBus()
+	provider := &mockProvider{}
+
+	cfg := &config.Config{Agents: config.AgentsConfig{Defaults: config.AgentDefaults{
+		Workspace:         tmpDir,
+		Model:             "test-model",
+		MaxTokens:         4096,
+		MaxToolIterations: 10,
+	}}}
+	al := NewAgentLoop(cfg, msgBus, provider)
+	store := media.NewFileMediaStore()
+	al.SetMediaStore(store)
+	transcriber := &testTranscriber{text: "hello"}
+	al.SetTranscriber(transcriber)
+
+	audioPath := filepath.Join(tmpDir, "voice.ogg")
+	if err := os.WriteFile(audioPath, []byte("audio bytes"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	scope := "scope-run-transcriber"
+	ref, err := store.Store(audioPath, media.MediaMeta{Filename: "voice.ogg", ContentType: "audio/ogg"}, scope)
+	if err != nil {
+		t.Fatalf("store media: %v", err)
+	}
+
+	runCtx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	done := make(chan error, 1)
+	go func() { done <- al.Run(runCtx) }()
+
+	if err := msgBus.PublishInbound(context.Background(), bus.InboundMessage{
+		Channel:    "test",
+		SenderID:   "u1",
+		ChatID:     "c1",
+		Content:    "[voice]",
+		Media:      []string{ref},
+		MediaScope: scope,
+		SessionKey: "s2",
+	}); err != nil {
+		t.Fatalf("publish inbound: %v", err)
+	}
+
+	outCtx, outCancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer outCancel()
+	if _, ok := msgBus.SubscribeOutbound(outCtx); !ok {
+		t.Fatal("expected outbound response")
+	}
+
+	if !transcriber.called.Load() {
+		t.Fatal("expected transcriber to be called")
+	}
+	if !transcriber.sawAudioOnFS.Load() {
+		t.Fatal("expected audio file to exist while transcriber runs")
+	}
+
+	deadline := time.Now().Add(2 * time.Second)
+	for {
+		if _, err := store.Resolve(ref); err != nil {
+			break
+		}
+		if time.Now().After(deadline) {
+			t.Fatal("expected media ref to be released after transcription/message lifecycle")
+		}
+		time.Sleep(20 * time.Millisecond)
+	}
+
+	cancel()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Fatalf("run returned error: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("agent run did not stop")
 	}
 }
 
