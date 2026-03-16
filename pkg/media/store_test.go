@@ -528,3 +528,38 @@ func TestRefToScopeConsistency(t *testing.T) {
 		t.Error("refToScope should still contain ref3")
 	}
 }
+
+func TestScopeCounters(t *testing.T) {
+	dir := t.TempDir()
+	store := NewFileMediaStore()
+
+	p1 := createTempFile(t, dir, "a.jpg")
+	p2 := createTempFile(t, dir, "b.jpg")
+	p3 := createTempFile(t, dir, "c.jpg")
+
+	_, _ = store.Store(p1, MediaMeta{Source: "test"}, "scope-a")
+	_, _ = store.Store(p2, MediaMeta{Source: "test"}, "scope-a") // same scope, should not bump created
+	_, _ = store.Store(p3, MediaMeta{Source: "test"}, "scope-b")
+
+	created, released, active := store.ScopeCounters()
+	if created != 2 || released != 0 || active != 2 {
+		t.Fatalf("unexpected counters after store: created=%d released=%d active=%d", created, released, active)
+	}
+
+	if err := store.ReleaseAll("scope-a"); err != nil {
+		t.Fatalf("ReleaseAll(scope-a) failed: %v", err)
+	}
+	created, released, active = store.ScopeCounters()
+	if created != 2 || released != 1 || active != 1 {
+		t.Fatalf("unexpected counters after release: created=%d released=%d active=%d", created, released, active)
+	}
+
+	// Releasing unknown scope should not change counters.
+	if err := store.ReleaseAll("missing"); err != nil {
+		t.Fatalf("ReleaseAll(missing) failed: %v", err)
+	}
+	created2, released2, active2 := store.ScopeCounters()
+	if created2 != created || released2 != released || active2 != active {
+		t.Fatalf("unexpected counter change for missing scope: before=(%d,%d,%d) after=(%d,%d,%d)", created, released, active, created2, released2, active2)
+	}
+}

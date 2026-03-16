@@ -57,6 +57,8 @@ type FileMediaStore struct {
 	refs        map[string]mediaEntry
 	scopeToRefs map[string]map[string]struct{}
 	refToScope  map[string]string
+	scopesMade  uint64
+	scopesFreed uint64
 
 	cleanerCfg MediaCleanerConfig
 	stop       chan struct{}
@@ -96,14 +98,28 @@ func (s *FileMediaStore) Store(localPath string, meta MediaMeta, scope string) (
 	ref := "media://" + uuid.New().String()
 
 	s.mu.Lock()
-	defer s.mu.Unlock()
+	newScope := s.scopeToRefs[scope] == nil
 
 	s.refs[ref] = mediaEntry{path: localPath, meta: meta, storedAt: s.nowFunc()}
-	if s.scopeToRefs[scope] == nil {
+	if newScope {
 		s.scopeToRefs[scope] = make(map[string]struct{})
+		s.scopesMade++
 	}
 	s.scopeToRefs[scope][ref] = struct{}{}
 	s.refToScope[ref] = scope
+	created := s.scopesMade
+	released := s.scopesFreed
+	active := len(s.scopeToRefs)
+	s.mu.Unlock()
+
+	if newScope {
+		logger.InfoCF("media", "scope created", map[string]any{
+			"scope":           scope,
+			"created_scopes":  created,
+			"released_scopes": released,
+			"active_scopes":   active,
+		})
+	}
 
 	return ref, nil
 }
@@ -154,7 +170,19 @@ func (s *FileMediaStore) ReleaseAll(scope string) error {
 		delete(s.refToScope, ref)
 	}
 	delete(s.scopeToRefs, scope)
+	s.scopesFreed++
+	created := s.scopesMade
+	released := s.scopesFreed
+	active := len(s.scopeToRefs)
 	s.mu.Unlock()
+
+	logger.InfoCF("media", "scope released", map[string]any{
+		"scope":           scope,
+		"released_refs":   len(paths),
+		"created_scopes":  created,
+		"released_scopes": released,
+		"active_scopes":   active,
+	})
 
 	// Phase 2: delete files without holding the lock
 	for _, p := range paths {
@@ -167,6 +195,13 @@ func (s *FileMediaStore) ReleaseAll(scope string) error {
 	}
 
 	return nil
+}
+
+// ScopeCounters returns cumulative counters useful for leak detection and tests.
+func (s *FileMediaStore) ScopeCounters() (created, released, active uint64) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.scopesMade, s.scopesFreed, uint64(len(s.scopeToRefs))
 }
 
 // CleanExpired removes all entries older than MaxAge.
