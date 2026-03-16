@@ -232,12 +232,14 @@ func resolveProviderSelection(cfg *config.Config) (providerSelection, error) {
 			}
 		case "github_copilot", "copilot":
 			sel.providerType = providerTypeGitHubCopilot
+			sel.connectMode = cfg.Providers.GitHubCopilot.ConnectMode
 			if cfg.Providers.GitHubCopilot.APIBase != "" {
 				sel.apiBase = cfg.Providers.GitHubCopilot.APIBase
+			} else if sel.connectMode == "stdio" {
+				sel.apiBase = "copilot"
 			} else {
 				sel.apiBase = "localhost:4321"
 			}
-			sel.connectMode = cfg.Providers.GitHubCopilot.ConnectMode
 			return sel, nil
 		}
 	}
