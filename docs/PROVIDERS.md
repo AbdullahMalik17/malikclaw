@@ -91,3 +91,39 @@ Each agent can have its own primary and fallback models:
 ## 🚀 Migration from Legacy Config
 
 If you are using the old `providers` format, MalikClaw will automatically detect it and suggest a migration. For a detailed guide, see the [Migration Guide](/docs/migration/model-list-migration).
+
+---
+
+## 🤖 GitHub Copilot Provider (`github-copilot/`)
+
+GitHub Copilot is supported through the Copilot SDK with two connection modes:
+
+- `grpc` (default): connect to an already-running external Copilot CLI server.
+- `stdio`: start a local Copilot CLI executable and communicate over stdio.
+
+### `model_list` example (gRPC)
+
+```json
+{
+  "model_name": "copilot-gpt-4.1",
+  "model": "github-copilot/gpt-4.1",
+  "connect_mode": "grpc",
+  "api_base": "localhost:4321"
+}
+```
+
+### `model_list` example (stdio)
+
+```json
+{
+  "model_name": "copilot-gpt-4.1",
+  "model": "github-copilot/gpt-4.1",
+  "connect_mode": "stdio",
+  "api_base": "copilot"
+}
+```
+
+### Copilot prerequisites
+
+- For `grpc` mode, ensure an external Copilot CLI server is running and reachable at `api_base` (host:port).
+- For `stdio` mode, ensure `api_base` is a local executable path/command (for example `copilot` or `/usr/local/bin/copilot`) and that GitHub authentication for Copilot CLI has been completed.

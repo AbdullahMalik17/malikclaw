@@ -300,6 +300,10 @@
     "modelscope": {
       "api_key": "",
       "api_base": "https://api-inference.modelscope.cn/v1"
+    },
+    "github_copilot": {
+      "api_base": "localhost:4321",
+      "connect_mode": "grpc"
     }
   },
   "tools": {

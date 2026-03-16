@@ -114,7 +114,7 @@ The `model` field uses a protocol prefix format: `[protocol/]model-identifier`
 | `api_key` | No* | API authentication key |
 | `proxy` | No | HTTP proxy URL |
 | `auth_method` | No | Authentication method: `oauth`, `token` |
-| `connect_mode` | No | Connection mode for CLI providers: `stdio`, `grpc` |
+| `connect_mode` | No | Connection mode for CLI providers. For `github-copilot`: `grpc` (default, `api_base` = host:port external CLI server) or `stdio` (`api_base` = local CLI executable path/command, defaults to `copilot`). |
 | `rpm` | No | Requests per minute limit |
 | `max_tokens_field` | No | Field name for max tokens |
 | `request_timeout` | No | HTTP request timeout in seconds; `<=0` uses default `120s` |

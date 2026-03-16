@@ -4,17 +4,48 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"sync"
 
 	copilot "github.com/github/copilot-sdk/go"
 )
 
+type copilotClient interface {
+	Start(ctx context.Context) error
+	CreateSession(ctx context.Context, config *copilot.SessionConfig) (copilotSession, error)
+	Stop() error
+}
+
+type copilotSession interface {
+	SendAndWait(ctx context.Context, opts copilot.MessageOptions) (*copilot.SessionEvent, error)
+}
+
+type sdkCopilotClient struct {
+	client *copilot.Client
+}
+
+func (c *sdkCopilotClient) Start(ctx context.Context) error {
+	return c.client.Start(ctx)
+}
+
+func (c *sdkCopilotClient) CreateSession(ctx context.Context, config *copilot.SessionConfig) (copilotSession, error) {
+	return c.client.CreateSession(ctx, config)
+}
+
+func (c *sdkCopilotClient) Stop() error {
+	return c.client.Stop()
+}
+
+var newCopilotClient = func(options *copilot.ClientOptions) copilotClient {
+	return &sdkCopilotClient{client: copilot.NewClient(options)}
+}
+
 type GitHubCopilotProvider struct {
 	uri         string
 	connectMode string // "stdio" or "grpc"
 
-	client  *copilot.Client
-	session *copilot.Session
+	client  copilotClient
+	session copilotSession
 
 	mu sync.Mutex
 }
@@ -26,11 +57,43 @@ func NewGitHubCopilotProvider(uri string, connectMode string, model string) (*Gi
 
 	switch connectMode {
 	case "stdio":
-		// TODO: Implement stdio mode for GitHub Copilot provider
-		// See https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md for details
-		return nil, fmt.Errorf("stdio mode not implemented for GitHub Copilot provider; please use 'grpc' mode instead")
+		cliPath := strings.TrimSpace(uri)
+		if cliPath == "" {
+			cliPath = "copilot"
+		}
+		if strings.Contains(cliPath, "://") {
+			return nil, fmt.Errorf("invalid stdio cli path %q: expected a local executable path/command, not a URL", uri)
+		}
+
+		client := newCopilotClient(&copilot.ClientOptions{
+			CLIPath:  cliPath,
+			UseStdio: copilot.Bool(true),
+		})
+		if err := client.Start(context.Background()); err != nil {
+			return nil, fmt.Errorf(
+				"can't start Github Copilot stdio CLI %q: %w; `https://github.com/github/copilot-sdk/blob/main/docs/getting-started.md#connecting-to-an-external-cli-server` for details",
+				cliPath,
+				err,
+			)
+		}
+
+		session, err := client.CreateSession(context.Background(), &copilot.SessionConfig{
+			Model: model,
+			Hooks: &copilot.SessionHooks{},
+		})
+		if err != nil {
+			_ = client.Stop()
+			return nil, fmt.Errorf("create session failed: %w", err)
+		}
+
+		return &GitHubCopilotProvider{
+			uri:         cliPath,
+			connectMode: connectMode,
+			client:      client,
+			session:     session,
+		}, nil
 	case "grpc":
-		client := copilot.NewClient(&copilot.ClientOptions{
+		client := newCopilotClient(&copilot.ClientOptions{
 			CLIUrl: uri,
 		})
 		if err := client.Start(context.Background()); err != nil {
@@ -64,7 +127,7 @@ func (p *GitHubCopilotProvider) Close() {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	if p.client != nil {
-		p.client.Stop()
+		_ = p.client.Stop()
 		p.client = nil
 		p.session = nil
 	}

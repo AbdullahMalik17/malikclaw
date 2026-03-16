@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	copilot "github.com/github/copilot-sdk/go"
 )
 
 func TestExtractProtocol(t *testing.T) {
@@ -369,5 +370,63 @@ func TestCreateProviderFromConfig_RequestTimeoutPropagation(t *testing.T) {
 	errMsg := err.Error()
 	if !strings.Contains(errMsg, "context deadline exceeded") && !strings.Contains(errMsg, "Client.Timeout exceeded") {
 		t.Fatalf("Chat() error = %q, want timeout-related error", errMsg)
+	}
+}
+
+func TestCreateProviderFromConfig_GitHubCopilotStdioDefaultPath(t *testing.T) {
+	original := newCopilotClient
+	defer func() { newCopilotClient = original }()
+
+	fakeSession := &fakeCopilotSession{}
+	fakeClient := &fakeCopilotClient{createSession: fakeSession}
+	newCopilotClient = func(options *copilot.ClientOptions) copilotClient {
+		fakeClient.capturedConfig = options
+		return fakeClient
+	}
+
+	cfg := &config.ModelConfig{
+		ModelName:   "copilot-stdio",
+		Model:       "github-copilot/gpt-4.1",
+		ConnectMode: "stdio",
+	}
+
+	provider, modelID, err := CreateProviderFromConfig(cfg)
+	if err != nil {
+		t.Fatalf("CreateProviderFromConfig() error = %v", err)
+	}
+	if provider == nil {
+		t.Fatal("CreateProviderFromConfig() returned nil provider")
+	}
+	if modelID != "gpt-4.1" {
+		t.Fatalf("modelID = %q, want %q", modelID, "gpt-4.1")
+	}
+	if fakeClient.capturedConfig == nil {
+		t.Fatal("expected client options to be captured")
+	}
+	if fakeClient.capturedConfig.CLIPath != "copilot" {
+		t.Fatalf("CLIPath = %q, want %q", fakeClient.capturedConfig.CLIPath, "copilot")
+	}
+	if fakeClient.capturedConfig.UseStdio == nil || !*fakeClient.capturedConfig.UseStdio {
+		t.Fatal("expected UseStdio=true for stdio connect mode")
+	}
+}
+
+func TestCreateProviderFromConfig_GitHubCopilotStdioInvalidPath(t *testing.T) {
+	cfg := &config.ModelConfig{
+		ModelName:   "copilot-stdio-invalid",
+		Model:       "github-copilot/gpt-4.1",
+		APIBase:     "http://localhost:4321",
+		ConnectMode: "stdio",
+	}
+
+	provider, _, err := CreateProviderFromConfig(cfg)
+	if err == nil {
+		t.Fatal("expected error, got nil")
+	}
+	if provider != nil {
+		t.Fatalf("provider = %#v, want nil", provider)
+	}
+	if !strings.Contains(err.Error(), "invalid stdio cli path") {
+		t.Fatalf("error = %q, want invalid stdio path message", err.Error())
 	}
 }
