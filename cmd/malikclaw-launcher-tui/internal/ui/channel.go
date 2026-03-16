@@ -55,6 +55,12 @@ func (s *appState) buildChannelMenuItems() []MenuItem {
 			func() { s.push("channel-dingtalk", s.dingtalkForm()) },
 		),
 		channelItem(
+			"Google Chat",
+			"Google Chat bot settings",
+			s.config.Channels.GoogleChat.Enabled,
+			func() { s.push("channel-googlechat", s.googleChatForm()) },
+		),
+		channelItem(
 			"Slack",
 			"Slack bot settings",
 			s.config.Channels.Slack.Enabled,
@@ -196,6 +202,25 @@ func (s *appState) dingtalkForm() tview.Primitive {
 	})
 	form.AddInputField("Client Secret", cfg.ClientSecret, 128, nil, func(text string) {
 		cfg.ClientSecret = strings.TrimSpace(text)
+	})
+	addAllowFromField(form, &cfg.AllowFrom)
+	return wrapWithBack(form, s)
+}
+
+func (s *appState) googleChatForm() tview.Primitive {
+	cfg := &s.config.Channels.GoogleChat
+	form := baseChannelForm("Google Chat", cfg.Enabled, s.makeChannelOnEnabled(&cfg.Enabled))
+	form.AddInputField("Service Account File", cfg.ServiceAccountFile, 128, nil, func(text string) {
+		cfg.ServiceAccountFile = strings.TrimSpace(text)
+	})
+	form.AddInputField("Verification Token", cfg.VerificationToken, 128, nil, func(text string) {
+		cfg.VerificationToken = strings.TrimSpace(text)
+	})
+	form.AddInputField("Bot User", cfg.BotUser, 128, nil, func(text string) {
+		cfg.BotUser = strings.TrimSpace(text)
+	})
+	form.AddInputField("Webhook Path", cfg.WebhookPath, 64, nil, func(text string) {
+		cfg.WebhookPath = strings.TrimSpace(text)
 	})
 	addAllowFromField(form, &cfg.AllowFrom)
 	return wrapWithBack(form, s)

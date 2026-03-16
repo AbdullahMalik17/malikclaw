@@ -19,7 +19,7 @@ links:
 
 ## Prompt
 
-Read both of the Project Hacathan_2 and malikclaw . Then we will ehance the malikclaw as I fork it from the picoclaw
+Read both of the Project Hacathan_2 and malikclaw . Then we will ehance the malikclaw as I fork it from MalikClaw
 
 ## Response snapshot
 

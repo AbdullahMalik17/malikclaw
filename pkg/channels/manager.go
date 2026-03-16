@@ -279,6 +279,10 @@ func (m *Manager) initChannels() error {
 		m.initChannel("matrix", "Matrix")
 	}
 
+	if m.config.Channels.GoogleChat.Enabled && m.config.Channels.GoogleChat.ServiceAccountFile != "" {
+		m.initChannel("googlechat", "Google Chat")
+	}
+
 	if m.config.Channels.LINE.Enabled && m.config.Channels.LINE.ChannelAccessToken != "" {
 		m.initChannel("line", "LINE")
 	}

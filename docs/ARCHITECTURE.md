@@ -40,7 +40,7 @@ MalikClaw is designed with a **Sandboxed Execution Policy** by default:
 
 ## 🧠 Memory & Personality
 
-Inspired by `nanobot` and `PicoClaw`, MalikClaw uses Markdown-based "Personality Files" located in the workspace:
+Inspired by `nanobot`, MalikClaw uses Markdown-based "Personality Files" located in the workspace:
 - **SOUL.md**: Defines the core values, tone, and character of the agent.
 - **IDENTITY.md**: Defines the agent's name, purpose, and capabilities.
 - **USER.md**: Stores user preferences and personal information to maintain long-term context.

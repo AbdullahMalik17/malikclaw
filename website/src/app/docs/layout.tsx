@@ -7,6 +7,10 @@ const sidebarItems = [
     items: [
       { name: "Introduction", href: "/docs" },
       { name: "Installation", href: "/docs/installation" },
+      { name: "Windows", href: "/docs/installation/windows" },
+      { name: "macOS", href: "/docs/installation/macos" },
+      { name: "Linux", href: "/docs/installation/linux" },
+      { name: "Android", href: "/docs/installation/android" },
       { name: "Quick Start", href: "/docs/quick-start" },
     ],
   },

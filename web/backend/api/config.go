@@ -188,6 +188,11 @@ func validateConfig(cfg *config.Config) []string {
 		errs = append(errs, "channels.discord.token is required when discord channel is enabled")
 	}
 
+	// Google Chat: service account file required when enabled
+	if cfg.Channels.GoogleChat.Enabled && cfg.Channels.GoogleChat.ServiceAccountFile == "" {
+		errs = append(errs, "channels.googlechat.service_account_file is required when google chat channel is enabled")
+	}
+
 	return errs
 }
 

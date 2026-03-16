@@ -134,6 +134,8 @@ function isConfigured(
         asString(config.client_id) !== "" &&
         asString(config.client_secret) !== ""
       )
+    case "googlechat":
+      return asString(config.service_account_file) !== ""
     case "line":
       return asString(config.channel_access_token) !== ""
     case "qq":
@@ -183,6 +185,8 @@ function getRequiredFieldKeys(channelName: string): string[] {
       return ["app_id", "app_secret"]
     case "dingtalk":
       return ["client_id", "client_secret"]
+    case "googlechat":
+      return ["service_account_file"]
     case "line":
       return ["channel_secret", "channel_access_token"]
     case "qq":
@@ -234,6 +238,7 @@ const CHANNELS_WITHOUT_DOCS = new Set([
   "irc",
   "whatsapp",
   "whatsapp_native",
+  "googlechat",
 ])
 
 export function ChannelConfigPage({ channelName }: ChannelConfigPageProps) {

@@ -264,6 +264,7 @@ type ChannelsConfig struct {
 	DingTalk   DingTalkConfig   `json:"dingtalk"`
 	Slack      SlackConfig      `json:"slack"`
 	Matrix     MatrixConfig     `json:"matrix"`
+	GoogleChat GoogleChatConfig `json:"googlechat"`
 	LINE       LINEConfig       `json:"line"`
 	OneBot     OneBotConfig     `json:"onebot"`
 	WeCom      WeComConfig      `json:"wecom"`
@@ -387,6 +388,17 @@ type MatrixConfig struct {
 	GroupTrigger       GroupTriggerConfig  `json:"group_trigger,omitempty"`
 	Placeholder        PlaceholderConfig   `json:"placeholder,omitempty"`
 	ReasoningChannelID string              `json:"reasoning_channel_id"     env:"MALIKCLAW_CHANNELS_MATRIX_REASONING_CHANNEL_ID"`
+}
+
+type GoogleChatConfig struct {
+	Enabled            bool                `json:"enabled"              env:"MALIKCLAW_CHANNELS_GOOGLECHAT_ENABLED"`
+	ServiceAccountFile string              `json:"service_account_file" env:"MALIKCLAW_CHANNELS_GOOGLECHAT_SERVICE_ACCOUNT_FILE"`
+	VerificationToken  string              `json:"verification_token"   env:"MALIKCLAW_CHANNELS_GOOGLECHAT_VERIFICATION_TOKEN"`
+	BotUser            string              `json:"bot_user"             env:"MALIKCLAW_CHANNELS_GOOGLECHAT_BOT_USER"`
+	WebhookPath        string              `json:"webhook_path"         env:"MALIKCLAW_CHANNELS_GOOGLECHAT_WEBHOOK_PATH"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"            env:"MALIKCLAW_CHANNELS_GOOGLECHAT_ALLOW_FROM"`
+	GroupTrigger       GroupTriggerConfig  `json:"group_trigger,omitempty"`
+	ReasoningChannelID string              `json:"reasoning_channel_id" env:"MALIKCLAW_CHANNELS_GOOGLECHAT_REASONING_CHANNEL_ID"`
 }
 
 type LINEConfig struct {

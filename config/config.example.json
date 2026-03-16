@@ -150,6 +150,18 @@
       },
       "reasoning_channel_id": ""
     },
+    "googlechat": {
+      "enabled": false,
+      "service_account_file": "/path/to/google-chat-service-account.json",
+      "verification_token": "",
+      "bot_user": "users/AAAAAAA",
+      "webhook_path": "/webhook/googlechat",
+      "allow_from": [],
+      "group_trigger": {
+        "mention_only": true
+      },
+      "reasoning_channel_id": ""
+    },
     "line": {
       "enabled": false,
       "channel_secret": "YOUR_LINE_CHANNEL_SECRET",

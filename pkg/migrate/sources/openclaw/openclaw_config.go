@@ -377,6 +377,8 @@ func (c *OpenClawConfig) IsChannelEnabled(name string) bool {
 		return c.Channels.WhatsApp == nil || c.Channels.WhatsApp.Enabled == nil || *c.Channels.WhatsApp.Enabled
 	case "feishu":
 		return c.Channels.Feishu == nil || c.Channels.Feishu.Enabled == nil || *c.Channels.Feishu.Enabled
+	case "googlechat":
+		return c.Channels.GoogleChat == nil || c.Channels.GoogleChat.Enabled == nil || *c.Channels.GoogleChat.Enabled
 	default:
 		return false
 	}
@@ -895,6 +897,22 @@ func (c *OpenClawConfig) convertChannels(warnings *[]string) ChannelsConfig {
 		}
 		if c.Channels.Matrix.AccessToken != nil {
 			channels.Matrix.AccessToken = *c.Channels.Matrix.AccessToken
+		}
+	}
+
+	if c.Channels.GoogleChat != nil && supportedChannels["googlechat"] {
+		enabled := c.Channels.GoogleChat.Enabled == nil || *c.Channels.GoogleChat.Enabled
+		channels.GoogleChat = GoogleChatConfig{
+			Enabled: enabled,
+		}
+		if c.Channels.GoogleChat.ServiceAccountFile != nil {
+			channels.GoogleChat.ServiceAccountFile = *c.Channels.GoogleChat.ServiceAccountFile
+		}
+		if c.Channels.GoogleChat.WebhookPath != nil {
+			channels.GoogleChat.WebhookPath = *c.Channels.GoogleChat.WebhookPath
+		}
+		if c.Channels.GoogleChat.BotUser != nil {
+			channels.GoogleChat.BotUser = *c.Channels.GoogleChat.BotUser
 		}
 	}
 

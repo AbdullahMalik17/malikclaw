@@ -114,6 +114,15 @@ func DefaultConfig() *Config {
 					Text:    "Thinking... 💭",
 				},
 			},
+			GoogleChat: GoogleChatConfig{
+				Enabled:            false,
+				ServiceAccountFile: "",
+				VerificationToken:  "",
+				BotUser:            "",
+				WebhookPath:        "/webhook/googlechat",
+				AllowFrom:          FlexibleStringSlice{},
+				GroupTrigger:       GroupTriggerConfig{MentionOnly: true},
+			},
 			LINE: LINEConfig{
 				Enabled:            false,
 				ChannelSecret:      "",

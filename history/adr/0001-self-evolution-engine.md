@@ -4,7 +4,7 @@
 Proposed
 
 ## Context
-The project `malikclaw` (forked from `picoclaw`) aims to be a highly efficient AI assistant for low-resource hardware. A key feature of advanced autonomous agents (like those in `Digital-FTE`) is the ability to self-correct and improve their own source code.
+The project `malikclaw` (forked from `nanobot`) aims to be a highly efficient AI assistant for low-resource hardware. A key feature of advanced autonomous agents (like those in `Digital-FTE`) is the ability to self-correct and improve their own source code.
 
 ## Decision
 We have integrated a "Self-Evolution Engine" called **Guardian**. 

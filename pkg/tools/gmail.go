@@ -78,7 +78,7 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 	accessToken := cred.AccessToken
 	if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
 		if cred.RefreshToken != "" {
-			// Try to refresh - we need the config. For now, we assume the user 
+			// Try to refresh - we need the config. For now, we assume the user
 			// might have set env vars or we use the default refresh logic if available.
 			// Note: Gmail refresh requires the ClientID/Secret used during login.
 			clientID := os.Getenv("MALIKCLAW_GMAIL_CLIENT_ID")

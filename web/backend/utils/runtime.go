@@ -28,7 +28,8 @@ func GetDefaultConfigPath() string {
 // Search order:
 //  1. MALIKCLAW_BINARY environment variable (explicit override)
 //  2. Same directory as the current executable
-//  3. Falls back to "malikclaw" and relies on $PATH
+//  3. The project's build/ directory relative to the current working directory
+//  4. Falls back to "malikclaw" and relies on $PATH
 func FindMalikclawBinary() string {
 	binaryName := "malikclaw"
 	if runtime.GOOS == "windows" {
@@ -41,8 +42,24 @@ func FindMalikclawBinary() string {
 		}
 	}
 
+	// 2. Same directory as current executable
 	if exe, err := os.Executable(); err == nil {
 		candidate := filepath.Join(filepath.Dir(exe), binaryName)
+		if info, err := os.Stat(candidate); err == nil && !info.IsDir() {
+			return candidate
+		}
+	}
+
+	// 3. build/ directory relative to CWD (useful for go run ./web/backend)
+	cwd, err := os.Getwd()
+	if err == nil {
+		candidate := filepath.Join(cwd, "build", binaryName)
+		if info, err := os.Stat(candidate); err == nil && !info.IsDir() {
+			return candidate
+		}
+
+		// Also check CWD itself
+		candidate = filepath.Join(cwd, binaryName)
 		if info, err := os.Stat(candidate); err == nil && !info.IsDir() {
 			return candidate
 		}

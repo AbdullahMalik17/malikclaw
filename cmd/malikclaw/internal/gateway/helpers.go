@@ -16,6 +16,7 @@ import (
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/dingtalk"
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/discord"
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/feishu"
+	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/googlechat"
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/irc"
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/line"
 	_ "github.com/AbdullahMalik17/malikclaw/pkg/channels/maixcam"

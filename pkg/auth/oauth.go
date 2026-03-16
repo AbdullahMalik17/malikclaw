@@ -13,11 +13,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
-	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 type OAuthProviderConfig struct {
@@ -141,7 +141,7 @@ func LoginBrowser(cfg OAuthProviderConfig) (*AuthCredential, error) {
 
 	fmt.Printf("Open this URL to authenticate:\n\n%s\n\n", authURL)
 
-	if err := OpenBrowser(authURL); err != nil {
+	if err := utils.OpenBrowser(authURL); err != nil {
 		fmt.Printf("Could not open browser automatically.\nPlease open this URL manually:\n\n%s\n\n", authURL)
 	}
 
@@ -633,18 +633,4 @@ func parseJWTClaims(token string) (map[string]any, error) {
 func base64URLDecode(s string) ([]byte, error) {
 	s = strings.NewReplacer("-", "+", "_", "/").Replace(s)
 	return base64.StdEncoding.DecodeString(s)
-}
-
-// OpenBrowser opens the given URL in the user's default browser.
-func OpenBrowser(url string) error {
-	switch runtime.GOOS {
-	case "darwin":
-		return exec.Command("open", url).Start()
-	case "linux":
-		return exec.Command("xdg-open", url).Start()
-	case "windows":
-		return exec.Command("cmd", "/c", "start", url).Start()
-	default:
-		return fmt.Errorf("unsupported platform: %s", runtime.GOOS)
-	}
 }

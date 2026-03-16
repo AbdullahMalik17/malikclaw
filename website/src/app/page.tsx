@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Github, Zap, Smartphone, Feather, ShieldCheck } from "lucide-react";
+import { ArrowRight, Github, Zap, Smartphone, Feather, ShieldCheck, Download, Terminal, Cpu, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-[#0df2c9]/30">
-      
+
       {/* Navigation */}
       <nav className="fixed w-full z-50 top-0 border-b border-white/10 bg-black/50 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -19,11 +19,15 @@ export default function Home() {
             </span>
           </div>
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-400">
-            <a href="#" className="hover:text-white transition-colors">Features</a>
-            <a href="#" className="hover:text-white transition-colors">Performance</a>
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#download" className="hover:text-white transition-colors">Download</a>
             <Link href="/docs" className="hover:text-white transition-colors">Docs</Link>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <Link href="/download" className="flex items-center gap-2 text-sm font-medium text-[#0df2c9] hover:text-white transition-colors">
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Download</span>
+            </Link>
             <a href="https://github.com/AbdullahMalik17/malikclaw" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-medium text-white hover:text-[#0df2c9] transition-colors">
               <Github className="w-5 h-5" />
               <span className="hidden sm:inline">Star on GitHub</span>
@@ -185,6 +189,120 @@ export default function Home() {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        {/* Download Section */}
+        <section id="download" className="w-full py-24 max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight">Download MalikClaw</h2>
+            <p className="text-zinc-400 mt-2">Choose your platform and get started in minutes.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Windows */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="p-6 rounded-2xl bg-[#18181b] border border-white/5 hover:border-[#0df2c9]/50 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-lg bg-[#0df2c9]/10 flex items-center justify-center mb-4">
+                <Globe className="w-6 h-6 text-[#0df2c9]" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-white">Windows</h3>
+              <p className="text-zinc-400 text-sm mb-4">Windows 10/11 (64-bit)</p>
+              <div className="space-y-2">
+                <a 
+                  href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Windows_x86_64.zip"
+                  className="block w-full py-2 px-4 rounded-md bg-[#0df2c9] text-black font-medium text-center hover:bg-[#0bc2a1] transition-colors text-sm"
+                >
+                  Download EXE
+                </a>
+                <code className="block p-2 rounded bg-black/50 text-xs text-zinc-400 font-mono">
+                  winget install malikclaw
+                </code>
+              </div>
+            </motion.div>
+
+            {/* macOS */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="p-6 rounded-2xl bg-[#18181b] border border-white/5 hover:border-[#8e2de2]/50 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-lg bg-[#8e2de2]/10 flex items-center justify-center mb-4">
+                <Terminal className="w-6 h-6 text-[#8e2de2]" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-white">macOS</h3>
+              <p className="text-zinc-400 text-sm mb-4">Intel & Apple Silicon</p>
+              <div className="space-y-2">
+                <a 
+                  href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Darwin_x86_64.tar.gz"
+                  className="block w-full py-2 px-4 rounded-md bg-[#8e2de2] text-white font-medium text-center hover:bg-[#7a1fc9] transition-colors text-sm"
+                >
+                  Download TAR.GZ
+                </a>
+                <code className="block p-2 rounded bg-black/50 text-xs text-zinc-400 font-mono">
+                  brew install malikclaw
+                </code>
+              </div>
+            </motion.div>
+
+            {/* Linux */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="p-6 rounded-2xl bg-[#18181b] border border-white/5 hover:border-[#0df2c9]/50 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-lg bg-[#0df2c9]/10 flex items-center justify-center mb-4">
+                <Cpu className="w-6 h-6 text-[#0df2c9]" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-white">Linux</h3>
+              <p className="text-zinc-400 text-sm mb-4">x86_64, ARM64, ARMv6/7</p>
+              <div className="space-y-2">
+                <a 
+                  href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_x86_64.tar.gz"
+                  className="block w-full py-2 px-4 rounded-md bg-[#0df2c9] text-black font-medium text-center hover:bg-[#0bc2a1] transition-colors text-sm"
+                >
+                  Download TAR.GZ
+                </a>
+                <code className="block p-2 rounded bg-black/50 text-xs text-zinc-400 font-mono">
+                  curl -sSfL https://malikclaw.io/install.sh | sh
+                </code>
+              </div>
+            </motion.div>
+
+            {/* Android/Termux */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="p-6 rounded-2xl bg-[#18181b] border border-white/5 hover:border-[#8e2de2]/50 transition-colors group"
+            >
+              <div className="w-12 h-12 rounded-lg bg-[#8e2de2]/10 flex items-center justify-center mb-4">
+                <Smartphone className="w-6 h-6 text-[#8e2de2]" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2 text-white">Android</h3>
+              <p className="text-zinc-400 text-sm mb-4">Termux (ARM64)</p>
+              <div className="space-y-2">
+                <Link 
+                  href="/docs/installation/android"
+                  className="block w-full py-2 px-4 rounded-md bg-[#8e2de2] text-white font-medium text-center hover:bg-[#7a1fc9] transition-colors text-sm"
+                >
+                  View Guide
+                </Link>
+                <code className="block p-2 rounded bg-black/50 text-xs text-zinc-400 font-mono">
+                  pkg install proot && termux-chroot
+                </code>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-zinc-400 text-sm mb-4">
+              Want to build from source or need a different architecture?
+            </p>
+            <Link 
+              href="/docs/installation/source"
+              className="inline-flex items-center gap-2 text-[#0df2c9] hover:text-white transition-colors font-medium"
+            >
+              View source installation guide <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </section>
 
