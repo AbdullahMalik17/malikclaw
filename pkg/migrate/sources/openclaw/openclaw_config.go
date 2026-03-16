@@ -628,16 +628,25 @@ type PeerMatch struct {
 }
 
 type ChannelsConfig struct {
-	WhatsApp WhatsAppConfig `json:"whatsapp"`
-	Telegram TelegramConfig `json:"telegram"`
-	Feishu   FeishuConfig   `json:"feishu"`
-	Discord  DiscordConfig  `json:"discord"`
-	MaixCam  MaixCamConfig  `json:"maixcam"`
-	QQ       QQConfig       `json:"qq"`
-	DingTalk DingTalkConfig `json:"dingtalk"`
-	Slack    SlackConfig    `json:"slack"`
-	Matrix   MatrixConfig   `json:"matrix"`
-	LINE     LINEConfig     `json:"line"`
+	WhatsApp   WhatsAppConfig   `json:"whatsapp"`
+	Telegram   TelegramConfig   `json:"telegram"`
+	Feishu     FeishuConfig     `json:"feishu"`
+	Discord    DiscordConfig    `json:"discord"`
+	MaixCam    MaixCamConfig    `json:"maixcam"`
+	QQ         QQConfig         `json:"qq"`
+	DingTalk   DingTalkConfig   `json:"dingtalk"`
+	Slack      SlackConfig      `json:"slack"`
+	Matrix     MatrixConfig     `json:"matrix"`
+	LINE       LINEConfig       `json:"line"`
+	GoogleChat GoogleChatConfig `json:"googlechat"`
+}
+
+type GoogleChatConfig struct {
+	Enabled            bool     `json:"enabled"`
+	ServiceAccountFile string   `json:"service_account_file"`
+	WebhookPath        string   `json:"webhook_path"`
+	BotUser            string   `json:"bot_user"`
+	AllowFrom          []string `json:"allow_from"`
 }
 
 type WhatsAppConfig struct {

@@ -18,6 +18,7 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 	"golang.org/x/oauth2/jwt"
 )
 
@@ -73,7 +74,7 @@ func loadServiceAccount(path string) (*jwt.Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to read google chat service account file: %w", err)
 	}
-	cfg, err := jwt.ConfigFromJSON(data, googleChatScope)
+	cfg, err := google.JWTConfigFromJSON(data, googleChatScope)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse google chat service account file: %w", err)
 	}
