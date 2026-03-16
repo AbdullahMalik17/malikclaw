@@ -56,3 +56,7 @@ dist/
 !web/backend/dist/
 web/backend/dist/*
 !web/backend/dist/.gitkeep
+
+
+# Agents 
+GEMINI.md
