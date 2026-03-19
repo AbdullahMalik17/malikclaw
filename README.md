@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/image.png" alt="MalikClaw">
+  <img src="assets/image.png" alt="MalikClaw AI Agent running on $10 Linux SBC">
 
   <h1>MalikClaw 🦅</h1>
 
@@ -7,16 +7,19 @@
   <p><strong>$10 Hardware · &lt;10MB RAM · &lt;1s Boot · آگے بڑھو، ملک کلاؤ!</strong></p>
 
   <p>
-    <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
-    <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
-    <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+    <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status"></a>
+    <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
+    <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Multi-Architecture Support">
+    <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License"></a>
     <br>
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/Ab4695Athar"><img src="https://img.shields.io/badge/X_(Twitter)-Ab4695Athar-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
-    <a href="https://www.linkedin.com/in/muhammad-abdullah-athar"><img src="https://img.shields.io/badge/LinkedIn-Muhammad_Abdullah_Athar-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
     <br>
-    <a href="https://github.com/AbdullahMalik17"><img src="https://img.shields.io/badge/GitHub-AbdullahMalik17-181717?style=flat&logo=github&logoColor=white" alt="GitHub"></a>
-    <a href="https://portfolio-ai-assistant-of-malik.vercel.app/"><img src="https://img.shields.io/badge/Portfolio-Website-4285F4?style=flat&logo=google-chrome&logoColor=white" alt="Portfolio"></a>
+    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
+    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | **English**
@@ -33,12 +36,12 @@
   <tr align="center">
     <td align="center" valign="top">
       <p align="center">
-        <img src="assets/malikclaw_mem.png" width="360" height="240">
+        <img src="assets/malikclaw_mem.png" alt="MalikClaw ultra-low memory usage comparison" width="360" height="240">
       </p>
     </td>
     <td align="center" valign="top">
       <p align="center">
-        <img src="assets/nano_bana_pro.jpg" width="400" height="240">
+        <img src="assets/nano_bana_pro.jpg" alt="MalikClaw running on $10 NanoPi edge hardware" width="400" height="240">
       </p>
     </td>
   </tr>
@@ -78,14 +81,22 @@
 
 🛠️ **Self-Evolution**: Guardian engine allows the agent to autonomously improve its own code.
 
-|                               | OpenClaw      | NanoBot                  | **Malikclaw**                              |
+## 🚀 Why MalikClaw?
+
+If you are looking for a **lightweight alternative to OpenClaw**, **AutoGPT**, or **BabyAGI** that can run on a $10 budget, MalikClaw is the answer.
+
+*   **Low Cost:** While other AI agents require a Mac Mini or a high-end Cloud VM, MalikClaw runs on **Orange Pi Zero** or **Raspberry Pi Zero 2 W**.
+*   **Privacy-First:** Your data stays on your hardware.
+*   **Developer Friendly:** Built in Go for maximum performance and easy cross-compilation.
+
+|                               | OpenClaw      | NanoBot                  | **MalikClaw**                              |
 | ----------------------------- | ------------- | ------------------------ | ----------------------------------------- |
 | **Language**                  | TypeScript    | Python                   | **Go**                                    |
 | **RAM**                       | >1GB          | >100MB                   | **< 10MB**                                |
-| **Startup**</br>(0.8GHz core) | >500s         | >30s                     | **<1s**                                   |
-| **Cost**                      | Mac Mini 599$ | Most Linux SBC </br>~50$ | **Any Linux Board**</br>**As low as 10$** |
+| **Startup**</br>(0.8GHz core) | >500s         | >30s                     | **< 1s**                                   |
+| **Cost**                      | Mac Mini 599$ | Most Linux SBC </br>~50$ | **Any Linux Board**</br>**As low as $10** |
 
-<img src="assets/compare.jpg" alt="Malikclaw" width="512">
+<img src="assets/compare.jpg" alt="MalikClaw vs OpenClaw vs NanoBot performance and cost comparison chart" width="512">
 
 ## 🦾 Demonstration
 
@@ -98,9 +109,9 @@
     <th><p align="center">🔎 Web Search & Learning</p></th>
   </tr>
   <tr>
-    <td align="center"><p align="center"><img src="assets/malikclaw_code.png" width="240" height="180"></p></td>
-    <td align="center"><p align="center"><img src="assets/malikclaw_memory.png" width="240" height="180"></p></td>
-    <td align="center"><p align="center"><img src="assets/malikclaw_search.png" width="240" height="180"></p></td>
+    <td align="center"><p align="center"><img src="assets/malikclaw_code.png" alt="MalikClaw AI agent performing full-stack engineering tasks" width="240" height="180"></p></td>
+    <td align="center"><p align="center"><img src="assets/malikclaw_memory.png" alt="MalikClaw autonomous planning and memory management system" width="240" height="180"></p></td>
+    <td align="center"><p align="center"><img src="assets/malikclaw_search.png" alt="MalikClaw AI-powered web search and market research" width="240" height="180"></p></td>
   </tr>
   <tr>
     <td align="center">Develop • Deploy • Scale</td>
@@ -125,7 +136,7 @@ termux-chroot ./malikclaw-linux-arm64 onboard
 ```
 
 And then follow the instructions in the "Quick Start" section to complete the configuration!
-<img src="assets/termux.jpg" alt="Malikclaw" width="512">
+<img src="assets/termux.jpg" alt="MalikClaw running on an old Android phone using Termux and Proot" width="512">
 
 ### 🐜 Innovative Low-Footprint Deploy
 
@@ -1558,7 +1569,7 @@ This happens when another instance of the bot is running. Make sure only one `ma
 ---
 
 <div align="center">
-  <img src="assets/logo.webp" alt="MalikClaw" width="512">
+  <img src="assets/logo.webp" alt="MalikClaw Eagle Logo - The Edge AI Champion for Linux and Android" width="512">
   <p><strong>Built with 🦅 by <a href="https://github.com/AbdullahMalik17">Muhammad Abdullah Athar</a></strong></p>
 </div>
 

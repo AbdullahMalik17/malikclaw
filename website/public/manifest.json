@@ -1,0 +1,33 @@
+{
+  "name": "MalikClaw - Edge AI Champion",
+  "short_name": "MalikClaw",
+  "description": "Ultra-lightweight personal AI infrastructure for $10 hardware. 10MB RAM, 1s Boot, 100% Privacy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#EAB308",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer tools", "productivity", "utilities"],
+  "lang": "en",
+  "dir": "auto",
+  "prefer_related_applications": false
+}
