@@ -68,7 +68,12 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 
       <div className="max-w-7xl mx-auto px-6 pt-24 flex gap-12">
         {/* Sidebar */}
-        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-white/5 pr-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24 custom-scrollbar">
+        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-white/5 pr-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24 
+          [&::-webkit-scrollbar]:w-1.5
+          [&::-webkit-scrollbar-track]:bg-transparent
+          [&::-webkit-scrollbar-thumb]:bg-white/10
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
           <div className="space-y-8 pb-12">
             {sidebarItems.map((section) => (
               <div key={section.title} className="space-y-3">

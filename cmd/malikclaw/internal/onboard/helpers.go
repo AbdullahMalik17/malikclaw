@@ -5,81 +5,11 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-
-	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
-	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 func onboard() {
-	configPath := internal.GetConfigPath()
-
-	fmt.Println("Choose Language / اپنی زبان منتخب کریں:")
-	fmt.Println("1. English")
-	fmt.Println("2. Urdu (اردو)")
-	fmt.Print("Choice / آپ کا انتخاب [1]: ")
-	var langChoice string
-	fmt.Scanln(&langChoice)
-
-	isUrdu := langChoice == "2"
-
-	if _, err := os.Stat(configPath); err == nil {
-		if isUrdu {
-			fmt.Printf("تشکیلی فائل پہلے سے %s پر موجود ہے۔\n", configPath)
-			fmt.Print("کیا آپ اسے دوبارہ لکھنا چاہتے ہیں؟ (y/n): ")
-		} else {
-			fmt.Printf("Config already exists at %s\n", configPath)
-			fmt.Print("Overwrite? (y/n): ")
-		}
-		var response string
-		fmt.Scanln(&response)
-		if response != "y" {
-			if isUrdu {
-				fmt.Println("عمل منسوخ کر دیا گیا۔")
-			} else {
-				fmt.Println("Aborted.")
-			}
-			return
-		}
-	}
-
-	cfg := config.DefaultConfig()
-	if err := config.SaveConfig(configPath, cfg); err != nil {
-		if isUrdu {
-			fmt.Printf("تشکیل محفوظ کرنے میں غلطی: %v\n", err)
-		} else {
-			fmt.Printf("Error saving config: %v\n", err)
-		}
-		os.Exit(1)
-	}
-
-	workspace := cfg.WorkspacePath()
-	createWorkspaceTemplates(workspace)
-
-	if isUrdu {
-		fmt.Printf("%s ملک کلاؤ (malikclaw) تیار ہے!\n", internal.Logo)
-		fmt.Println("\nاگلے اقدامات:")
-		fmt.Println("  1. اپنی API key اس فائل میں شامل کریں:", configPath)
-		fmt.Println("")
-		fmt.Println("     تجویز کردہ:")
-		fmt.Println("     - OpenRouter: https://openrouter.ai/keys (100+ ماڈلز تک رسائی)")
-		fmt.Println("     - Ollama:     https://ollama.com (مقامی اور مفت)")
-		fmt.Println("")
-		fmt.Println("     سپورٹ شدہ فراہم کنندگان کے لیے README.md دیکھیں۔")
-		fmt.Println("")
-		fmt.Println("  2. بات چیت شروع کریں: malikclaw agent -m \"السلام علیکم!\"")
-	} else {
-		fmt.Printf("%s malikclaw is ready!\n", internal.Logo)
-		fmt.Println("\nNext steps:")
-		fmt.Println("  1. Add your API key to", configPath)
-		fmt.Println("")
-		fmt.Println("     Recommended:")
-		fmt.Println("     - OpenRouter: https://openrouter.ai/keys (access 100+ models)")
-		fmt.Println("     - Ollama:     https://ollama.com (local, free)")
-		fmt.Println("")
-		fmt.Println("     See README.md for 17+ supported providers.")
-		fmt.Println("")
-		fmt.Println("  2. Chat: malikclaw agent -m \"Hello!\"")
-	}
+	wizard := NewOnboardWizard()
+	wizard.Run()
 }
 
 func createWorkspaceTemplates(workspace string) {

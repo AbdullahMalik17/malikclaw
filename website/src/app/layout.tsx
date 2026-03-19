@@ -18,10 +18,14 @@ export const metadata: Metadata = {
   keywords: ["AI Assistant", "Go", "Edge Computing", "Lightweight AI", "Urdu AI", "South Asia", "RISC-V", "ARM", "Open Source", "Gryphon AI"],
   authors: [{ name: "Muhammad Abdullah Athar", url: "https://github.com/AbdullahMalik17" }],
   creator: "Muhammad Abdullah Athar",
+  metadataBase: new URL("https://malikclaw.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "MalikClaw - Ultra-Efficient Personal AI Assistant",
     description: "Runs on $10 hardware with <10MB RAM. The edge champion for AI agents.",
-    url: "https://malikclaw.io",
+    url: "https://malikclaw.vercel.app",
     siteName: "MalikClaw",
     locale: "en_US",
     type: "website",

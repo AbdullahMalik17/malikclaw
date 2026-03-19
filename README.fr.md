@@ -1,20 +1,29 @@
 <div align="center">
-  <img src="assets/image.png" alt="MalikClaw" width="512">
+  <img src="assets/image.png" alt="MalikClaw AI Agent running on $10 Linux SBC">
 
-  <h1>MalikClaw : Assistant IA Ultra-Efficace en Go</h1>
+  <h1>MalikClaw 🦅</h1>
 
-  <h3>Matériel à 10$ · 10 Mo de RAM · Démarrage en 1s · 皮皮虾，我们走！</h3>
+  <h3>Ultra-Efficient Personal AI Assistant for Edge Hardware</h3>
+  <p><strong>$10 Hardware · &lt;10MB RAM · &lt;1s Boot · آگے بڑھو، ملک کلاؤ!</strong></p>
 
   <p>
-    <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Go">
-    <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Hardware">
-    <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+    <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status"></a>
+    <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
+    <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Multi-Architecture Support">
+    <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License"></a>
     <br>
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Website"></a>
-    <a href="https://x.com/AbdullahMalik17"><img src="https://img.shields.io/badge/X_(Twitter)-AbdullahMalik17-black?style=flat&logo=x&logoColor=white" alt="Twitter"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
+    <br>
+    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
+    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
 
- [中文](README.zh.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [English](README.md) | **Français**
+[اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | **Français** | [English](README.md)
+
 </div>
 
 ---
@@ -69,14 +78,22 @@
 
 🤖 **Auto-Construit par l'IA** : Implémentation native en Go de manière autonome — 95% du cœur généré par l'Agent avec affinement humain dans la boucle.
 
+## 🚀 Why MalikClaw?
+
+If you are looking for a **lightweight alternative to OpenClaw**, **AutoGPT**, or **BabyAGI** that can run on a $10 budget, MalikClaw is the answer.
+
+*   **Low Cost:** While other AI agents require a Mac Mini or a high-end Cloud VM, MalikClaw runs on **Orange Pi Zero** or **Raspberry Pi Zero 2 W**.
+*   **Privacy-First:** Your data stays on your hardware.
+*   **Developer Friendly:** Built in Go for maximum performance and easy cross-compilation.
+
 |                               | OpenClaw      | NanoBot                  | **MalikClaw**                              |
 | ----------------------------- | ------------- | ------------------------ | ----------------------------------------- |
-| **Langage**                   | TypeScript    | Python                   | **Go**                                    |
-| **RAM**                       | >1 Go         | >100 Mo                  | **< 10 Mo**                               |
-| **Démarrage**</br>(cœur 0,8 GHz) | >500s     | >30s                     | **<1s**                                   |
-| **Coût**                      | Mac Mini 599$ | La plupart des SBC Linux </br>~50$ | **N'importe quelle carte Linux**</br>**À partir de 10$** |
+| **Language**                  | TypeScript    | Python                   | **Go**                                    |
+| **RAM**                       | >1GB          | >100MB                   | **< 10MB**                                |
+| **Startup**</br>(0.8GHz core) | >500s         | >30s                     | **< 1s**                                   |
+| **Cost**                      | Mac Mini 599$ | Most Linux SBC </br>~50$ | **Any Linux Board**</br>**As low as $10** |
 
-<img src="assets/compare.jpg" alt="MalikClaw" width="512">
+<img src="assets/compare.jpg" alt="MalikClaw vs OpenClaw vs NanoBot performance and cost comparison chart" width="512">
 
 ## 🦾 Démonstration
 

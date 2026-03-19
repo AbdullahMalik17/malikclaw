@@ -1,43 +1,71 @@
-# Troubleshooting
+# Troubleshooting Guide 🛠️
 
-## "model ... not found in model_list" or OpenRouter "free is not a valid model ID"
+If you're encountering issues with MalikClaw, check this list of common problems and their solutions.
 
-**Symptom:** You see either:
+---
 
-- `Error creating provider: model "openrouter/free" not found in model_list`
-- OpenRouter returns 400: `"free is not a valid model ID"`
+## 🔐 Authentication & Connectivity
 
-**Cause:** The `model` field in your `model_list` entry is what gets sent to the API. For OpenRouter you must use the **full** model ID, not a shorthand.
+### AntiGravity: "Missing required parameter: client_id"
 
-- **Wrong:** `"model": "free"` → OpenRouter receives `free` and rejects it.
-- **Right:** `"model": "openrouter/free"` → OpenRouter receives `openrouter/free` (auto free-tier routing).
+This error occurs when the backend is missing the Google OAuth client credentials.
 
-**Fix:** In `~/.malikclaw/config.json` (or your config path):
+- **Solution**: Restart the MalikClaw backend. The latest version includes built-in fallback credentials.
+- **Advanced**: You can manually set `MALIKCLAW_ANTIGRAVITY_CLIENT_ID` and `MALIKCLAW_ANTIGRAVITY_CLIENT_SECRET` in your environment variables.
 
-1. **agents.defaults.model** must match a `model_name` in `model_list` (e.g. `"openrouter-free"`).
-2. That entry’s **model** must be a valid OpenRouter model ID, for example:
-   - `"openrouter/free"` – auto free-tier
-   - `"google/gemini-2.0-flash-exp:free"`
-   - `"meta-llama/llama-3.1-8b-instruct:free"`
+### OpenAI: "unknown_error" during Login
 
-Example snippet:
+This usually indicates a **Redirect URI mismatch** or an expired session.
 
-```json
-{
-  "agents": {
-    "defaults": {
-      "model": "openrouter-free"
-    }
-  },
-  "model_list": [
-    {
-      "model_name": "openrouter-free",
-      "model": "openrouter/free",
-      "api_key": "sk-or-v1-YOUR_OPENROUTER_KEY",
-      "api_base": "https://openrouter.ai/api/v1"
-    }
-  ]
-}
-```
+- **Solution**: 
+  1. Ensure you are using the latest version of MalikClaw.
+  2. Clear your browser cookies for the MalikClaw dashboard.
+  3. Try logging out and logging back in from the Settings/Credentials page.
+- **Note**: If using standard API keys, ensure `auth_method` is **NOT** set to "oauth" in your `config.json`.
 
-Get your key at [OpenRouter Keys](https://openrouter.ai/keys).
+### OpenRouter: "free is not a valid model ID"
+
+**Cause**: You are using a shorthand for the model name.
+
+- **Wrong**: `"model": "free"`
+- **Right**: `"model": "openrouter/free"` (or specific models like `google/gemini-2.0-flash-exp:free`).
+
+---
+
+## ⚙️ Configuration Issues
+
+### "model ... not found in model_list"
+
+The model you've selected as default in `agents.defaults.model` does not exist in your `model_list` array.
+
+- **Fix**: Open `~/.malikclaw/config.json` and ensure the `model_name` in your list exactly matches the default model name.
+
+### Port 18800 Already in Use
+
+If the Web Launcher fails to start, another process might be using the port.
+
+- **Solution**: Run `malikclaw launcher -port 18801` to start on a different port.
+
+---
+
+## 💬 Channel Problems
+
+### Telegram Bot Not Responding
+
+1. **Token**: Verify your `BOT_TOKEN` is correct.
+2. **Allow List**: Ensure your Telegram User ID is in the `allow_from` list.
+3. **Privacy**: Ensure "Group Privacy" is disabled in @BotFather if you want the bot to see all messages in groups.
+
+### WhatsApp Pairing Fails
+
+- **Bridge**: If not using native mode, ensure the WhatsApp bridge server is running.
+- **Session**: If pairing fails repeatedly, delete the `session_store_path` folder and try scanning the QR code again.
+
+---
+
+## 🆘 Still Need Help?
+
+- **Logs**: Run `malikclaw agent --debug` to see detailed execution logs.
+- **GitHub**: Search through [Existing Issues](https://github.com/AbdullahMalik17/malikclaw/issues).
+- **Discord**: Join our community for real-time support.
+
