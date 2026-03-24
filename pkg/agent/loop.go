@@ -177,6 +177,9 @@ func registerSharedTools(
 		if cfg.Tools.IsToolEnabled("gmail") {
 			agent.Tools.Register(tools.NewGmailTool())
 		}
+		if cfg.Channels.Calendar.Enabled {
+			agent.Tools.Register(tools.NewCalendarTool())
+		}
 
 		// Self-evolution tool
 		if cfg.Tools.IsToolEnabled("self_improve") {

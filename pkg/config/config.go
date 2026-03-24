@@ -272,6 +272,9 @@ type ChannelsConfig struct {
 	WeComAIBot WeComAIBotConfig `json:"wecom_aibot"`
 	Pico       PicoConfig       `json:"pico"`
 	IRC        IRCConfig        `json:"irc"`
+	Gmail      GmailConfig      `json:"gmail"`
+	Calendar   CalendarConfig   `json:"calendar"`
+	Odoo       OdooConfig       `json:"odoo"`
 }
 
 // GroupTriggerConfig controls when the bot responds in group chats.
@@ -500,6 +503,32 @@ type IRCConfig struct {
 	GroupTrigger       GroupTriggerConfig  `json:"group_trigger,omitempty"`
 	Typing             TypingConfig        `json:"typing,omitempty"`
 	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_IRC_REASONING_CHANNEL_ID"`
+}
+
+type GmailConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_GMAIL_ENABLED"`
+	Token              string              `json:"token"                   env:"MALIKCLAW_CHANNELS_GMAIL_TOKEN"`
+	CredentialsJSON    string              `json:"credentials_json,omitempty" env:"MALIKCLAW_CHANNELS_GMAIL_CREDENTIALS_JSON"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_GMAIL_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_GMAIL_REASONING_CHANNEL_ID"`
+}
+
+type CalendarConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_CALENDAR_ENABLED"`
+	Token              string              `json:"token"                   env:"MALIKCLAW_CHANNELS_CALENDAR_TOKEN"`
+	CredentialsJSON    string              `json:"credentials_json,omitempty" env:"MALIKCLAW_CHANNELS_CALENDAR_CREDENTIALS_JSON"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_CALENDAR_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_CALENDAR_REASONING_CHANNEL_ID"`
+}
+
+type OdooConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_ODOO_ENABLED"`
+	ServerURL          string              `json:"server_url"              env:"MALIKCLAW_CHANNELS_ODOO_SERVER_URL"`
+	Database           string              `json:"database"                env:"MALIKCLAW_CHANNELS_ODOO_DATABASE"`
+	Username           string              `json:"username"                env:"MALIKCLAW_CHANNELS_ODOO_USERNAME"`
+	Password           string              `json:"password"                env:"MALIKCLAW_CHANNELS_ODOO_PASSWORD"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_ODOO_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_ODOO_REASONING_CHANNEL_ID"`
 }
 
 type HeartbeatConfig struct {

@@ -26,15 +26,15 @@ export default function Navigation({
   };
 
   return (
-    <nav className="fixed w-full z-50 top-0 border-b border-white/10 bg-black/50 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <nav className="fixed w-full sm:w-[95%] max-w-6xl z-50 top-4 left-1/2 -translate-x-1/2 transition-all duration-300 px-4 sm:px-0">
+      <div className="mx-auto px-6 h-16 flex items-center justify-between rounded-full border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:border-gryphon-gold/20 hover:bg-[#111111]/90 transition-all">
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tighter text-white">MalikClaw 🦅</span>
-          <span className="px-2 py-0.5 rounded-full bg-gryphon-gold/10 text-gryphon-gold text-xs font-medium border border-gryphon-gold/20">
+          <span className="text-xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">MalikClaw 🦅</span>
+          <span className="px-2 py-0.5 rounded-full bg-gryphon-gold/10 text-gryphon-gold text-xs font-bold border border-gryphon-gold/20">
             v0.2.1
           </span>
         </div>
-        <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-400">
+        <div className="hidden md:flex gap-8 text-sm font-semibold text-zinc-400">
           <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
           <a href="#download" className="hover:text-white transition-colors">{t.nav.download}</a>
           <Link href="/docs" className="hover:text-white transition-colors">{t.nav.docs}</Link>

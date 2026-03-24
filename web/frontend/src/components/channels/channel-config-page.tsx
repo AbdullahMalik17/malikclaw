@@ -168,6 +168,17 @@ function isConfigured(
       )
     case "irc":
       return asString(config.server) !== ""
+    case "gmail":
+      return asString(config.token) !== "" || asString(config.credentials_json) !== ""
+    case "calendar":
+      return asString(config.token) !== "" || asString(config.credentials_json) !== ""
+    case "odoo":
+      return (
+        asString(config.server_url) !== "" &&
+        asString(config.database) !== "" &&
+        asString(config.username) !== "" &&
+        asString(config.password) !== ""
+      )
     default:
       return false
   }
@@ -209,6 +220,11 @@ function getRequiredFieldKeys(channelName: string): string[] {
       return ["homeserver", "user_id", "access_token"]
     case "irc":
       return ["server"]
+    case "gmail":
+    case "calendar":
+      return ["token"]
+    case "odoo":
+      return ["server_url", "database", "username", "password"]
     default:
       return []
   }
@@ -239,6 +255,9 @@ const CHANNELS_WITHOUT_DOCS = new Set([
   "whatsapp",
   "whatsapp_native",
   "googlechat",
+  "gmail",
+  "calendar",
+  "odoo",
 ])
 
 export function ChannelConfigPage({ channelName }: ChannelConfigPageProps) {

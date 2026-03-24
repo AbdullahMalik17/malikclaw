@@ -14,6 +14,9 @@ import {
   IconMessages,
   IconPlug,
   IconRobot,
+  IconMail,
+  IconCalendarEvent,
+  IconBriefcase,
 } from "@tabler/icons-react"
 import type { TFunction } from "i18next"
 import { useAtomValue } from "jotai"
@@ -41,6 +44,9 @@ const CHANNEL_IMPORTANCE_ORDER = [
   "wecom_aibot",
   "dingtalk",
   "qq",
+  "gmail",
+  "calendar",
+  "odoo",
   "onebot",
   "matrix",
   "pico",
@@ -83,6 +89,9 @@ const CHANNEL_ICON_MAP: Record<
   wecom_aibot: IconBrandWechat,
   whatsapp: IconBrandWhatsapp,
   whatsapp_native: IconBrandWhatsapp,
+  gmail: IconMail,
+  calendar: IconCalendarEvent,
+  odoo: IconBriefcase,
   matrix: IconBrandMatrix,
   maixcam: IconCamera,
   onebot: IconRobot,

@@ -240,7 +240,10 @@
       "pico": "Web",
       "maixcam": "MaixCam",
       "matrix": "Matrix",
-      "irc": "IRC"
+      "irc": "IRC",
+      "gmail": "Gmail",
+      "calendar": "Google Calendar",
+      "odoo": "Odoo"
     },
     "field": {
       "token": "Bot Token",

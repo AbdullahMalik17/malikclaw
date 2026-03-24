@@ -177,8 +177,8 @@ export default function DownloadPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
-              Download <span className="text-gradient">MalikClaw</span>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 leading-tight">
+              Download <span className="text-transparent bg-clip-text bg-gradient-to-r from-gryphon-gold via-[#fbbf24] to-[#d97706]">MalikClaw</span>
             </h1>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
               Choose your platform and get started with the ultra-lightweight AI assistant in minutes.
@@ -197,17 +197,23 @@ export default function DownloadPage() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="scroll-mt-24"
             >
-              <div className="p-8 rounded-2xl bg-[#18181b] border border-white/5">
-                <div className="flex items-start gap-6 mb-8">
+              <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-b from-[#111] to-[#050505] border border-white/5 hover:border-white/20 transition-all duration-500 group relative overflow-hidden shadow-2xl">
+                {/* Ambient Glow */}
+                <div 
+                  className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none" 
+                  style={{ backgroundColor: platform.color }}
+                ></div>
+
+                <div className="flex items-start gap-6 mb-8 relative z-10">
                   <div 
-                    className="w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: `${platform.color}20` }}
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border"
+                    style={{ backgroundColor: `${platform.color}15`, borderColor: `${platform.color}30` }}
                   >
                     <platform.icon className="w-8 h-8" style={{ color: platform.color }} />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-white mb-2">{platform.name}</h2>
-                    <p className="text-zinc-400">{platform.description}</p>
+                    <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">{platform.name}</h2>
+                    <p className="text-zinc-400 text-lg">{platform.description}</p>
                   </div>
                 </div>
 
@@ -297,8 +303,9 @@ export default function DownloadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 p-8 rounded-2xl bg-[#18181b] border border-white/5"
+          className="mt-12 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-[#0a0a0a] via-[#111] to-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-500 relative overflow-hidden group"
         >
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0df2c9]/30 to-transparent"></div>
           <h2 className="text-2xl font-bold text-white mb-4">Build from Source</h2>
           <p className="text-zinc-400 mb-6">
             Want the latest features or need a custom build? Compile MalikClaw from source.
@@ -327,8 +334,9 @@ export default function DownloadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 p-8 rounded-2xl bg-[#18181b] border border-white/5"
+          className="mt-8 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-[#0a0a0a] via-[#111] to-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-500 relative overflow-hidden group"
         >
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#8e2de2]/30 to-transparent"></div>
           <h2 className="text-2xl font-bold text-white mb-4">Docker Deployment</h2>
           <p className="text-zinc-400 mb-6">
             Run MalikClaw in a container with Docker Compose.

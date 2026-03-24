@@ -240,7 +240,10 @@
       "pico": "Web",
       "maixcam": "MaixCam",
       "matrix": "Matrix",
-      "irc": "IRC"
+      "irc": "IRC",
+      "gmail": "جی میل",
+      "calendar": "گوگل کیلنڈر",
+      "odoo": "اوڈو"
     },
     "field": {
       "token": "بوٹ ٹوکن",
