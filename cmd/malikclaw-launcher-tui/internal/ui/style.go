@@ -43,6 +43,7 @@ func bannerView() *tview.TextView {
 }
 
 const footerText = "Esc: Back/Exit | Enter: Enter | ←↓↑→ : Move | Space: Select | Tab/Shift+Tab: Switch"
+const chatFooterText = "Ctrl+Enter: Send | Ctrl+Q: Quit | Ctrl+C: Clear | Ctrl+E: Export | Ctrl+H: Help | Esc: Back"
 
 func footerView() *tview.TextView {
 	text := tview.NewTextView()
@@ -50,6 +51,16 @@ func footerView() *tview.TextView {
 	text.SetText(footerText)
 	text.SetBackgroundColor(tview.Styles.MoreContrastBackgroundColor)
 	text.SetTextColor(tview.Styles.PrimaryTextColor)
+	text.SetBorder(false)
+	return text
+}
+
+func chatFooterView() *tview.TextView {
+	text := tview.NewTextView()
+	text.SetTextAlign(tview.AlignCenter)
+	text.SetText(chatFooterText)
+	text.SetBackgroundColor(tview.Styles.MoreContrastBackgroundColor)
+	text.SetTextColor(tview.Styles.SecondaryTextColor)
 	text.SetBorder(false)
 	return text
 }

@@ -27,6 +27,7 @@ type appState struct {
 	backupPath  string
 	dirty       bool
 	logPath     string
+	footer      *tview.TextView
 }
 
 func Run() error {
@@ -61,6 +62,7 @@ func Run() error {
 		hasOriginal: hasOriginal,
 		backupPath:  backupPath,
 		logPath:     logPath,
+		footer:      footerView(),
 	}
 
 	state.push("main", state.mainMenu())
@@ -68,7 +70,7 @@ func Run() error {
 	root := tview.NewFlex().SetDirection(tview.FlexRow)
 	root.AddItem(bannerView(), 6, 0, false)
 	root.AddItem(state.pages, 0, 1, true)
-	root.AddItem(footerView(), 1, 0, false)
+	root.AddItem(state.footer, 1, 0, false)
 
 	if err := state.app.SetRoot(root, true).EnableMouse(false).Run(); err != nil {
 		return err
@@ -82,6 +84,12 @@ func (s *appState) push(name string, primitive tview.Primitive) {
 	s.pages.SwitchToPage(name)
 	if menu, ok := primitive.(*Menu); ok {
 		s.menus[name] = menu
+	}
+	// Update footer based on the view
+	if name == "chat" {
+		s.footer.SetText(chatFooterText)
+	} else {
+		s.footer.SetText(footerText)
 	}
 }
 
@@ -100,6 +108,12 @@ func (s *appState) pop() {
 	s.pages.SwitchToPage(current)
 	if menu, ok := s.menus[current]; ok {
 		s.refreshMenu(current, menu)
+	}
+	// Update footer based on the current view
+	if current == "chat" {
+		s.footer.SetText(chatFooterText)
+	} else {
+		s.footer.SetText(footerText)
 	}
 }
 
@@ -206,6 +220,14 @@ func refreshMainMenu(menu *Menu, s *appState) {
 			}(),
 		},
 		{
+			Label:       "Chat (Interactive)",
+			Description: "Open interactive chat interface",
+			Action: func() {
+				s.requestStartChat()
+			},
+			Disabled: !modelReady,
+		},
+		{
 			Label:       "Start Talk",
 			Description: "Open malikclaw agent in terminal",
 			Action: func() {
@@ -276,6 +298,22 @@ func (s *appState) requestExit() {
 		return
 	}
 	s.app.Stop()
+}
+
+func (s *appState) requestStartChat() {
+	if !s.isActiveModelValid() {
+		s.showMessage("Model required", "Select a valid model before starting chat")
+		return
+	}
+	if s.dirty {
+		s.confirmApplyOrDiscard(func() {
+			s.startChat()
+		}, func() {
+			s.startChat()
+		})
+		return
+	}
+	s.startChat()
 }
 
 func (s *appState) requestStartTalk() {
@@ -351,6 +389,11 @@ func rootChannelLabel(valid bool) string {
 		return "Channel (no channel enabled)"
 	}
 	return "Channel"
+}
+
+func (s *appState) startChat() {
+	chatView := s.newChatView()
+	s.push("chat", chatView)
 }
 
 func (s *appState) startTalk() {

@@ -16,16 +16,25 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/ui"
 )
 
-func agentCmd(message, sessionKey, model string, debug bool) error {
+func agentCmd(message, sessionKey, model string, debug, verbose bool) error {
 	if sessionKey == "" {
 		sessionKey = "cli:default"
 	}
 
+	// Set default log level to ERROR to hide internal agent logs
+	logger.SetLevel(logger.ERROR)
+
+	if verbose {
+		logger.SetLevel(logger.INFO)
+		fmt.Println(ui.StyleInfo.Render("ℹ️ Verbose mode enabled (Info logs shown)"))
+	}
+
 	if debug {
 		logger.SetLevel(logger.DEBUG)
-		fmt.Println("🔍 Debug mode enabled")
+		fmt.Println(ui.StyleInfo.Render("🔍 Debug mode enabled (All logs shown)"))
 	}
 
 	cfg, err := internal.LoadConfig()
@@ -54,31 +63,34 @@ func agentCmd(message, sessionKey, model string, debug bool) error {
 
 	// Print agent startup info (only for interactive mode)
 	startupInfo := agentLoop.GetStartupInfo()
-	logger.InfoCF("agent", "Agent initialized",
-		map[string]any{
-			"tools_count":      startupInfo["tools"].(map[string]any)["count"],
-			"skills_total":     startupInfo["skills"].(map[string]any)["total"],
-			"skills_available": startupInfo["skills"].(map[string]any)["available"],
-		})
+	fmt.Printf("%s %s\n", 
+		ui.StyleSuccess.Render("✓"), 
+		ui.StyleMuted.Render(fmt.Sprintf("Agent initialized with %v tools and %v skills", 
+			startupInfo["tools"].(map[string]any)["count"],
+			startupInfo["skills"].(map[string]any)["total"])))
 
 	if message != "" {
 		ctx := context.Background()
+		stop := ui.ShowSpinner("Agent is thinking...")
 		response, err := agentLoop.ProcessDirect(ctx, message, sessionKey)
+		stop()
 		if err != nil {
 			return fmt.Errorf("error processing message: %w", err)
 		}
-		fmt.Printf("\n%s %s\n", internal.Logo, response)
+		
+		rendered, _ := ui.RenderMarkdown(response)
+		fmt.Printf("\n%s\n%s\n", ui.StyleAgentName.Render(" MalikClaw "), rendered)
 		return nil
 	}
 
-	fmt.Printf("%s Interactive mode (Ctrl+C to exit)\n\n", internal.Logo)
+	fmt.Printf("\n%s %s\n\n", internal.Logo, ui.StyleHeader.Render("Interactive Mode (Ctrl+C to exit)"))
 	interactiveMode(agentLoop, sessionKey)
 
 	return nil
 }
 
 func interactiveMode(agentLoop *agent.AgentLoop, sessionKey string) {
-	prompt := fmt.Sprintf("%s You: ", internal.Logo)
+	prompt := ui.StyleUserName.Render("You: ")
 
 	rl, err := readline.NewEx(&readline.Config{
 		Prompt:          prompt,
@@ -99,7 +111,7 @@ func interactiveMode(agentLoop *agent.AgentLoop, sessionKey string) {
 		line, err := rl.Readline()
 		if err != nil {
 			if err == readline.ErrInterrupt || err == io.EOF {
-				fmt.Println("\nGoodbye!")
+				fmt.Println("\n" + ui.StyleInfo.Render("Goodbye!"))
 				return
 			}
 			fmt.Printf("Error reading input: %v\n", err)
@@ -112,29 +124,32 @@ func interactiveMode(agentLoop *agent.AgentLoop, sessionKey string) {
 		}
 
 		if input == "exit" || input == "quit" {
-			fmt.Println("Goodbye!")
+			fmt.Println(ui.StyleInfo.Render("Goodbye!"))
 			return
 		}
 
 		ctx := context.Background()
+		stop := ui.ShowSpinner("Thinking...")
 		response, err := agentLoop.ProcessDirect(ctx, input, sessionKey)
+		stop()
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			fmt.Printf("%s %v\n", ui.StyleError.Render("Error:"), err)
 			continue
 		}
 
-		fmt.Printf("\n%s %s\n\n", internal.Logo, response)
+		rendered, _ := ui.RenderMarkdown(response)
+		fmt.Printf("\n%s\n%s\n", ui.StyleAgentName.Render(" MalikClaw "), rendered)
 	}
 }
 
 func simpleInteractiveMode(agentLoop *agent.AgentLoop, sessionKey string) {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		fmt.Print(fmt.Sprintf("%s You: ", internal.Logo))
+		fmt.Print(ui.StyleUserName.Render("You: "))
 		line, err := reader.ReadString('\n')
 		if err != nil {
 			if err == io.EOF {
-				fmt.Println("\nGoodbye!")
+				fmt.Println("\n" + ui.StyleInfo.Render("Goodbye!"))
 				return
 			}
 			fmt.Printf("Error reading input: %v\n", err)
@@ -147,17 +162,20 @@ func simpleInteractiveMode(agentLoop *agent.AgentLoop, sessionKey string) {
 		}
 
 		if input == "exit" || input == "quit" {
-			fmt.Println("Goodbye!")
+			fmt.Println(ui.StyleInfo.Render("Goodbye!"))
 			return
 		}
 
 		ctx := context.Background()
+		stop := ui.ShowSpinner("Thinking...")
 		response, err := agentLoop.ProcessDirect(ctx, input, sessionKey)
+		stop()
 		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+			fmt.Printf("%s %v\n", ui.StyleError.Render("Error:"), err)
 			continue
 		}
 
-		fmt.Printf("\n%s %s\n\n", internal.Logo, response)
+		rendered, _ := ui.RenderMarkdown(response)
+		fmt.Printf("\n%s\n%s\n", ui.StyleAgentName.Render(" MalikClaw "), rendered)
 	}
 }
