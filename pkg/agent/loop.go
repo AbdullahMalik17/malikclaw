@@ -19,6 +19,11 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent/benchmarks"
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent/eval"
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent/executor"
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent/planner"
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent/router"
 	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
 	"github.com/AbdullahMalik17/malikclaw/pkg/channels"
 	"github.com/AbdullahMalik17/malikclaw/pkg/commands"
@@ -48,9 +53,16 @@ type AgentLoop struct {
 	transcriber    voice.Transcriber
 	cmdRegistry    *commands.Registry
 	mcp            mcpRuntime
+	benchmark      *benchmarks.Benchmark // Performance tracking
 	mu             sync.RWMutex
 	// Track active requests for safe provider cleanup
 	activeRequests sync.WaitGroup
+
+	// Agentic modular components
+	planner   Planner
+	executor  Executor
+	evaluator Evaluator
+	router    Router
 }
 
 // processOptions configures how a message is processed
@@ -105,6 +117,15 @@ func NewAgentLoop(
 		summarizing: sync.Map{},
 		fallback:    fallbackChain,
 		cmdRegistry: commands.NewRegistry(commands.BuiltinDefinitions()),
+		benchmark:   benchmarks.NewBenchmark(context.Background(), 1000),
+	}
+
+	// Initialize modular agentic components
+	if defaultAgent != nil {
+		al.planner = planner.NewReActPlanner(provider, defaultAgent.Model)
+		al.executor = executor.NewToolExecutor(defaultAgent.Tools)
+		al.evaluator = eval.NewCritic(provider, defaultAgent.Model)
+		al.router = router.NewSimpleRouter(defaultAgent.Candidates)
 	}
 
 	return al
@@ -468,6 +489,13 @@ func (al *AgentLoop) GetRegistry() *AgentRegistry {
 	al.mu.RLock()
 	defer al.mu.RUnlock()
 	return al.registry
+}
+
+// GetBenchmark returns the benchmark tracker for performance analysis
+func (al *AgentLoop) GetBenchmark() *benchmarks.Benchmark {
+	al.mu.RLock()
+	defer al.mu.RUnlock()
+	return al.benchmark
 }
 
 // GetConfig returns the current config (thread-safe)
@@ -866,12 +894,22 @@ func (al *AgentLoop) runAgentLoop(
 	ctx context.Context,
 	agent *AgentInstance,
 	opts processOptions,
-) (string, error) {
-	// 0. Record last channel for heartbeat notifications (skip internal channels and cli)
+) (finalContent string, err error) {
+	// 0. Start benchmark
+	taskID := fmt.Sprintf("%s-%d", opts.SessionKey, time.Now().Unix())
+	metrics := al.benchmark.StartExecution(taskID)
+	var iteration int
+	defer func() {
+		metrics.Iteration = iteration
+		metrics.Success = (err == nil)
+		_ = al.benchmark.RecordExecution(metrics)
+	}()
+
+	// 1. Record last channel for heartbeat notifications (skip internal channels and cli)
 	if opts.Channel != "" && opts.ChatID != "" {
 		if !constants.IsInternalChannel(opts.Channel) {
 			channelKey := fmt.Sprintf("%s:%s", opts.Channel, opts.ChatID)
-			if err := al.RecordLastChannel(channelKey); err != nil {
+			if err = al.RecordLastChannel(channelKey); err != nil {
 				logger.WarnCF(
 					"agent",
 					"Failed to record last channel",
@@ -881,7 +919,7 @@ func (al *AgentLoop) runAgentLoop(
 		}
 	}
 
-	// 1. Build messages (skip history for heartbeat)
+	// 2. Build messages (skip history for heartbeat)
 	var history []providers.Message
 	var summary string
 	if !opts.NoHistory {
@@ -897,16 +935,35 @@ func (al *AgentLoop) runAgentLoop(
 		opts.ChatID,
 	)
 
+	if agent.LearningStore != nil {
+		learnings, err := agent.LearningStore.GetRecentLearnings(ctx, 3)
+		if err == nil && len(learnings) > 0 {
+			var lessons string
+			for i, l := range learnings {
+				if !l.Success || l.SuccessScore < 0.8 {
+					lessons += fmt.Sprintf("Lesson %d:\n- Mistake: %s\n- Improvement: %s\n", i+1, l.WhatWentWrong, l.HowToImprove)
+				}
+			}
+			if lessons != "" && len(messages) > 0 {
+				messages[0].Content += "\n\nCRITICAL PAST LESSONS TO AVOID MISTAKES:\n" + lessons
+			}
+		}
+	}
+
 	// Resolve media:// refs: images→base64 data URLs, non-images→local paths in content
 	cfg := al.GetConfig()
 	maxMediaSize := cfg.Agents.Defaults.GetMaxMediaSize()
 	messages = resolveMediaRefs(messages, al.mediaStore, maxMediaSize)
 
-	// 2. Save user message to session
+	// 3. Save user message to session
 	agent.Sessions.AddMessage(opts.SessionKey, "user", opts.UserMessage)
 
-	// 3. Run LLM iteration loop
-	finalContent, iteration, err := al.runLLMIteration(ctx, agent, messages, opts)
+	// 4. Run LLM iteration loop
+	if al.planner != nil && al.cfg.Agents.Defaults.ExperimentalAgenticLoop {
+		finalContent, iteration, err = al.runAgenticLoop(ctx, agent, messages, opts)
+	} else {
+		finalContent, iteration, err = al.runLLMIteration(ctx, agent, messages, opts)
+	}
 	if err != nil {
 		return "", err
 	}
@@ -914,21 +971,21 @@ func (al *AgentLoop) runAgentLoop(
 	// If last tool had ForUser content and we already sent it, we might not need to send final response
 	// This is controlled by the tool's Silent flag and ForUser content
 
-	// 4. Handle empty response
+	// 5. Handle empty response
 	if finalContent == "" {
 		finalContent = opts.DefaultResponse
 	}
 
-	// 5. Save final assistant message to session
+	// 6. Save final assistant message to session
 	agent.Sessions.AddMessage(opts.SessionKey, "assistant", finalContent)
 	agent.Sessions.Save(opts.SessionKey)
 
-	// 6. Optional: summarization
+	// 7. Optional: summarization
 	if opts.EnableSummary {
 		al.maybeSummarize(agent, opts.SessionKey, opts.Channel, opts.ChatID)
 	}
 
-	// 7. Optional: send response via bus
+	// 8. Optional: send response via bus
 	if opts.SendResponse {
 		al.bus.PublishOutbound(ctx, bus.OutboundMessage{
 			Channel: opts.Channel,
@@ -937,7 +994,7 @@ func (al *AgentLoop) runAgentLoop(
 		})
 	}
 
-	// 8. Log response
+	// 9. Log response
 	responsePreview := utils.Truncate(finalContent, 120)
 	logger.DebugCF("agent", fmt.Sprintf("Response: %s", responsePreview),
 		map[string]any{
@@ -1007,6 +1064,96 @@ func (al *AgentLoop) handleReasoning(
 }
 
 // runLLMIteration executes the LLM call loop with tool handling.
+// runAgenticLoop implements the advanced agentic cycle (Plan -> Act -> Observe -> Reflect).
+func (al *AgentLoop) runAgenticLoop(
+	ctx context.Context,
+	agent *AgentInstance,
+	messages []providers.Message,
+	opts processOptions,
+) (string, int, error) {
+	iteration := 0
+	goal := opts.UserMessage
+
+	// 1. Initial Planning
+	plan, err := al.planner.Plan(ctx, goal, messages)
+	if err != nil {
+		return "", 0, fmt.Errorf("initial planning failed: %w", err)
+	}
+
+	for iteration < agent.MaxIterations {
+		iteration++
+
+		// 2. Routing (Pick model for this iteration)
+		_, err := al.router.Route(ctx, goal)
+		if err != nil {
+			logger.WarnCF("agent", "Routing failed, using default model", map[string]any{"error": err.Error()})
+		}
+
+		// 3. Execution (Process steps from plan)
+		var lastObservation string
+		for _, step := range plan.Steps {
+			execResult, err := al.executor.Execute(ctx, step)
+			if err != nil {
+				lastObservation = fmt.Sprintf("Error executing %s: %v", step.Tool, err)
+			} else if execResult != nil {
+				lastObservation = execResult.Observation
+				if lastObservation == "" {
+					lastObservation = execResult.Output
+				}
+			} else {
+				lastObservation = "Execution completed without output"
+			}
+
+			// Add interaction to history
+			assistantMsg := providers.Message{
+				Role:    "assistant",
+				Content: fmt.Sprintf("Plan Step: %s\nExecuting: %s", step.Description, step.Tool),
+			}
+			messages = append(messages, assistantMsg)
+			agent.Sessions.AddFullMessage(opts.SessionKey, assistantMsg)
+
+			observationMsg := providers.Message{
+				Role:    "user",
+				Content: fmt.Sprintf("Observation: %s", lastObservation),
+			}
+			messages = append(messages, observationMsg)
+			agent.Sessions.AddFullMessage(opts.SessionKey, observationMsg)
+		}
+
+		// 4. Evaluation & Reflection
+		evalResult, err := al.evaluator.Evaluate(ctx, goal, messages)
+		if err != nil {
+			return "", iteration, fmt.Errorf("evaluation failed: %w", err)
+		}
+
+		if agent.LearningStore != nil && evalResult != nil {
+			if err := agent.LearningStore.RecordEvaluation(ctx, evalResult); err != nil {
+				logger.WarnCF("agent", "Failed to record evaluation", map[string]any{"error": err.Error()})
+			}
+		}
+
+		if evalResult.Success || evalResult.SuccessScore >= 0.8 {
+			if evalResult.Feedback != "" {
+				return evalResult.Feedback, iteration, nil
+			}
+			return "Task completed successfully.", iteration, nil
+		}
+
+		feedback := evalResult.Feedback
+		if feedback == "" {
+			feedback = fmt.Sprintf("Mistakes: %s\nImprovements: %s", evalResult.WhatWentWrong, evalResult.HowToImprove)
+		}
+
+		// 5. Refinement (Update plan based on feedback)
+		plan, err = al.planner.Refine(ctx, plan, feedback)
+		if err != nil {
+			return "", iteration, fmt.Errorf("plan refinement failed: %w", err)
+		}
+	}
+
+	return "Task reached maximum iterations without conclusive success.", iteration, nil
+}
+
 func (al *AgentLoop) runLLMIteration(
 	ctx context.Context,
 	agent *AgentInstance,

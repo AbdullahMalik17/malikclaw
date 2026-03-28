@@ -234,6 +234,7 @@ type AgentDefaults struct {
 	SummarizeTokenPercent     int            `json:"summarize_token_percent"         env:"MALIKCLAW_AGENTS_DEFAULTS_SUMMARIZE_TOKEN_PERCENT"`
 	MaxMediaSize              int            `json:"max_media_size,omitempty"        env:"MALIKCLAW_AGENTS_DEFAULTS_MAX_MEDIA_SIZE"`
 	Routing                   *RoutingConfig `json:"routing,omitempty"`
+	ExperimentalAgenticLoop   bool           `json:"experimental_agentic_loop,omitempty" env:"MALIKCLAW_AGENTS_DEFAULTS_EXPERIMENTAL_AGENTIC_LOOP"`
 }
 
 const DefaultMaxMediaSize = 20 * 1024 * 1024 // 20 MB

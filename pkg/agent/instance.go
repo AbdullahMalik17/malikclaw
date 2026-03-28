@@ -34,6 +34,7 @@ type AgentInstance struct {
 	SummarizeTokenPercent     int
 	Provider                  providers.LLMProvider
 	Sessions                  session.SessionStore
+	LearningStore             memory.LearningStore
 	ContextBuilder            *ContextBuilder
 	Tools                     *tools.ToolRegistry
 	Subagents                 *config.SubagentsConfig
@@ -98,6 +99,7 @@ func NewAgentInstance(
 
 	sessionsDir := filepath.Join(workspace, "sessions")
 	sessions := initSessionStore(sessionsDir)
+	learning, _ := memory.NewJSONLLearningStore(workspace)
 
 	mcpDiscoveryActive := cfg.Tools.MCP.Enabled && cfg.Tools.MCP.Discovery.Enabled
 	contextBuilder := NewContextBuilder(workspace).WithToolDiscovery(
@@ -229,6 +231,7 @@ func NewAgentInstance(
 		SummarizeTokenPercent:     summarizeTokenPercent,
 		Provider:                  provider,
 		Sessions:                  sessions,
+		LearningStore:             learning,
 		ContextBuilder:            contextBuilder,
 		Tools:                     toolsRegistry,
 		Subagents:                 subagents,

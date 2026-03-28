@@ -23,6 +23,7 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/migrate"
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/model"
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/onboard"
+	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/run"
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/skills"
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/status"
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal/version"
@@ -50,6 +51,7 @@ func NewMalikclawCommand() *cobra.Command {
 	cmd.AddCommand(
 		onboard.NewOnboardCommand(),
 		agent.NewAgentCommand(),
+		run.NewRunCommand(),
 		auth.NewAuthCommand(),
 		configcmd.NewConfigCommand(),
 		gateway.NewGatewayCommand(),
