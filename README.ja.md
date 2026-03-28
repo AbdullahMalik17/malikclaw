@@ -26,6 +26,12 @@
 
 </div>
 
+> [!NOTE]
+> **📢 重要更新情報（2026 年 3 月）**
+>
+> この翻訳は古くなっている可能性があります。最新情報は英語版をご覧ください：**[README.md](README.md)**
+>
+> **新機能:** プロダクショングレードのエージェントループ（PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE）。詳細は [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
 
 ---
 

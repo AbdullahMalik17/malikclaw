@@ -3,28 +3,39 @@
 
   <h1>MalikClaw 🦅</h1>
 
-  <h3>Ultra-Efficient Personal AI Assistant for Edge Hardware</h3>
-  <p><strong>$10 Hardware · &lt;10MB RAM · &lt;1s Boot · آگے بڑھو، ملک کلاؤ!</strong></p>
+  <h3>Assistant Personnel IA Ultra-Efficace</h3>
+  <p><strong>Production-Grade • &lt;10MB RAM • &lt;1s Démarrage • Matériel $10 • آگے بڑھو، ملک کلاؤ!</strong></p>
 
   <p>
     <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status"></a>
     <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
-    <img src="https://img.shields.io/badge/Arch-x86__64%2C%20ARM64%2C%20MIPS%2C%20RISC--V-blue" alt="Multi-Architecture Support">
+    <img src="https://img.shields.io/badge/Plateforme-Linux%2FmacOS%2FWindows%2FDocker-blue" alt="Platform Support">
     <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License"></a>
     <br>
     <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
-    <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
-    <br>
-    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
-    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Site-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
+
+<p align="center">
+  <a href="#-démarrage-rapide">Démarrage Rapide</a> •
+  <a href="#-fonctionnalités">Fonctionnalités</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-démo">Démo</a> •
+  <a href="#-documentation">Documentation</a>
+</p>
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | **Français** | [English](README.md)
 
 </div>
+
+> [!NOTE]
+> **📢 Mise à Jour Importante (Mars 2026)**
+> 
+> Cette traduction peut être obsolète. Pour les informations les plus récentes, veuillez consulter la version anglaise : **[README.md](README.md)**
+> 
+> **Nouveau:** Boucle d'agent de qualité production avec PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Voir [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
 
 ---
 

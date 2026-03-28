@@ -26,6 +26,13 @@
 
 </div>
 
+> [!NOTE]
+> **📢 Atualização Importante (Março 2026)**
+>
+> Esta tradução pode estar desatualizada. Para informações mais recentes, consulte a versão em inglês: **[README.md](README.md)**
+>
+> **Novidade:** Loop de agente de produção com PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Veja [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+
 ---
 
 🦐 **MalikClaw** é um assistente pessoal de IA ultra-leve inspirado no [nanobot](https://github.com/HKUDS/nanobot), reescrito do zero em **Go** por meio de um processo de "auto-inicialização" (self-bootstrapping) — onde o próprio agente de IA conduziu toda a migração de arquitetura e otimização de código.

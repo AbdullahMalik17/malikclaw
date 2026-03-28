@@ -26,6 +26,13 @@
 
 </div>
 
+> [!NOTE]
+> **📢 Cập Nhật Quan Trọng (Tháng 3 2026)**
+>
+> Bản dịch này có thể đã lỗi thời. Để biết thông tin mới nhất, vui lòng xem phiên bản tiếng Anh: **[README.md](README.md)**
+>
+> **Mới:** Vòng lặp agent cấp sản xuất với PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Xem [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+
 ---
 
 🦐 **MalikClaw** là trợ lý AI cá nhân siêu nhẹ, lấy cảm hứng từ [nanobot](https://github.com/HKUDS/nanobot), được viết lại hoàn toàn bằng **Go** thông qua quá trình "tự khởi tạo" (self-bootstrapping) — nơi chính AI Agent đã tự dẫn dắt toàn bộ quá trình chuyển đổi kiến trúc và tối ưu hóa mã nguồn.
