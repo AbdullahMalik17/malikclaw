@@ -60,3 +60,4 @@ web/backend/dist/*
 
 # Agents 
 GEMINI.md
+.worktrees/
