@@ -112,14 +112,8 @@ jobs:
           EOF
           )
 
-          # Delete existing nightly release and tag
-          gh release delete nightly --cleanup-tag -y 2>/dev/null || true
-
-          # Force-update nightly tag to current HEAD
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -fa nightly -m "Nightly build ${VERSION}"
-          git push origin nightly
+          # Delete existing nightly release
+          gh release delete nightly -y 2>/dev/null || true
 
           # Collect release artifacts from goreleaser dist/
           ASSETS=()
@@ -127,9 +121,10 @@ jobs:
             [ -f "$f" ] && ASSETS+=("$f")
           done
 
-          # Create nightly release (prerelease, NOT latest)
+          # Create nightly release using the unique version tag created by GoReleaser
+          # This avoids force-pushing to a static 'nightly' tag
           gh release create nightly \
-            --title "Nightly Build" \
+            --title "Nightly Build (${VERSION})" \
             --notes "$NOTES" \
             --target "${{ github.sha }}" \
             --prerelease \

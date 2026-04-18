@@ -4,6 +4,8 @@ import { useEffect } from "react"
 
 import { AppLayout } from "@/components/app-layout"
 import { initializeChatStore } from "@/lib/pico-chat-controller"
+import { PerformanceMonitor } from "@/components/desktop/PerformanceMonitor"
+import { WhatsAppQRModal } from "@/components/desktop/WhatsAppQRModal"
 
 const RootLayout = () => {
   useEffect(() => {
@@ -13,6 +15,8 @@ const RootLayout = () => {
   return (
     <AppLayout>
       <Outlet />
+      <PerformanceMonitor />
+      <WhatsAppQRModal />
       <TanStackRouterDevtools />
     </AppLayout>
   )

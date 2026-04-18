@@ -115,10 +115,10 @@ export const translations: Record<Language, Translation> = {
       setupGuide: "Setup Guide",
     },
     hero: {
-      tagline: "Swift as an eagle, strong as a lion.",
-      title: "The Edge AI Champion.",
-      subtitle: "Ultra-lightweight personal AI infrastructure for $10 hardware.",
-      specs: "10MB RAM · 1s Boot · 100% Privacy.",
+      tagline: "Autonomous Agent Infrastructure",
+      title: "Empower Every Device with Intelligence.",
+      subtitle: "MalikClaw is the ultra-lightweight engine for autonomous agents. Run production-grade AI from $10 hardware to cloud clusters.",
+      specs: "< 10MB RAM · < 1s Cold Start · Privacy First.",
     },
     terminal: {
       comment: "# Initialize the Gryphon engine",

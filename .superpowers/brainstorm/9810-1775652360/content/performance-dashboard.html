@@ -1,0 +1,81 @@
+<h2>MalikClaw Precision Performance Dashboard</h2>
+<p class="subtitle">Mockup of the "High-Performance Offline Ops" interface for local models.</p>
+
+<div class="mockup">
+  <div class="mockup-header">MalikClaw Desktop - [Ollama: DeepSeek-R1-Distill-Llama-70B]</div>
+  <div class="mockup-body">
+    <div style="display: flex; gap: 20px;">
+      <!-- Main Chat Area -->
+      <div style="flex: 2; border: 1px solid var(--border); border-radius: 8px; padding: 15px; background: var(--bg-card); display: flex; flex-direction: column; height: 400px;">
+        <div style="flex: 1; overflow-y: auto; margin-bottom: 10px;">
+          <div style="margin-bottom: 15px;">
+            <div class="label" style="color: var(--primary);">You</div>
+            <p>Summarize the latest trends in Go performance optimization for 2026.</p>
+          </div>
+          <div>
+            <div class="label" style="color: var(--secondary);">Agent</div>
+            <p>Go 1.26 introduces advanced PGO (Profile Guided Optimization) that provides an additional 8-12% throughput increase... <i>(Streaming...)</i></p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <input class="mock-input" placeholder="Ask MalikClaw..." style="flex: 1;">
+          <button class="mock-button">Send</button>
+        </div>
+      </div>
+
+      <!-- Precision Sidebar -->
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--bg-card);">
+          <div class="label">Real-time Performance</div>
+          <div style="font-size: 24px; font-weight: bold; color: var(--primary);">12.4 <span style="font-size: 14px; font-weight: normal;">tokens/sec</span></div>
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+             <div style="flex: 1; text-align: center;">
+               <div class="label" style="font-size: 10px;">GPU</div>
+               <div>84%</div>
+             </div>
+             <div style="flex: 1; text-align: center;">
+               <div class="label" style="font-size: 10px;">VRAM</div>
+               <div>6.2GB</div>
+             </div>
+          </div>
+        </div>
+
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--bg-card);">
+          <div class="label">Parameter Tuning</div>
+          <div style="margin-top: 8px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span class="label" style="font-size: 10px;">Temperature</span>
+              <span class="label" style="font-size: 10px;">0.7</span>
+            </div>
+            <div style="height: 4px; background: var(--border); border-radius: 2px; margin-top: 4px; position: relative;">
+               <div style="position: absolute; left: 70%; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; top: -4px;"></div>
+            </div>
+          </div>
+          <div style="margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span class="label" style="font-size: 10px;">Top-P</span>
+              <span class="label" style="font-size: 10px;">0.9</span>
+            </div>
+            <div style="height: 4px; background: var(--border); border-radius: 2px; margin-top: 4px; position: relative;">
+               <div style="position: absolute; left: 90%; width: 12px; height: 12px; background: var(--primary); border-radius: 50%; top: -4px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--bg-card);">
+          <div class="label">Model Selector</div>
+          <select class="mock-input" style="width: 100%; margin-top: 5px;">
+             <option>DeepSeek-R1-Distill-Llama-70B</option>
+             <option>Llama-3.5-Instruct</option>
+             <option>Phi-4-Mini-Ollama</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Does this layout feel "Precise" and "Proper"?</h3>
+  <p>The sidebar provides <b>immediate feedback</b> on the local model's performance and allows for <b>on-the-fly tuning</b> without interrupting the conversation.</p>
+</div>

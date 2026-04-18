@@ -59,6 +59,7 @@ type WhatsAppNativeChannel struct {
 	reconnecting bool
 	stopping     atomic.Bool    // set once Stop begins; prevents new wg.Add calls
 	wg           sync.WaitGroup // tracks background goroutines (QR handler, reconnect)
+	QRCallback   func(string)   // Added callback for QR code
 }
 
 // NewWhatsAppNativeChannel creates a WhatsApp channel that uses whatsmeow for connection.
@@ -187,6 +188,9 @@ func (c *WhatsAppNativeChannel) Start(ctx context.Context) error {
 					}
 					if evt.Event == "code" {
 						logger.InfoCF("whatsapp", "Scan this QR code with WhatsApp (Linked Devices):", nil)
+						if c.QRCallback != nil {
+							c.QRCallback(evt.Code)
+						}
 						qrterminal.GenerateWithConfig(evt.Code, qrterminal.Config{
 							Level:      qrterminal.L,
 							Writer:     os.Stdout,

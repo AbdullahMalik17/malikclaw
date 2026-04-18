@@ -4,13 +4,25 @@
 @theme {
   --color-gryphon-gold: #EAB308;
   --color-electric-blue: #3B82F6;
-  --color-dark-obsidian: #050505;
-  --color-card-bg: #111111;
+  --color-dark-obsidian: #020202;
+  --color-card-bg: #0A0A0A;
 
   --animate-glow: glow 2s ease-in-out infinite alternate;
   --animate-marquee: marquee 30s linear infinite;
   --animate-blob: blob 7s infinite;
+  --animate-shimmer: shimmer 3s linear infinite;
   --font-urdu: "Noto Nastaliq Urdu", serif;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
 @keyframes blob {
@@ -42,7 +54,6 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
   position: relative;
 }

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "malikclaw",
+  "outputfilename": "malikclaw-desktop",
+  "frontend:dir": "web/frontend",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm build",
+  "frontend:dev:watcher": "pnpm dev",
+  "frontend:dev:serverUrl": "http://localhost:5173",
+  "author": {
+    "name": "Abdullah Malik",
+    "email": "contact@malikclaw.ai"
+  }
+}

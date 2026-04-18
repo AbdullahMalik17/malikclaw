@@ -63,6 +63,23 @@ type AgentLoop struct {
 	executor  Executor
 	evaluator Evaluator
 	router    Router
+
+	// Metrics tracking for real-time dashboard
+	promptTokens     atomic.Int64
+	completionTokens atomic.Int64
+	lastDuration     atomic.Int64 // in nanoseconds
+}
+
+func (al *AgentLoop) GetPromptTokens() int64 {
+	return al.promptTokens.Load()
+}
+
+func (al *AgentLoop) GetCompletionTokens() int64 {
+	return al.completionTokens.Load()
+}
+
+func (al *AgentLoop) GetLastDuration() int64 {
+	return al.lastDuration.Load()
 }
 
 // processOptions configures how a message is processed
@@ -1227,6 +1244,10 @@ func (al *AgentLoop) runLLMIteration(
 			al.activeRequests.Add(1)
 			defer al.activeRequests.Done()
 
+			startTime := time.Now()
+			var resp *providers.LLMResponse
+			var err error
+
 			if len(activeCandidates) > 1 && al.fallback != nil {
 				fbResult, fbErr := al.fallback.Execute(
 					ctx,
@@ -1246,9 +1267,20 @@ func (al *AgentLoop) runLLMIteration(
 						map[string]any{"agent_id": agent.ID, "iteration": iteration},
 					)
 				}
-				return fbResult.Response, nil
+				resp, err = fbResult.Response, nil
+			} else {
+				resp, err = agent.Provider.Chat(ctx, messages, providerToolDefs, activeModel, llmOpts)
 			}
-			return agent.Provider.Chat(ctx, messages, providerToolDefs, activeModel, llmOpts)
+
+			if err == nil && resp != nil {
+				duration := time.Since(startTime)
+				al.lastDuration.Store(int64(duration))
+				if resp.Usage != nil {
+					al.promptTokens.Add(int64(resp.Usage.PromptTokens))
+					al.completionTokens.Add(int64(resp.Usage.CompletionTokens))
+				}
+			}
+			return resp, err
 		}
 
 		// Retry loop for context/token errors

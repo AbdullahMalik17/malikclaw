@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Language, translations } from "@/i18n/translations";
 import { Check, Copy, ArrowRight, Github, Zap } from "lucide-react";
 import TerminalDemo from "./terminal-demo";
+import NeuralLoop from "./neural-loop";
 
 interface HeroProps {
   language: Language;
@@ -43,13 +44,9 @@ export default function Hero({ language }: HeroProps) {
           </span>
         </div>
 
-        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.05]">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1]">
           <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white/90 to-white/40">
             {t.hero.title}
-          </span>
-          <br className="hidden sm:block" />
-          <span className="text-gradient leading-relaxed italic animate-shimmer inline-block drop-shadow-[0_0_15px_rgba(234,179,8,0.3)] mt-2">
-            آگے بڑھو، ملک کلاؤ! 🦅
           </span>
         </h1>
 
@@ -58,7 +55,12 @@ export default function Hero({ language }: HeroProps) {
           <span className="text-gryphon-gold font-medium block mt-2 opacity-80">{t.hero.specs}</span>
         </p>
 
-        <div className="mt-6 w-full max-w-lg bg-[#111111]/80 backdrop-blur-md rounded-xl border border-white/10 p-2 flex items-center justify-between group/code transform transition hover:border-gryphon-gold/30">
+        <div className="mt-16 w-full max-w-2xl relative">
+          <div className="absolute inset-0 bg-gryphon-gold/5 blur-3xl rounded-full" />
+          <NeuralLoop />
+        </div>
+
+        <div className="mt-12 w-full max-w-lg bg-[#111111]/80 backdrop-blur-md rounded-xl border border-white/10 p-2 flex items-center justify-between group/code transform transition hover:border-gryphon-gold/30">
           <div className="flex items-center gap-3 px-3">
             <span className="text-gryphon-gold font-mono font-bold select-none cursor-default">$</span>
             <code className="text-zinc-300 font-mono text-sm sm:text-base selection:bg-gryphon-gold/30">
