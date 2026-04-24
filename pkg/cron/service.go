@@ -12,6 +12,7 @@ import (
 
 	"github.com/adhocore/gronx"
 
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
 	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
 )
 
@@ -59,26 +60,47 @@ type CronStore struct {
 type JobHandler func(job *CronJob) (string, error)
 
 type CronService struct {
-	storePath string
-	store     *CronStore
-	onJob     JobHandler
-	mu        sync.RWMutex
-	running   bool
-	stopChan  chan struct{}
-	gronx     *gronx.Gronx
+	storePath  string
+	store      *CronStore
+	onJob      JobHandler
+	mu         sync.RWMutex
+	running    bool
+	stopChan   chan struct{}
+	gronx      *gronx.Gronx
+	supervisor agent.Supervisor
 }
 
-func NewCronService(storePath string, onJob JobHandler) *CronService {
+func NewCronService(storePath string, onJob JobHandler, supervisor agent.Supervisor) *CronService {
 	cs := &CronService{
-		storePath: storePath,
-		onJob:     onJob,
-		gronx:     gronx.New(),
+		storePath:  storePath,
+		onJob:      onJob,
+		gronx:      gronx.New(),
+		supervisor: supervisor,
 	}
 	// Initialize and load store on creation
 	cs.loadStore()
 	return cs
 }
 
+func (cs *CronService) ScheduleAgentTask(schedule string, goal string) {
+	// This method wraps the supervisor dispatch and execution logic for scheduled runs.
+	// In a real system, this would be a specific JobKind handled in checkJobs.
+	go func() {
+		ctx := context.Background()
+		episode, err := cs.supervisor.Dispatch(ctx, goal)
+		if err != nil {
+			log.Printf("[cron] supervisor dispatch failed: %v", err)
+			return
+		}
+		results := make(map[string]string)
+		for _, task := range episode.SubTasks {
+			// Mock subtask execution for now
+			results[task.TaskID] = "Simulated output for " + task.Description
+		}
+		final, _ := cs.supervisor.Aggregate(ctx, episode, results)
+		log.Printf("[cron] agent task completed: %s", final)
+	}()
+}
 func (cs *CronService) Start() error {
 	cs.mu.Lock()
 	defer cs.mu.Unlock()
