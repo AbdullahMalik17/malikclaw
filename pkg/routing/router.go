@@ -1,6 +1,10 @@
 package routing
 
 import (
+	"context"
+	"math"
+
+	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
@@ -27,29 +31,73 @@ type RouterConfig struct {
 type Router struct {
 	cfg        RouterConfig
 	classifier Classifier
+	profiles   []*agent.ProviderProfile
 }
 
 // New creates a Router with the given config and the default RuleClassifier.
 // If cfg.Threshold is zero or negative, defaultThreshold (0.35) is used.
-func New(cfg RouterConfig) *Router {
+func New(cfg RouterConfig, profiles []*agent.ProviderProfile) *Router {
 	if cfg.Threshold <= 0 {
 		cfg.Threshold = defaultThreshold
 	}
 	return &Router{
 		cfg:        cfg,
 		classifier: &RuleClassifier{},
+		profiles:   profiles,
 	}
 }
 
+// Route evaluates the task string and history to return a matched provider profile.
+func (r *Router) Route(ctx context.Context, task string, complexity float64, tags []string) (*agent.ProviderProfile, error) {
+	var bestProfile *agent.ProviderProfile
+	maxScore := -1.0
+
+	for _, p := range r.profiles {
+		score := r.calculateScore(p, complexity, tags)
+		if score > maxScore {
+			maxScore = score
+			bestProfile = p
+		}
+	}
+	return bestProfile, nil
+}
+
+func (r *Router) calculateScore(p *agent.ProviderProfile, complexity float64, tags []string) float64 {
+	capMatch := 0.0
+	for _, t := range tags {
+		for _, c := range p.Capabilities {
+			if t == c {
+				capMatch += 1.0
+			}
+		}
+	}
+
+	compMatch := 1.0 - math.Abs(complexity-r.tierToComplexity(p.Tier))
+	costEff := 1.0 - p.CostFactor
+
+	return (capMatch * 0.5) + (compMatch * 0.3) + (costEff * 0.2)
+}
+
+func (r *Router) tierToComplexity(tier string) float64 {
+	switch tier {
+	case "ceo":
+		return 0.9
+	case "specialist":
+		return 0.6
+	case "lightweight":
+		return 0.2
+	default:
+		return 0.5
+	}
+}
 // newWithClassifier creates a Router with a custom Classifier.
 // Intended for unit tests that need to inject a deterministic scorer.
-func newWithClassifier(cfg RouterConfig, c Classifier) *Router {
+func newWithClassifier(cfg RouterConfig, c Classifier, profiles []*agent.ProviderProfile) *Router {
 	if cfg.Threshold <= 0 {
 		cfg.Threshold = defaultThreshold
 	}
-	return &Router{cfg: cfg, classifier: c}
+	return &Router{cfg: cfg, classifier: c, profiles: profiles}
 }
-
 // SelectModel returns the model to use for this conversation turn along with
 // the computed complexity score (for logging and debugging).
 //

@@ -242,21 +242,21 @@ func TestRuleClassifier_ScoreDoesNotExceedOne(t *testing.T) {
 // ── Router ───────────────────────────────────────────────────────────────────
 
 func TestRouter_DefaultThreshold(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash"})
+	r := New(RouterConfig{LightModel: "gemini-flash"}, nil)
 	if r.Threshold() != defaultThreshold {
 		t.Errorf("default threshold: got %f, want %f", r.Threshold(), defaultThreshold)
 	}
 }
 
 func TestRouter_NegativeThresholdFallsBackToDefault(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: -0.1})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: -0.1}, nil)
 	if r.Threshold() != defaultThreshold {
 		t.Errorf("negative threshold: got %f, want %f", r.Threshold(), defaultThreshold)
 	}
 }
 
 func TestRouter_SelectModel_SimpleMessageUsesLight(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	msg := "hi"
 	model, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
 	if !usedLight {
@@ -268,7 +268,7 @@ func TestRouter_SelectModel_SimpleMessageUsesLight(t *testing.T) {
 }
 
 func TestRouter_SelectModel_CodeBlockUsesPrimary(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	msg := "```go\nfmt.Println(\"hello\")\n```"
 	model, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
 	if usedLight {
@@ -280,7 +280,7 @@ func TestRouter_SelectModel_CodeBlockUsesPrimary(t *testing.T) {
 }
 
 func TestRouter_SelectModel_AttachmentUsesPrimary(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	msg := "can you analyze this? data:image/png;base64,abc123"
 	model, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
 	if usedLight {
@@ -292,7 +292,7 @@ func TestRouter_SelectModel_AttachmentUsesPrimary(t *testing.T) {
 }
 
 func TestRouter_SelectModel_LongMessageUsesPrimary(t *testing.T) {
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	// >200 token estimate: 210 * 3 = 630 chars
 	msg := strings.Repeat("word ", 210)
 	model, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
@@ -307,7 +307,7 @@ func TestRouter_SelectModel_LongMessageUsesPrimary(t *testing.T) {
 func TestRouter_SelectModel_DeepToolChainUsesLight(t *testing.T) {
 	// Tool calls alone (0.25) don't cross the 0.35 threshold — acceptable behavior.
 	// Routing is conservative: only promote to heavy when the signal is unambiguous.
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	history := []providers.Message{
 		{Role: "assistant", ToolCalls: []providers.ToolCall{{Name: "read_file"}, {Name: "write_file"}}},
 		{Role: "assistant", ToolCalls: []providers.ToolCall{{Name: "exec"}, {Name: "search"}}},
@@ -321,7 +321,7 @@ func TestRouter_SelectModel_DeepToolChainUsesLight(t *testing.T) {
 
 func TestRouter_SelectModel_ToolChainPlusMediumUsesHeavy(t *testing.T) {
 	// Tool calls (0.25) + medium message (0.15) = 0.40 >= 0.35 → heavy
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.35}, nil)
 	history := []providers.Message{
 		{Role: "assistant", ToolCalls: []providers.ToolCall{
 			{Name: "a"}, {Name: "b"}, {Name: "c"}, {Name: "d"},
@@ -337,7 +337,7 @@ func TestRouter_SelectModel_ToolChainPlusMediumUsesHeavy(t *testing.T) {
 
 func TestRouter_SelectModel_CustomThreshold(t *testing.T) {
 	// Very low threshold: even a short message triggers heavy model
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.05})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.05}, nil)
 	msg := strings.Repeat("word ", 55) // medium message → 0.15 >= 0.05
 	_, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
 	if usedLight {
@@ -347,7 +347,7 @@ func TestRouter_SelectModel_CustomThreshold(t *testing.T) {
 
 func TestRouter_SelectModel_HighThreshold(t *testing.T) {
 	// Very high threshold: even code blocks route to light
-	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.99})
+	r := New(RouterConfig{LightModel: "gemini-flash", Threshold: 0.99}, nil)
 	msg := "```go\nfmt.Println()\n```"
 	_, usedLight, _ := r.SelectModel(msg, nil, "claude-sonnet-4-6")
 	if !usedLight {
@@ -356,7 +356,7 @@ func TestRouter_SelectModel_HighThreshold(t *testing.T) {
 }
 
 func TestRouter_LightModel(t *testing.T) {
-	r := New(RouterConfig{LightModel: "my-fast-model", Threshold: 0.35})
+	r := New(RouterConfig{LightModel: "my-fast-model", Threshold: 0.35}, nil)
 	if r.LightModel() != "my-fast-model" {
 		t.Errorf("LightModel: got %q, want %q", r.LightModel(), "my-fast-model")
 	}
@@ -372,6 +372,7 @@ func TestRouter_CustomClassifier_LowScore_SelectsLight(t *testing.T) {
 	r := newWithClassifier(
 		RouterConfig{LightModel: "light", Threshold: 0.5},
 		&fixedScoreClassifier{score: 0.2},
+		nil,
 	)
 	_, usedLight, _ := r.SelectModel("anything", nil, "heavy")
 	if !usedLight {
@@ -383,6 +384,7 @@ func TestRouter_CustomClassifier_HighScore_SelectsPrimary(t *testing.T) {
 	r := newWithClassifier(
 		RouterConfig{LightModel: "light", Threshold: 0.5},
 		&fixedScoreClassifier{score: 0.8},
+		nil,
 	)
 	_, usedLight, _ := r.SelectModel("anything", nil, "heavy")
 	if usedLight {
@@ -395,6 +397,7 @@ func TestRouter_CustomClassifier_ExactThreshold_SelectsPrimary(t *testing.T) {
 	r := newWithClassifier(
 		RouterConfig{LightModel: "light", Threshold: 0.5},
 		&fixedScoreClassifier{score: 0.5},
+		nil,
 	)
 	_, usedLight, _ := r.SelectModel("anything", nil, "heavy")
 	if usedLight {
@@ -406,9 +409,23 @@ func TestRouter_SelectModel_ReturnsScore(t *testing.T) {
 	r := newWithClassifier(
 		RouterConfig{LightModel: "light", Threshold: 0.5},
 		&fixedScoreClassifier{score: 0.42},
+		nil,
 	)
 	_, _, score := r.SelectModel("anything", nil, "heavy")
 	if score != 0.42 {
 		t.Errorf("score: got %f, want 0.42", score)
+	}
+}
+
+func TestRouter_Route(t *testing.T) {
+	r := New(RouterConfig{}, DefaultProfiles)
+	profile, _ := r.Route(nil, "Fix UI layout", 0.9, []string{"ui", "browser"})
+	if profile == nil || profile.ProviderID != "antigravity" {
+		t.Errorf("expected antigravity profile, got %v", profile)
+	}
+
+	profile, _ = r.Route(nil, "Analyze logic", 0.7, []string{"logic", "repo-scale"})
+	if profile == nil || profile.ProviderID != "qwen" {
+		t.Errorf("expected qwen profile, got %v", profile)
 	}
 }
