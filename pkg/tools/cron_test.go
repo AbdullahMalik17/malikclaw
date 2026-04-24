@@ -14,7 +14,7 @@ import (
 func newTestCronTool(t *testing.T) *CronTool {
 	t.Helper()
 	storePath := filepath.Join(t.TempDir(), "cron.json")
-	cronService := cron.NewCronService(storePath, nil)
+	cronService := cron.NewCronService(storePath, nil, nil)
 	msgBus := bus.NewMessageBus()
 	cfg := config.DefaultConfig()
 	tool, err := NewCronTool(cronService, nil, msgBus, t.TempDir(), true, 0, cfg)

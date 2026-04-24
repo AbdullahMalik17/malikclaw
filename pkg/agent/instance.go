@@ -208,7 +208,8 @@ func NewAgentInstance(
 			router = routing.New(routing.RouterConfig{
 				LightModel: rc.LightModel,
 				Threshold:  rc.Threshold,
-			})
+			}, nil)
+
 			lightCandidates = resolved
 		} else {
 			log.Printf("routing: light_model %q not found in model_list — routing disabled for agent %q",

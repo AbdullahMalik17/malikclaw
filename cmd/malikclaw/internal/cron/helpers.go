@@ -8,7 +8,7 @@ import (
 )
 
 func cronListCmd(storePath string) {
-	cs := cron.NewCronService(storePath, nil)
+	cs := cron.NewCronService(storePath, nil, nil)
 	jobs := cs.ListJobs(true) // Show all jobs, including disabled
 
 	if len(jobs) == 0 {
@@ -47,7 +47,7 @@ func cronListCmd(storePath string) {
 }
 
 func cronRemoveCmd(storePath, jobID string) {
-	cs := cron.NewCronService(storePath, nil)
+	cs := cron.NewCronService(storePath, nil, nil)
 	if cs.RemoveJob(jobID) {
 		fmt.Printf("✓ Removed job %s\n", jobID)
 	} else {
@@ -56,7 +56,7 @@ func cronRemoveCmd(storePath, jobID string) {
 }
 
 func cronSetJobEnabled(storePath, jobID string, enabled bool) {
-	cs := cron.NewCronService(storePath, nil)
+	cs := cron.NewCronService(storePath, nil, nil)
 	job := cs.EnableJob(jobID, enabled)
 	if job != nil {
 		fmt.Printf("✓ Job '%s' enabled\n", job.Name)

@@ -618,7 +618,7 @@ func setupCronTool(
 	cronStorePath := filepath.Join(workspace, "cron", "jobs.json")
 
 	// Create cron service
-	cronService := cron.NewCronService(cronStorePath, nil)
+	cronService := cron.NewCronService(cronStorePath, nil, nil)
 
 	// Create and register CronTool if enabled
 	var cronTool *tools.CronTool
