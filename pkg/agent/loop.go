@@ -202,6 +202,17 @@ func registerSharedTools(
 				agent.Tools.Register(fetchTool)
 			}
 		}
+		
+		if cfg.Tools.IsToolEnabled("browser") {
+			browserTool, err := tools.NewBrowserTool(tools.BrowserToolOptions{
+				Headless: true,
+			})
+			if err != nil {
+				logger.ErrorCF("agent", "Failed to create browser tool", map[string]any{"error": err.Error()})
+			} else {
+				agent.Tools.Register(browserTool)
+			}
+		}
 
 		// Hardware tools (I2C, SPI) - Linux only, returns error on other platforms
 		if cfg.Tools.IsToolEnabled("i2c") {
@@ -764,6 +775,17 @@ func (al *AgentLoop) processMessage(ctx context.Context, msg bus.InboundMessage)
 	// Route system messages to processSystemMessage
 	if msg.Channel == "system" {
 		return al.processSystemMessage(ctx, msg)
+	}
+
+	// Enterprise-Grade Security Hardening: Strict Prompt Injection Guard
+	if err := CheckPromptInjection(ctx, msg.Content); err != nil {
+		logger.WarnCF("security", "Message blocked by prompt injection guard", map[string]any{
+			"channel": msg.Channel,
+			"chat_id": msg.ChatID,
+			"sender":  msg.SenderID,
+			"error":   err.Error(),
+		})
+		return "⚠️ Security Policy Violation: Your message contains patterns associated with prompt injection or bypass attempts and has been blocked.", nil
 	}
 
 	route, agent, routeErr := al.resolveMessageRoute(msg)
