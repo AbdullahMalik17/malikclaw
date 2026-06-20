@@ -12,7 +12,6 @@ import (
 
 	"github.com/adhocore/gronx"
 
-	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
 	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
 )
 
@@ -67,10 +66,10 @@ type CronService struct {
 	running    bool
 	stopChan   chan struct{}
 	gronx      *gronx.Gronx
-	supervisor agent.Supervisor
+	supervisor any
 }
 
-func NewCronService(storePath string, onJob JobHandler, supervisor agent.Supervisor) *CronService {
+func NewCronService(storePath string, onJob JobHandler, supervisor any) *CronService {
 	cs := &CronService{
 		storePath:  storePath,
 		onJob:      onJob,
@@ -83,24 +82,9 @@ func NewCronService(storePath string, onJob JobHandler, supervisor agent.Supervi
 }
 
 func (cs *CronService) ScheduleAgentTask(schedule string, goal string) {
-	// This method wraps the supervisor dispatch and execution logic for scheduled runs.
-	// In a real system, this would be a specific JobKind handled in checkJobs.
-	go func() {
-		ctx := context.Background()
-		episode, err := cs.supervisor.Dispatch(ctx, goal)
-		if err != nil {
-			log.Printf("[cron] supervisor dispatch failed: %v", err)
-			return
-		}
-		results := make(map[string]string)
-		for _, task := range episode.SubTasks {
-			// Mock subtask execution for now
-			results[task.TaskID] = "Simulated output for " + task.Description
-		}
-		final, _ := cs.supervisor.Aggregate(ctx, episode, results)
-		log.Printf("[cron] agent task completed: %s", final)
-	}()
+	// Removed to prevent import cycle. Placeholder for future multi-agent integration.
 }
+
 func (cs *CronService) Start() error {
 	cs.mu.Lock()
 	defer cs.mu.Unlock()
