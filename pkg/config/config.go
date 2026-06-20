@@ -806,6 +806,12 @@ type SearchCacheConfig struct {
 
 type SkillsRegistriesConfig struct {
 	ClawHub ClawHubRegistryConfig `json:"clawhub"`
+	GitHub  GitHubRegistryConfig  `json:"github"`
+}
+
+type GitHubRegistryConfig struct {
+	Enabled  bool   `json:"enabled" env:"MALIKCLAW_SKILLS_REGISTRIES_GITHUB_ENABLED"`
+	IndexURL string `json:"index_url" env:"MALIKCLAW_SKILLS_REGISTRIES_GITHUB_INDEX_URL"`
 }
 
 type SkillsGithubConfig struct {

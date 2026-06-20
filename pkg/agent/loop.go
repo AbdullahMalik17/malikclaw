@@ -274,6 +274,10 @@ func registerSharedTools(
 			registryMgr := skills.NewRegistryManagerFromConfig(skills.RegistryConfig{
 				MaxConcurrentSearches: cfg.Tools.Skills.MaxConcurrentSearches,
 				ClawHub:               skills.ClawHubConfig(cfg.Tools.Skills.Registries.ClawHub),
+				GitHub: skills.GitHubConfig{
+					Enabled:  cfg.Tools.Skills.Registries.GitHub.Enabled,
+					IndexURL: cfg.Tools.Skills.Registries.GitHub.IndexURL,
+				},
 			})
 
 			if find_skills_enable {

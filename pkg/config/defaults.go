@@ -470,6 +470,10 @@ func DefaultConfig() *Config {
 						Enabled: true,
 						BaseURL: "https://clawhub.ai",
 					},
+					GitHub: GitHubRegistryConfig{
+						Enabled:  true,
+						IndexURL: "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw-skills/main/index.json",
+					},
 				},
 				MaxConcurrentSearches: 2,
 				SearchCache: SearchCacheConfig{

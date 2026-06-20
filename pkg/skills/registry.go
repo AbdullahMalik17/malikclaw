@@ -57,10 +57,17 @@ type SkillRegistry interface {
 	DownloadAndInstall(ctx context.Context, slug, version, targetDir string) (*InstallResult, error)
 }
 
+// GitHubConfig configures the GitHub index registry.
+type GitHubConfig struct {
+	Enabled  bool
+	IndexURL string
+}
+
 // RegistryConfig holds configuration for all skill registries.
 // This is the input to NewRegistryManagerFromConfig.
 type RegistryConfig struct {
 	ClawHub               ClawHubConfig
+	GitHub                GitHubConfig
 	MaxConcurrentSearches int
 }
 
@@ -102,6 +109,9 @@ func NewRegistryManagerFromConfig(cfg RegistryConfig) *RegistryManager {
 	}
 	if cfg.ClawHub.Enabled {
 		rm.AddRegistry(NewClawHubRegistry(cfg.ClawHub))
+	}
+	if cfg.GitHub.Enabled {
+		rm.AddRegistry(NewGitHubRegistry(cfg.GitHub.IndexURL))
 	}
 	return rm
 }
