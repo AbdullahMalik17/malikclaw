@@ -4,7 +4,6 @@ import (
 	"context"
 	"math"
 
-	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 )
 
@@ -31,12 +30,12 @@ type RouterConfig struct {
 type Router struct {
 	cfg        RouterConfig
 	classifier Classifier
-	profiles   []*agent.ProviderProfile
+	profiles   []*ProviderProfile
 }
 
 // New creates a Router with the given config and the default RuleClassifier.
 // If cfg.Threshold is zero or negative, defaultThreshold (0.35) is used.
-func New(cfg RouterConfig, profiles []*agent.ProviderProfile) *Router {
+func New(cfg RouterConfig, profiles []*ProviderProfile) *Router {
 	if cfg.Threshold <= 0 {
 		cfg.Threshold = defaultThreshold
 	}
@@ -48,8 +47,8 @@ func New(cfg RouterConfig, profiles []*agent.ProviderProfile) *Router {
 }
 
 // Route evaluates the task string and history to return a matched provider profile.
-func (r *Router) Route(ctx context.Context, task string, complexity float64, tags []string) (*agent.ProviderProfile, error) {
-	var bestProfile *agent.ProviderProfile
+func (r *Router) Route(ctx context.Context, task string, complexity float64, tags []string) (*ProviderProfile, error) {
+	var bestProfile *ProviderProfile
 	maxScore := -1.0
 
 	for _, p := range r.profiles {
@@ -62,7 +61,7 @@ func (r *Router) Route(ctx context.Context, task string, complexity float64, tag
 	return bestProfile, nil
 }
 
-func (r *Router) calculateScore(p *agent.ProviderProfile, complexity float64, tags []string) float64 {
+func (r *Router) calculateScore(p *ProviderProfile, complexity float64, tags []string) float64 {
 	capMatch := 0.0
 	for _, t := range tags {
 		for _, c := range p.Capabilities {
@@ -92,7 +91,7 @@ func (r *Router) tierToComplexity(tier string) float64 {
 }
 // newWithClassifier creates a Router with a custom Classifier.
 // Intended for unit tests that need to inject a deterministic scorer.
-func newWithClassifier(cfg RouterConfig, c Classifier, profiles []*agent.ProviderProfile) *Router {
+func newWithClassifier(cfg RouterConfig, c Classifier, profiles []*ProviderProfile) *Router {
 	if cfg.Threshold <= 0 {
 		cfg.Threshold = defaultThreshold
 	}

@@ -87,6 +87,10 @@ export interface Translation {
     discord: string;
     slack: string;
     telegram: string;
+    twitter: string;
+    linkedin: string;
+    tiktok: string;
+    reddit: string;
     more: string;
   };
   footer: {
@@ -191,6 +195,10 @@ export const translations: Record<Language, Translation> = {
       discord: "Discord",
       slack: "Slack",
       telegram: "Telegram",
+      twitter: "Twitter",
+      linkedin: "LinkedIn",
+      tiktok: "TikTok",
+      reddit: "Reddit",
       more: "& more",
     },
     footer: {
@@ -293,6 +301,10 @@ export const translations: Record<Language, Translation> = {
       discord: "ڈسکارڈ",
       slack: "سلیک",
       telegram: "ٹیلی گرام",
+      twitter: "ٹویٹر",
+      linkedin: "لنکڈ ان",
+      tiktok: "ٹک ٹاک",
+      reddit: "ریڈٹ",
       more: "اور مزید",
     },
     footer: {
@@ -395,6 +407,10 @@ export const translations: Record<Language, Translation> = {
       discord: "Discord",
       slack: "Slack",
       telegram: "Telegram",
+      twitter: "Twitter",
+      linkedin: "LinkedIn",
+      tiktok: "TikTok",
+      reddit: "Reddit",
       more: "& plus",
     },
     footer: {
@@ -497,6 +513,10 @@ export const translations: Record<Language, Translation> = {
       discord: "Discord",
       slack: "Slack",
       telegram: "Telegram",
+      twitter: "Twitter",
+      linkedin: "LinkedIn",
+      tiktok: "TikTok",
+      reddit: "Reddit",
       more: "など",
     },
     footer: {
@@ -599,6 +619,10 @@ export const translations: Record<Language, Translation> = {
       discord: "Discord",
       slack: "Slack",
       telegram: "Telegram",
+      twitter: "Twitter",
+      linkedin: "LinkedIn",
+      tiktok: "TikTok",
+      reddit: "Reddit",
       more: "& mais",
     },
     footer: {
@@ -701,6 +725,10 @@ export const translations: Record<Language, Translation> = {
       discord: "Discord",
       slack: "Slack",
       telegram: "Telegram",
+      twitter: "Twitter",
+      linkedin: "LinkedIn",
+      tiktok: "TikTok",
+      reddit: "Reddit",
       more: "& thêm",
     },
     footer: {

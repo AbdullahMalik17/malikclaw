@@ -1,6 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
+import { Outfit, JetBrains_Mono } from 'next/font/google';
+
+const outfit = Outfit({ 
+  subsets: ['latin'], 
+  variable: '--font-sans',
+  display: 'swap' 
+});
+
+const jetbrainsMono = JetBrains_Mono({ 
+  subsets: ['latin'], 
+  variable: '--font-mono',
+  display: 'swap' 
+});
 import "./globals.css";
 import PWARegister from "@/components/pwa-register";
 import ChatWidget from "@/components/chat-widget";
@@ -68,7 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${outfit.variable} ${jetbrainsMono.variable} dark`} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />

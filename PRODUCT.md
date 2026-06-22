@@ -116,6 +116,32 @@ MalikClaw uses ADB (Android Debug Bridge) to control your phone. The agent trans
 
 ---
 
+### Demo 2: Omnichannel Social Media Management
+
+**Prerequisites:**
+- API keys or account access configured in `~/.malikclaw/config.json` for the respective platforms.
+
+**Commands:**
+
+```bash
+# Auto-reply to recent TikTok direct messages
+malikclaw agent -m "Check my TikTok inbox and reply to anyone asking about pricing"
+
+# Scrape LinkedIn unread messages (via local Playwright context)
+malikclaw agent -m "Read my unread LinkedIn messages and summarize them"
+
+# Monitor Twitter mentions
+malikclaw agent -m "Check Twitter for any mentions of @MyBrand and thank them"
+
+# Post on Reddit
+malikclaw agent -m "Draft and post a helpful comment on the top trending post in r/golang"
+```
+
+**How it works:**
+MalikClaw leverages its robust `MessageBus` architecture and native Go channels to authenticate, poll, and interact with multiple social platforms simultaneously using official APIs or Playwright-go contexts.
+
+---
+
 ### Demo 2: Send Email (Gmail)
 
 **Prerequisites:**

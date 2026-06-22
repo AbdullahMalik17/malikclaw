@@ -1,8 +1,15 @@
 package routing
 
-import "github.com/AbdullahMalik17/malikclaw/pkg/agent"
+// ProviderProfile represents the routing constraints of an LLM provider.
+type ProviderProfile struct {
+	ProviderID   string
+	Tier         string
+	Capabilities []string
+	MaxContext   int
+	CostFactor   float64
+}
 
-var DefaultProfiles = []*agent.ProviderProfile{
+var DefaultProfiles = []*ProviderProfile{
 	{
 		ProviderID:   "antigravity",
 		Tier:         "ceo",

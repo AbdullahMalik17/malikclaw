@@ -311,6 +311,26 @@ func (m *Manager) initChannels() error {
 		m.initChannel("irc", "IRC")
 	}
 
+	if m.config.Channels.Instagram.Enabled && m.config.Channels.Instagram.Token != "" {
+		m.initChannel("instagram", "Instagram")
+	}
+
+	if m.config.Channels.Twitter.Enabled && m.config.Channels.Twitter.BearerToken != "" {
+		m.initChannel("twitter", "Twitter")
+	}
+
+	if m.config.Channels.TikTok.Enabled && m.config.Channels.TikTok.Token != "" {
+		m.initChannel("tiktok", "TikTok")
+	}
+
+	if m.config.Channels.LinkedIn.Enabled && m.config.Channels.LinkedIn.DataDir != "" {
+		m.initChannel("linkedin", "LinkedIn")
+	}
+
+	if m.config.Channels.Reddit.Enabled && m.config.Channels.Reddit.ClientID != "" {
+		m.initChannel("reddit", "Reddit")
+	}
+
 	logger.InfoCF("channels", "Channel initialization completed", map[string]any{
 		"enabled_channels": len(m.channels),
 	})

@@ -276,6 +276,11 @@ type ChannelsConfig struct {
 	Gmail      GmailConfig      `json:"gmail"`
 	Calendar   CalendarConfig   `json:"calendar"`
 	Odoo       OdooConfig       `json:"odoo"`
+	Instagram  InstagramConfig  `json:"instagram"`
+	Twitter    TwitterConfig    `json:"twitter"`
+	TikTok     TikTokConfig     `json:"tiktok"`
+	LinkedIn   LinkedInConfig   `json:"linkedin"`
+	Reddit     RedditConfig     `json:"reddit"`
 }
 
 // GroupTriggerConfig controls when the bot responds in group chats.
@@ -530,6 +535,50 @@ type OdooConfig struct {
 	Password           string              `json:"password"                env:"MALIKCLAW_CHANNELS_ODOO_PASSWORD"`
 	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_ODOO_ALLOW_FROM"`
 	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_ODOO_REASONING_CHANNEL_ID"`
+}
+
+type InstagramConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_INSTAGRAM_ENABLED"`
+	Token              string              `json:"token"                   env:"MALIKCLAW_CHANNELS_INSTAGRAM_TOKEN"`
+	VerifyToken        string              `json:"verify_token"            env:"MALIKCLAW_CHANNELS_INSTAGRAM_VERIFY_TOKEN"`
+	WebhookPath        string              `json:"webhook_path"            env:"MALIKCLAW_CHANNELS_INSTAGRAM_WEBHOOK_PATH"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_INSTAGRAM_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_INSTAGRAM_REASONING_CHANNEL_ID"`
+}
+
+type TwitterConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_TWITTER_ENABLED"`
+	BearerToken        string              `json:"bearer_token"            env:"MALIKCLAW_CHANNELS_TWITTER_BEARER_TOKEN"`
+	APIKey             string              `json:"api_key"                 env:"MALIKCLAW_CHANNELS_TWITTER_API_KEY"`
+	APISecret          string              `json:"api_secret"              env:"MALIKCLAW_CHANNELS_TWITTER_API_SECRET"`
+	AccessToken        string              `json:"access_token"            env:"MALIKCLAW_CHANNELS_TWITTER_ACCESS_TOKEN"`
+	AccessSecret       string              `json:"access_secret"           env:"MALIKCLAW_CHANNELS_TWITTER_ACCESS_SECRET"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_TWITTER_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_TWITTER_REASONING_CHANNEL_ID"`
+}
+
+type TikTokConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_TIKTOK_ENABLED"`
+	Token              string              `json:"token"                   env:"MALIKCLAW_CHANNELS_TIKTOK_TOKEN"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_TIKTOK_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_TIKTOK_REASONING_CHANNEL_ID"`
+}
+
+type LinkedInConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_LINKEDIN_ENABLED"`
+	DataDir            string              `json:"data_dir"                env:"MALIKCLAW_CHANNELS_LINKEDIN_DATA_DIR"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_LINKEDIN_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_LINKEDIN_REASONING_CHANNEL_ID"`
+}
+
+type RedditConfig struct {
+	Enabled            bool                `json:"enabled"                 env:"MALIKCLAW_CHANNELS_REDDIT_ENABLED"`
+	ClientID           string              `json:"client_id"               env:"MALIKCLAW_CHANNELS_REDDIT_CLIENT_ID"`
+	ClientSecret       string              `json:"client_secret"           env:"MALIKCLAW_CHANNELS_REDDIT_CLIENT_SECRET"`
+	Username           string              `json:"username"                env:"MALIKCLAW_CHANNELS_REDDIT_USERNAME"`
+	Password           string              `json:"password"                env:"MALIKCLAW_CHANNELS_REDDIT_PASSWORD"`
+	AllowFrom          FlexibleStringSlice `json:"allow_from"              env:"MALIKCLAW_CHANNELS_REDDIT_ALLOW_FROM"`
+	ReasoningChannelID string              `json:"reasoning_channel_id"    env:"MALIKCLAW_CHANNELS_REDDIT_REASONING_CHANNEL_ID"`
 }
 
 type HeartbeatConfig struct {

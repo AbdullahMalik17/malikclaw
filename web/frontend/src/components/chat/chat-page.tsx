@@ -1,4 +1,5 @@
 import { IconPlus } from "@tabler/icons-react"
+import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -147,18 +148,26 @@ export function ChatPage() {
             />
           )}
 
-          {messages.map((msg) => (
-            <div key={msg.id} className="flex w-full">
-              {msg.role === "assistant" ? (
-                <AssistantMessage
-                  content={msg.content}
-                  timestamp={msg.timestamp}
-                />
-              ) : (
-                <UserMessage content={msg.content} />
-              )}
-            </div>
-          ))}
+          <AnimatePresence initial={false}>
+            {messages.map((msg) => (
+              <motion.div 
+                key={msg.id} 
+                className="flex w-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                {msg.role === "assistant" ? (
+                  <AssistantMessage
+                    content={msg.content}
+                    timestamp={msg.timestamp}
+                  />
+                ) : (
+                  <UserMessage content={msg.content} />
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
 
           {isTyping && <TypingIndicator />}
         </div>

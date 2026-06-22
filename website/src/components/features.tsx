@@ -53,8 +53,12 @@ export default function Features({ language }: FeaturesProps) {
         {/* Feature 1: Large - Agentic Loop */}
         <motion.div 
           variants={itemVariants}
-          className="md:col-span-2 md:row-span-2 p-10 rounded-[2rem] bg-gradient-to-br from-[#0A0A0A] to-[#020202] border border-white/5 hover:border-gryphon-gold/30 transition-all duration-500 group overflow-hidden relative shadow-2xl hover:shadow-[0_0_40px_rgba(234,179,8,0.1)]"
+          className="md:col-span-2 md:row-span-2 p-10 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-500 group overflow-hidden relative shadow-2xl hover:shadow-[0_0_40px_rgba(234,179,8,0.1)] cursor-default"
         >
+          {/* Animated border gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gryphon-gold/20 via-transparent to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-3xl -z-10"></div>
+          {/* Mouse spotlight effect */}
+          <div className="absolute -inset-px bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-5 mix-blend-screen pointer-events-none"></div>
           <div className="relative z-10 flex flex-col h-full justify-between">
             <div>
@@ -83,8 +87,9 @@ export default function Features({ language }: FeaturesProps) {
         <motion.div 
           variants={itemVariants}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="p-8 rounded-[2rem] bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-300 group relative overflow-hidden"
+          className="p-8 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-300 group relative overflow-hidden"
         >
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
           <motion.div 
             whileHover={{ rotate: 12, scale: 1.1 }}
             className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner relative z-10"
@@ -103,8 +108,9 @@ export default function Features({ language }: FeaturesProps) {
         <motion.div 
           variants={itemVariants}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="p-8 rounded-[2rem] bg-[#0A0A0A] border border-white/5 hover:border-white/20 transition-all duration-300 group relative overflow-hidden"
+          className="p-8 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-300 group relative overflow-hidden"
         >
+          <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
           <motion.div 
             whileHover={{ rotate: -12, scale: 1.1 }}
             className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 shadow-inner relative z-10"
@@ -123,8 +129,9 @@ export default function Features({ language }: FeaturesProps) {
         <motion.div 
           variants={itemVariants}
           whileHover={{ y: -5, scale: 1.01 }}
-          className="md:col-span-3 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-[#0A0A0A] via-[#050505] to-[#0A0A0A] border border-white/5 hover:border-blue-500/30 transition-all duration-500 group relative overflow-hidden flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12"
+          className="md:col-span-3 p-8 md:p-10 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all duration-500 group relative overflow-hidden flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12"
         >
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-gryphon-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
           <motion.div 
             whileHover={{ scale: 1.1 }}
             className="w-20 h-20 shrink-0 rounded-3xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shadow-inner relative z-10"

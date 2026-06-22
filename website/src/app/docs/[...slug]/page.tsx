@@ -61,18 +61,31 @@ export default async function DocPage({ params }: DocPageProps) {
       </nav>
 
       <div className="prose prose-invert max-w-none 
-        prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight
-        prose-p:text-zinc-400 prose-p:leading-relaxed
-        prose-a:text-[#0df2c9] no-underline hover:prose-a:text-white prose-a:transition-colors
-        prose-code:text-[#0df2c9] prose-code:bg-[#0df2c9]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-        prose-pre:bg-[#0a0a0c] prose-pre:border prose-pre:border-white/5 prose-pre:rounded-xl prose-pre:shadow-2xl
-        prose-strong:text-white
-        prose-ul:text-zinc-400
-        prose-li:marker:text-[#0df2c9]
+        prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:text-[1.05rem]
+        prose-ul:text-zinc-400 prose-li:marker:text-[#0df2c9]
         prose-hr:border-white/5
-        prose-img:rounded-2xl prose-img:border prose-img:border-white/10">
+        prose-img:rounded-2xl prose-img:border prose-img:border-white/10 prose-img:shadow-2xl">
         
-        <MDXRemote source={content} />
+        <MDXRemote 
+          source={content} 
+          components={{
+            h1: (props: any) => <h1 className="text-4xl md:text-5xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 tracking-tight" {...props} />,
+            h2: (props: any) => <h2 className="text-2xl md:text-3xl font-bold mt-16 mb-6 flex items-center gap-3 text-white before:content-[''] before:block before:w-1.5 before:h-8 before:bg-gradient-to-b before:from-[#0df2c9] before:to-[#8e2de2] before:rounded-full" {...props} />,
+            h3: (props: any) => <h3 className="text-xl font-bold mt-10 mb-4 text-zinc-200" {...props} />,
+            a: (props: any) => <a className="text-[#0df2c9] hover:text-white hover:shadow-[0_2px_10px_rgba(13,242,201,0.5)] transition-all underline decoration-white/20 underline-offset-4" {...props} />,
+            blockquote: (props: any) => <blockquote className="border-l-4 border-[#8e2de2] bg-gradient-to-r from-[#8e2de2]/10 to-transparent p-6 rounded-r-2xl my-8 text-zinc-300 italic" {...props} />,
+            pre: (props: any) => <div className="relative group my-8"><div className="absolute -inset-1 bg-gradient-to-r from-[#0df2c9]/20 to-[#8e2de2]/20 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div><pre className="relative bg-[#050505] border border-white/10 rounded-xl p-6 overflow-x-auto shadow-2xl" {...props} /></div>,
+            code: (props: any) => {
+              if (props.className) {
+                 return <code className="font-mono text-sm" {...props} />
+              }
+              return <code className="font-mono text-[0.9em] text-[#0df2c9] bg-[#0df2c9]/10 px-1.5 py-0.5 rounded-md border border-[#0df2c9]/20" {...props} />
+            },
+            table: (props: any) => <div className="w-full overflow-x-auto my-10 rounded-2xl border border-white/10 shadow-xl"><table className="w-full text-left border-collapse bg-[#0a0a0c]" {...props} /></div>,
+            th: (props: any) => <th className="bg-white/5 p-4 border-b border-white/10 font-bold text-white whitespace-nowrap" {...props} />,
+            td: (props: any) => <td className="p-4 border-b border-white/5 text-zinc-400" {...props} />,
+          }}
+        />
       </div>
 
       {/* Suggest Edits */}

@@ -40,8 +40,8 @@ export function AssistantMessage({
         </div>
       </div>
 
-      <div className="bg-card text-card-foreground relative overflow-hidden rounded-xl border">
-        <div className="prose dark:prose-invert prose-p:my-2 prose-pre:my-2 prose-pre:rounded-lg prose-pre:border prose-pre:bg-zinc-950 prose-pre:p-3 max-w-none p-4 text-[15px] leading-relaxed">
+      <div className="bg-card text-card-foreground relative overflow-hidden rounded-xl border border-primary/10 shadow-[0_4px_20px_rgba(0,0,0,0.05)] dark:border-white/5 dark:shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all duration-300 hover:shadow-[0_4px_25px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] backdrop-blur-sm">
+        <div className="prose dark:prose-invert prose-p:my-2 prose-pre:my-2 prose-pre:rounded-lg prose-pre:border prose-pre:border-white/10 prose-pre:bg-zinc-950 prose-pre:p-3 max-w-none p-4 text-[15px] leading-relaxed">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </div>
         <Button

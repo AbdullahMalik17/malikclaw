@@ -99,12 +99,12 @@ PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
 - **Termux Support:** Run directly on Android without root
 - **Second Life:** Give your old phone a purpose as an AI assistant
 
-### 💼 Business Integration
+### 💼 Business & Social Integration
 
 - **Gmail:** Send and manage emails
 - **Calendar:** Schedule and manage events
 - **MCP Support:** Odoo, custom business integrations
-- **Multi-Channel:** Telegram, Discord, WhatsApp, Matrix, QQ, DingTalk, LINE, WeCom
+- **Multi-Channel:** TikTok, LinkedIn, Reddit, Twitter (X), Telegram, Discord, WhatsApp, Matrix, QQ, DingTalk, LINE, WeCom
 
 ### 🛠️ Self-Evolution
 
@@ -500,6 +500,14 @@ MalikClaw is proudly used by developers and organizations worldwide:
 ---
 
 ## 📢 Recent Updates
+
+### June 2026 - Cloud-Native Architecture & Omnichannel Expansion
+
+**NEW:** Massive overhaul of the social media capabilities and infrastructure:
+- **Omnichannel Mastery:** Added deep native API and web-scraping support for **TikTok, LinkedIn (via Playwright), Reddit, and Twitter (v2 API)**.
+- **Cloud-Native Containerization:** Fully Dockerized the entire application (`Dockerfile` and `docker-compose.yml`) with persistent volumes for instant deployment on AWS, Fly.io, and Edge runtimes.
+- **Premium UX Dashboard:** Upgraded the `web/frontend` and marketing `website` with a state-of-the-art Bento Grid layout, dynamic mesh gradients, and Framer Motion staggered cinematic reveals.
+- **Interactive Vercel AI Demo:** Integrated a live `@ai-sdk/google` chat widget powered by Gemini 2.5 Flash directly onto the marketing landing page.
 
 ### March 2026 - Production-Grade Agent Loop
 

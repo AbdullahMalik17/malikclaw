@@ -69,9 +69,21 @@ export default function DocsPage() {
         </Link>
       </div>
 
-      <h2 className="text-3xl font-bold mt-16 mb-4 tracking-tight">Channels</h2>
+      <h2 className="text-3xl font-bold mt-16 mb-4 tracking-tight">Channels & Integrations</h2>
       <p className="text-zinc-400 mb-6">Connect MalikClaw to your favorite messaging platforms:</p>
       <div className="space-y-3">
+        <Link href="/docs/channels/tiktok" className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0c] border border-white/5 hover:border-[#fbbf24]/30 transition-all group">
+          <div className="flex items-center gap-3"><MessageSquare className="w-5 h-5 text-[#fbbf24]" /><span className="font-semibold text-white group-hover:text-[#fbbf24] transition-colors">TikTok</span><span className="text-zinc-500 text-sm hidden sm:inline">- Direct Post API & Webhooks</span></div><ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#fbbf24] transition-colors" />
+        </Link>
+        <Link href="/docs/channels/linkedin" className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0c] border border-white/5 hover:border-[#fbbf24]/30 transition-all group">
+          <div className="flex items-center gap-3"><MessageSquare className="w-5 h-5 text-[#fbbf24]" /><span className="font-semibold text-white group-hover:text-[#fbbf24] transition-colors">LinkedIn</span><span className="text-zinc-500 text-sm hidden sm:inline">- Headless messaging via Playwright</span></div><ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#fbbf24] transition-colors" />
+        </Link>
+        <Link href="/docs/channels/twitter" className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0c] border border-white/5 hover:border-[#fbbf24]/30 transition-all group">
+          <div className="flex items-center gap-3"><MessageSquare className="w-5 h-5 text-[#fbbf24]" /><span className="font-semibold text-white group-hover:text-[#fbbf24] transition-colors">Twitter (X)</span><span className="text-zinc-500 text-sm hidden sm:inline">- Mentions polling and replies</span></div><ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#fbbf24] transition-colors" />
+        </Link>
+        <Link href="/docs/channels/reddit" className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0c] border border-white/5 hover:border-[#fbbf24]/30 transition-all group">
+          <div className="flex items-center gap-3"><MessageSquare className="w-5 h-5 text-[#fbbf24]" /><span className="font-semibold text-white group-hover:text-[#fbbf24] transition-colors">Reddit</span><span className="text-zinc-500 text-sm hidden sm:inline">- Inbox tracking and automated comments</span></div><ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#fbbf24] transition-colors" />
+        </Link>
         <Link href="/docs/channels/telegram" className="flex items-center justify-between p-4 rounded-xl bg-[#0a0a0c] border border-white/5 hover:border-[#fbbf24]/30 transition-all group">
           <div className="flex items-center gap-3"><MessageSquare className="w-5 h-5 text-[#fbbf24]" /><span className="font-semibold text-white group-hover:text-[#fbbf24] transition-colors">Telegram</span><span className="text-zinc-500 text-sm hidden sm:inline">- Easy setup with just a bot token</span></div><ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[#fbbf24] transition-colors" />
         </Link>

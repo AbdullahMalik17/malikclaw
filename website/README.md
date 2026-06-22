@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MalikClaw 🦅 - Official Marketing Website
 
-## Getting Started
+This is the official Next.js 16 landing page for the MalikClaw project. It serves as the front door to the MalikClaw ecosystem, demonstrating its capabilities as the ultimate edge AI champion.
 
-First, run the development server:
+## ✨ June 2026 Overhaul Features
+* **Premium UX**: Dynamic mesh gradients, Framer Motion staggered cinematic reveals, and a glassmorphic aesthetic.
+* **Live AI Widget**: A fully functional `@ai-sdk/google` integration powered by Gemini 2.5 Flash, allowing users to converse with a MalikClaw agent directly on the website.
+* **Omnichannel Integrations**: Beautiful animated grid showcasing the new TikTok, LinkedIn, Reddit, and Twitter channels.
+* **Multilingual Architecture**: Next.js App Router i18n supporting English, Urdu (RTL), French, Japanese, Portuguese, and Vietnamese.
+
+## 🚀 Getting Started
 
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
+- React 19 + Next.js 16 (App Router)
+- Tailwind CSS v4 + PostCSS
+- Framer Motion (Staggered animations & springs)
+- Vercel AI SDK (`ai` & `@ai-sdk/react`)
+- Lucide React (Icons)
+- Next MDX Remote (Documentation rendering)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Deployment
+The easiest way to deploy this website is via Vercel. 
+Simply link your repository and Vercel will automatically detect the Next.js framework.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx vercel deploy --prod
+```

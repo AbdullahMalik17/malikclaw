@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  malikclaw:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: malikclaw:cloud
+    container_name: malikclaw
+    restart: unless-stopped
+    environment:
+      - MALIKCLAW_GATEWAY_HOST=0.0.0.0
+    ports:
+      # Expose Gateway and Launcher ports
+      - "18790:18790"
+      - "18800:18800"
+    volumes:
+      # Map persistent data to local named volume
+      - malikclaw_data:/home/malikclaw/.malikclaw
+
+volumes:
+  malikclaw_data:
+    description: "Persistent storage for MalikClaw workspace and config"
