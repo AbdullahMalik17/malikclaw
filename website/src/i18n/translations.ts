@@ -126,7 +126,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Initialize the Gryphon engine",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[SYSTEM] Booting MalikClaw v0.2.1...",
       ready: "✓ Gryphon Engine Ready in 0.82s",
@@ -232,7 +232,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Gryphon انجن کو شروع کریں",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[SYSTEM] MalikClaw v0.2.1 شروع ہو رہا ہے...",
       ready: "✓ Gryphon انجن 0.82s میں تیار",
@@ -338,7 +338,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Initialiser le moteur Gryphon",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[SYSTÈME] Démarrage de MalikClaw v0.2.1...",
       ready: "✓ Moteur Gryphon prêt en 0.82s",
@@ -444,7 +444,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Gryphon エンジンを初期化",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[システム] MalikClaw v0.2.1 を起動中...",
       ready: "✓ Gryphon エンジン 0.82 秒で準備完了",
@@ -550,7 +550,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Inicializar o motor Gryphon",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[SISTEMA] Iniciando MalikClaw v0.2.1...",
       ready: "✓ Motor Gryphon pronto em 0.82s",
@@ -656,7 +656,7 @@ export const translations: Record<Language, Translation> = {
     },
     terminal: {
       comment: "# Khởi tạo động cơ Gryphon",
-      command1: "curl -sSfL https://malikclaw.io/install.sh | sh",
+      command1: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
       command2: "malikclaw agent",
       booting: "[HỆ THỐNG] Đang khởi động MalikClaw v0.2.1...",
       ready: "✓ Động cơ Gryphon sẵn sàng trong 0.82s",

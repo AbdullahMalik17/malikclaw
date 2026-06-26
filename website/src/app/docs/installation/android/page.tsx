@@ -135,7 +135,7 @@ export default function AndroidInstallation() {
           proot-distro login ubuntu<br />
           <br />
           # Now install MalikClaw inside Ubuntu<br />
-          curl -sSfL https://malikclaw.io/install.sh | sh
+          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
         </code>
       </div>
 

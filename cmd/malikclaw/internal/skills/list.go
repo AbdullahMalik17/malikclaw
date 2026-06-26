@@ -12,12 +12,8 @@ func newListCommand(loaderFn func() (*skills.SkillsLoader, error)) *cobra.Comman
 		Short:   "List installed skills",
 		Example: `malikclaw skills list`,
 		RunE: func(_ *cobra.Command, _ []string) error {
-			loader, err := loaderFn()
-			if err != nil {
-				return err
-			}
-			skillsListCmd(loader)
-			return nil
+			// Call the new simple registry function
+			return skills.ListSimpleSkills()
 		},
 	}
 

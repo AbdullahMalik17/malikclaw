@@ -18,3 +18,9 @@ jobs:
 
       - name: Build
         run: make build-all
+
+      - name: Run RAM and Boot Benchmarks
+        run: |
+          make build
+          bash scripts/bench-ram.sh
+          go test ./pkg/bench/... -bench=. -benchtime=3x -v

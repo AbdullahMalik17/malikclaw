@@ -58,7 +58,7 @@ const platforms = [
     ],
     installCommands: [
       { manager: "Homebrew", command: "brew install malikclaw" },
-      { manager: "Manual", command: "curl -sSfL https://malikclaw.io/install.sh | sh" },
+      { manager: "Manual", command: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash" },
     ],
     instructions: [
       "Download the TAR.GZ file for your architecture",
@@ -106,7 +106,7 @@ const platforms = [
       },
     ],
     installCommands: [
-      { manager: "Auto Install", command: "curl -sSfL https://malikclaw.io/install.sh | sh" },
+      { manager: "Auto Install", command: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash" },
       { manager: "DEB (Debian/Ubuntu)", command: "wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_amd64.deb && sudo dpkg -i malikclaw_amd64.deb" },
       { manager: "RPM (Fedora/RHEL)", command: "wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_x86_64.rpm && sudo dnf install malikclaw_x86_64.rpm" },
     ],

@@ -292,6 +292,26 @@ docker-clean:
 	docker compose -f docker/docker-compose.full.yml down -v
 	docker rmi malikclaw:latest malikclaw:full 2>/dev/null || true
 
+## bench: Run performance benchmarks
+bench:
+	@echo "=== Boot Time Benchmark ==="
+	go test ./pkg/bench/... -bench=BenchmarkBootTime -benchtime=5x -v
+	@echo "=== RAM Benchmark ==="
+	@bash scripts/bench-ram.sh
+
+## skills-list: List available skills
+skills-list:
+	go run ./cmd/malikclaw skills list
+
+## demo: Generate terminal demo GIF (requires vhs)
+demo:
+	@which vhs || (echo "Install vhs: go install github.com/charmbracelet/vhs@latest" && exit 1)
+	vhs assets/demo.tape
+
+## version-sync: Sync git tag version to website
+version-sync:
+	node website/scripts/sync-version.js
+
 ## help: Show this help message
 help:
 	@echo "malikclaw Makefile"

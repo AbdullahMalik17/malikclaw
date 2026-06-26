@@ -32,7 +32,7 @@ export default function LinuxInstallation() {
 
       <div className="p-4 rounded-lg bg-[#0a0a0c] border border-white/5 my-4">
         <code className="text-sm text-zinc-300 font-mono block">
-          curl -sSfL https://malikclaw.io/install.sh | sh
+          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
         </code>
       </div>
 

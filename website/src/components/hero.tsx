@@ -18,7 +18,7 @@ export default function Hero({ language }: HeroProps) {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("curl -sSL https://malikclaw.sh | bash");
+    navigator.clipboard.writeText("curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash");
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -82,7 +82,7 @@ export default function Hero({ language }: HeroProps) {
             <div className="flex items-center gap-3 px-4 relative z-10">
               <span className="text-gryphon-gold font-mono font-bold select-none text-lg animate-pulse">$</span>
               <code className="text-zinc-200 font-mono text-sm sm:text-base">
-                curl -sSL https://malikclaw.sh | bash
+                curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
               </code>
             </div>
             <div className="p-2.5 rounded-xl bg-white/5 text-zinc-400 group-hover/code:text-white group-hover/code:bg-white/10 transition-all border border-transparent group-hover/code:border-white/10 relative z-10">

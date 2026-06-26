@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {
+      "name": "web-search",
+      "description": "Search the web using DuckDuckGo",
+      "version": "1.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/web-search.json",
+      "tags": ["search", "web", "built-in"]
+    },
+    {
+      "name": "gmail",
+      "description": "Send and read Gmail messages",
+      "version": "1.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/gmail.json",
+      "tags": ["email", "google", "built-in"]
+    }
+  ]
+}

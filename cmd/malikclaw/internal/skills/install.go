@@ -34,11 +34,6 @@ malikclaw skills install --registry clawhub github
 			return nil
 		},
 		RunE: func(_ *cobra.Command, args []string) error {
-			installer, err := installerFn()
-			if err != nil {
-				return err
-			}
-
 			if registry != "" {
 				cfg, err := internal.LoadConfig()
 				if err != nil {
@@ -48,7 +43,8 @@ malikclaw skills install --registry clawhub github
 				return skillsInstallFromRegistry(cfg, registry, args[0])
 			}
 
-			return skillsInstallCmd(installer, args[0])
+			// Call the new simple registry function
+			return skills.InstallSimpleSkill(args[0])
 		},
 	}
 
