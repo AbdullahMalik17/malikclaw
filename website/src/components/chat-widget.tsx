@@ -23,25 +23,25 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="mb-4 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] flex flex-col rounded-[2rem] bg-[#0a0a0c]/90 backdrop-blur-2xl border border-white/10 shadow-2xl overflow-hidden"
+            className="mb-4 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] flex flex-col bg-[#050505] border border-zinc-800 overflow-hidden font-mono"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/5">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#0df2c9]/20 flex items-center justify-center border border-[#0df2c9]/30">
+                <div className="w-8 h-8 bg-black border border-zinc-800 flex items-center justify-center">
                   <Bot className="w-4 h-4 text-[#0df2c9]" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-white tracking-tight">MalikClaw Assistant</h3>
                   <div className="flex items-center gap-1.5 text-xs text-[#0df2c9]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0df2c9] animate-pulse"></span>
+                    <span className="w-1.5 h-1.5 bg-[#0df2c9]"></span>
                     Online
                   </div>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                className="w-8 h-8 bg-black border border-zinc-800 hover:bg-zinc-900 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -61,15 +61,15 @@ export default function ChatWidget() {
                     className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div className={`flex items-start gap-3 max-w-[85%] ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                        m.role === 'user' ? 'bg-zinc-800' : 'bg-[#0df2c9]/10 border border-[#0df2c9]/20'
+                      <div className={`w-8 h-8 flex items-center justify-center shrink-0 ${
+                        m.role === 'user' ? 'bg-zinc-800' : 'bg-black border border-zinc-800'
                       }`}>
                         {m.role === 'user' ? <User className="w-4 h-4 text-zinc-400" /> : <Bot className="w-4 h-4 text-[#0df2c9]" />}
                       </div>
-                      <div className={`px-4 py-3 rounded-2xl text-sm ${
+                      <div className={`px-4 py-3 text-sm ${
                         m.role === 'user' 
-                          ? 'bg-zinc-800 text-white rounded-tr-sm' 
-                          : 'bg-white/5 text-zinc-300 border border-white/5 rounded-tl-sm'
+                          ? 'bg-zinc-800 text-white' 
+                          : 'bg-black text-zinc-300 border border-zinc-800'
                       }`}>
                         {m.content}
                       </div>
@@ -80,10 +80,10 @@ export default function ChatWidget() {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#0df2c9]/10 border border-[#0df2c9]/20 flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 bg-black border border-zinc-800 flex items-center justify-center shrink-0">
                       <Bot className="w-4 h-4 text-[#0df2c9]" />
                     </div>
-                    <div className="px-4 py-3 rounded-2xl bg-white/5 text-zinc-300 border border-white/5 rounded-tl-sm flex items-center gap-2">
+                    <div className="px-4 py-3 bg-black text-zinc-300 border border-zinc-800 flex items-center gap-2">
                        <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
                        <span className="text-sm text-zinc-500">Thinking...</span>
                     </div>
@@ -100,12 +100,12 @@ export default function ChatWidget() {
                   value={input}
                   onChange={handleInputChange}
                   placeholder="Ask a question..."
-                  className="w-full bg-[#0a0a0c] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-[#0df2c9]/50 transition-colors placeholder:text-zinc-600"
+                  className="w-full bg-black border border-zinc-800 pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-zinc-500 transition-colors placeholder:text-zinc-600"
                 />
                 <button 
                   type="submit" 
-                  disabled={isLoading || !input.trim()}
-                  className="absolute right-2 p-2 rounded-lg bg-[#0df2c9]/10 text-[#0df2c9] hover:bg-[#0df2c9]/20 disabled:opacity-50 disabled:hover:bg-[#0df2c9]/10 transition-colors"
+                  disabled={isLoading || !(input || '').trim()}
+                  className="absolute right-2 p-2 bg-black border border-zinc-800 text-white hover:bg-zinc-900 disabled:opacity-50 transition-colors"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -119,7 +119,7 @@ export default function ChatWidget() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-[#0df2c9] text-black shadow-[0_0_20px_rgba(13,242,201,0.4)] hover:shadow-[0_0_30px_rgba(13,242,201,0.6)] flex items-center justify-center transition-shadow"
+        className="w-14 h-14 bg-white text-black border border-zinc-800 flex items-center justify-center transition-shadow hover:bg-zinc-200"
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
       </motion.button>

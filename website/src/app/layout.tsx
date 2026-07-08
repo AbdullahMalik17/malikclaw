@@ -15,6 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 import "./globals.css";
 import PWARegister from "@/components/pwa-register";
 import ChatWidget from "@/components/chat-widget";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "MalikClaw 🦅 - The Edge AI Champion",
@@ -79,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${jetbrainsMono.variable} dark`} suppressHydrationWarning>
+    <html lang="en" className={`${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
@@ -91,9 +92,11 @@ export default function RootLayout({
       <body
         className="font-sans antialiased"
       >
-        <PWARegister />
-        {children}
-        <ChatWidget />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <PWARegister />
+          {children}
+          <ChatWidget />
+        </ThemeProvider>
       </body>
     </html>
   );

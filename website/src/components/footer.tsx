@@ -11,7 +11,7 @@ export default function Footer({ language }: FooterProps) {
   const t = translations[language];
 
   return (
-    <footer className="border-t border-white/10 py-12 text-center text-sm text-zinc-500">
+    <footer className="border-t border-card-border py-12 text-center text-sm text-text-muted">
       <div className="flex flex-wrap justify-center gap-6 mb-6">
         <a href="https://a2as.org/certified/agents/abdullahmalik17/deep-research-age" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-gryphon-gold transition-colors">
           <ShieldCheck className="w-4 h-4" />

@@ -29,16 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen bg-[#020202] text-zinc-100 font-sans selection:bg-gryphon-gold/30 relative overflow-hidden ${isRTL ? 'rtl font-urdu' : ''}`}>
-      {/* Global Mouse Spotlight */}
-      <motion.div
-        className="fixed top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full pointer-events-none blur-[100px] z-50 mix-blend-screen"
-        animate={{
-          x: mousePosition.x - 192,
-          y: mousePosition.y - 192,
-        }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.5 }}
-      />
+    <div className={`min-h-screen bg-transparent text-zinc-100 font-sans selection:bg-gryphon-gold selection:text-black relative overflow-hidden ${isRTL ? 'rtl font-urdu' : ''}`}>
       <Navigation 
         isUrdu={isRTL} 
         language={language} 

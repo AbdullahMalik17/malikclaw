@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Languages } from "lucide-react";
+import { Github, Languages, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Language, translations } from "@/i18n/translations";
 import { MALIKCLAW_VERSION } from "@/lib/version";
 
@@ -19,6 +21,12 @@ export default function Navigation({
   availableLanguages = ['en', 'ur', 'fr', 'ja', 'pt', 'vi'] as Language[]
 }: NavigationProps) {
   const t = translations[language];
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLanguageCycle = () => {
     const currentIndex = availableLanguages.indexOf(language);
@@ -27,23 +35,32 @@ export default function Navigation({
   };
 
   return (
-    <nav className="fixed w-full sm:w-[95%] max-w-6xl z-50 top-4 left-1/2 -translate-x-1/2 transition-all duration-300 px-4 sm:px-0">
-      <div className="mx-auto px-6 h-16 flex items-center justify-between rounded-full border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:border-gryphon-gold/20 hover:bg-[#111111]/90 transition-all">
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">MalikClaw 🦅</span>
-          <span className="px-2 py-0.5 rounded-full bg-gryphon-gold/10 text-gryphon-gold text-xs font-bold border border-gryphon-gold/20">
+    <nav className="fixed w-full z-50 top-0 left-0 bg-black/90 backdrop-blur-md border-b border-zinc-800 transition-all duration-300">
+      <div className="mx-auto px-6 h-16 max-w-7xl flex items-center justify-between">
+        <div className="flex items-center gap-3 font-mono">
+          <span className="text-xl font-bold tracking-tighter text-white">MalikClaw</span>
+          <span className="px-2 py-0.5 bg-gryphon-gold text-black text-xs font-bold uppercase tracking-wider">
             {MALIKCLAW_VERSION}
           </span>
         </div>
-        <div className="hidden md:flex gap-8 text-sm font-semibold text-zinc-400">
+        <div className="hidden md:flex gap-8 text-sm font-mono font-medium text-zinc-400">
           <a href="#features" className="hover:text-white transition-colors">{t.nav.features}</a>
           <a href="#download" className="hover:text-white transition-colors">{t.nav.download}</a>
           <Link href="/docs" className="hover:text-white transition-colors">{t.nav.docs}</Link>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 font-mono">
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="p-2 text-zinc-400 hover:text-white transition-colors"
+              title="Toggle Theme"
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          )}
           <button
             onClick={handleLanguageCycle}
-            className="flex items-center gap-2 text-sm font-medium text-gryphon-gold hover:text-white transition-colors border border-gryphon-gold/20 px-3 py-1.5 rounded-full bg-gryphon-gold/5"
+            className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors border border-transparent hover:border-zinc-700 px-3 py-1.5 bg-transparent"
             title={`Switch language (current: ${t.langSwitcher[language]})`}
           >
             <Languages className="w-4 h-4" />
@@ -53,9 +70,9 @@ export default function Navigation({
             href="https://github.com/AbdullahMalik17/malikclaw" 
             target="_blank" 
             rel="noreferrer" 
-            className="flex items-center gap-2 text-sm font-medium text-white hover:text-gryphon-gold transition-colors"
+            className="flex items-center gap-2 text-sm font-bold text-black bg-gryphon-gold hover:bg-white transition-colors px-4 py-2"
           >
-            <Github className="w-5 h-5" />
+            <Github className="w-4 h-4" />
             <span className="hidden sm:inline">{t.nav.starOnGitHub}</span>
           </a>
         </div>

@@ -65,12 +65,12 @@ export default function TerminalDemo({ language }: TerminalDemoProps) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="mt-16 w-full max-w-2xl rounded-xl overflow-hidden border border-white/10 bg-[#0a0a0a] shadow-[0_0_50px_-12px_rgba(234,179,8,0.2)]"
+      className="mt-16 w-full max-w-2xl border border-zinc-800 bg-[#050505]"
     >
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-black/40">
-        <div className="w-3 h-3 rounded-full bg-zinc-800"></div>
-        <div className="w-3 h-3 rounded-full bg-zinc-800"></div>
-        <div className="w-3 h-3 rounded-full bg-zinc-800"></div>
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 bg-black">
+        <div className="w-3 h-3 bg-zinc-800"></div>
+        <div className="w-3 h-3 bg-zinc-800"></div>
+        <div className="w-3 h-3 bg-zinc-800"></div>
         <span className="ml-2 text-xs text-zinc-500 font-mono">malikclaw shell</span>
       </div>
       <div className="p-4 sm:p-6 text-left font-mono text-sm sm:text-base leading-relaxed min-h-[280px]">
