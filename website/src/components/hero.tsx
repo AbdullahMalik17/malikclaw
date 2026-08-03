@@ -46,13 +46,13 @@ export default function Hero({ language }: HeroProps) {
           </span>
         </motion.div>
 
-        <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.1] text-white">
+        <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-3.5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.15] text-white">
           <span>{t.hero.title}</span>
         </motion.h1>
 
-        <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-lg md:text-xl text-zinc-400 max-w-3xl mt-2 leading-relaxed">
+        <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-3xl mt-2 leading-relaxed">
           {t.hero.subtitle}
-          <span className="text-gryphon-gold block mt-3 uppercase tracking-wider">{t.hero.specs}</span>
+          <span className="text-gryphon-gold block mt-3 uppercase tracking-wider text-sm sm:text-base">{t.hero.specs}</span>
         </motion.p>
 
         <motion.div
@@ -60,14 +60,14 @@ export default function Hero({ language }: HeroProps) {
           className="mt-8 w-full max-w-lg relative group/code cursor-pointer"
           onClick={handleCopy}
         >
-          <div className="relative bg-card-bg border border-card-border p-4 flex items-center justify-between hover:border-gryphon-gold transition-colors">
-            <div className="flex items-center gap-3">
-              <span className="text-gryphon-gold font-bold select-none text-lg">$</span>
-              <code className="text-foreground text-sm sm:text-base break-all">
+          <div className="relative bg-card-bg border border-card-border p-3.5 sm:p-4 flex items-center justify-between hover:border-gryphon-gold transition-colors overflow-hidden">
+            <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto min-w-0 pr-2">
+              <span className="text-gryphon-gold font-bold select-none text-base sm:text-lg shrink-0">$</span>
+              <code className="text-foreground text-xs sm:text-base break-all">
                 curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
               </code>
             </div>
-            <div className="text-text-muted group-hover/code:text-foreground transition-colors">
+            <div className="text-text-muted group-hover/code:text-foreground transition-colors shrink-0">
               {isCopied ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
             </div>
           </div>

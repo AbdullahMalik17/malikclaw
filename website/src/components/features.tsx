@@ -48,12 +48,12 @@ export default function Features({ language }: FeaturesProps) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-card-border border border-card-border auto-rows-[240px]"
+        className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-card-border border border-card-border md:auto-rows-[240px]"
       >
         {/* Feature 1: Large - Agentic Loop */}
         <motion.div 
           variants={itemVariants}
-          className="md:col-span-2 md:row-span-2 p-10 bg-card-bg transition-colors group relative cursor-default"
+          className="md:col-span-2 md:row-span-2 p-6 sm:p-10 bg-card-bg transition-colors group relative cursor-default"
         >
           <div className="relative z-10 flex flex-col h-full justify-between">
             <div>

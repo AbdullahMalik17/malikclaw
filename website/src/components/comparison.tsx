@@ -34,15 +34,15 @@ export default function Comparison({ language }: ComparisonProps) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="overflow-x-auto border border-card-border bg-card-bg p-1"
       >
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse min-w-[340px]">
           <thead>
-            <tr>
-              <th className="py-6 px-8 font-semibold text-zinc-400 uppercase tracking-widest">{t.comparison.metric}</th>
-              <th className="py-6 px-8 font-semibold text-zinc-400 uppercase tracking-widest">OpenClaw</th>
-              <th className="py-6 px-8 font-bold text-black bg-gryphon-gold uppercase tracking-widest">MalikClaw 🦅</th>
+            <tr className="text-xs sm:text-sm">
+              <th className="py-4 px-3 sm:py-6 sm:px-8 font-semibold text-zinc-400 uppercase tracking-widest">{t.comparison.metric}</th>
+              <th className="py-4 px-3 sm:py-6 sm:px-8 font-semibold text-zinc-400 uppercase tracking-widest">OpenClaw</th>
+              <th className="py-4 px-3 sm:py-6 sm:px-8 font-bold text-black bg-gryphon-gold uppercase tracking-widest">MalikClaw 🦅</th>
             </tr>
           </thead>
-          <tbody className="text-sm sm:text-base">
+          <tbody className="text-xs sm:text-base">
             <motion.tr 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -50,9 +50,9 @@ export default function Comparison({ language }: ComparisonProps) {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="border-t border-card-border hover:bg-background transition-colors"
             >
-              <td className="py-5 px-8 font-bold text-foreground uppercase">{t.comparison.language}</td>
-              <td className="py-5 px-8 text-text-muted italic">{t.comparison.typescript}</td>
-              <td className="py-5 px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.go}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 font-bold text-foreground uppercase">{t.comparison.language}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-text-muted italic">{t.comparison.typescript}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.go}</td>
             </motion.tr>
             <motion.tr 
               initial={{ opacity: 0, x: -20 }}
@@ -61,9 +61,9 @@ export default function Comparison({ language }: ComparisonProps) {
               transition={{ duration: 0.3, delay: 0.2 }}
               className="border-t border-card-border hover:bg-background transition-colors"
             >
-              <td className="py-5 px-8 font-bold text-foreground uppercase">{t.comparison.ram}</td>
-              <td className="py-5 px-8 text-text-muted">{t.comparison.ram1GB}</td>
-              <td className="py-5 px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.ram10MB}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 font-bold text-foreground uppercase">{t.comparison.ram}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-text-muted">{t.comparison.ram1GB}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.ram10MB}</td>
             </motion.tr>
             <motion.tr 
               initial={{ opacity: 0, x: -20 }}
@@ -72,9 +72,9 @@ export default function Comparison({ language }: ComparisonProps) {
               transition={{ duration: 0.3, delay: 0.3 }}
               className="border-t border-card-border hover:bg-background transition-colors"
             >
-              <td className="py-5 px-8 font-bold text-foreground uppercase">{t.comparison.startup}</td>
-              <td className="py-5 px-8 text-text-muted">{t.comparison.startup500s}</td>
-              <td className="py-5 px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.startup1s}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 font-bold text-foreground uppercase">{t.comparison.startup}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-text-muted">{t.comparison.startup500s}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-gryphon-gold font-bold bg-background border-l border-r border-card-border">{t.comparison.startup1s}</td>
             </motion.tr>
             <motion.tr 
               initial={{ opacity: 0, x: -20 }}
@@ -83,9 +83,9 @@ export default function Comparison({ language }: ComparisonProps) {
               transition={{ duration: 0.3, delay: 0.4 }}
               className="border-t border-card-border hover:bg-background transition-colors"
             >
-              <td className="py-5 px-8 font-bold text-foreground uppercase">{t.comparison.cost}</td>
-              <td className="py-5 px-8 text-text-muted">{t.comparison.costMac}</td>
-              <td className="py-5 px-8 text-gryphon-gold font-bold bg-background border-l border-r border-b border-card-border">{t.comparison.costSBC}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 font-bold text-foreground uppercase">{t.comparison.cost}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-text-muted">{t.comparison.costMac}</td>
+              <td className="py-4 px-3 sm:py-5 sm:px-8 text-gryphon-gold font-bold bg-background border-l border-r border-b border-card-border">{t.comparison.costSBC}</td>
             </motion.tr>
           </tbody>
         </table>

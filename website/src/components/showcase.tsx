@@ -170,7 +170,7 @@ export default function Showcase({ language }: ShowcaseProps) {
           whileHover={{ y: -8 }}
           className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0a0a] transition-all hover:border-gryphon-gold/30 hover:shadow-[0_0_50px_rgba(234,179,8,0.1)]"
         >
-          <div className="relative h-72 w-full overflow-hidden">
+          <div className="relative h-48 sm:h-72 w-full overflow-hidden">
             <Image
               src="/assets/malikclaw_code.png"
               alt="MalikClaw Code Generation"
@@ -179,11 +179,11 @@ export default function Showcase({ language }: ShowcaseProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
           </div>
-          <div className="relative p-8 pt-4">
-            <h3 className="text-2xl font-bold text-white mb-2">
+          <div className="relative p-6 sm:p-8 pt-3 sm:pt-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {language === 'ur' ? 'انٹیلیجنٹ کوڈنگ' : 'Intelligent Coding'}
             </h3>
-            <p className="text-zinc-400 text-base leading-relaxed">
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
               {language === 'ur' 
                 ? 'کسی بھی زبان میں اعلیٰ معیار کا کوڈ لکھیں اور ڈیبگ کریں۔' 
                 : 'Write and debug high-quality code in any language with ease.'}
@@ -195,7 +195,7 @@ export default function Showcase({ language }: ShowcaseProps) {
           whileHover={{ y: -8 }}
           className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0a0a] transition-all hover:border-gryphon-gold/30 hover:shadow-[0_0_50px_rgba(234,179,8,0.1)]"
         >
-          <div className="relative h-72 w-full overflow-hidden">
+          <div className="relative h-48 sm:h-72 w-full overflow-hidden">
             <Image
               src="/assets/malikclaw_scedule.png"
               alt="MalikClaw Task Scheduling"
@@ -204,11 +204,11 @@ export default function Showcase({ language }: ShowcaseProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
           </div>
-          <div className="relative p-8 pt-4">
-            <h3 className="text-2xl font-bold text-white mb-2">
+          <div className="relative p-6 sm:p-8 pt-3 sm:pt-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {language === 'ur' ? 'ٹاسک شیڈولنگ' : 'Advanced Scheduling'}
             </h3>
-            <p className="text-zinc-400 text-base leading-relaxed">
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
               {language === 'ur' 
                 ? 'اپنے روزمرہ کے کاموں کو ایجنٹ کے ذریعے خودکار بنائیں۔' 
                 : 'Automate your daily workflows with powerful task scheduling.'}
@@ -220,7 +220,7 @@ export default function Showcase({ language }: ShowcaseProps) {
           whileHover={{ y: -8 }}
           className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0a0a] transition-all hover:border-gryphon-gold/30 hover:shadow-[0_0_50px_rgba(234,179,8,0.1)]"
         >
-          <div className="relative h-72 w-full overflow-hidden">
+          <div className="relative h-48 sm:h-72 w-full overflow-hidden">
             <Image
               src="/assets/malikclaw_search.png"
               alt="MalikClaw Web Search"
@@ -229,11 +229,11 @@ export default function Showcase({ language }: ShowcaseProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
           </div>
-          <div className="relative p-8 pt-4">
-            <h3 className="text-2xl font-bold text-white mb-2">
+          <div className="relative p-6 sm:p-8 pt-3 sm:pt-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {language === 'ur' ? 'ویب سرچ اور ریسرچ' : 'Web Research'}
             </h3>
-            <p className="text-zinc-400 text-base leading-relaxed">
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
               {language === 'ur' 
                 ? 'انٹرنیٹ سے معلومات تلاش کریں اور خلاصہ تیار کریں۔' 
                 : 'Browse and analyze live web data for deep research insights.'}
@@ -245,7 +245,7 @@ export default function Showcase({ language }: ShowcaseProps) {
           whileHover={{ y: -8 }}
           className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0a0a] transition-all hover:border-gryphon-gold/30 hover:shadow-[0_0_50px_rgba(234,179,8,0.1)]"
         >
-          <div className="relative h-72 w-full overflow-hidden">
+          <div className="relative h-48 sm:h-72 w-full overflow-hidden">
             <Image
               src="/assets/malikclaw_memory.png"
               alt="MalikClaw Long-term Memory"
@@ -254,11 +254,11 @@ export default function Showcase({ language }: ShowcaseProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent"></div>
           </div>
-          <div className="relative p-8 pt-4">
-            <h3 className="text-2xl font-bold text-white mb-2">
+          <div className="relative p-6 sm:p-8 pt-3 sm:pt-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {language === 'ur' ? 'طویل مدتی میموری' : 'Contextual Memory'}
             </h3>
-            <p className="text-zinc-400 text-base leading-relaxed">
+            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
               {language === 'ur' 
                 ? 'ایجنٹ آپ کی ترجیحات اور ماضی کی گفتگو کو یاد رکھتا ہے۔' 
                 : 'Remember your preferences and past context across sessions.'}
