@@ -16,7 +16,7 @@ import (
 )
 
 type Channel struct {
-	channels.BaseChannel
+	*channels.BaseChannel
 	config *config.TwitterConfig
 	cancel context.CancelFunc
 }
@@ -45,8 +45,14 @@ func NewChannel(cfg *config.Config, messageBus *bus.MessageBus) (*Channel, error
 	}
 
 	ch := &Channel{
-		BaseChannel: channels.NewBaseChannel("twitter", cfg.Channels.Twitter.ReasoningChannelID, cfg.Channels.Twitter.AllowFrom, messageBus),
-		config:      &cfg.Channels.Twitter,
+		BaseChannel: channels.NewBaseChannel(
+			"twitter",
+			&cfg.Channels.Twitter,
+			messageBus,
+			cfg.Channels.Twitter.AllowFrom,
+			channels.WithReasoningChannelID(cfg.Channels.Twitter.ReasoningChannelID),
+		),
+		config: &cfg.Channels.Twitter,
 	}
 	return ch, nil
 }
@@ -93,22 +99,25 @@ func (c *Channel) poll(ctx context.Context) {
 				var result TweetResponse
 				if err := json.NewDecoder(resp.Body).Decode(&result); err == nil && len(result.Data) > 0 {
 					for _, tweet := range result.Data {
-						inboundMsg := bus.InboundMessage{
-							Channel: "twitter",
-							SenderID: tweet.AuthorID,
-							Sender: bus.SenderInfo{
-								Platform: "twitter",
-								PlatformID: tweet.AuthorID,
-							},
-							ChatID: tweet.ID,
-							Content: tweet.Text,
-							Peer: bus.Peer{
-								Kind: "direct",
-								ID: tweet.AuthorID,
-							},
-							MessageID: tweet.ID,
+						sender := bus.SenderInfo{
+							Platform:   "twitter",
+							PlatformID: tweet.AuthorID,
 						}
-						c.HandleMessage(inboundMsg)
+						peer := bus.Peer{
+							Kind: "direct",
+							ID:   tweet.AuthorID,
+						}
+						c.HandleMessage(
+							ctx,
+							peer,
+							tweet.ID,       // messageID
+							tweet.AuthorID, // senderID
+							tweet.ID,       // chatID
+							tweet.Text,     // content
+							nil,            // media
+							nil,            // metadata
+							sender,
+						)
 					}
 					if result.Meta.NewestID != "" {
 						sinceID = result.Meta.NewestID
@@ -143,26 +152,26 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 
 	data, err := json.Marshal(reqBody)
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 
 	url := "https://api.twitter.com/2/tweets"
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(data))
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.config.BearerToken)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifyNetError(err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 400 {
 		body, _ := io.ReadAll(resp.Body)
-		return channels.ClassifySendError(fmt.Errorf("twitter API error: %s - %s", resp.Status, string(body)))
+		return channels.ClassifySendError(resp.StatusCode, fmt.Errorf("twitter API error: %s - %s", resp.Status, string(body)))
 	}
 
 	return nil

@@ -13,7 +13,7 @@ import (
 )
 
 type Channel struct {
-	channels.BaseChannel
+	*channels.BaseChannel
 	config  *config.LinkedInConfig
 	cancel  context.CancelFunc
 	pw      *playwright.Playwright
@@ -27,8 +27,14 @@ func NewChannel(cfg *config.Config, messageBus *bus.MessageBus) (*Channel, error
 	}
 
 	ch := &Channel{
-		BaseChannel: channels.NewBaseChannel("linkedin", cfg.Channels.LinkedIn.ReasoningChannelID, cfg.Channels.LinkedIn.AllowFrom, messageBus),
-		config:      &cfg.Channels.LinkedIn,
+		BaseChannel: channels.NewBaseChannel(
+			"linkedin",
+			&cfg.Channels.LinkedIn,
+			messageBus,
+			cfg.Channels.LinkedIn.AllowFrom,
+			channels.WithReasoningChannelID(cfg.Channels.LinkedIn.ReasoningChannelID),
+		),
+		config: &cfg.Channels.LinkedIn,
 	}
 	return ch, nil
 }
@@ -126,24 +132,25 @@ func (c *Channel) pollMessages(ctx context.Context) {
 						chatID := "linkedin_chat_id"
 						senderID := "linkedin_sender_id"
 
-						inbound := bus.InboundMessage{
-							Channel: "linkedin",
-							ChatID:  chatID,
-							SenderID: senderID,
-							Sender: bus.SenderInfo{
-								Platform: "linkedin",
-								Username: "linkedin_user",
-							},
-							Content: lastMsg,
-							Peer: bus.Peer{
-								Kind: "direct",
-								ID:   chatID,
-							},
+						sender := bus.SenderInfo{
+							Platform: "linkedin",
+							Username: "linkedin_user",
 						}
-
-						if err := c.MessageBus().PublishInbound(ctx, inbound); err != nil {
-							logger.ErrorC("linkedin", "Failed to publish inbound message", err)
+						peer := bus.Peer{
+							Kind: "direct",
+							ID:   chatID,
 						}
+						c.HandleMessage(
+							ctx,
+							peer,
+							"",       // messageID
+							senderID, // senderID
+							chatID,   // chatID
+							lastMsg,  // content
+							nil,      // media
+							nil,      // metadata
+							sender,
+						)
 					}
 				}
 			}

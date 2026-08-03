@@ -18,7 +18,7 @@ import (
 )
 
 type Channel struct {
-	channels.BaseChannel
+	*channels.BaseChannel
 	config *config.RedditConfig
 	cancel context.CancelFunc
 	token  string
@@ -48,8 +48,14 @@ func NewChannel(cfg *config.Config, messageBus *bus.MessageBus) (*Channel, error
 	}
 
 	ch := &Channel{
-		BaseChannel: channels.NewBaseChannel("reddit", cfg.Channels.Reddit.ReasoningChannelID, cfg.Channels.Reddit.AllowFrom, messageBus),
-		config:      &cfg.Channels.Reddit,
+		BaseChannel: channels.NewBaseChannel(
+			"reddit",
+			&cfg.Channels.Reddit,
+			messageBus,
+			cfg.Channels.Reddit.AllowFrom,
+			channels.WithReasoningChannelID(cfg.Channels.Reddit.ReasoningChannelID),
+		),
+		config: &cfg.Channels.Reddit,
 	}
 	return ch, nil
 }
@@ -135,22 +141,25 @@ func (c *Channel) poll(ctx context.Context) {
 				var inbox RedditInboxResponse
 				if err := json.NewDecoder(resp.Body).Decode(&inbox); err == nil {
 					for _, msg := range inbox.Data.Children {
-						inboundMsg := bus.InboundMessage{
-							Channel: "reddit",
-							SenderID: msg.Data.Author,
-							Sender: bus.SenderInfo{
-								Platform: "reddit",
-								PlatformID: msg.Data.Author,
-							},
-							ChatID: msg.Data.Name, // We reply to this thing_id
-							Content: msg.Data.Body,
-							Peer: bus.Peer{
-								Kind: "direct",
-								ID: msg.Data.Author,
-							},
-							MessageID: msg.Data.Name,
+						sender := bus.SenderInfo{
+							Platform:   "reddit",
+							PlatformID: msg.Data.Author,
 						}
-						c.HandleMessage(inboundMsg)
+						peer := bus.Peer{
+							Kind: "direct",
+							ID:   msg.Data.Author,
+						}
+						c.HandleMessage(
+							ctx,
+							peer,
+							msg.Data.Name,   // messageID
+							msg.Data.Author, // senderID
+							msg.Data.Name,   // chatID
+							msg.Data.Body,   // content
+							nil,             // media
+							nil,             // metadata
+							sender,
+						)
 
 						// Mark as read immediately to avoid processing again
 						c.markRead(ctx, msg.Data.Name)
@@ -188,7 +197,7 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 
 	if c.token == "" {
 		if err := c.authenticate(ctx); err != nil {
-			return channels.ClassifySendError(err)
+			return channels.ClassifySendError(http.StatusUnauthorized, err)
 		}
 	}
 
@@ -198,7 +207,7 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 
 	req, err := http.NewRequestWithContext(ctx, "POST", "https://oauth.reddit.com/api/comment", strings.NewReader(data.Encode()))
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 	req.Header.Set("User-Agent", "malikclaw/1.0.0")
@@ -206,7 +215,7 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifyNetError(err)
 	}
 	defer resp.Body.Close()
 
@@ -214,7 +223,7 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 		return channels.ErrRateLimit
 	} else if resp.StatusCode >= 400 {
 		body, _ := io.ReadAll(resp.Body)
-		return channels.ClassifySendError(fmt.Errorf("reddit API error: %s - %s", resp.Status, string(body)))
+		return channels.ClassifySendError(resp.StatusCode, fmt.Errorf("reddit API error: %s - %s", resp.Status, string(body)))
 	}
 
 	return nil

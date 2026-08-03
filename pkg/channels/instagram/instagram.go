@@ -15,7 +15,7 @@ import (
 )
 
 type Channel struct {
-	channels.BaseChannel
+	*channels.BaseChannel
 	config *config.InstagramConfig
 }
 
@@ -54,8 +54,14 @@ func NewChannel(cfg *config.Config, messageBus *bus.MessageBus) (*Channel, error
 	}
 
 	ch := &Channel{
-		BaseChannel: channels.NewBaseChannel("instagram", cfg.Channels.Instagram.ReasoningChannelID, cfg.Channels.Instagram.AllowFrom, messageBus),
-		config:      &cfg.Channels.Instagram,
+		BaseChannel: channels.NewBaseChannel(
+			"instagram",
+			&cfg.Channels.Instagram,
+			messageBus,
+			cfg.Channels.Instagram.AllowFrom,
+			channels.WithReasoningChannelID(cfg.Channels.Instagram.ReasoningChannelID),
+		),
+		config: &cfg.Channels.Instagram,
 	}
 	return ch, nil
 }
@@ -79,25 +85,25 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 
 	data, err := json.Marshal(reqBody)
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 
 	url := fmt.Sprintf("https://graph.instagram.com/v21.0/me/messages?access_token=%s", c.config.Token)
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(data))
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return channels.ClassifySendError(err)
+		return channels.ClassifyNetError(err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 400 {
 		body, _ := io.ReadAll(resp.Body)
-		return channels.ClassifySendError(fmt.Errorf("instagram API error: %s - %s", resp.Status, string(body)))
+		return channels.ClassifySendError(resp.StatusCode, fmt.Errorf("instagram API error: %s - %s", resp.Status, string(body)))
 	}
 
 	return nil
@@ -148,22 +154,25 @@ func (c *Channel) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		for _, entry := range payload.Entry {
 			for _, messaging := range entry.Messaging {
 				if messaging.Message.Text != "" {
-					inboundMsg := bus.InboundMessage{
-						Channel: "instagram",
-						SenderID: messaging.Sender.ID,
-						Sender: bus.SenderInfo{
-							Platform: "instagram",
-							PlatformID: messaging.Sender.ID,
-						},
-						ChatID: messaging.Sender.ID,
-						Content: messaging.Message.Text,
-						Peer: bus.Peer{
-							Kind: "direct",
-							ID: messaging.Sender.ID,
-						},
-						MessageID: messaging.Message.Mid,
+					sender := bus.SenderInfo{
+						Platform:   "instagram",
+						PlatformID: messaging.Sender.ID,
 					}
-					c.HandleMessage(inboundMsg)
+					peer := bus.Peer{
+						Kind: "direct",
+						ID:   messaging.Sender.ID,
+					}
+					c.HandleMessage(
+						r.Context(),
+						peer,
+						messaging.Message.Mid,
+						messaging.Sender.ID,
+						messaging.Sender.ID,
+						messaging.Message.Text,
+						nil,
+						nil,
+						sender,
+					)
 				}
 			}
 		}
