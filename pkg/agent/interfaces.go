@@ -26,10 +26,9 @@ type Evaluator interface {
 	Evaluate(ctx context.Context, goal string, history []providers.Message) (*eval.EvaluationResult, error)
 }
 
-// Router selects the most efficient provider profile based on task tags and complexity.
+// Router selects the appropriate candidate for a task.
 type Router interface {
-	// Route evaluates the task string and history to return a matched provider profile.
-	Route(ctx context.Context, task string, complexity float64, tags []string) (*routing.ProviderProfile, error)
+	Route(ctx context.Context, task string) (providers.FallbackCandidate, error)
 }
 
 // AgentFactory dynamically instantiates an AgentInstance given a ProviderProfile.
