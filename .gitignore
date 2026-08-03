@@ -57,6 +57,10 @@ dist/
 web/backend/dist/*
 !web/backend/dist/.gitkeep
 
+!cmd/malikclaw-desktop/frontend/dist/
+cmd/malikclaw-desktop/frontend/dist/*
+!cmd/malikclaw-desktop/frontend/dist/.gitkeep
+
 
 # Agents 
 GEMINI.md
