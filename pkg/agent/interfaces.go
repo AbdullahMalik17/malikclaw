@@ -2,10 +2,12 @@ package agent
 
 import (
 	"context"
+
 	"github.com/AbdullahMalik17/malikclaw/pkg/agent/eval"
 	"github.com/AbdullahMalik17/malikclaw/pkg/agent/executor"
 	"github.com/AbdullahMalik17/malikclaw/pkg/agent/planner"
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
+	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
 )
 
 // Planner decomposes a high-level goal into actionable steps.
@@ -24,16 +26,15 @@ type Evaluator interface {
 	Evaluate(ctx context.Context, goal string, history []providers.Message) (*eval.EvaluationResult, error)
 }
 
-
 // Router selects the most efficient provider profile based on task tags and complexity.
 type Router interface {
 	// Route evaluates the task string and history to return a matched provider profile.
 	Route(ctx context.Context, task string, complexity float64, tags []string) (*routing.ProviderProfile, error)
 }
 
-// AgentFactory dynamically instantiates an agentloop.Instance given a ProviderProfile.
+// AgentFactory dynamically instantiates an AgentInstance given a ProviderProfile.
 type AgentFactory interface {
-	CreateAgent(ctx context.Context, profile *routing.ProviderProfile) (AgentInstance, error)
+	CreateAgent(ctx context.Context, profile *routing.ProviderProfile) (*AgentInstance, error)
 }
 
 // Supervisor manages a multi-agent episode.
@@ -46,11 +47,11 @@ type Supervisor interface {
 
 // SupervisorEpisode represents a multi-agent session.
 type SupervisorEpisode struct {
-	EpisodeID    string
-	Goal         string
-	CEOProvider  string
-	SubTasks     []SubTask
-	Consensus    ConsensusRules
+	EpisodeID   string
+	Goal        string
+	CEOProvider string
+	SubTasks    []SubTask
+	Consensus   ConsensusRules
 }
 
 type SubTask struct {
@@ -62,10 +63,5 @@ type SubTask struct {
 type ConsensusRules struct {
 	RequireUnanimous bool
 	MaxDebateRounds  int
-}
-
-// AgentInstance represents an individual executing agent (mirrors current Loop).
-type AgentInstance interface {
-	ExecuteGoal(ctx context.Context, goal string) (*ExecutionResult, error)
 }
 

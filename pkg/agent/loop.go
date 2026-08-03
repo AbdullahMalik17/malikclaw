@@ -1127,7 +1127,7 @@ func (al *AgentLoop) runAgenticLoop(
 		iteration++
 
 		// 2. Routing (Pick model for this iteration)
-		_, err := al.router.Route(ctx, goal)
+		_, err := al.router.Route(ctx, goal, 0.0, nil)
 		if err != nil {
 			logger.WarnCF("agent", "Routing failed, using default model", map[string]any{"error": err.Error()})
 		}

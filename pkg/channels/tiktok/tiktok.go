@@ -178,15 +178,25 @@ func (c *Channel) HandleWebhook(w http.ResponseWriter, r *http.Request) {
 		if !c.IsAllowed(payload.Data.SenderID) {
 			logger.InfoCF("tiktok", "Message from disallowed user", map[string]any{"sender": payload.Data.SenderID})
 		} else {
-			inboundMsg := bus.InboundMessage{
-				Channel:   "tiktok",
-				ChatID:    payload.Data.SenderID,
-				AccountID: payload.Data.SenderID,
-				Username:  payload.Data.SenderID,
-				Content:   payload.Data.Text,
-				Type:      bus.MessageTypeChat,
+			sender := bus.SenderInfo{
+				Platform:   "tiktok",
+				PlatformID: payload.Data.SenderID,
 			}
-			c.Bus().PublishInbound(r.Context(), inboundMsg)
+			peer := bus.Peer{
+				Kind: "direct",
+				ID:   payload.Data.SenderID,
+			}
+			c.HandleMessage(
+				r.Context(),
+				peer,
+				payload.Data.MessageID, // messageID
+				payload.Data.SenderID,  // senderID
+				payload.Data.SenderID,  // chatID
+				payload.Data.Text,      // content
+				nil,                    // media
+				nil,                    // metadata
+				sender,
+			)
 		}
 	}
 

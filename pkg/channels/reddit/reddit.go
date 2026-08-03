@@ -1,7 +1,6 @@
 package reddit
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"

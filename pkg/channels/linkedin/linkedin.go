@@ -48,7 +48,7 @@ func (c *Channel) Start(ctx context.Context) error {
 	// Ensure Playwright is installed
 	err := playwright.Install()
 	if err != nil {
-		logger.ErrorC("linkedin", "Failed to install Playwright (might already be installed)", err)
+		logger.ErrorCF("linkedin", "Failed to install Playwright (might already be installed)", map[string]any{"error": err.Error()})
 	}
 
 	pw, err := playwright.Run()
@@ -104,7 +104,7 @@ func (c *Channel) pollMessages(ctx context.Context) {
 			loc := c.page.Locator(".msg-conversation-card__unread-count")
 			count, err := loc.Count()
 			if err != nil {
-				logger.ErrorC("linkedin", "Failed to count unread messages", err)
+				logger.ErrorCF("linkedin", "Failed to count unread messages", map[string]any{"error": err.Error()})
 				continue
 			}
 
@@ -113,7 +113,7 @@ func (c *Channel) pollMessages(ctx context.Context) {
 				
 				// Click the first unread conversation
 				if err := loc.First().Click(); err != nil {
-					logger.ErrorC("linkedin", "Failed to click unread conversation", err)
+					logger.ErrorCF("linkedin", "Failed to click unread conversation", map[string]any{"error": err.Error()})
 					continue
 				}
 
@@ -165,13 +165,13 @@ func (c *Channel) Stop(ctx context.Context) error {
 	
 	if c.browser != nil {
 		if err := c.browser.Close(); err != nil {
-			logger.ErrorC("linkedin", "Error closing browser context", err)
+			logger.ErrorCF("linkedin", "Error closing browser context", map[string]any{"error": err.Error()})
 		}
 	}
 	
 	if c.pw != nil {
 		if err := c.pw.Stop(); err != nil {
-			logger.ErrorC("linkedin", "Error stopping playwright", err)
+			logger.ErrorCF("linkedin", "Error stopping playwright", map[string]any{"error": err.Error()})
 		}
 	}
 	
