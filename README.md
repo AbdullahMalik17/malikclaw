@@ -1,11 +1,8 @@
 <div align="center">
   <img src="assets/image.png" alt="MalikClaw AI Agent running on $10 Linux SBC">
-
   <h1>MalikClaw 🦅</h1>
-
   <h3>Ultra-Efficient Personal AI Assistant</h3>
   <p><strong>Production-Grade • &lt;10MB RAM • &lt;1s Boot • $10 Hardware • Built for the World</strong></p>
-
   <p>
     <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status"></a>
     <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
@@ -16,6 +13,8 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+
+    
   </p>
 
   <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
