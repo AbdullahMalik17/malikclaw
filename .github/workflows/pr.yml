@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
 
@@ -24,9 +24,9 @@ jobs:
         run: go generate ./...
 
       - name: Golangci Lint
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@v6
         with:
-          version: v2.10.1
+          version: v1.64.5
 
       - name: Run Govulncheck
         uses: golang/govulncheck-action@v1
