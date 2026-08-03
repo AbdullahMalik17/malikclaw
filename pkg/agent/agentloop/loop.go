@@ -75,10 +75,9 @@ type AgentLoop struct {
 	memory    *memory.MemoryManager
 
 	// State
-	mu            sync.RWMutex
-	running       bool
-	currentGoal   string
-	cancelFunc    context.CancelFunc
+	mu          sync.RWMutex
+	running     bool
+	currentGoal string
 
 	// Statistics
 	stats LoopStatistics

@@ -189,8 +189,8 @@ func (b *Benchmark) GenerateReport() string {
 		return "No benchmark data available."
 	}
 
-	report := fmt.Sprintf("MalikClaw Benchmark Report\n")
-	report += fmt.Sprintf("==========================\n")
+	report := "MalikClaw Benchmark Report\n"
+	report += "==========================\n"
 	report += fmt.Sprintf("Total Tasks:        %d\n", res.TotalExecutions)
 	report += fmt.Sprintf("Success Rate:       %.2f%%\n", res.SuccessRate*100)
 	report += fmt.Sprintf("Avg Duration:       %.2fs\n", res.AverageDuration.Seconds())

@@ -17,39 +17,6 @@ import (
 
 const skillsSearchMaxResults = 20
 
-func skillsListCmd(loader *skills.SkillsLoader) {
-	allSkills := loader.ListSkills()
-
-	if len(allSkills) == 0 {
-		fmt.Println("No skills installed.")
-		return
-	}
-
-	fmt.Println("\nInstalled Skills:")
-	fmt.Println("------------------")
-	for _, skill := range allSkills {
-		fmt.Printf("  ✓ %s (%s)\n", skill.Name, skill.Source)
-		if skill.Description != "" {
-			fmt.Printf("    %s\n", skill.Description)
-		}
-	}
-}
-
-func skillsInstallCmd(installer *skills.SkillInstaller, repo string) error {
-	fmt.Printf("Installing skill from %s...\n", repo)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	if err := installer.InstallFromGitHub(ctx, repo); err != nil {
-		return fmt.Errorf("failed to install skill: %w", err)
-	}
-
-	fmt.Printf("\u2713 Skill '%s' installed successfully!\n", filepath.Base(repo))
-
-	return nil
-}
-
 // skillsInstallFromRegistry installs a skill from a named registry (e.g. clawhub).
 func skillsInstallFromRegistry(cfg *config.Config, registryName, slug string) error {
 	err := utils.ValidateSkillIdentifier(registryName)

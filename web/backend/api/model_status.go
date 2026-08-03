@@ -68,11 +68,7 @@ func requiresRuntimeProbe(m config.ModelConfig) bool {
 		return apiBase == "" || hasLocalAPIBase(apiBase)
 	}
 
-	if hasLocalAPIBase(m.APIBase) {
-		return true
-	}
-
-	return false
+	return hasLocalAPIBase(m.APIBase)
 }
 
 func probeLocalModelAvailability(m config.ModelConfig) bool {

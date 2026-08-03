@@ -54,13 +54,3 @@ func footerView() *tview.TextView {
 	text.SetBorder(false)
 	return text
 }
-
-func chatFooterView() *tview.TextView {
-	text := tview.NewTextView()
-	text.SetTextAlign(tview.AlignCenter)
-	text.SetText(chatFooterText)
-	text.SetBackgroundColor(tview.Styles.MoreContrastBackgroundColor)
-	text.SetTextColor(tview.Styles.SecondaryTextColor)
-	text.SetBorder(false)
-	return text
-}

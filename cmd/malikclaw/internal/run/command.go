@@ -210,16 +210,3 @@ func displayEvaluation(result interface{}) {
 	}
 }
 
-func estimateTokens(messages []interface{}) int {
-	// Simple token estimation: ~2.5 chars per token
-	totalChars := 0
-	for _, msg := range messages {
-		if m, ok := msg.(map[string]interface{}); ok {
-			if content, ok := m["Content"].(string); ok {
-				totalChars += len(content)
-			}
-		}
-	}
-	return totalChars * 2 / 5
-}
-

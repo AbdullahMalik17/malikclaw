@@ -240,3 +240,24 @@ release:
     ---
 
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
+
+wingets:
+  - name: malikclaw
+    publisher: AbdullahMalik17
+    publisher_url: https://github.com/AbdullahMalik17
+    publisher_support_url: https://github.com/AbdullahMalik17/malikclaw/issues
+    author: AbdullahMalik17
+    short_description: Multi-platform AI agent framework
+    description: MalikClaw is a multi-platform AI agent framework.
+    license: MIT
+    license_url: https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE
+    copyright: Copyright (c) 2026 AbdullahMalik17
+    tags:
+      - ai
+      - agent
+      - cli
+    repository:
+      owner: AbdullahMalik17
+      name: winget-pkgs
+      token: "{{ .Env.GITHUB_TOKEN }}"
+

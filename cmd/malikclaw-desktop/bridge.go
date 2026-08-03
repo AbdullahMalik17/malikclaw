@@ -2,20 +2,14 @@ package main
 
 import (
 	"context"
-	"sync/atomic"
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/agent"
-	"github.com/AbdullahMalik17/malikclaw/pkg/bus"
-	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 )
 
 type Bridge struct {
-	ctx          context.Context
-	agentLoop    *agent.AgentLoop
-	bus          *bus.MessageBus
-	config       *config.Config
-	tps          atomic.Pointer[float64]
+	ctx       context.Context
+	agentLoop *agent.AgentLoop
 }
 
 func NewBridge() *Bridge {

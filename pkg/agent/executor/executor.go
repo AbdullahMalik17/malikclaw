@@ -146,7 +146,6 @@ type ToolExecutor struct {
 	config         ExecutorConfig
 	circuitBreaker *CircuitBreaker
 	semaphore      chan struct{}
-	mu             sync.RWMutex
 }
 
 // NewToolExecutor creates a new tool executor.

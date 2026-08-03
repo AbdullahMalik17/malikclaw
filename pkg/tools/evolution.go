@@ -115,9 +115,9 @@ func (t *EvolutionTool) analyzePath(path string) *ToolResult {
 	}
 
 	if info.IsDir() {
-		files, err := os.ReadDir(path)
-		if err != nil {
-			return ErrorResult(fmt.Sprintf("failed to read directory: %v", err))
+		files, rErr := os.ReadDir(path)
+		if rErr != nil {
+			return ErrorResult(fmt.Sprintf("failed to read directory: %v", rErr))
 		}
 		var output strings.Builder
 		output.WriteString(fmt.Sprintf("Directory %s contains:\n", path))
@@ -127,9 +127,9 @@ func (t *EvolutionTool) analyzePath(path string) *ToolResult {
 		return &ToolResult{ForLLM: output.String(), ForUser: "Directory analyzed."}
 	}
 
-	content, err := os.ReadFile(path)
-	if err != nil {
-		return ErrorResult(fmt.Sprintf("failed to read file: %v", err))
+	content, rErr := os.ReadFile(path)
+	if rErr != nil {
+		return ErrorResult(fmt.Sprintf("failed to read file: %v", rErr))
 	}
 
 	return &ToolResult{

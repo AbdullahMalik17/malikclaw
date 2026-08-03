@@ -88,10 +88,7 @@ func (r *Reflector) Reflect(
 		"plan_complete":  plan.IsComplete,
 	})
 
-	result := &ReflectionResult{
-		Timestamp: startTime,
-		Metrics:   make(map[string]any),
-	}
+	var result *ReflectionResult
 
 	// Perform heuristic evaluation
 	heuristicResult := r.heuristicReflect(goal, plan, observations)

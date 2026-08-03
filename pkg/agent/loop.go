@@ -979,8 +979,8 @@ func (al *AgentLoop) runAgentLoop(
 	)
 
 	if agent.LearningStore != nil {
-		learnings, err := agent.LearningStore.GetRecentLearnings(ctx, 3)
-		if err == nil && len(learnings) > 0 {
+		learnings, lErr := agent.LearningStore.GetRecentLearnings(ctx, 3)
+		if lErr == nil && len(learnings) > 0 {
 			var lessons string
 			for i, l := range learnings {
 				if !l.Success || l.SuccessScore < 0.8 {
@@ -1127,9 +1127,9 @@ func (al *AgentLoop) runAgenticLoop(
 		iteration++
 
 		// 2. Routing (Pick model for this iteration)
-		_, err := al.router.Route(ctx, goal)
-		if err != nil {
-			logger.WarnCF("agent", "Routing failed, using default model", map[string]any{"error": err.Error()})
+		_, routeErr := al.router.Route(ctx, goal)
+		if routeErr != nil {
+			logger.WarnCF("agent", "Routing failed, using default model", map[string]any{"error": routeErr.Error()})
 		}
 
 		// 3. Execution (Process steps from plan)
@@ -1170,8 +1170,8 @@ func (al *AgentLoop) runAgenticLoop(
 		}
 
 		if agent.LearningStore != nil && evalResult != nil {
-			if err := agent.LearningStore.RecordEvaluation(ctx, evalResult); err != nil {
-				logger.WarnCF("agent", "Failed to record evaluation", map[string]any{"error": err.Error()})
+			if recErr := agent.LearningStore.RecordEvaluation(ctx, evalResult); recErr != nil {
+				logger.WarnCF("agent", "Failed to record evaluation", map[string]any{"error": recErr.Error()})
 			}
 		}
 
@@ -1272,7 +1272,7 @@ func (al *AgentLoop) runLLMIteration(
 
 			startTime := time.Now()
 			var resp *providers.LLMResponse
-			var err error
+			var callErr error
 
 			if len(activeCandidates) > 1 && al.fallback != nil {
 				fbResult, fbErr := al.fallback.Execute(
@@ -1293,12 +1293,12 @@ func (al *AgentLoop) runLLMIteration(
 						map[string]any{"agent_id": agent.ID, "iteration": iteration},
 					)
 				}
-				resp, err = fbResult.Response, nil
+				resp, callErr = fbResult.Response, nil
 			} else {
-				resp, err = agent.Provider.Chat(ctx, messages, providerToolDefs, activeModel, llmOpts)
+				resp, callErr = agent.Provider.Chat(ctx, messages, providerToolDefs, activeModel, llmOpts)
 			}
 
-			if err == nil && resp != nil {
+			if callErr == nil && resp != nil {
 				duration := time.Since(startTime)
 				al.lastDuration.Store(int64(duration))
 				if resp.Usage != nil {
@@ -1306,7 +1306,7 @@ func (al *AgentLoop) runLLMIteration(
 					al.completionTokens.Add(int64(resp.Usage.CompletionTokens))
 				}
 			}
-			return resp, err
+			return resp, callErr
 		}
 
 		// Retry loop for context/token errors

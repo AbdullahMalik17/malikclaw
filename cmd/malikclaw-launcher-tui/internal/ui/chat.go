@@ -32,7 +32,6 @@ type ChatView struct {
 	sessionKey   string
 	model        string
 	isStreaming  bool
-	currentMsg   strings.Builder
 	config       *config.Config
 	appState     *appState
 }
