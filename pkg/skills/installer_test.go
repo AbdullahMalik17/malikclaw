@@ -26,7 +26,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "simple owner/repo",
 			repo:         "AbdullahMalik17/malikclaw",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",
@@ -34,7 +34,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "owner/repo with subpath",
 			repo:         "AbdullahMalik17/malikclaw/skills/test",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "skills/test",
@@ -42,7 +42,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "full URL with tree",
 			repo:         "https://github.com/AbdullahMalik17/malikclaw/tree/dev/skills/test",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "dev",
 			wantSubPath:  "skills/test",
@@ -50,7 +50,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "full URL with blob",
 			repo:         "https://github.com/AbdullahMalik17/malikclaw/blob/main/README.md",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "README.md",
@@ -58,7 +58,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "full URL without ref",
 			repo:         "https://github.com/AbdullahMalik17/malikclaw",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",
@@ -84,7 +84,7 @@ func TestParseGitHubRef(t *testing.T) {
 		{
 			name:         "with whitespace",
 			repo:         "  AbdullahMalik17/malikclaw  ",
-			wantOwner:    "sipeed",
+			wantOwner:    "AbdullahMalik17",
 			wantRepoName: "malikclaw",
 			wantRef:      "main",
 			wantSubPath:  "",

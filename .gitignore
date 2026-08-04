@@ -11,6 +11,7 @@ build/
 /malikclaw
 /malikclaw-test
 cmd/**/workspace
+!cmd/malikclaw/internal/onboard/workspace/
 
 # Malikclaw specific
 
