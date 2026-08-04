@@ -236,13 +236,11 @@ func TestSetDefaultModel_ModelWithoutAPIKey(t *testing.T) {
 			{ModelName: "no-key-model", Model: "openai/nokey", APIKey: ""},
 		},
 	}
-
 	assert.Error(t, setDefaultModel(configPath, cfg, "no-key-model"))
 }
 
 func TestSetDefaultModel_SaveConfigError(t *testing.T) {
-	// Use an invalid path to trigger save error
-	invalidPath := "/nonexistent/directory/config.json"
+	invalidPath := t.TempDir() // passing a directory path causes SaveConfig to fail write
 
 	cfg := &config.Config{
 		Agents: config.AgentsConfig{
@@ -257,7 +255,7 @@ func TestSetDefaultModel_SaveConfigError(t *testing.T) {
 
 	err := setDefaultModel(invalidPath, cfg, "new-model")
 
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to save config")
 }
 

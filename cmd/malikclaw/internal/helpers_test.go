@@ -12,6 +12,7 @@ import (
 
 func TestGetConfigPath(t *testing.T) {
 	t.Setenv("HOME", "/tmp/home")
+	t.Setenv("USERPROFILE", "/tmp/home")
 
 	got := GetConfigPath()
 	want := filepath.Join("/tmp/home", ".malikclaw", "config.json")

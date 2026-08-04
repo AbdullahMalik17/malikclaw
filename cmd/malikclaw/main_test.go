@@ -17,7 +17,7 @@ func TestNewMalikclawCommand(t *testing.T) {
 
 	require.NotNil(t, cmd)
 
-	short := fmt.Sprintf("%s malikclaw - Personal AI Assistant v%s\n\n", internal.Logo, config.GetVersion())
+	short := fmt.Sprintf("%s MalikClaw - Personal AI Assistant v%s\n", internal.Logo, config.GetVersion())
 
 	assert.Equal(t, "malikclaw", cmd.Use)
 	assert.Equal(t, short, cmd.Short)
@@ -26,21 +26,24 @@ func TestNewMalikclawCommand(t *testing.T) {
 	assert.True(t, cmd.HasAvailableSubCommands())
 
 	assert.False(t, cmd.HasFlags())
+	assert.True(t, cmd.HasPersistentFlags())
 
 	assert.Nil(t, cmd.Run)
 	assert.Nil(t, cmd.RunE)
 
-	assert.Nil(t, cmd.PersistentPreRun)
+	assert.NotNil(t, cmd.PersistentPreRun)
 	assert.Nil(t, cmd.PersistentPostRun)
 
 	allowedCommands := []string{
 		"agent",
 		"auth",
+		"config",
 		"cron",
 		"gateway",
 		"migrate",
 		"model",
 		"onboard",
+		"run",
 		"skills",
 		"status",
 		"version",
