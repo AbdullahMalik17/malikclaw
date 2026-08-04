@@ -241,7 +241,7 @@ release:
 
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
 
-wingets:
+winget:
   - name: malikclaw
     publisher: AbdullahMalik17
     publisher_url: https://github.com/AbdullahMalik17
