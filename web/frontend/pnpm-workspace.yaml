@@ -1,0 +1,8 @@
+# Configuration for pnpm build scripts (pnpm v10 / v11+)
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+
+allowBuilds:
+  esbuild: true
+  msw: true
