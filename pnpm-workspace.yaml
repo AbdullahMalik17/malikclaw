@@ -1,0 +1,10 @@
+packages:
+  - 'web/frontend'
+
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+
+allowBuilds:
+  esbuild: true
+  msw: true
