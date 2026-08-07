@@ -1,7 +1,5 @@
 # MalikClaw Installation Guide 📦
 
-> Note: This document is synchronized with root [`INSTALLATION.md`](../INSTALLATION.md).
-
 This document provides complete installation instructions for **MalikClaw** across Linux, macOS, Windows, Docker, Android (Termux), edge SBCs (Raspberry Pi, Orange Pi, RISC-V), and package managers.
 
 ---
@@ -187,4 +185,4 @@ malikclaw status
 malikclaw onboard
 ```
 
-Visit [`QUICKSTART.md`](../QUICKSTART.md) to run your first agent tasks.
+Visit [`QUICKSTART.md`](QUICKSTART.md) to run your first agent tasks.

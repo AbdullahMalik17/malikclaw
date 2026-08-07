@@ -1,7 +1,5 @@
 # MalikClaw Architecture Guide 🏛️
 
-> Note: This document is synchronized with root [`ARCHITECTURE.md`](../ARCHITECTURE.md).
-
 This document details the internal architecture, subsystem design, data flow, and Go package structure of **MalikClaw**. Engineered in Go for ultra-low memory consumption (`<10MB` RAM) and sub-second cold starts (`<1s`), MalikClaw decouples agentic reasoning from messaging protocols, LLM backends, and low-level hardware execution.
 
 ---

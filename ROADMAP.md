@@ -1,116 +1,46 @@
+# MalikClaw Project Roadmap 🦅
 
-# 🦅 MalikClaw Roadmap
-
-> **Vision**: To build the ultimate lightweight, secure, and fully autonomous AI Agent infrastructure. Automate the mundane, unleash your creativity.
-
----
-
-## 🚀 1. Core Optimization: Extreme Lightweight
-
-*Our defining characteristic. We fight software bloat to ensure MalikClaw runs smoothly on the smallest embedded devices.*
-
-* [**Memory Footprint Reduction**](https://github.com/AbdullahMalik17/malikclaw/issues/346) 
-  * **Goal**: Run smoothly on 64MB RAM embedded boards (e.g., low-end RISC-V SBCs) with the core process consuming < 20MB.
-  * **Context**: RAM is expensive and scarce on edge devices. Memory optimization takes precedence over storage size.
-  * **Action**: Analyze memory growth between releases, remove redundant dependencies, and optimize data structures.
-
-
-## 🛡️ 2. Security Hardening: Defense in Depth
-
-*Paying off early technical debt. We invite security experts to help build a "Secure-by-Default" agent.*
-
-* **Input Defense & Permission Control**
-  * **Prompt Injection Defense**: Harden JSON extraction logic to prevent LLM manipulation.
-  * **Tool Abuse Prevention**: Strict parameter validation to ensure generated commands stay within safe boundaries.
-  * **SSRF Protection**: Built-in blocklists for network tools to prevent accessing internal IPs (LAN/Metadata services).
-
-
-* **Sandboxing & Isolation**
-  * **Filesystem Sandbox**: Restrict file R/W operations to specific directories only.
-  * **Context Isolation**: Prevent data leakage between different user sessions or channels.
-  * **Privacy Redaction**: Auto-redact sensitive info (API Keys, PII) from logs and standard outputs.
-
-
-* **Authentication & Secrets**
-  * **Crypto Upgrade**: Adopt modern algorithms like `ChaCha20-Poly1305` for secret storage.
-  * **OAuth 2.0 Flow**: Deprecate hardcoded API keys in the CLI; move to secure OAuth flows.
-
-
-
-## 🔌 3. Connectivity: Protocol-First Architecture
-
-*Connect every model, reach every platform.*
-
-* **Provider**
-  * [**Architecture Upgrade**](https://github.com/AbdullahMalik17/malikclaw/issues/283): Refactor from "Vendor-based" to "Protocol-based" classification (e.g., OpenAI-compatible, Ollama-compatible).
-  * **Local Models**: Deep integration with **Ollama**, **vLLM**, **LM Studio**, and **Mistral** (local inference).
-  * **Online Models**: Continued support for frontier closed-source models.
-
-
-* **Channel**
-  * **IM Matrix**: QQ, WeChat (Work), DingTalk, Feishu (Lark), Telegram, Discord, WhatsApp, LINE, Slack, Email, KOOK, Signal, ...
-  * **Standards**: Support for the **OneBot** protocol.
-  * [**attachment**](https://github.com/AbdullahMalik17/malikclaw/issues/348): Native handling of images, audio, and video attachments.
-
-
-* **Skill Marketplace**
-  * [**Discovery skills**](https://github.com/AbdullahMalik17/malikclaw/issues/287): Implement `find_skill` to automatically discover and install skills from the [GitHub Skills Repo] or other registries.
-
-
-
-## 🧠 4. Advanced Capabilities: From Chatbot to Agentic AI
-
-*Beyond conversation—focusing on action and collaboration.*
-
-* **Operations**
-  * [**MCP Support**](https://github.com/AbdullahMalik17/malikclaw/issues/290): Native support for the **Model Context Protocol (MCP)**.
-  * [**Browser Automation**](https://github.com/AbdullahMalik17/malikclaw/issues/293): Headless browser control via CDP (Chrome DevTools Protocol) or ActionBook.
-  * [**Mobile Operation**](https://github.com/AbdullahMalik17/malikclaw/issues/292): Android device control (similar to BotDrop).
-
-
-* **Multi-Agent Collaboration**
-  * [**Basic Multi-Agent**](https://github.com/AbdullahMalik17/malikclaw/issues/294) implement
-  * [**Model Routing**](https://github.com/AbdullahMalik17/malikclaw/issues/295): "Smart Routing" — dispatch simple tasks to small/local models (fast/cheap) and complex tasks to SOTA models (smart).
-  * [**Swarm Mode**](https://github.com/AbdullahMalik17/malikclaw/issues/284): Collaboration between multiple MalikClaw instances on the same network.
-  * [**AIEOS**](https://github.com/AbdullahMalik17/malikclaw/issues/296): Exploring AI-Native Operating System interaction paradigms.
-
-
-
-## 📚 5. Developer Experience (DevEx) & Documentation
-
-*Lowering the barrier to entry so anyone can deploy in minutes.*
-
-* [**QuickGuide (Zero-Config Start)**](https://github.com/AbdullahMalik17/malikclaw/issues/350)
-  * Interactive CLI Wizard: If launched without config, automatically detect the environment and guide the user through Token/Network setup step-by-step.
-
-
-* **Comprehensive Documentation**
-  * **Platform Guides**: Dedicated guides for Windows, macOS, Linux, and Android.
-  * **Step-by-Step Tutorials**: "Babysitter-level" guides for configuring Providers and Channels.
-  * **AI-Assisted Docs**: Using AI to auto-generate API references and code comments (with human verification to prevent hallucinations).
-
-
-
-## 🤖 6. Engineering: AI-Powered Open Source
-
-*Born from Vibe Coding, we continue to use AI to accelerate development.*
-
-* **AI-Enhanced CI/CD**
-  * Integrate AI for automated Code Review, Linting, and PR Labeling.
-  * **Bot Noise Reduction**: Optimize bot interactions to keep PR timelines clean.
-  * **Issue Triage**: AI agents to analyze incoming issues and suggest preliminary fixes.
-
-
-
-## 🎨 7. Brand & Community
-
-* [**Logo Design**](https://github.com/AbdullahMalik17/malikclaw/issues/297): The **Gryphon** identity is now official!
-  * *Concept*: Reflecting the vision of an eagle and the strength of a lion — fast, precise, and protective.
-
-
+> **Vision**: Build the world's most efficient, production-grade, zero-dependency personal AI agent infrastructure. Run full autonomous AI agent workflows anywhere—from $10 edge hardware to high-throughput cloud clusters.
 
 ---
 
-### 🤝 Call for Contributions
+## 🎯 Strategic Roadmap Pillars
 
-We welcome community contributions to any item on this roadmap! Please comment on the relevant Issue or submit a PR. Let's build the best Edge AI Agent together!
+### 🚀 Pillar 1: Extreme Edge Footprint & Memory Optimization
+- [x] **Sub-10MB Idle Footprint**: Achieved `<10MB` RAM usage in v1.0.0.
+- [ ] **Ultra-Embedded Support (<20MB Target)**: Run full agentic cycles on 64MB RAM embedded boards (RISC-V, MIPS, low-tier IoT gateways).
+- [ ] **Zero-Allocation Hot Paths**: Optimize Go memory pools to reduce GC pause times below 1ms.
+
+### 🛡️ Pillar 2: Defense-in-Depth Security & Hardening
+- [x] **Workspace Directory Jailing**: Restrict tool read/write access to `~/.malikclaw/workspace`.
+- [x] **Shell Execution Regex Filter**: Intercept and reject privilege escalation and destructive commands.
+- [ ] **Prompt Injection Defense Engine**: Structural JSON schema validation to neutralize jailbreaks and prompt manipulation.
+- [ ] **SSRF & Network Boundary Firewall**: Built-in IP blocklists preventing agents from accessing internal cloud metadata endpoints (`169.254.169.254`).
+- [ ] **ChaCha20-Poly1305 Encrypted Vault**: AES/ChaCha20 encrypted storage for API keys and sensitive tokens.
+
+### 🔌 Pillar 3: Protocol-First Connectivity & Local Model Supremacy
+- [x] **Multi-Provider Routing**: Native integration with OpenAI, Anthropic, Gemini, Antigravity, Ollama, DeepSeek, Groq, Zhipu, OpenRouter.
+- [ ] **Ollama & vLLM Deep Optimization**: Streaming token optimization and local context window auto-resizing.
+- [ ] **OneBot Protocol & Universal IM Standard**: Standardized integration for QQ, WeChat, Matrix, DingTalk, Feishu, and Signal.
+- [ ] **Attachment & Multi-Modal Pipelines**: Native pipeline for image, audio transcript, and video frame input across all channels.
+
+### 🧠 Pillar 4: Autonomous Multi-Agent Swarms & MCP
+- [x] **Production 5-Stage Agent Loop**: Plan ➔ Act ➔ Observe ➔ Reflect ➔ Memory Update cycle.
+- [x] **Model Context Protocol (MCP)**: Attach third-party MCP tool servers dynamically.
+- [ ] **Smart Multi-Model Cost Router**: Automatically route simple subtasks to fast/cheap local models (Ollama/Llama 3.3) and complex reasoning to frontier models (Claude 3.7 / GPT-4o).
+- [ ] **Peer-to-Peer Agent Swarms**: Decentralized communication between multiple local MalikClaw nodes across a mesh network.
+
+### 🌐 Pillar 5: Developer Experience & Global Community
+- [x] **One-Line Installers**: `install.sh` and `install.ps1` cross-platform scripts.
+- [x] **Bento Grid Web UI & Dashboard**: Interactive status dashboard listening on port 18790.
+- [ ] **Skill Marketplace & Plugin Registry**: Automated skill discovery (`malikclaw skills install <skill-name>`).
+- [ ] **Multilingual Expansion**: Add localized interfaces for Arabic, Spanish, German, Hindi, and Bengali.
+
+---
+
+## 🤝 Call for Contributions
+
+We welcome community feedback and PRs! If you'd like to work on any item listed in this roadmap:
+1. Browse open issues on [GitHub Issues](https://github.com/AbdullahMalik17/malikclaw/issues).
+2. Read the [Contributing Guide](CONTRIBUTING.md).
+3. Join the community discussions!

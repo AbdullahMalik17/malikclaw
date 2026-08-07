@@ -28,7 +28,7 @@ export default async function DocPage({ params }: DocPageProps) {
   const slugPath = slug.join("/");
   
   const mapping: Record<string, { file: string, title: string }> = {
-    "quick-start": { file: "QUICK_START.md", title: "Quick Start" },
+    "quick-start": { file: "QUICKSTART.md", title: "Quick Start" },
     "configuration": { file: "tools_configuration.md", title: "Configuration" },
     "architecture": { file: "ARCHITECTURE.md", title: "Architecture" },
     "providers": { file: "PROVIDERS.md", title: "Providers & Models" },

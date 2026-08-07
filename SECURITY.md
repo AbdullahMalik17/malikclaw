@@ -1,7 +1,5 @@
 # Security & Sandboxing Policy 🛡️
 
-> Note: This document is synchronized with root [`SECURITY.md`](../SECURITY.md).
-
 MalikClaw is built with a **Security-First** engineering philosophy. Because the agent executes terminal commands, inspects local files, and automates external services, multiple defense-in-depth security layers are active by default.
 
 ---
