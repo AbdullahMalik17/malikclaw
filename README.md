@@ -23,6 +23,14 @@
   <p>
     <a href="README.ur.md">اردو</a> | <a href="README.ja.md">日本語</a> | <a href="README.pt-br.md">Português</a> | <a href="README.vi.md">Tiếng Việt</a> | <a href="README.fr.md">Français</a> | <strong>English</strong>
   </p>
+
+---
+
+## 🎬 Live Terminal Demo
+
+<div align="center">
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Agent Loop Demo" width="1200" height="600" style="max-width: 100%; height: auto;" />
+  <p><sub><em>Real-time demonstration of MalikClaw agent loop initializing in &lt;0.8s, executing ReAct subtask planning, sandboxed tool execution, and updating Markdown memory on &lt;10MB RAM.</em></sub></p>
 </div>
 
 ---

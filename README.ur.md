@@ -18,7 +18,7 @@
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
 
-  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="1200" height="600" style="max-width: 100%; height: auto;" />
 
 <p align="center">
   <a href="#-فوری-شروع">فوری شروع</a> •
