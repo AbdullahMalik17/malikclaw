@@ -7,7 +7,7 @@
 ## 🖼️ Architecture Overview Diagram
 
 <div align="center">
-  <img src="../assets/architecture.svg" alt="MalikClaw Architecture Diagram" width="100%">
+  <img src="../assets/architecture.svg" alt="MalikClaw Architecture Diagram" width="100%" />
 </div>
 
 ---
