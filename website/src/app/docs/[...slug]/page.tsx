@@ -9,6 +9,20 @@ interface DocPageProps {
   params: Promise<{ slug: string[] }>;
 }
 
+export async function generateStaticParams() {
+  return [
+    { slug: ["quick-start"] },
+    { slug: ["configuration"] },
+    { slug: ["architecture"] },
+    { slug: ["providers"] },
+    { slug: ["security"] },
+    { slug: ["troubleshooting"] },
+    { slug: ["debug"] },
+    { slug: ["antigravity", "auth"] },
+    { slug: ["antigravity", "usage"] },
+  ];
+}
+
 export default async function DocPage({ params }: DocPageProps) {
   const { slug } = await params;
   const slugPath = slug.join("/");
@@ -35,11 +49,13 @@ export default async function DocPage({ params }: DocPageProps) {
 
   const doc = mapping[slugPath];
   if (!doc) {
-    if (slug[0] === "installation") return null;
     notFound();
   }
 
-  const filePath = path.join(process.cwd(), "..", "docs", doc.file);
+  const docsDir = fs.existsSync(path.join(process.cwd(), "docs"))
+    ? path.join(process.cwd(), "docs")
+    : path.join(process.cwd(), "..", "docs");
+  const filePath = path.join(docsDir, doc.file);
   if (!fs.existsSync(filePath)) notFound();
 
   const content = fs.readFileSync(filePath, "utf-8");

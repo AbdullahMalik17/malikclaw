@@ -104,7 +104,7 @@ Repurpose an old Android smartphone into an autonomous edge AI server:
 
 ## 🐜 Edge SBCs (Raspberry Pi, Orange Pi, RISC-V)
 
-MalikClaw is optimized for low-power hardware (<10MB RAM, <1s boot):
+MalikClaw is optimized for low-power hardware (`<10MB` RAM, `<1s` boot):
 
 - **Raspberry Pi / Orange Pi Zero**: Cross-compile with `make build-pi-zero` or download the `linux-arm64` release binary.
 - **RISC-V SBCs (Sipeed LicheeRV, etc.)**: Built-in support using `GOARCH=riscv64 go build`.

@@ -1,6 +1,6 @@
 # MalikClaw Architecture Guide 🦅
 
-🦅 **MalikClaw** is an ultra-lightweight, production-grade personal AI Assistant built in Go. It is engineered for extreme performance, low resource consumption (<10MB RAM, <1s boot time), and autonomous self-evolution across high-end servers down to $10 edge SBCs and Android devices.
+🦅 **MalikClaw** is an ultra-lightweight, production-grade personal AI Assistant built in Go. It is engineered for extreme performance, low resource consumption (`<10MB` RAM, `<1s` boot time), and autonomous self-evolution across high-end servers down to $10 edge SBCs and Android devices.
 
 ---
 
@@ -86,8 +86,8 @@ MalikClaw maintains user context and state using plain Markdown files:
 
 ## ⚡ Edge & Mobile Performance
 
-- **Memory Efficiency**: Operates smoothly within <10MB RAM (up to 99% savings compared to heavy frameworks).
-- **Fast Startup**: Sub-second boot times (<1s) even on low-frequency single-core processors (0.6GHz).
+- **Memory Efficiency**: Operates smoothly within `<10MB` RAM (up to 99% savings compared to heavy frameworks).
+- **Fast Startup**: Sub-second boot times (`<1s`) even on low-frequency single-core processors (0.6GHz).
 - **Mobile Runtime**: Direct Android control via ADB (tap, swipe, screenshot) and native headless execution on Termux.
 - **Cross-Platform**: Zero-dependency Go binary built for `x86_64`, `ARM64`, `ARMv7`, `MIPS`, and `RISC-V`.
 

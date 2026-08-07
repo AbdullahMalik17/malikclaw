@@ -43,12 +43,12 @@
 
 **Before:**
 ```
-$10 Hardware · <10MB RAM · <1s Boot · آگے بڑھو، ملک کلاؤ!
+$10 Hardware · `<10MB` RAM · `<1s` Boot · آگے بڑھو، ملک کلاؤ!
 ```
 
 **After:**
 ```
-Production-Grade • <10MB RAM • <1s Boot • $10 Hardware • Built for the World
+Production-Grade • `<10MB` RAM • `<1s` Boot • $10 Hardware • Built for the World
 ```
 
 ### 2. Language Links
@@ -169,7 +169,7 @@ Empowering everyone with efficient AI — anywhere, anytime!
 ### Core Message
 > **Ultra-Efficient Personal AI Assistant**
 >
-> Production-Grade • <10MB RAM • <1s Boot • $10 Hardware • Built for the World
+> Production-Grade • `<10MB` RAM • `<1s` Boot • $10 Hardware • Built for the World
 
 ### Key Pillars
 
@@ -184,8 +184,8 @@ Empowering everyone with efficient AI — anywhere, anytime!
    - Multi-continental support
 
 3. **Efficiency Without Compromise**
-   - <10MB RAM (99% smaller)
-   - <1s boot (400X faster)
+   - `<10MB` RAM (99% smaller)
+   - `<1s` boot (400X faster)
    - Production-grade reliability
 
 4. **Privacy-First**
