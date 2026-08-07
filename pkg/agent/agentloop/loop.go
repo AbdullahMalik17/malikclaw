@@ -31,6 +31,7 @@ package agentloop
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -45,27 +46,27 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
 )
 
-// Import alias for clarity - Step type from planner package
+// Step is an alias for planner.Step representing a single execution unit in a plan.
 type Step = planner.Step
 
 // ExecutionResult represents the outcome of goal execution.
 type ExecutionResult struct {
-	Goal           string                 `json:"goal"`
-	Success        bool                   `json:"success"`
-	PartialSuccess bool                   `json:"partial_success"`
-	ErrorMessage   string                 `json:"error_message,omitempty"`
-	Plan           *planner.ExecutionPlan `json:"plan,omitempty"`
+	Goal           string                      `json:"goal"`
+	Success        bool                        `json:"success"`
+	PartialSuccess bool                        `json:"partial_success"`
+	ErrorMessage   string                      `json:"error_message,omitempty"`
+	Plan           *planner.ExecutionPlan      `json:"plan,omitempty"`
 	Reflection     *reflector.ReflectionResult `json:"reflection,omitempty"`
-	Iterations     int                    `json:"iterations"`
-	Duration       time.Duration          `json:"duration"`
-	ActionsTaken   int                    `json:"actions_taken"`
+	Iterations     int                         `json:"iterations"`
+	Duration       time.Duration               `json:"duration"`
+	ActionsTaken   int                         `json:"actions_taken"`
 }
 
 // AgentLoop implements the production-grade agent loop.
 type AgentLoop struct {
-	config     LoopConfig
+	config       LoopConfig
 	toolRegistry *tools.ToolRegistry
-	provider   providers.LLMProvider
+	provider     providers.LLMProvider
 
 	// Core components
 	planner   *planner.ReActPlanner
@@ -107,28 +108,28 @@ func NewAgentLoop(config LoopConfig, toolRegistry *tools.ToolRegistry, provider 
 
 	// Create planner
 	plannerConfig := planner.PlannerConfig{
-		MaxSteps:          config.Planner.MaxSteps,
-		MaxRetries:        config.Planner.MaxRetries,
-		RetryBackoffBase:  config.Planner.RetryBackoffBase,
-		EnableReflection:  config.Planner.EnableReflection,
-		TimeoutPerStep:    config.Planner.TimeoutPerStep,
+		MaxSteps:         config.Planner.MaxSteps,
+		MaxRetries:       config.Planner.MaxRetries,
+		RetryBackoffBase: config.Planner.RetryBackoffBase,
+		EnableReflection: config.Planner.EnableReflection,
+		TimeoutPerStep:   config.Planner.TimeoutPerStep,
 	}
-	planner := planner.NewReActPlannerWithConfig(provider, config.Reflector.Model, plannerConfig)
+	plannerComp := planner.NewReActPlannerWithConfig(provider, config.Reflector.Model, plannerConfig)
 
 	// Create executor
 	executorConfig := executor.ExecutorConfig{
-		MaxConcurrent:         config.Executor.MaxConcurrent,
-		Timeout:               config.Executor.Timeout,
-		RetryEnabled:          config.Executor.RetryEnabled,
-		MaxRetries:            config.Executor.MaxRetries,
-		RetryBackoffBase:      config.Executor.RetryBackoffBase,
-		RetryBackoffMax:       config.Executor.RetryBackoffMax,
-		RetryMultiplier:       config.Executor.RetryMultiplier,
-		CircuitBreakerEnabled: config.Executor.CircuitBreakerEnabled,
+		MaxConcurrent:           config.Executor.MaxConcurrent,
+		Timeout:                 config.Executor.Timeout,
+		RetryEnabled:            config.Executor.RetryEnabled,
+		MaxRetries:              config.Executor.MaxRetries,
+		RetryBackoffBase:        config.Executor.RetryBackoffBase,
+		RetryBackoffMax:         config.Executor.RetryBackoffMax,
+		RetryMultiplier:         config.Executor.RetryMultiplier,
+		CircuitBreakerEnabled:   config.Executor.CircuitBreakerEnabled,
 		CircuitBreakerThreshold: config.Executor.CircuitBreakerThreshold,
-		CircuitBreakerTimeout: config.Executor.CircuitBreakerTimeout,
+		CircuitBreakerTimeout:   config.Executor.CircuitBreakerTimeout,
 	}
-	executor := executor.NewToolExecutorWithConfig(toolRegistry, executorConfig)
+	executorComp := executor.NewToolExecutorWithConfig(toolRegistry, executorConfig)
 
 	// Create observer
 	observerConfig := observer.ObserverConfig{
@@ -138,7 +139,7 @@ func NewAgentLoop(config LoopConfig, toolRegistry *tools.ToolRegistry, provider 
 		MaxOutputLength:     config.Observer.MaxOutputLength,
 		MinConfidence:       config.Observer.MinConfidence,
 	}
-	observer := observer.NewObserverWithConfig(observerConfig)
+	observerComp := observer.NewObserverWithConfig(observerConfig)
 
 	// Create reflector
 	reflectorConfig := reflector.ReflectorConfig{
@@ -148,7 +149,7 @@ func NewAgentLoop(config LoopConfig, toolRegistry *tools.ToolRegistry, provider 
 		EnableLessonsLearned: config.Reflector.EnableLessonsLearned,
 		ReflectionDepth:     config.Reflector.ReflectionDepth,
 	}
-	reflector := reflector.NewReflectorWithConfig(provider, reflectorConfig)
+	reflectorComp := reflector.NewReflectorWithConfig(provider, reflectorConfig)
 
 	// Create memory manager
 	memoryConfig := memory.MemoryConfig{
@@ -165,21 +166,21 @@ func NewAgentLoop(config LoopConfig, toolRegistry *tools.ToolRegistry, provider 
 		config:       config,
 		toolRegistry: toolRegistry,
 		provider:     provider,
-		planner:      planner,
-		executor:     executor,
-		observer:     observer,
-		reflector:    reflector,
+		planner:      plannerComp,
+		executor:     executorComp,
+		observer:     observerComp,
+		reflector:    reflectorComp,
 		memory:       memManager,
 		stats:        LoopStatistics{},
 	}
 
 	logger.InfoCF("agentloop", "Agent loop initialized", map[string]any{
-		"workspace":          config.Memory.Workspace,
-		"max_iterations":     config.MaxIterations,
-		"enable_reflection":  config.EnableReflection,
-		"enable_memory":      config.EnableMemory,
-		"max_concurrent":     config.Executor.MaxConcurrent,
-		"circuit_breaker":    config.Executor.CircuitBreakerEnabled,
+		"workspace":       config.Memory.Workspace,
+		"max_iterations":  config.MaxIterations,
+		"enable_reflection": config.EnableReflection,
+		"enable_memory":   config.EnableMemory,
+		"max_concurrent":  config.Executor.MaxConcurrent,
+		"circuit_breaker": config.Executor.CircuitBreakerEnabled,
 	})
 
 	return loop
@@ -217,11 +218,8 @@ func (al *AgentLoop) ExecuteGoal(ctx context.Context, goal string) (*ExecutionRe
 	}
 
 	// Start memory episode
-	if al.config.EnableMemory {
+	if al.config.EnableMemory && al.memory != nil {
 		al.memory.StartEpisode(goal)
-		defer func() {
-			// Episode will be ended with reflection result
-		}()
 	}
 
 	// Initialize result
@@ -279,9 +277,9 @@ func (al *AgentLoop) executePlan(
 		iteration++
 
 		logger.DebugCF("agentloop", "Starting iteration", map[string]any{
-			"iteration": iteration,
-			"max":       maxIterations,
-			"step_idx":  plan.CurrentStepIdx,
+			"iteration":   iteration,
+			"max":         maxIterations,
+			"step_idx":    plan.CurrentStepIdx,
 			"total_steps": len(plan.Steps),
 		})
 
@@ -330,21 +328,30 @@ func (al *AgentLoop) executePlan(
 			}
 			plan.MarkStepComplete(plan.CurrentStepIdx, stepResult)
 		} else {
+			stepErr := execErr
+			if stepErr == nil {
+				if execResult.ErrorMessage != "" {
+					stepErr = errors.New(execResult.ErrorMessage)
+				} else {
+					stepErr = errors.New("tool execution failed")
+				}
+			}
+
 			retryAfter := al.executor.CalculateBackoff(step.Attempts)
-			plan.MarkStepFailed(plan.CurrentStepIdx, execErr, retryAfter)
+			plan.MarkStepFailed(plan.CurrentStepIdx, stepErr, retryAfter)
 
 			// Check if we can retry
 			if plan.CanRetry(plan.CurrentStepIdx) {
 				logger.WarnCF("agentloop", "Step failed, will retry", map[string]any{
 					"step_id": step.ID,
-					"error":   execErr.Error(),
+					"error":   stepErr.Error(),
 				})
 				continue
 			}
 		}
 
 		// MEMORY UPDATE: Record action
-		if al.config.EnableMemory {
+		if al.config.EnableMemory && al.memory != nil {
 			al.memory.RecordAction(
 				step.ID,
 				step.Tool,
@@ -393,7 +400,7 @@ func (al *AgentLoop) executePlan(
 	}
 
 	// End memory episode
-	if al.config.EnableMemory {
+	if al.config.EnableMemory && al.memory != nil {
 		al.memory.EndEpisode(finalReflection)
 	}
 
@@ -423,7 +430,7 @@ func (al *AgentLoop) ExecuteGoalAsync(ctx context.Context, goal string) <-chan *
 	return resultChan
 }
 
-// GetStatistics returns loop execution statistics.
+// GetStatistics returns loop execution statistics safely.
 func (al *AgentLoop) GetStatistics() LoopStatistics {
 	al.mu.RLock()
 	defer al.mu.RUnlock()
@@ -464,7 +471,7 @@ func (al *AgentLoop) GetCurrentGoal() string {
 	return al.currentGoal
 }
 
-// Close cleans up resources.
+// Close cleans up resources associated with the agent loop.
 func (al *AgentLoop) Close() error {
 	logger.InfoC("agentloop", "Closing agent loop")
 
@@ -496,17 +503,8 @@ func (al *AgentLoop) updateStats(result *ExecutionResult) {
 	}
 }
 
-// CalculateBackoff calculates backoff duration for retries.
-// This is a helper that delegates to the executor.
+// CalculateBackoff calculates backoff duration for retries by delegating to the executor.
 func (al *AgentLoop) CalculateBackoff(attempt int) time.Duration {
-	// Use executor's backoff calculation
-	base := al.config.Executor.RetryBackoffBase
-	multiplier := al.config.Executor.RetryMultiplier
-
-	backoff := float64(base) * multiplier * float64(attempt+1)
-	if backoff > float64(al.config.Executor.RetryBackoffMax) {
-		backoff = float64(al.config.Executor.RetryBackoffMax)
-	}
-
-	return time.Duration(backoff)
+	return al.executor.CalculateBackoff(attempt)
 }
+

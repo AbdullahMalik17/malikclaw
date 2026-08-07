@@ -22,13 +22,14 @@
 <p align="center">
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-features">Features</a> •
+  <a href="#-architecture">Architecture</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-demo">Demo</a> •
   <a href="#-documentation">Documentation</a> •
   <a href="#-community">Community</a>
 </p>
 
-[اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [العربية](README.ar.md) | **English**
+[اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | **English**
 
 </div>
 
@@ -59,7 +60,7 @@ docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw g
 2. **Add API keys:** Edit `~/.malikclaw/config.json`
 3. **Test:** `malikclaw agent -m "Hello!"`
 
-📖 **Full Guide:** [PRODUCT.md](PRODUCT.md) | [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
+📖 **Full Guide:** [PRODUCT.md](PRODUCT.md) | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | [INSTALLATION.md](docs/INSTALLATION.md)
 
 ---
 
@@ -70,16 +71,28 @@ docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw g
 **NEW:** Advanced agentic architecture with full execution cycle:
 
 ```
-PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
+PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE
 ```
 
-- **Intelligent Planning:** Goal decomposition into actionable steps
-- **Resilient Execution:** Retry logic with exponential backoff and circuit breaker
-- **Smart Observation:** Result capture, normalization, and confidence scoring
-- **Deep Reflection:** Success/failure evaluation with lessons learned
-- **Persistent Memory:** Episode storage with search and analytics
+- **Intelligent Planning:** Goal decomposition into actionable subtask steps
+- **Resilient Execution:** Tool execution with exponential backoff retry logic and circuit breaker
+- **Smart Observation:** Output capture, normalization, and confidence scoring
+- **Deep Reflection:** Task outcome evaluation with learned lessons
+- **Persistent Memory:** Episodic storage with search capabilities and Markdown logs
 
 📖 **Technical Docs:** [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+
+### 💬 Omnichannel Messaging & Social Media Integration
+
+- **Messaging Platforms:** Telegram, Discord, WhatsApp, Matrix, WeCom, QQ, DingTalk, LINE, Feishu, Slack, MaixCam
+- **Social Media Native Tools:** TikTok, LinkedIn (via Playwright), Reddit, Twitter (X API v2)
+- **Zero-Footprint Gateway:** Single HTTP server on port 18790 for low idle memory footprint
+
+### 🧠 Flexible Model Provider Layer
+
+- **Cloud Models:** OpenAI, Anthropic (Native & Messages SDK), Google Gemini & Antigravity (Cloud Code Assist), Groq, DeepSeek, Zhipu GLM, OpenRouter, ModelScope
+- **Local LLMs:** Ollama integration (`http://localhost:11434/v1`) for 100% offline private execution
+- **Smart Failovers:** Automated fallback chains for rate limits and downtime
 
 ### 🌍 Multi-Language Support
 
@@ -87,31 +100,34 @@ PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
 - **RTL Support:** Native Right-to-Left support for Urdu/Arabic users
 - **Global Community:** Contributors from 6+ continents
 
-### 🪶 Ultra-Lightweight
+### 🪶 Ultra-Lightweight Edge Execution
 
-- **<10MB RAM** — 99% smaller than typical AI agents
-- **<1s Boot** — 400X faster startup than Python-based alternatives
-- **$10 Hardware** — Runs on Orange Pi Zero, Raspberry Pi Zero, old Android phones
-- **Cross-Platform** — Linux, macOS, Windows, Docker
+- **<10MB RAM** — 99% smaller memory footprint than heavy Python agents
+- **<1s Boot** — 400X faster startup than Python alternatives
+- **$10 Hardware** — Runs on Orange Pi Zero, Raspberry Pi Zero, Sipeed LicheeRV RISC-V, old Android phones
+- **Cross-Platform** — Native single binary for Linux (`x86_64`, `arm64`, `riscv64`), macOS, Windows, Docker
 
-### 📱 Mobile Operation
+### 📱 Mobile Operation & Phone Automation
 
-- **ADB Control:** Screenshot, tap, swipe, type on Android devices
-- **Termux Support:** Run directly on Android without root
-- **Second Life:** Give your old phone a purpose as an AI assistant
+- **ADB Control:** Take screenshots, tap coordinates, swipe, type, and launch apps on Android devices
+- **Termux Support:** Run directly on Android smartphones without root
+- **Second Life:** Turn idle smartphones into autonomous 24/7 AI assistants
 
-### 💼 Business & Social Integration
+### 🛠️ Self-Evolution Engine
 
-- **Gmail:** Send and manage emails
-- **Calendar:** Schedule and manage events
-- **MCP Support:** Odoo, custom business integrations
-- **Multi-Channel:** TikTok, LinkedIn, Reddit, Twitter (X), Telegram, Discord, WhatsApp, Matrix, QQ, DingTalk, LINE, WeCom
-
-### 🛠️ Self-Evolution
-
-- **Guardian Engine:** Autonomous code improvement
-- **Skill System:** Extensible via plugins
+- **Guardian Engine:** Autonomous code analysis, debugging, and self-patching
+- **Skill System:** Extensible via skills/plugins registry
 - **Web Search:** DuckDuckGo, Tavily, Brave, Perplexity, SearXNG
+
+---
+
+## 🏛️ System Architecture
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="MalikClaw High-Level Architecture" width="100%">
+</div>
+
+📖 **Deep-Dive Architecture Guide:** [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ---
 

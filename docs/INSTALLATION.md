@@ -1,92 +1,129 @@
 # Installation Guide 📦
 
-MalikClaw can be installed on a wide variety of platforms, from high-performance servers to $10 edge devices.
+MalikClaw can be installed on a wide variety of platforms, from high-performance servers and cloud containers down to $10 Linux single-board computers (SBCs) and Android mobile devices.
 
 ---
 
-## 🚀 One-Liner (Recommended)
+## 🚀 One-Command Installation (Recommended)
 
-The fastest way to get MalikClaw is using our installation script:
-
+### Linux / macOS:
 ```bash
-# For macOS and Linux
-curl -sSfL https://malikclaw.io/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
+```
+*Alternatively via short link:* `curl -sSfL https://malikclaw.io/install.sh | sh`
+
+### Windows (PowerShell):
+```powershell
+irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex
 ```
 
-For Windows users, please download the latest `.exe` from the [Releases](https://github.com/AbdullahMalik17/malikclaw/releases) page.
+---
+
+## 🐳 Docker Deployment
+
+Run MalikClaw using Docker or Docker Compose with persistent configuration:
+
+### Quick Run:
+```bash
+docker run -d --name malikclaw \
+  -p 18790:18790 \
+  -v ~/.malikclaw:/root/.malikclaw \
+  ghcr.io/abdullahmalik17/malikclaw:latest
+```
+
+### Docker Compose:
+```bash
+# Minimal (Alpine-based, <15MB image)
+docker compose -f docker/docker-compose.yml up -d
+
+# Full-featured (Node.js for MCP support & Playwright)
+docker compose -f docker/docker-compose.full.yml up -d
+```
+
+---
+
+## 🍺 Package Managers
+
+### Homebrew (macOS / Linux):
+```bash
+brew install malikclaw
+```
+
+### Scoop (Windows):
+```bash
+scoop install malikclaw
+```
+
+### AUR (Arch Linux):
+```bash
+yay -S malikclaw
+```
 
 ---
 
 ## 🛠️ Build from Source
 
-If you want the latest features or want to contribute to development, build from source.
+Building from source requires Go 1.21+ and optional Make.
 
-### Prerequisites
-- [Go](https://go.dev/doc/install) 1.21 or higher
-- [Make](https://www.gnu.org/software/make/) (optional, but recommended)
-
-### Build Steps
 ```bash
+# 1. Clone repo
 git clone https://github.com/AbdullahMalik17/malikclaw.git
 cd malikclaw
 
-# Install dependencies
+# 2. Download dependencies
 make deps
 
-# Build for current platform
+# 3. Build for current OS/architecture
 make build
 
-# Install to /usr/local/bin
+# 4. Install binary to system path
 sudo make install
+
+# 5. Build for all platforms (Linux/macOS/Windows/ARM)
+make build-all
 ```
 
 ---
 
-## 🐳 Docker
+## 📱 Mobile (Android / Termux)
 
-Run MalikClaw using Docker Compose for a zero-install experience.
+Repurpose an old Android smartphone into an autonomous edge AI server:
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/AbdullahMalik17/malikclaw.git
-cd malikclaw
-
-# 2. Start Gateway
-docker compose -f docker/docker-compose.yml --profile gateway up -d
-```
-
-For detailed Docker usage, refer to the [README.md](https://github.com/AbdullahMalik17/malikclaw#docker-compose).
-
----
-
-## 📱 Mobile (Android/Termux)
-
-Give your old phone a second life!
-
-1. Install [Termux](https://termux.dev/) (from F-Droid).
-2. Download the `linux-arm64` binary from our releases.
-3. Use `proot` for a full Linux environment if needed.
-4. Run:
+1. Install **Termux** (from F-Droid or GitHub Releases).
+2. Download and run the one-command installer inside Termux:
    ```bash
-   chmod +x malikclaw-linux-arm64
-   ./malikclaw-linux-arm64 onboard
+   pkg update && pkg install curl -y
+   curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
+   ```
+3. Initialize onboarding:
+   ```bash
+   malikclaw onboard
    ```
 
 ---
 
-## 🐜 Edge Devices (Raspberry Pi, etc.)
+## 🐜 Edge SBCs (Raspberry Pi, Orange Pi, RISC-V)
 
-MalikClaw is optimized for low-power hardware.
+MalikClaw is optimized for low-power hardware (<10MB RAM, <1s boot):
 
-- **Raspberry Pi Zero 2 W**: Use `make build-pi-zero` to build optimized 32/64-bit binaries.
-- **RISC-V Boards**: Support for Sipeed LicheeRV and other RISC-V SBCs is built-in. Use `GOARCH=riscv64 go build`.
+- **Raspberry Pi / Orange Pi Zero**: Cross-compile with `make build-pi-zero` or download the `linux-arm64` release binary.
+- **RISC-V SBCs (Sipeed LicheeRV, etc.)**: Built-in support using `GOARCH=riscv64 go build`.
 
 ---
 
-## 🛡️ Verification
+## 🛡️ Verification & Onboarding
 
-After installation, verify with:
+After installation, verify your installation and configure your model API keys:
+
 ```bash
+# Check version
 malikclaw version
+
+# Run interactive onboarding wizard
+malikclaw onboard
+
+# Start gateway / web UI
+malikclaw gateway
 ```
-You should see the current version and build information.
+Access the Bento Grid web interface at: **http://localhost:18790**
+

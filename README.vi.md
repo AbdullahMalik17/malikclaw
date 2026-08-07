@@ -17,10 +17,10 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
     <br>
-    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
-    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
+
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | **Tiếng Việt** | [Français](README.fr.md) | [English](README.md)
 
@@ -29,13 +29,16 @@
 > [!NOTE]
 > **📢 Cập Nhật Quan Trọng (Tháng 3 2026)**
 >
-> Bản dịch này có thể đã lỗi thời. Để biết thông tin mới nhất, vui lòng xem phiên bản tiếng Anh: **[README.md](README.md)**
->
-> **Mới:** Vòng lặp agent cấp sản xuất với PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Xem [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+> **Mới:** Vòng lặp agent cấp sản xuất với PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE. Hỗ trợ đa kênh (TikTok, LinkedIn, Twitter/X, Reddit, Telegram, Discord, WhatsApp, Matrix, WeCom). Xem [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md) và [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="Sơ đồ Kiến trúc MalikClaw" width="100%">
+</div>
 
 ---
 
 🦐 **MalikClaw** là trợ lý AI cá nhân siêu nhẹ, lấy cảm hứng từ [nanobot](https://github.com/HKUDS/nanobot), được viết lại hoàn toàn bằng **Go** thông qua quá trình "tự khởi tạo" (self-bootstrapping) — nơi chính AI Agent đã tự dẫn dắt toàn bộ quá trình chuyển đổi kiến trúc và tối ưu hóa mã nguồn.
+
 
 ⚡️ **Cực kỳ nhẹ:** Chạy trên phần cứng chỉ **$10** với RAM **<10MB**. Tiết kiệm 99% bộ nhớ so với OpenClaw và rẻ hơn 98% so với Mac mini!
 

@@ -18,9 +18,12 @@
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Site-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
 
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
+
 <p align="center">
   <a href="#-démarrage-rapide">Démarrage Rapide</a> •
   <a href="#-fonctionnalités">Fonctionnalités</a> •
+  <a href="#-architecture">Architecture</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-démo">Démo</a> •
   <a href="#-documentation">Documentation</a>
@@ -33,13 +36,16 @@
 > [!NOTE]
 > **📢 Mise à Jour Importante (Mars 2026)**
 > 
-> Cette traduction peut être obsolète. Pour les informations les plus récentes, veuillez consulter la version anglaise : **[README.md](README.md)**
-> 
-> **Nouveau:** Boucle d'agent de qualité production avec PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Voir [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+> **Nouveau:** Boucle d'agent de qualité production avec PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE. Intégration omnicanale (TikTok, LinkedIn, Twitter/X, Reddit, Telegram, Discord, WhatsApp, Matrix, WeCom). Voir [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md) et [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="Diagramme d'Architecture MalikClaw" width="100%">
+</div>
 
 ---
 
 🦐 **MalikClaw** est un assistant personnel IA ultra-léger inspiré de [nanobot](https://github.com/HKUDS/nanobot), entièrement réécrit en **Go** via un processus d'auto-amorçage (self-bootstrapping) — où l'agent IA lui-même a piloté l'intégralité de la migration architecturale et de l'optimisation du code.
+
 
 ⚡️ **Extrêmement léger :** Fonctionne sur du matériel à seulement **10$** avec **<10 Mo** de RAM. C'est 99% de mémoire en moins qu'OpenClaw et 98% moins cher qu'un Mac mini !
 

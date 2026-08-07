@@ -1,3 +1,5 @@
+// Package bus provides an in-memory async message bus for routing messages
+// between agents, channels, and subagents.
 package bus
 
 import (
@@ -8,11 +10,12 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 )
 
-// ErrBusClosed is returned when publishing to a closed MessageBus.
+// ErrBusClosed is returned when publishing to or consuming from a closed MessageBus.
 var ErrBusClosed = errors.New("message bus closed")
 
 const defaultBusBufferSize = 64
 
+// MessageBus routes inbound and outbound messages asynchronously using buffered channels.
 type MessageBus struct {
 	inbound       chan InboundMessage
 	outbound      chan OutboundMessage
@@ -21,6 +24,7 @@ type MessageBus struct {
 	closed        atomic.Bool
 }
 
+// NewMessageBus constructs a new MessageBus with default channel buffering.
 func NewMessageBus() *MessageBus {
 	return &MessageBus{
 		inbound:       make(chan InboundMessage, defaultBusBufferSize),
@@ -30,12 +34,10 @@ func NewMessageBus() *MessageBus {
 	}
 }
 
+// PublishInbound sends an InboundMessage to the bus. Returns ErrBusClosed if closed, or ctx.Err() on context cancellation.
 func (mb *MessageBus) PublishInbound(ctx context.Context, msg InboundMessage) error {
 	if mb.closed.Load() {
 		return ErrBusClosed
-	}
-	if err := ctx.Err(); err != nil {
-		return err
 	}
 	select {
 	case mb.inbound <- msg:
@@ -47,6 +49,7 @@ func (mb *MessageBus) PublishInbound(ctx context.Context, msg InboundMessage) er
 	}
 }
 
+// ConsumeInbound receives an InboundMessage from the bus. Returns false if closed or context is cancelled.
 func (mb *MessageBus) ConsumeInbound(ctx context.Context) (InboundMessage, bool) {
 	select {
 	case msg, ok := <-mb.inbound:
@@ -58,12 +61,10 @@ func (mb *MessageBus) ConsumeInbound(ctx context.Context) (InboundMessage, bool)
 	}
 }
 
+// PublishOutbound sends an OutboundMessage to the bus. Returns ErrBusClosed if closed, or ctx.Err() on context cancellation.
 func (mb *MessageBus) PublishOutbound(ctx context.Context, msg OutboundMessage) error {
 	if mb.closed.Load() {
 		return ErrBusClosed
-	}
-	if err := ctx.Err(); err != nil {
-		return err
 	}
 	select {
 	case mb.outbound <- msg:
@@ -75,6 +76,7 @@ func (mb *MessageBus) PublishOutbound(ctx context.Context, msg OutboundMessage) 
 	}
 }
 
+// SubscribeOutbound receives an OutboundMessage from the bus. Returns false if closed or context is cancelled.
 func (mb *MessageBus) SubscribeOutbound(ctx context.Context) (OutboundMessage, bool) {
 	select {
 	case msg, ok := <-mb.outbound:
@@ -86,12 +88,10 @@ func (mb *MessageBus) SubscribeOutbound(ctx context.Context) (OutboundMessage, b
 	}
 }
 
+// PublishOutboundMedia sends an OutboundMediaMessage to the bus. Returns ErrBusClosed if closed, or ctx.Err() on context cancellation.
 func (mb *MessageBus) PublishOutboundMedia(ctx context.Context, msg OutboundMediaMessage) error {
 	if mb.closed.Load() {
 		return ErrBusClosed
-	}
-	if err := ctx.Err(); err != nil {
-		return err
 	}
 	select {
 	case mb.outboundMedia <- msg:
@@ -103,6 +103,7 @@ func (mb *MessageBus) PublishOutboundMedia(ctx context.Context, msg OutboundMedi
 	}
 }
 
+// SubscribeOutboundMedia receives an OutboundMediaMessage from the bus. Returns false if closed or context is cancelled.
 func (mb *MessageBus) SubscribeOutboundMedia(ctx context.Context) (OutboundMediaMessage, bool) {
 	select {
 	case msg, ok := <-mb.outboundMedia:
@@ -114,40 +115,15 @@ func (mb *MessageBus) SubscribeOutboundMedia(ctx context.Context) (OutboundMedia
 	}
 }
 
+// Close gracefully closes the message bus, preventing further publishing and draining buffered messages.
 func (mb *MessageBus) Close() {
 	if mb.closed.CompareAndSwap(false, true) {
 		close(mb.done)
 
-		// Drain buffered channels so messages aren't silently lost.
-		// Channels are NOT closed to avoid send-on-closed panics from concurrent publishers.
-		drained := 0
-		for {
-			select {
-			case <-mb.inbound:
-				drained++
-			default:
-				goto doneInbound
-			}
-		}
-	doneInbound:
-		for {
-			select {
-			case <-mb.outbound:
-				drained++
-			default:
-				goto doneOutbound
-			}
-		}
-	doneOutbound:
-		for {
-			select {
-			case <-mb.outboundMedia:
-				drained++
-			default:
-				goto doneMedia
-			}
-		}
-	doneMedia:
+		// Drain buffered channels so pending messages do not leak memory.
+		// Channels are NOT closed to prevent send-on-closed panics from concurrent publishers.
+		drained := drainChannel(mb.inbound) + drainChannel(mb.outbound) + drainChannel(mb.outboundMedia)
+
 		if drained > 0 {
 			logger.DebugCF("bus", "Drained buffered messages during close", map[string]any{
 				"count": drained,
@@ -155,3 +131,17 @@ func (mb *MessageBus) Close() {
 		}
 	}
 }
+
+// drainChannel non-blockingly drains all buffered elements from a channel and returns the count drained.
+func drainChannel[T any](ch chan T) int {
+	count := 0
+	for {
+		select {
+		case <-ch:
+			count++
+		default:
+			return count
+		}
+	}
+}
+

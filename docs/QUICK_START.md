@@ -1,56 +1,61 @@
 # Quick Start Guide 🚀
 
-Welcome to **MalikClaw**! This guide will help you get your personal AI assistant up and running in less than 2 minutes.
+Welcome to **MalikClaw**! This guide will help you get your personal AI assistant up and running in under 2 minutes.
 
 ---
 
 ## 🏗️ Step 1: Installation
 
-The fastest way to install MalikClaw is via our automated script (macOS/Linux) or a precompiled binary.
-
-### macOS / Linux
+### Linux / macOS:
 ```bash
-curl -sSfL https://malikclaw.io/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
 ```
 
-### Windows
-Download the latest `malikclaw_Windows_x86_64.zip` from our [Releases Page](https://github.com/AbdullahMalik17/malikclaw/releases), extract it, and add the folder to your system PATH.
+### Windows (PowerShell):
+```powershell
+irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex
+```
 
-> For advanced methods (Docker, Source), see the [Full Installation Guide](/docs/installation).
+### Docker:
+```bash
+docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
+```
+
+> For advanced methods (Source, Homebrew, Scoop, AUR), see the [Full Installation Guide](INSTALLATION.md).
 
 ---
 
-## 🛠️ Step 2: Onboarding
+## 🛠️ Step 2: Onboarding Wizard
 
-MalikClaw features an interactive onboarding process that sets up your workspace and initial configuration. Run:
+MalikClaw features an interactive onboarding process to set up your workspace and initial model credentials. Run:
 
 ```bash
 malikclaw onboard
 ```
 
 **During onboarding, you will:**
-1.  **Select Language**: Choose between Urdu (اردو) or English.
-2.  **Configure LLM**: Set up your primary model (OpenRouter, Zhipu, etc.).
-3.  **Workspace**: Confirm where your agent's personality and memory files will live.
+1.  **Select Language**: Choose between Urdu (اردو), English, Japanese, French, Portuguese, or Vietnamese.
+2.  **Configure Primary LLM**: Set up API keys for OpenRouter, OpenAI, Anthropic, Gemini, Zhipu, or DeepSeek.
+3.  **Confirm Workspace**: Set up your workspace directory (`~/.malikclaw/workspace`).
 
 ---
 
-## ⚙️ Step 3: Add API Keys
+## ⚙️ Step 3: API Key Configuration
 
-Open your configuration file located at `~/.malikclaw/config.json` and add your provider credentials.
+Edit your configuration file at `~/.malikclaw/config.json`:
 
 ```json
 {
   "model_list": [
     {
-      "model_name": "gpt-4o",
-      "model": "openai/gpt-4o",
-      "api_key": "sk-your-openai-key"
+      "model_name": "gpt-4o-mini",
+      "model": "openai/gpt-4o-mini",
+      "api_key": "sk-your-openai-api-key"
     },
     {
-      "model_name": "claude-3.5-sonnet",
+      "model_name": "claude-3-5-sonnet",
       "model": "anthropic/claude-3-5-sonnet-20240620",
-      "api_key": "sk-ant-your-key"
+      "api_key": "sk-ant-your-anthropic-key"
     }
   ]
 }
@@ -58,35 +63,41 @@ Open your configuration file located at `~/.malikclaw/config.json` and add your 
 
 ---
 
-## 💬 Step 4: Start Chatting
+## 💬 Step 4: Interact with Your Assistant
 
-You can interact with MalikClaw directly from your terminal in two ways:
-
-### Interactive Mode (TUI)
-Launch a persistent session with memory and tool access:
+### 1. Interactive Terminal UI (TUI):
+Launch a persistent chat session with state memory and tool access:
 ```bash
 malikclaw agent
 ```
 
-### One-off Command
-Ask a quick question without entering the TUI:
+### 2. Direct Command Prompt:
+Send a quick query from terminal:
 ```bash
-malikclaw agent -m "Analyze the latest trends in edge computing"
+malikclaw agent -m "Summarize recent tech developments in edge computing"
+```
+
+### 3. Web Dashboard (Bento Grid UI):
+Start the local gateway server and open **http://localhost:18790**:
+```bash
+malikclaw gateway
 ```
 
 ---
 
-## 🚀 Step 5: Expand Your Reach
+## 🚀 Step 5: Omnichannel Connections
 
-Now that your agent is running, connect it to your favorite apps:
+Connect MalikClaw to your favorite messaging platforms and social networks:
 
-- **Messaging**: [Telegram](/docs/channels/telegram), [Discord](/docs/channels/discord), [WhatsApp](/docs/channels/whatsapp)
-- **Advanced Auth**: Set up [AntiGravity OAuth](/docs/antigravity/auth) for Google Cloud models.
-- **Self-Evolution**: Try asking your agent: *"Check your own code for potential optimizations."*
+- **Messaging Platforms**: [Telegram](channels/telegram/README.ur.md), [Discord](channels/discord/README.ur.md), [WhatsApp](channels/whatsapp/README.md), [Matrix](channels/matrix/README.md), WeCom, Slack, QQ
+- **Social Networks**: TikTok, LinkedIn, Twitter/X, Reddit
+- **Google Cloud Auth**: Set up [AntiGravity OAuth](ANTIGRAVITY_AUTH.md) for Google models.
+- **Self-Evolution Engine**: Ask your agent: *"Audit your own codebase and fix any lint issues."*
 
 ---
 
 ### Need Help? 🆘
-- Run `malikclaw help` for a list of all commands.
-- Check the [Troubleshooting Guide](/docs/troubleshooting).
+- Run `malikclaw help` for command documentation.
+- Read the [Troubleshooting Guide](troubleshooting.md).
 - Join our [GitHub Discussions](https://github.com/AbdullahMalik17/malikclaw/discussions).
+

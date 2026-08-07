@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-gryphon-gold: #EAB308;
+  --color-gryphon-gold-bright: #FACC15;
   --color-electric-blue: #3B82F6;
-  --color-dark-obsidian: #000000;
+  --color-neon-cyan: #06B6D4;
+  --color-emerald-glow: #10B981;
+  --color-dark-obsidian: #050507;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card-bg: var(--card-bg);
@@ -12,7 +15,10 @@
   --color-text-muted: var(--text-muted);
 
   --animate-marquee: marquee 30s linear infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
   --font-urdu: "Noto Nastaliq Urdu", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
 @keyframes marquee {
@@ -20,32 +26,100 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.03); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 :root {
-  --background: #f4f4f5;
-  --foreground: #000000;
-  --grid-color: rgba(0, 0, 0, 0.15);
-  --card-bg: #ffffff;
-  --card-border: #d4d4d8;
+  --background: #f4f4f7;
+  --foreground: #09090b;
+  --grid-color: rgba(0, 0, 0, 0.08);
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.12);
   --text-muted: #52525b;
 }
 
 .dark {
-  --background: #050505;
-  --foreground: #ffffff;
-  --grid-color: rgba(255, 255, 255, 0.1);
-  --card-bg: #111111;
-  --card-border: #27272a;
+  --background: #050507;
+  --foreground: #f4f4f5;
+  --grid-color: rgba(255, 255, 255, 0.05);
+  --card-bg: rgba(15, 15, 22, 0.65);
+  --card-border: rgba(255, 255, 255, 0.09);
   --text-muted: #a1a1aa;
 }
 
 body {
   background-color: var(--background);
-  background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(234, 179, 8, 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59, 130, 246, 0.06), transparent 60%),
+    radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 28px 28px;
   background-attachment: fixed;
   color: var(--foreground);
   overflow-x: hidden;
   position: relative;
+}
+
+/* Glassmorphism & Neon Glow Utilities */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+}
+
+.glass-card-interactive {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-interactive:hover {
+  border-color: rgba(234, 179, 8, 0.4);
+  box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.15), 0 0 15px -5px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.glass-panel {
+  background: rgba(10, 10, 16, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.neon-glow-gold {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.25), 0 0 40px rgba(234, 179, 8, 0.1);
+}
+
+.neon-glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.25), 0 0 40px rgba(59, 130, 246, 0.1);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.25), 0 0 40px rgba(6, 182, 212, 0.1);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #FFF 20%, #EAB308 75%, #FACC15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #06B6D4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* RTL Support for Urdu */
@@ -71,26 +145,19 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #050507;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 0;
+  background: #27272a;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
-}
-
-.text-gradient {
   background: #EAB308;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-/* Utility classes */
 .font-urdu {
   font-family: var(--font-urdu);
 }
+

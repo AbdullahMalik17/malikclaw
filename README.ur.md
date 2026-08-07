@@ -18,9 +18,12 @@
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
 
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
+
 <p align="center">
   <a href="#-فوری-شروع">فوری شروع</a> •
   <a href="#-خصوصیات">خصوصیات</a> •
+  <a href="#-آرکیٹیکچر">آرکیٹیکچر</a> •
   <a href="#-انسٹالیشن">انسٹالیشن</a> •
   <a href="#-ڈیمو">ڈیمو</a> •
   <a href="#-دستاویزات">دستاویزات</a> •
@@ -58,7 +61,7 @@ docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw g
 2. **API کیز شامل کریں:** `~/.malikclaw/config.json` میں ایڈٹ کریں
 3. **ٹیسٹ کریں:** `malikclaw agent -m "Hello!"`
 
-📖 **مکمل گائیڈ:** [PRODUCT.md](PRODUCT.md) | [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
+📖 **مکمل گائیڈ:** [PRODUCT.md](PRODUCT.md) | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | [INSTALLATION.md](docs/INSTALLATION.md)
 
 ---
 
@@ -69,7 +72,7 @@ docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw g
 **نیا:** مکمل ایگزیکوشن سائیکل کے ساتھ جدید ایجنٹک آرکیٹیکچر:
 
 ```
-PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
+PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE
 ```
 
 - **انٹیلیجنٹ پلاننگ:** مقاصد کو عملی مراحل میں تقسیم کرنا
@@ -79,6 +82,11 @@ PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
 - **مستقل میموری:** تلاش اور تجزیہ کے ساتھ ایپی سوڈ اسٹوریج
 
 📖 **تکنیکی دستاویزات:** [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+
+### 💬 اومنی چینل میسجنگ اور سوشل میڈیا انٹیگریشن
+
+- **میسجنگ پلیٹ فارمز:** Telegram, Discord, WhatsApp, Matrix, TikTok, LinkedIn, Reddit, Twitter (X), WeCom, QQ, DingTalk, LINE, Feishu, Slack
+- **زیرو فٹ پرنٹ گیٹ وے:** پورٹ 18790 پر واحد HTTP سرور
 
 ### 🌍 کثیر لسانی سپورٹ
 
@@ -90,8 +98,8 @@ PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
 
 - **<10MB RAM** — عام AI ایجنٹس سے 99% چھوٹا
 - **<1s بُوٹ** — Python پر مبنی متبادل سے 400 گنا تیز شروعات
-- **$10 ہارڈویئر** — Orange Pi Zero، Raspberry Pi Zero، پرانے Android فونز پر چلتا ہے
-- **کراس پلیٹ فارم** — Linux، macOS، Windows، Docker
+- **$10 ہارڈویئر** — Orange Pi Zero، Raspberry Pi Zero، RISC-V، پرانے Android فونز پر چلتا ہے
+- **کراس پلیٹ فارم** — Linux, macOS, Windows, Docker
 
 ### 📱 موبائل آپریشن
 
@@ -99,18 +107,21 @@ PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE
 - **Termux سپورٹ:** Android پر براہ راست root کے بغیر چلائیں
 - **دوسری زندگی:** اپنے پرانے فون کو AI اسسٹنٹ کے طور پر مقصد دیں
 
-### 💼 بزنس انٹیگریشن
-
-- **Gmail:** ای میلز بھیجیں اور مینیج کریں
-- **کیلنڈر:** شیڈول اور ایونٹس مینیج کریں
-- **MCP سپورٹ:** Odoo، کسٹم بزنس انٹیگریشنز
-- **ملٹی چینل:** Telegram، Discord، WhatsApp، Matrix، QQ، DingTalk، LINE، WeCom
-
 ### 🛠️ خود سے ارتقاء
 
 - **گارڈین انجن:** خود مختار کوڈ بہتری
 - **اسکل سسٹم:** پلگ انز کے ذریعے توسیع پذیر
 - **ویب سرچ:** DuckDuckGo، Tavily، Brave، Perplexity، SearXNG
+
+---
+
+## 🏛️ سسٹم آرکیٹیکچر
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="MalikClaw System Architecture" width="100%">
+</div>
+
+📖 **تفصیلی آرکیٹیکچر گائیڈ:** [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ---
 

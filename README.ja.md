@@ -17,10 +17,10 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
     <br>
-    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
-    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
+
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
 
 [اردو](README.ur.md) | **日本語** | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [English](README.md)
 
@@ -29,13 +29,16 @@
 > [!NOTE]
 > **📢 重要更新情報（2026 年 3 月）**
 >
-> この翻訳は古くなっている可能性があります。最新情報は英語版をご覧ください：**[README.md](README.md)**
->
-> **新機能:** プロダクショングレードのエージェントループ（PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE）。詳細は [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+> **新機能:** プロダクショングレードのエージェントループ（PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE）。オムニチャネル対応（TikTok, LinkedIn, Twitter/X, Reddit, Telegram, Discord, WhatsApp, Matrix, WeCom）および高可用性プロバイダー層。詳細は [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md) および [ARCHITECTURE.md](docs/ARCHITECTURE.md) を参照してください。
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="MalikClaw Architecture Diagram" width="100%">
+</div>
 
 ---
 
-🦐 MalikClaw は [nanobot](https://github.com/HKUDS/nanobot) にインスパイアされた超軽量パーソナル AI アシスタントです。Go でゼロからリファクタリングされ、AI エージェント自身がアーキテクチャの移行とコード最適化を推進するセルフブートストラッピングプロセスで構築されました。
+🦐 MalikClaw は超軽量パーソナル AI アシスタントです。Go でゼロからリファクタリングされ、AI エージェント自身がアーキテクチャの移行とコード最適化を推進するセルフブートストラッピングプロセスで構築されました。
+
 
 ⚡️ $10 のハードウェアで 10MB 未満の RAM で動作：OpenClaw より 99% 少ないメモリ、Mac mini より 98% 安い！
 

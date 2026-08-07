@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"sync/atomic"
 
@@ -41,7 +43,7 @@ func (f *FlexibleStringSlice) UnmarshalJSON(data []byte) error {
 		case string:
 			result = append(result, val)
 		case float64:
-			result = append(result, fmt.Sprintf("%.0f", val))
+			result = append(result, strconv.FormatFloat(val, 'f', -1, 64))
 		default:
 			result = append(result, fmt.Sprintf("%v", val))
 		}
@@ -925,7 +927,9 @@ func LoadConfig(path string) (*Config, error) {
 	// would silently inherit values from the DefaultConfig template at the same
 	// index position. We only reset cfg.ModelList when the user actually provides
 	// entries; when count is 0 we keep DefaultConfig's built-in list as fallback.
-	var tmp Config
+	var tmp struct {
+		ModelList []json.RawMessage `json:"model_list"`
+	}
 	if err := json.Unmarshal(data, &tmp); err != nil {
 		return nil, err
 	}
@@ -1036,9 +1040,12 @@ func expandHome(path string) string {
 		return path
 	}
 	if path[0] == '~' {
-		home, _ := os.UserHomeDir()
-		if len(path) > 1 && path[1] == '/' {
-			return home + path[1:]
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return path
+		}
+		if len(path) > 1 && (path[1] == '/' || path[1] == '\\') {
+			return filepath.Join(home, path[2:])
 		}
 		return home
 	}

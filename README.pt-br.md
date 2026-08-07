@@ -17,10 +17,10 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
     <br>
-    <img src="https://img.shields.io/github/languages/code-size/AbdullahMalik17/malikclaw" alt="GitHub code size">
-    <img src="https://img.shields.io/github/contributors/AbdullahMalik17/malikclaw" alt="GitHub contributors">
-    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
   </p>
+
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="100%">
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | **Português** | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | [English](README.md)
 
@@ -29,13 +29,16 @@
 > [!NOTE]
 > **📢 Atualização Importante (Março 2026)**
 >
-> Esta tradução pode estar desatualizada. Para informações mais recentes, consulte a versão em inglês: **[README.md](README.md)**
->
-> **Novidade:** Loop de agente de produção com PLAN → ACT → OBSERVE → REFLECT → MEMORY UPDATE. Veja [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md)
+> **Novidade:** Loop de agente de produção com PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE. Suporte omnicanal (TikTok, LinkedIn, Twitter/X, Reddit, Telegram, Discord, WhatsApp, Matrix, WeCom). Veja [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md) e [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+<div align="center">
+  <img src="assets/architecture.svg" alt="Diagrama de Arquitetura do MalikClaw" width="100%">
+</div>
 
 ---
 
 🦐 **MalikClaw** é um assistente pessoal de IA ultra-leve inspirado no [nanobot](https://github.com/HKUDS/nanobot), reescrito do zero em **Go** por meio de um processo de "auto-inicialização" (self-bootstrapping) — onde o próprio agente de IA conduziu toda a migração de arquitetura e otimização de código.
+
 
 ⚡️ **Extremamente leve:** Roda em hardware de apenas **$10** com **<10MB** de RAM. Isso é 99% menos memória que o OpenClaw e 98% mais barato que um Mac mini!
 
