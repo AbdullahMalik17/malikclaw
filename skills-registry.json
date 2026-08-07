@@ -1,17 +1,65 @@
 {
   "skills": [
     {
+      "name": "autonomous-dev-team",
+      "description": "Multi-agent team execution with DAG task scheduling, specialized roles, and consensus synthesis",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/autonomous-dev-team/SKILL.md",
+      "tags": ["multi-agent", "swarm", "dag", "orchestration", "built-in"]
+    },
+    {
+      "name": "browser-automation-cdp",
+      "description": "Headless browser automation via Chrome DevTools Protocol (CDP) for dynamic web scraping and UI interaction",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/browser-automation-cdp/SKILL.md",
+      "tags": ["browser", "cdp", "automation", "web", "built-in"]
+    },
+    {
+      "name": "android-adb-control",
+      "description": "Direct control of Android physical devices and Termux environments via Android Debug Bridge (ADB)",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/android-adb-control/SKILL.md",
+      "tags": ["android", "adb", "mobile", "termux", "edge", "built-in"]
+    },
+    {
+      "name": "hardware-iot-bus",
+      "description": "Low-level I2C and SPI bus peripheral control for embedded Linux boards (Orange Pi, Raspberry Pi, RISC-V)",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/hardware-iot-bus/SKILL.md",
+      "tags": ["hardware", "iot", "i2c", "spi", "gpio", "built-in"]
+    },
+    {
+      "name": "mcp-protocol-suite",
+      "description": "Model Context Protocol (MCP) tool integration for connecting external MCP servers and APIs",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/mcp-protocol-suite/SKILL.md",
+      "tags": ["mcp", "protocol", "tools", "enterprise", "built-in"]
+    },
+    {
+      "name": "guardian-self-evolution",
+      "description": "Autonomous self-evolution engine for codebase self-healing, benchmark evaluation, and code optimization",
+      "version": "2.0.0",
+      "author": "AbdullahMalik17",
+      "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/guardian-self-evolution/SKILL.md",
+      "tags": ["evolution", "self-healing", "guardian", "benchmark", "built-in"]
+    },
+    {
       "name": "web-search",
-      "description": "Search the web using DuckDuckGo",
-      "version": "1.0.0",
+      "description": "Search the web using DuckDuckGo, Tavily, Brave, Perplexity, or SearXNG",
+      "version": "2.0.0",
       "author": "AbdullahMalik17",
       "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/web-search.json",
       "tags": ["search", "web", "built-in"]
     },
     {
       "name": "gmail",
-      "description": "Send and read Gmail messages",
-      "version": "1.0.0",
+      "description": "Send and read Gmail messages with attachment support",
+      "version": "2.0.0",
       "author": "AbdullahMalik17",
       "install_url": "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/skills/gmail.json",
       "tags": ["email", "google", "built-in"]

@@ -44,6 +44,10 @@ func (t *SpawnTool) Parameters() map[string]any {
 				"type":        "string",
 				"description": "Optional target agent ID to delegate the task to",
 			},
+			"role": map[string]any{
+				"type":        "string",
+				"description": "Optional specialized role (e.g. architect, researcher, engineer, qa, communicator)",
+			},
 		},
 		"required": []string{"task"},
 	}

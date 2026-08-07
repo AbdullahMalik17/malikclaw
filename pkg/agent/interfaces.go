@@ -54,9 +54,11 @@ type SupervisorEpisode struct {
 }
 
 type SubTask struct {
-	TaskID           string
-	Description      string
-	AssignedProvider string
+	TaskID           string   `json:"task_id"`
+	Description      string   `json:"description"`
+	AssignedProvider string   `json:"assigned_provider,omitempty"`
+	Role             string   `json:"role,omitempty"`
+	DependsOn        []string `json:"depends_on,omitempty"`
 }
 
 type ConsensusRules struct {
