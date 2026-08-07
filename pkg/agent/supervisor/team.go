@@ -115,6 +115,53 @@ func NewSkillsInnovationTeam() *TeamConfig {
 	}
 }
 
+// NewLargeCodebaseTeam returns a specialized agent team designed for navigating, auditing, and refactoring large, complex directory structures (like Digital-FTE / Hacathan_2).
+func NewLargeCodebaseTeam() *TeamConfig {
+	return &TeamConfig{
+		ID:            "large-codebase-team",
+		Name:          "Large Codebase Refactoring & Architecture Team",
+		Description:   "Specialized multi-agent team designed to map, refactor, and optimize complex multi-directory agentic codebases",
+		LeadAgentRole: "dir-navigator",
+		Roles: map[string]RoleDefinition{
+			"dir-navigator": {
+				Role:         "dir-navigator",
+				Name:         "Codebase Directory Navigator & Mapper",
+				Description:  "Scans deep directory trees, constructs module dependency graphs, and locates critical path components",
+				SystemPrompt: "You are a Codebase Navigation Expert. Map complex folder hierarchies (src/agents, src/integrations, src/mcp_servers), isolate cross-module dependencies, and plan clean refactoring boundaries.",
+				Capabilities: []string{"navigation", "dependency-mapping", "architecture"},
+			},
+			"python-cloud-specialist": {
+				Role:         "python-cloud-specialist",
+				Name:         "Cloud Agent & Watcher Specialist",
+				Description:  "Refactors background listeners, Gmail IMAP watchers, LinkedIn APIs, and fast REST API servers",
+				SystemPrompt: "You are a Senior Python Cloud Backend Specialist. Optimize async watchers, email parsing, webhook handlers, and lightweight cloud server execution.",
+				Capabilities: []string{"python", "watchers", "gmail", "api"},
+			},
+			"local-executive-specialist": {
+				Role:         "local-executive-specialist",
+				Name:         "Local Executive & MCP Tools Specialist",
+				Description:  "Optimizes local MCP tool bridges (Odoo accounting, Playwright automation, Vault sync)",
+				SystemPrompt: "You are a Local Executive Specialist. Audit local MCP server tools, human-in-the-loop approval queues, and secure credential handling.",
+				Capabilities: []string{"mcp", "odoo", "playwright", "vault"},
+			},
+			"refactor-engineer": {
+				Role:         "refactor-engineer",
+				Name:         "Core Logic & Performance Engineer",
+				Description:  "Refactors orchestrator loops, self-evolution repair mechanisms, and state persistence",
+				SystemPrompt: "You are a Performance & Systems Engineer. Streamline central orchestrator decision loops, reduce RAM usage, and enhance self-healing engines.",
+				Capabilities: []string{"refactoring", "performance", "self-healing"},
+			},
+			"qa-integration-verifier": {
+				Role:         "qa-integration-verifier",
+				Name:         "Full-Stack QA & Integration Verifier",
+				Description:  "Executes Pytest suites, Playwright E2E browser tests, and Docker container health audits",
+				SystemPrompt: "You are a Full-Stack QA Verifier. Validate end-to-end integration flows across Cloud Sentry, Local Executive, and front-end UIs.",
+				Capabilities: []string{"testing", "pytest", "playwright", "docker"},
+			},
+		},
+	}
+}
+
 // GetRole returns a RoleDefinition by name, or an error if not found.
 func (tc *TeamConfig) GetRole(roleName string) (RoleDefinition, error) {
 	if role, ok := tc.Roles[roleName]; ok {

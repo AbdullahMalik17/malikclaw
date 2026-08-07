@@ -141,3 +141,17 @@ func TestSkillsInnovationTeam(t *testing.T) {
 		t.Errorf("unexpected role name: %s", role.Name)
 	}
 }
+
+func TestLargeCodebaseTeam(t *testing.T) {
+	team := NewLargeCodebaseTeam()
+	if len(team.Roles) != 5 {
+		t.Errorf("expected 5 roles in large codebase team, got %d", len(team.Roles))
+	}
+	role, err := team.GetRole("dir-navigator")
+	if err != nil {
+		t.Fatalf("expected to find role dir-navigator, got err: %v", err)
+	}
+	if role.Name != "Codebase Directory Navigator & Mapper" {
+		t.Errorf("unexpected role name: %s", role.Name)
+	}
+}
