@@ -1,7 +1,7 @@
 "use client";
 
 import { Language } from "@/i18n/translations";
-import { MessageSquare, Github } from "lucide-react";
+import { MessageSquare, Github, Sparkles } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
 
 interface SocialProofMarqueeProps {
@@ -10,10 +10,12 @@ interface SocialProofMarqueeProps {
 
 export default function SocialProofMarquee({ language }: SocialProofMarqueeProps) {
   return (
-    <section className="w-full py-16 overflow-hidden border-t border-white/5 bg-background">
-      <div className="max-w-7xl mx-auto px-6 mb-8 text-center flex items-center justify-center gap-2">
-        <MessageSquare className="w-5 h-5 text-zinc-500" />
-        <h3 className="text-text-muted font-medium">Trusted by Developers Worldwide</h3>
+    <section className="w-full py-16 overflow-hidden border-t border-white/[0.06] bg-black/40 font-mono">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8 text-center flex items-center justify-center gap-2">
+        <Sparkles className="w-4 h-4 text-amber-400" />
+        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-400">
+          Trusted by Developers Worldwide
+        </h3>
       </div>
       
       {testimonials.length < 3 ? (
@@ -22,16 +24,18 @@ export default function SocialProofMarquee({ language }: SocialProofMarqueeProps
             href="https://github.com/AbdullahMalik17/malikclaw/discussions"
             target="_blank"
             rel="noreferrer"
-            className="group block bg-card-bg border border-card-border hover:border-gryphon-gold p-8 transition-all hover:scale-[1.02]"
+            className="group block bg-zinc-950/80 border border-white/10 hover:border-amber-500/40 rounded-2xl p-8 transition-all hover:scale-[1.02] shadow-xl"
           >
             <div className="flex flex-col items-center gap-4">
-              <div className="p-4 bg-background border border-card-border transition-colors">
-                <Github className="w-8 h-8 text-gryphon-gold" />
+              <div className="p-3 bg-zinc-900 border border-white/10 rounded-xl">
+                <Github className="w-6 h-6 text-amber-400" />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-foreground mb-2">Be the first to share your story!</h4>
-                <p className="text-text-muted">
-                  ⭐ Share your MalikClaw experience on GitHub Discussions →
+                <h4 className="text-lg font-bold text-white mb-1 font-sans">
+                  Be the first to share your edge AI deployment!
+                </h4>
+                <p className="text-xs text-zinc-400 font-sans">
+                  ⭐ Join the discussion and share your MalikClaw setup on GitHub Discussions →
                 </p>
               </div>
             </div>
@@ -43,20 +47,22 @@ export default function SocialProofMarquee({ language }: SocialProofMarqueeProps
             {[...testimonials, ...testimonials, ...testimonials].map((testimonial, idx) => (
               <div 
                 key={idx} 
-                className="w-[350px] md:w-[450px] mx-4 inline-block bg-card-bg border border-card-border p-6 whitespace-normal"
+                className="w-[320px] md:w-[420px] mx-3 inline-block bg-zinc-950/80 border border-white/[0.08] p-5 rounded-2xl whitespace-normal backdrop-blur-xl hover:border-amber-500/40 transition-colors shadow-lg"
               >
-                <div className="flex flex-col h-full justify-between gap-4">
-                  <p className="text-text-muted italic">"{testimonial.quote}"</p>
-                  <div>
-                    <p className="text-foreground font-bold">{testimonial.author}</p>
-                    <p className="text-gryphon-gold text-sm font-medium">{testimonial.role}</p>
+                <div className="flex flex-col h-full justify-between gap-3">
+                  <p className="text-zinc-300 text-xs sm:text-sm italic font-sans">
+                    "{testimonial.quote}"
+                  </p>
+                  <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between">
+                    <p className="text-white text-xs font-bold font-sans">{testimonial.author}</p>
+                    <p className="text-amber-400 text-[11px] font-semibold">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
+          <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-[#050507] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-[#050507] to-transparent pointer-events-none" />
         </div>
       )}
     </section>
