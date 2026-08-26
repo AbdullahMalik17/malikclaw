@@ -27,7 +27,7 @@ jobs:
         uses: golangci/golangci-lint-action@v6
         with:
           version: v1.64.5
-          install-mode: goinstall
+          verify: false
           args: --timeout=5m
 
       - name: Run Govulncheck
