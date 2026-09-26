@@ -146,6 +146,3 @@ func TestToolInterfaces_MoreBasic(t *testing.T) {
     assert.NotEmpty(t, i2cTool.Description())
     assert.NotNil(t, i2cTool.Parameters())
 }
-
-	_ = bTool
-}
