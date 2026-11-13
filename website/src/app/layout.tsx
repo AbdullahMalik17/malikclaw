@@ -13,6 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap' 
 });
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import PWARegister from "@/components/pwa-register";
 import ChatWidget from "@/components/chat-widget";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -97,6 +98,7 @@ export default function RootLayout({
           {children}
           <ChatWidget />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
