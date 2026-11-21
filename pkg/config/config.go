@@ -214,9 +214,15 @@ type SessionConfig struct {
 // agent's primary model. This reduces cost and latency for simple tasks without
 // requiring any keyword matching — all scoring is language-agnostic.
 type RoutingConfig struct {
-	Enabled    bool    `json:"enabled"`
-	LightModel string  `json:"light_model"` // model_name from model_list to use for simple tasks
-	Threshold  float64 `json:"threshold"`   // complexity score in [0,1]; score >= threshold → primary model
+	Enabled              bool                `json:"enabled"`
+	LightModel           string              `json:"light_model"` // model_name from model_list to use for simple tasks
+	Threshold            float64             `json:"threshold"`   // complexity score in [0,1]; score >= threshold → primary model
+	Mode                 string              `json:"mode,omitempty"`                   // "smart" (SmartCostRouter) or "legacy"
+	FastModel            string              `json:"fast_model,omitempty"`             // TierFast primary model
+	BalancedModel        string              `json:"balanced_model,omitempty"`         // TierBalanced primary model
+	ReasoningModel       string              `json:"reasoning_model,omitempty"`        // TierReasoning primary model
+	TierFallbacks        map[string][]string `json:"tier_fallbacks,omitempty"`         // per-tier fallback models ("fast", "balanced", "reasoning")
+	DefaultFallbackOrder []string            `json:"default_fallback_order,omitempty"` // default fallback order appended to each tier
 }
 
 type AgentDefaults struct {
@@ -740,11 +746,12 @@ type BraveConfig struct {
 }
 
 type TavilyConfig struct {
-	Enabled    bool     `json:"enabled"     env:"MALIKCLAW_TOOLS_WEB_TAVILY_ENABLED"`
-	APIKey     string   `json:"api_key"     env:"MALIKCLAW_TOOLS_WEB_TAVILY_API_KEY"`
-	APIKeys    []string `json:"api_keys"    env:"MALIKCLAW_TOOLS_WEB_TAVILY_API_KEYS"`
-	BaseURL    string   `json:"base_url"    env:"MALIKCLAW_TOOLS_WEB_TAVILY_BASE_URL"`
-	MaxResults int      `json:"max_results" env:"MALIKCLAW_TOOLS_WEB_TAVILY_MAX_RESULTS"`
+	Enabled        bool     `json:"enabled"         env:"MALIKCLAW_TOOLS_WEB_TAVILY_ENABLED"`
+	APIKey         string   `json:"api_key"         env:"MALIKCLAW_TOOLS_WEB_TAVILY_API_KEY"`
+	APIKeys        []string `json:"api_keys"        env:"MALIKCLAW_TOOLS_WEB_TAVILY_API_KEYS"`
+	BaseURL        string   `json:"base_url"        env:"MALIKCLAW_TOOLS_WEB_TAVILY_BASE_URL"`
+	MaxResults     int      `json:"max_results"     env:"MALIKCLAW_TOOLS_WEB_TAVILY_MAX_RESULTS"`
+	AllowLocalhost bool     `json:"allow_localhost,omitempty" env:"MALIKCLAW_TOOLS_WEB_TAVILY_ALLOW_LOCALHOST"`
 }
 
 type DuckDuckGoConfig struct {
@@ -760,9 +767,10 @@ type PerplexityConfig struct {
 }
 
 type SearXNGConfig struct {
-	Enabled    bool   `json:"enabled"     env:"MALIKCLAW_TOOLS_WEB_SEARXNG_ENABLED"`
-	BaseURL    string `json:"base_url"    env:"MALIKCLAW_TOOLS_WEB_SEARXNG_BASE_URL"`
-	MaxResults int    `json:"max_results" env:"MALIKCLAW_TOOLS_WEB_SEARXNG_MAX_RESULTS"`
+	Enabled        bool   `json:"enabled"         env:"MALIKCLAW_TOOLS_WEB_SEARXNG_ENABLED"`
+	BaseURL        string `json:"base_url"        env:"MALIKCLAW_TOOLS_WEB_SEARXNG_BASE_URL"`
+	MaxResults     int    `json:"max_results"     env:"MALIKCLAW_TOOLS_WEB_SEARXNG_MAX_RESULTS"`
+	AllowLocalhost bool   `json:"allow_localhost,omitempty" env:"MALIKCLAW_TOOLS_WEB_SEARXNG_ALLOW_LOCALHOST"`
 }
 
 type GLMSearchConfig struct {
@@ -771,8 +779,9 @@ type GLMSearchConfig struct {
 	BaseURL string `json:"base_url" env:"MALIKCLAW_TOOLS_WEB_GLM_BASE_URL"`
 	// SearchEngine specifies the search backend: "search_std" (default),
 	// "search_pro", "search_pro_sogou", or "search_pro_quark".
-	SearchEngine string `json:"search_engine" env:"MALIKCLAW_TOOLS_WEB_GLM_SEARCH_ENGINE"`
-	MaxResults   int    `json:"max_results"   env:"MALIKCLAW_TOOLS_WEB_GLM_MAX_RESULTS"`
+	SearchEngine   string `json:"search_engine"   env:"MALIKCLAW_TOOLS_WEB_GLM_SEARCH_ENGINE"`
+	MaxResults     int    `json:"max_results"     env:"MALIKCLAW_TOOLS_WEB_GLM_MAX_RESULTS"`
+	AllowLocalhost bool   `json:"allow_localhost,omitempty" env:"MALIKCLAW_TOOLS_WEB_GLM_ALLOW_LOCALHOST"`
 }
 
 type WebToolsConfig struct {
@@ -787,6 +796,7 @@ type WebToolsConfig struct {
 	// For authenticated proxies, prefer HTTP_PROXY/HTTPS_PROXY env vars instead of embedding credentials in config.
 	Proxy           string `json:"proxy,omitempty"             env:"MALIKCLAW_TOOLS_WEB_PROXY"`
 	FetchLimitBytes int64  `json:"fetch_limit_bytes,omitempty" env:"MALIKCLAW_TOOLS_WEB_FETCH_LIMIT_BYTES"`
+	AllowLocalhost  bool   `json:"allow_localhost,omitempty"   env:"MALIKCLAW_TOOLS_WEB_ALLOW_LOCALHOST"`
 }
 
 type CronToolsConfig struct {
@@ -880,6 +890,7 @@ type ClawHubRegistryConfig struct {
 	Timeout         int    `json:"timeout"           env:"MALIKCLAW_SKILLS_REGISTRIES_CLAWHUB_TIMEOUT"`
 	MaxZipSize      int    `json:"max_zip_size"      env:"MALIKCLAW_SKILLS_REGISTRIES_CLAWHUB_MAX_ZIP_SIZE"`
 	MaxResponseSize int    `json:"max_response_size" env:"MALIKCLAW_SKILLS_REGISTRIES_CLAWHUB_MAX_RESPONSE_SIZE"`
+	AllowLocalhost  bool   `json:"allow_localhost"   env:"MALIKCLAW_SKILLS_REGISTRIES_CLAWHUB_ALLOW_LOCALHOST"`
 }
 
 // MCPServerConfig defines configuration for a single MCP server
@@ -898,6 +909,8 @@ type MCPServerConfig struct {
 	Type string `json:"type,omitempty"`
 	// URL is used for SSE/HTTP transport
 	URL string `json:"url,omitempty"`
+	// AllowLocalhost permits loopback targets (localhost/127.0.0.1/::1) for local SSE/HTTP MCP servers.
+	AllowLocalhost bool `json:"allow_localhost,omitempty"`
 	// Headers are HTTP headers to send with requests (sse/http only)
 	Headers map[string]string `json:"headers,omitempty"`
 }

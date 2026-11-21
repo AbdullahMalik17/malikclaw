@@ -139,9 +139,9 @@ const platforms = [
       "Install Termux from F-Droid or Google Play Store",
       "Open Termux and run: pkg update && pkg upgrade",
       "Install proot: pkg install proot",
-      "Download: wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_arm64",
-      "Make executable: chmod +x malikclaw_Linux_arm64",
-      "Run with proot: termux-chroot ./malikclaw_Linux_arm64 onboard",
+      "Download: wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_arm64.tar.gz",
+      "Extract and make executable: tar -xzf malikclaw_Linux_arm64.tar.gz && chmod +x malikclaw",
+      "Run with proot: termux-chroot ./malikclaw onboard",
     ],
     warnings: [
       "Requires Android 7.0 or higher",

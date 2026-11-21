@@ -3,7 +3,6 @@ package utils
 import (
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -12,6 +11,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 // IsAudioFile checks if a file is an audio file based on its filename extension and content type.
@@ -50,10 +50,11 @@ func SanitizeFilename(filename string) string {
 
 // DownloadOptions holds optional parameters for downloading files
 type DownloadOptions struct {
-	Timeout      time.Duration
-	ExtraHeaders map[string]string
-	LoggerPrefix string
-	ProxyURL     string
+	Timeout        time.Duration
+	ExtraHeaders   map[string]string
+	LoggerPrefix   string
+	ProxyURL       string
+	AllowLocalhost bool
 }
 
 // DownloadFile downloads a file from URL to a local temp directory.
@@ -65,6 +66,14 @@ func DownloadFile(urlStr, filename string, opts DownloadOptions) string {
 	}
 	if opts.LoggerPrefix == "" {
 		opts.LoggerPrefix = "utils"
+	}
+
+	if err := security.ValidateURL(urlStr, opts.AllowLocalhost); err != nil {
+		logger.ErrorCF(opts.LoggerPrefix, "Download URL blocked by SSRF policy", map[string]any{
+			"error": err.Error(),
+			"url":   urlStr,
+		})
+		return ""
 	}
 
 	mediaDir := filepath.Join(os.TempDir(), "malikclaw_media")
@@ -93,19 +102,13 @@ func DownloadFile(urlStr, filename string, opts DownloadOptions) string {
 		req.Header.Set(key, value)
 	}
 
-	client := &http.Client{Timeout: opts.Timeout}
-	if opts.ProxyURL != "" {
-		proxyURL, parseErr := url.Parse(opts.ProxyURL)
-		if parseErr != nil {
-			logger.ErrorCF(opts.LoggerPrefix, "Invalid proxy URL for download", map[string]any{
-				"error": parseErr.Error(),
-				"proxy": opts.ProxyURL,
-			})
-			return ""
-		}
-		client.Transport = &http.Transport{
-			Proxy: http.ProxyURL(proxyURL),
-		}
+	client, err := security.NewSafeHTTPClient(opts.Timeout, opts.ProxyURL, opts.AllowLocalhost)
+	if err != nil {
+		logger.ErrorCF(opts.LoggerPrefix, "Failed to create safe HTTP client for download", map[string]any{
+			"error": err.Error(),
+			"proxy": opts.ProxyURL,
+		})
+		return ""
 	}
 	resp, err := client.Do(req)
 	if err != nil {

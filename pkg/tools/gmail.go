@@ -15,13 +15,36 @@ import (
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/auth"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
+const defaultGmailBaseURL = "https://gmail.googleapis.com"
+
 type GmailTool struct {
+	httpClient *http.Client
+	baseURL    string
+	tokenFunc  func() (string, error)
 }
 
 func NewGmailTool() *GmailTool {
-	return &GmailTool{}
+	return &GmailTool{
+		httpClient: &http.Client{Timeout: 15 * time.Second},
+		baseURL:    defaultGmailBaseURL,
+	}
+}
+
+func (t *GmailTool) getHTTPClient() *http.Client {
+	if t.httpClient != nil {
+		return t.httpClient
+	}
+	return &http.Client{Timeout: 15 * time.Second}
+}
+
+func (t *GmailTool) getBaseURL() string {
+	if t.baseURL != "" {
+		return strings.TrimSuffix(t.baseURL, "/")
+	}
+	return defaultGmailBaseURL
 }
 
 func (t *GmailTool) Name() string {
@@ -69,32 +92,41 @@ func (t *GmailTool) Parameters() map[string]any {
 func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResult {
 	operation, _ := args["operation"].(string)
 
-	cred, err := auth.GetCredential("google-gmail")
-	if err != nil || cred == nil {
-		return ErrorResult(fmt.Sprintf("Gmail not authenticated. Use 'malikclaw auth login --provider google-gmail' first. Error: %v", err))
-	}
+	var accessToken string
+	if t.tokenFunc != nil {
+		tok, err := t.tokenFunc()
+		if err != nil {
+			return ErrorResult(fmt.Sprintf("Gmail authentication failed: %v", err))
+		}
+		accessToken = tok
+	} else {
+		cred, err := auth.GetCredential("google-gmail")
+		if err != nil || cred == nil {
+			return ErrorResult(fmt.Sprintf("Gmail not authenticated. Use 'malikclaw auth login --provider google-gmail' first. Error: %v", err))
+		}
 
-	// Check if token is expired and needs refresh
-	accessToken := cred.AccessToken
-	if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
-		if cred.RefreshToken != "" {
-			// Try to refresh - we need the config. For now, we assume the user
-			// might have set env vars or we use the default refresh logic if available.
-			// Note: Gmail refresh requires the ClientID/Secret used during login.
-			clientID := os.Getenv("MALIKCLAW_GMAIL_CLIENT_ID")
-			clientSecret := os.Getenv("MALIKCLAW_GMAIL_CLIENT_SECRET")
-			if clientID != "" && clientSecret != "" {
-				cfg := auth.GoogleGmailOAuthConfig(clientID, clientSecret)
-				newCred, err := auth.RefreshAccessToken(cred, cfg)
-				if err == nil {
-					accessToken = newCred.AccessToken
-					_ = auth.SetCredential("google-gmail", newCred)
+		// Check if token is expired and needs refresh
+		accessToken = cred.AccessToken
+		if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
+			if cred.RefreshToken != "" {
+				// Try to refresh - we need the config. For now, we assume the user
+				// might have set env vars or we use the default refresh logic if available.
+				// Note: Gmail refresh requires the ClientID/Secret used during login.
+				clientID := os.Getenv("MALIKCLAW_GMAIL_CLIENT_ID")
+				clientSecret := os.Getenv("MALIKCLAW_GMAIL_CLIENT_SECRET")
+				if clientID != "" && clientSecret != "" {
+					cfg := auth.GoogleGmailOAuthConfig(clientID, clientSecret)
+					newCred, err := auth.RefreshAccessToken(cred, cfg)
+					if err == nil {
+						accessToken = newCred.AccessToken
+						_ = auth.SetCredential("google-gmail", newCred)
+					}
 				}
 			}
 		}
 	}
 
-	client := &http.Client{}
+	client := t.getHTTPClient()
 
 	switch operation {
 	case "list_unread":
@@ -123,7 +155,7 @@ func (t *GmailTool) Execute(ctx context.Context, args map[string]any) *ToolResul
 }
 
 func (t *GmailTool) listUnread(ctx context.Context, client *http.Client, token string, maxResults int) *ToolResult {
-	url := fmt.Sprintf("https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread&maxResults=%d", maxResults)
+	url := fmt.Sprintf("%s/gmail/v1/users/me/messages?q=is:unread&maxResults=%d", t.getBaseURL(), maxResults)
 	req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -155,14 +187,17 @@ func (t *GmailTool) listUnread(ctx context.Context, client *http.Client, token s
 		output.WriteString(fmt.Sprintf("%d. ID: %s | Snippet: %s\n", i+1, msg.ID, snippet))
 	}
 
-	return &ToolResult{
-		ForLLM:  output.String(),
-		ForUser: output.String(),
-	}
+	raw := output.String()
+	wrapped, _ := security.SanitizeUntrustedOutput("gmail:list_unread", raw)
+
+	return (&ToolResult{
+		ForLLM:  wrapped,
+		ForUser: raw,
+	}).WithUntrusted("gmail:list_unread").WithSanitized()
 }
 
 func (t *GmailTool) getMessageSnippet(ctx context.Context, client *http.Client, token, id string) string {
-	url := fmt.Sprintf("https://gmail.googleapis.com/gmail/v1/users/me/messages/%s?format=minimal", id)
+	url := fmt.Sprintf("%s/gmail/v1/users/me/messages/%s?format=minimal", t.getBaseURL(), id)
 	req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -180,7 +215,7 @@ func (t *GmailTool) getMessageSnippet(ctx context.Context, client *http.Client, 
 }
 
 func (t *GmailTool) readEmail(ctx context.Context, client *http.Client, token, id string) *ToolResult {
-	url := fmt.Sprintf("https://gmail.googleapis.com/gmail/v1/users/me/messages/%s", id)
+	url := fmt.Sprintf("%s/gmail/v1/users/me/messages/%s", t.getBaseURL(), id)
 	req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -196,10 +231,12 @@ func (t *GmailTool) readEmail(ctx context.Context, client *http.Client, token, i
 	}
 
 	data, _ := json.MarshalIndent(msg, "", "  ")
-	return &ToolResult{
-		ForLLM:  string(data),
+	source := "gmail:message:" + id
+	wrapped, _ := security.SanitizeUntrustedOutput(source, string(data))
+	return (&ToolResult{
+		ForLLM:  wrapped,
 		ForUser: "Email content retrieved successfully.",
-	}
+	}).WithUntrusted(source).WithSanitized()
 }
 
 func (t *GmailTool) sendEmail(ctx context.Context, client *http.Client, token, to, subject, body string) *ToolResult {
@@ -211,7 +248,7 @@ func (t *GmailTool) sendEmail(ctx context.Context, client *http.Client, token, t
 	}
 	payloadBytes, _ := json.Marshal(payload)
 
-	url := "https://gmail.googleapis.com/gmail/v1/users/me/messages/send"
+	url := fmt.Sprintf("%s/gmail/v1/users/me/messages/send", t.getBaseURL())
 	req, _ := http.NewRequestWithContext(ctx, "POST", url, strings.NewReader(string(payloadBytes)))
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")

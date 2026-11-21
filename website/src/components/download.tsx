@@ -63,6 +63,7 @@ export default function Download({ language }: DownloadProps) {
   return (
     <section
       id="download"
+      aria-labelledby="download-heading"
       dir={isUrdu ? "rtl" : "ltr"}
       className="w-full py-24 max-w-6xl mx-auto font-mono scroll-mt-24 px-4 sm:px-6"
     >
@@ -77,7 +78,10 @@ export default function Download({ language }: DownloadProps) {
           <DownloadIcon className="w-3.5 h-3.5" aria-hidden="true" />
           <span>{t.download.badge}</span>
         </div>
-        <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isUrdu ? "font-urdu" : "uppercase"}`}>
+        <h2
+          id="download-heading"
+          className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isUrdu ? "font-urdu" : "uppercase"}`}
+        >
           {t.download.title}
         </h2>
         <p className={`text-text-muted mt-3 text-base sm:text-lg max-w-2xl mx-auto font-sans ${isUrdu ? "font-urdu" : ""}`}>

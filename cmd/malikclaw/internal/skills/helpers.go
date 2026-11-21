@@ -19,6 +19,10 @@ const skillsSearchMaxResults = 20
 
 // skillsInstallFromRegistry installs a skill from a named registry (e.g. clawhub).
 func skillsInstallFromRegistry(cfg *config.Config, registryName, slug string) error {
+	return skillsInstallFromRegistryWithTarget(cfg, registryName, slug, false)
+}
+
+func skillsInstallFromRegistryWithTarget(cfg *config.Config, registryName, slug string, global bool) error {
 	err := utils.ValidateSkillIdentifier(registryName)
 	if err != nil {
 		return fmt.Errorf("✗  invalid registry name: %w", err)
@@ -41,8 +45,18 @@ func skillsInstallFromRegistry(cfg *config.Config, registryName, slug string) er
 		return fmt.Errorf("✗  registry '%s' not found or not enabled. check your config.json.", registryName)
 	}
 
-	workspace := cfg.WorkspacePath()
-	targetDir := filepath.Join(workspace, "skills", slug)
+	skillsRoot := filepath.Join(cfg.WorkspacePath(), "skills")
+	if global {
+		home, homeErr := os.UserHomeDir()
+		if homeErr != nil || home == "" {
+			home = os.Getenv("HOME")
+		}
+		if home == "" {
+			return fmt.Errorf("✗ cannot determine home directory for --global install")
+		}
+		skillsRoot = filepath.Join(home, ".agents", "skills")
+	}
+	targetDir := filepath.Join(skillsRoot, slug)
 
 	if _, err = os.Stat(targetDir); err == nil {
 		return fmt.Errorf("\u2717 skill '%s' already installed at %s", slug, targetDir)
@@ -51,7 +65,7 @@ func skillsInstallFromRegistry(cfg *config.Config, registryName, slug string) er
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	if err = os.MkdirAll(filepath.Join(workspace, "skills"), 0o755); err != nil {
+	if err = os.MkdirAll(skillsRoot, 0o755); err != nil {
 		return fmt.Errorf("\u2717 failed to create skills directory: %v", err)
 	}
 

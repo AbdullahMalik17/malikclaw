@@ -1,4 +1,28 @@
+import type { Metadata } from "next";
 import { Shield, Lock, UserCheck, Database, AlertTriangle, FileText, ArrowRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Security & Zero-Trust Architecture — MalikClaw v2.0.0",
+  description:
+    "Explore MalikClaw v2.0.0 defense-in-depth security: SSRF Network Firewall, Prompt-Injection Structural Guard, ed25519 action signing, and human-in-the-loop approval gates.",
+  alternates: {
+    canonical: "/trust",
+  },
+  openGraph: {
+    title: "Security & Zero-Trust Architecture — MalikClaw v2.0.0",
+    description:
+      "SSRF Firewall, Prompt-Injection Guard, local-first embeddings, and ed25519 action signing for autonomous edge AI.",
+    url: "https://malikclaw.vercel.app/trust",
+    images: [
+      {
+        url: "/assets/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "MalikClaw v2.0.0 Zero-Trust Security Architecture",
+      },
+    ],
+  },
+};
 
 export default function TrustPage() {
   return (

@@ -1,5 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Book, Zap, Shield, MessageSquare } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Documentation — MalikClaw v2.0.0",
+  description:
+    "Official MalikClaw v2.0.0 documentation: quick start, platform installation, Smart Cost Router providers, SSRF + prompt-injection security, and 21 messaging channels.",
+  alternates: {
+    canonical: "/docs",
+  },
+  openGraph: {
+    title: "Documentation — MalikClaw v2.0.0",
+    description:
+      "Guides for installing, configuring, and running MalikClaw v2.0.0 across laptops, $10 SBCs, Android Termux, and Docker.",
+    url: "https://malikclaw.vercel.app/docs",
+    images: [
+      {
+        url: "/assets/og-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "MalikClaw v2.0.0 Documentation",
+      },
+    ],
+  },
+};
 
 export default function DocsPage() {
   return (

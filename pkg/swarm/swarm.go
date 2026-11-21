@@ -7,10 +7,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 // Task represents a work unit dispatched to a swarm node
@@ -40,19 +42,23 @@ type Node struct {
 
 // Swarm manages the local node's server and peer connections
 type Swarm struct {
-	localID      string
-	bindAddr     string
-	peers        map[string]*Node
-	mu           sync.RWMutex
-	client       *http.Client
-	server       *http.Server
-	taskHandler  func(ctx context.Context, task Task) (TaskResult, error)
+	localID           string
+	bindAddr          string
+	peers             map[string]*Node
+	mu                sync.RWMutex
+	client            *http.Client
+	server            *http.Server
+	taskHandler       func(ctx context.Context, task Task) (TaskResult, error)
+	allowLocalhost    bool
+	allowPrivatePeers bool
 }
 
 // Config for the swarm node
 type Config struct {
-	NodeID   string
-	BindAddr string // e.g. ":7331"
+	NodeID            string
+	BindAddr          string // e.g. ":7331"
+	AllowLocalhost    bool
+	AllowPrivatePeers bool
 }
 
 // NewSwarm initializes a new swarm node
@@ -64,14 +70,25 @@ func NewSwarm(cfg Config, handler func(ctx context.Context, task Task) (TaskResu
 		cfg.BindAddr = ":7331"
 	}
 
+	var client *http.Client
+	if cfg.AllowPrivatePeers {
+		client = &http.Client{Timeout: 30 * time.Second}
+	} else {
+		var err error
+		client, err = security.NewSafeHTTPClient(30*time.Second, "", cfg.AllowLocalhost)
+		if err != nil {
+			client = &http.Client{Timeout: 30 * time.Second}
+		}
+	}
+
 	return &Swarm{
-		localID:     cfg.NodeID,
-		bindAddr:    cfg.BindAddr,
-		peers:       make(map[string]*Node),
-		taskHandler: handler,
-		client: &http.Client{
-			Timeout: 30 * time.Second,
-		},
+		localID:           cfg.NodeID,
+		bindAddr:          cfg.BindAddr,
+		peers:             make(map[string]*Node),
+		taskHandler:       handler,
+		client:            client,
+		allowLocalhost:    cfg.AllowLocalhost,
+		allowPrivatePeers: cfg.AllowPrivatePeers,
 	}
 }
 
@@ -144,8 +161,19 @@ func (s *Swarm) DispatchTask(ctx context.Context, targetNodeID string, task Task
 		return TaskResult{}, err
 	}
 
-	url := fmt.Sprintf("http://%s/swarm/task", peer.Address)
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(payload))
+	targetURL := peer.Address
+	if !strings.HasPrefix(targetURL, "http://") && !strings.HasPrefix(targetURL, "https://") {
+		targetURL = "http://" + targetURL
+	}
+	targetURL = strings.TrimSuffix(targetURL, "/") + "/swarm/task"
+
+	if !s.allowPrivatePeers {
+		if err := security.ValidateURL(targetURL, s.allowLocalhost); err != nil {
+			return TaskResult{}, fmt.Errorf("peer URL %q blocked by SSRF policy: %w", targetURL, err)
+		}
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", targetURL, bytes.NewReader(payload))
 	if err != nil {
 		return TaskResult{}, err
 	}

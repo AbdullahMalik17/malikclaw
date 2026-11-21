@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
@@ -33,16 +34,17 @@ type GitHubRef struct {
 }
 
 type SkillInstaller struct {
-	workspace   string
-	client      *http.Client
-	githubToken string
-	proxy       string
+	workspace      string
+	client         *http.Client
+	githubToken    string
+	proxy          string
+	allowLocalhost bool
 }
 
 // NewSkillInstaller creates a new skill installer.
 // proxy is an optional HTTP/HTTPS/SOCKS5 proxy URL for downloading skills.
 func NewSkillInstaller(workspace, githubToken, proxy string) (*SkillInstaller, error) {
-	client, err := utils.CreateHTTPClient(proxy, 15*time.Second)
+	client, err := security.NewSafeHTTPClient(15*time.Second, proxy, false)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create HTTP client: %w", err)
 	}
@@ -53,6 +55,18 @@ func NewSkillInstaller(workspace, githubToken, proxy string) (*SkillInstaller, e
 		githubToken: githubToken,
 		proxy:       proxy,
 	}, nil
+}
+
+// SetAllowLocalhost configures whether loopback/localhost targets are allowed
+// (for testing against local mock servers).
+func (si *SkillInstaller) SetAllowLocalhost(allow bool) error {
+	client, err := security.NewSafeHTTPClient(15*time.Second, si.proxy, allow)
+	if err != nil {
+		return err
+	}
+	si.allowLocalhost = allow
+	si.client = client
+	return nil
 }
 
 // parseGitHubRef parses a GitHub reference.
@@ -105,6 +119,12 @@ func parseGitHubRef(repo string) (GitHubRef, error) {
 }
 
 func (si *SkillInstaller) InstallFromGitHub(ctx context.Context, repo string) error {
+	return si.InstallFromGitHubToDir(ctx, repo, filepath.Join(si.workspace, "skills"))
+}
+
+// InstallFromGitHubToDir installs a GitHub skill repository into the specified
+// skills root directory (e.g. <workspace>/skills or ~/.agents/skills).
+func (si *SkillInstaller) InstallFromGitHubToDir(ctx context.Context, repo, skillsRootDir string) error {
 	ref, err := parseGitHubRef(repo)
 	if err != nil {
 		return err
@@ -114,7 +134,7 @@ func (si *SkillInstaller) InstallFromGitHub(ctx context.Context, repo string) er
 	if ref.SubPath != "" {
 		skillName = filepath.Base(ref.SubPath)
 	}
-	skillDirectory := filepath.Join(si.workspace, "skills", skillName)
+	skillDirectory := filepath.Join(skillsRootDir, skillName)
 
 	if _, err := os.Stat(skillDirectory); err == nil {
 		return fmt.Errorf("skill '%s' already exists", skillName)
@@ -141,6 +161,9 @@ func (si *SkillInstaller) InstallFromGitHub(ctx context.Context, repo string) er
 // downloadDir recursively downloads a directory from GitHub API
 // isRoot: true if this is the skill root directory (only download SKILL.md at root)
 func (si *SkillInstaller) getGithubDirAllFiles(ctx context.Context, apiURL, localDir string, isRoot bool) error {
+	if err := security.ValidateURL(apiURL, si.allowLocalhost); err != nil {
+		return fmt.Errorf("GitHub API URL blocked by SSRF policy: %w", err)
+	}
 	req, err := http.NewRequestWithContext(ctx, "GET", apiURL, nil)
 	if err != nil {
 		return err
@@ -193,15 +216,18 @@ func (si *SkillInstaller) downloadRaw(ctx context.Context, owner, repo, ref, sub
 	if subPath != "" {
 		urlPath = path.Join(urlPath, subPath)
 	}
-	url := fmt.Sprintf("https://raw.githubusercontent.com/%s/SKILL.md", urlPath)
+	rawURL := fmt.Sprintf("https://raw.githubusercontent.com/%s/SKILL.md", urlPath)
+	if err := security.ValidateURL(rawURL, si.allowLocalhost); err != nil {
+		return fmt.Errorf("raw skill URL blocked by SSRF policy: %w", err)
+	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", rawURL, nil)
 	if err != nil {
 		return fmt.Errorf("failed to create request: %w", err)
 	}
 
 	// Use chunked download to temporary file.
-	tmpPath, err := utils.DownloadToFile(ctx, si.client, req, 0)
+	tmpPath, err := utils.DownloadToFileWithOptions(ctx, si.client, req, 0, si.allowLocalhost)
 	if err != nil {
 		return fmt.Errorf("failed to fetch skill: %w", err)
 	}
@@ -221,14 +247,18 @@ func (si *SkillInstaller) downloadRaw(ctx context.Context, owner, repo, ref, sub
 	return os.Chmod(localPath, 0o600)
 }
 
-func (si *SkillInstaller) downloadFile(ctx context.Context, url, localPath string) error {
-	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+func (si *SkillInstaller) downloadFile(ctx context.Context, fileURL, localPath string) error {
+	if err := security.ValidateURL(fileURL, si.allowLocalhost); err != nil {
+		return fmt.Errorf("download URL blocked by SSRF policy: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", fileURL, nil)
 	if err != nil {
 		return err
 	}
 
 	// Use chunked download to temporary file, then move atomically to target.
-	tmpPath, err := utils.DownloadToFile(ctx, si.client, req, 0)
+	tmpPath, err := utils.DownloadToFileWithOptions(ctx, si.client, req, 0, si.allowLocalhost)
 	if err != nil {
 		return err
 	}

@@ -263,6 +263,9 @@ func TestSkillInstaller_DownloadFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
+	if err := installer.SetAllowLocalhost(true); err != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	}
 
 	t.Run("successful download", func(t *testing.T) {
 		localPath := filepath.Join(tmpDir, "test-skill", "SKILL.md")
@@ -324,6 +327,9 @@ func TestSkillInstaller_DownloadRaw(t *testing.T) {
 	installer, err := NewSkillInstaller(tmpDir, "", "")
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
+	}
+	if err := installer.SetAllowLocalhost(true); err != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
 	}
 
 	// Replace the client with one that points to our test server
@@ -480,6 +486,9 @@ func TestSkillInstaller_GetGithubDirAllFiles(t *testing.T) {
 	installer, err := NewSkillInstaller(tmpDir, "", "")
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
+	}
+	if err := installer.SetAllowLocalhost(true); err != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
 	}
 
 	// Create a test server that mimics GitHub API
@@ -646,6 +655,9 @@ func TestSkillInstaller_ContextCancellation(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
+	if err := installer.SetAllowLocalhost(true); err != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	}
 
 	// Create a slow server
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -664,5 +676,25 @@ func TestSkillInstaller_ContextCancellation(t *testing.T) {
 
 	if err == nil {
 		t.Error("downloadFile() expected error for canceled context, got nil")
+	}
+}
+
+func TestSkillInstaller_SSRFBlockedByDefault(t *testing.T) {
+	tmpDir := t.TempDir()
+	installer, err := NewSkillInstaller(tmpDir, "", "")
+	if err != nil {
+		t.Fatalf("NewSkillInstaller() error = %v", err)
+	}
+
+	targets := []string{
+		"http://127.0.0.1:8080/SKILL.md",
+		"http://169.254.169.254/latest/meta-data",
+		"file:///etc/passwd",
+	}
+	for _, target := range targets {
+		err := installer.downloadFile(context.Background(), target, filepath.Join(tmpDir, "SKILL.md"))
+		if err == nil || !strings.Contains(err.Error(), "SSRF") {
+			t.Errorf("expected SSRF block for %q, got %v", target, err)
+		}
 	}
 }

@@ -306,3 +306,43 @@ func TestClose_IdempotentOnEmptyManager(t *testing.T) {
 		t.Fatalf("second close should be idempotent, got: %v", err)
 	}
 }
+
+func TestConnectServer_SSRFPolicy(t *testing.T) {
+	mgr := NewManager()
+
+	t.Run("blocks cloud metadata IP even with AllowLocalhost", func(t *testing.T) {
+		err := mgr.ConnectServer(context.Background(), "meta", config.MCPServerConfig{
+			Enabled:        true,
+			Type:           "sse",
+			URL:            "http://169.254.169.254/latest/meta-data",
+			AllowLocalhost: true,
+		})
+		if err == nil || !strings.Contains(err.Error(), "SSRF") {
+			t.Fatalf("expected SSRF error for metadata IP, got: %v", err)
+		}
+	})
+
+	t.Run("blocks loopback by default", func(t *testing.T) {
+		err := mgr.ConnectServer(context.Background(), "local-blocked", config.MCPServerConfig{
+			Enabled: true,
+			Type:    "http",
+			URL:     "http://127.0.0.1:9999/mcp",
+		})
+		if err == nil || !strings.Contains(err.Error(), "SSRF") {
+			t.Fatalf("expected SSRF error for loopback with AllowLocalhost=false, got: %v", err)
+		}
+	})
+
+	t.Run("allows loopback past SSRF check when AllowLocalhost=true", func(t *testing.T) {
+		err := mgr.ConnectServer(context.Background(), "local-allowed", config.MCPServerConfig{
+			Enabled:        true,
+			Type:           "http",
+			URL:            "http://127.0.0.1:9999/mcp",
+			AllowLocalhost: true,
+		})
+		// Connection itself will fail (nothing listening on 9999), but must NOT be blocked by SSRF policy.
+		if err != nil && strings.Contains(err.Error(), "SSRF") {
+			t.Fatalf("expected AllowLocalhost=true to pass SSRF check, got: %v", err)
+		}
+	})
+}

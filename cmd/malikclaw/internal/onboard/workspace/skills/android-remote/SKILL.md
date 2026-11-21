@@ -1,54 +1,59 @@
 ---
 name: android-remote
-description: "Remote control and automation for Android devices. Best for testing apps, monitoring notifications, and performing tasks on old phones."
+description: "Remote control and automation for Android devices via ADB using android_control (screenshot, tap, type, swipe, keyevent)."
 metadata: {"malikclaw":{"emoji":"📱","requires":{"tools":["android_control"]}}}
 ---
 
 # Android Remote 🦅
 
-Control and automate Android devices via ADB. This skill gives MalikClaw "hands" to interact with mobile apps and notifications.
+Control and automate Android devices via ADB using the `android_control` tool.
 
 ## When to use (trigger phrases)
 
 Use this skill when the user asks for:
 - "Check notifications on my Android phone"
-- "Open [App Name] and take a screenshot"
-- "Tap the 'Connect' button in the center of the screen"
-- "Type '[Text]' into the search bar of [App]"
+- "Take a screenshot of my phone"
+- "Tap on [element] or type '[Text]' on my Android device"
+- "Swipe down or press HOME/BACK on Android"
 
-## Tools
-- **android_control**: A unified tool for ADB operations (screenshot, tap, type, swipe, open-url).
+## Tool Schema (`android_control`)
+
+- `operation` (required): `"screenshot"`, `"tap"`, `"type"`, `"swipe"`, `"keyevent"`
+- `serial` (optional): Android device serial if multiple devices are attached
+- `x`, `y` (integers): Screen coordinates for `"tap"` and start coordinates for `"swipe"`
+- `x2`, `y2` (integers): End coordinates for `"swipe"`
+- `text` (string): Text input for `"type"`
+- `key` (string): Key event code for `"keyevent"` (e.g. `"HOME"`, `"BACK"`, `"ENTER"`)
 
 ## Core Workflow
 
-1. **Visualize**: Use `android_control` with `action="screenshot"` to see the current screen.
-2. **Analyze**: Identify the elements on the screen (coordinates or visual cues).
-3. **Act**: Use `android_control` to `tap`, `type`, or `swipe` to complete the task.
+1. **Visualize**: Call `android_control` with `{"operation": "screenshot"}` to inspect the screen.
+2. **Navigate / Interact**: Call `tap`, `swipe`, `type`, or `keyevent` with exact coordinates or text.
+3. **Verify**: Take another `screenshot` to confirm the action succeeded.
 
 ## Examples
 
-### Check WhatsApp Notifications
-```bash
-# Capture the notification shade
-android_control --action swipe --x1 500 --y1 0 --x2 500 --y2 1000
-android_control --action screenshot
+### Check Notifications
+```json
+{"operation": "swipe", "x": 500, "y": 20, "x2": 500, "y2": 1000}
+```
+```json
+{"operation": "screenshot"}
 ```
 
-### Open a Website in Chrome
-```bash
-# Open URL directly
-android_control --action open-url --text "https://malikclaw.vercel.app"
+### Tap & Type in Search Bar
+```json
+{"operation": "tap", "x": 200, "y": 400}
+```
+```json
+{"operation": "type", "text": "MalikClaw Assistant"}
 ```
 
-### Complex Navigation (Tap and Type)
-```bash
-# Tap search bar (assuming coords from prev screenshot)
-android_control --action tap --x 200 --y 400
-
-# Type search query
-android_control --action type --text "MalikClaw the Edge Champion"
+### Press Home or Back
+```json
+{"operation": "keyevent", "key": "HOME"}
 ```
 
 ## Security & Privacy
-- Always confirm with the user before performing high-impact actions (e.g., deleting data, sending personal messages).
-- **Masking**: Be mindful of sensitive info (passwords, PII) visible in screenshots.
+- Always confirm with the user before sending messages, making payments, or deleting data on their phone.
+- Be careful not to expose passwords or OTP codes from screenshots.

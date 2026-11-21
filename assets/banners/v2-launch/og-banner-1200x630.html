@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200, initial-scale=1.0" />
+  <title>MalikClaw v2.0.0 — OpenGraph Banner (1200x630)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: "GeistLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-sans/Geist-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-sans/Geist-Medium.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-sans/Geist-SemiBold.woff2") format("woff2");
+      font-weight: 600;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-sans/Geist-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-sans/Geist-Black.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistMonoLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-mono/GeistMono-Medium.woff2") format("woff2");
+      font-weight: 500;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "GeistMonoLocal";
+      src: url("../../../website/node_modules/geist/dist/fonts/geist-mono/GeistMono-Bold.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #050507;
+      color: #F4F4F5;
+      font-family: "GeistLocal", "Segoe UI", -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .canvas {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background-color: #050507;
+      background-image:
+        radial-gradient(ellipse 68% 58% at 18% 14%, rgba(245, 158, 11, 0.16), transparent 65%),
+        radial-gradient(ellipse 56% 52% at 84% 78%, rgba(6, 182, 212, 0.14), transparent 65%),
+        radial-gradient(ellipse 42% 38% at 54% 92%, rgba(245, 158, 11, 0.08), transparent 60%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    }
+
+    .noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .frame-line {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+
+    .frame-accent-top {
+      position: absolute;
+      top: 20px;
+      left: 140px;
+      right: 140px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.6), rgba(6, 182, 212, 0.6), transparent);
+      pointer-events: none;
+    }
+
+    /* Central 80% safe zone container (>= 10% margins on all 4 sides) */
+    .safe-zone {
+      position: relative;
+      z-index: 2;
+      width: 1200px;
+      height: 630px;
+      padding: 67px 124px;
+      display: grid;
+      grid-template-columns: 1fr 326px;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .eyebrow-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .pill-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #FBBF24;
+      font-family: "GeistMonoLocal", Consolas, monospace;
+      font-size: 11.2px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #F59E0B;
+      box-shadow: 0 0 10px #F59E0B;
+    }
+
+    .pill-cyan {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      color: #22D3EE;
+      font-family: "GeistMonoLocal", Consolas, monospace;
+      font-size: 11.2px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .headline-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 45px;
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      color: #FFFFFF;
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, #FEF08A 0%, #F59E0B 55%, #FBBF24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cyan-gradient {
+      background: linear-gradient(135deg, #A5F3FC 0%, #06B6D4 65%, #38BDF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subhead {
+      font-size: 16.4px;
+      font-weight: 500;
+      line-height: 1.38;
+      color: #D4D4D8;
+      max-width: 594px;
+    }
+
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .metric-card {
+      background: rgba(11, 12, 16, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 13px;
+      padding: 11px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card.gold-top::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #F59E0B, #FBBF24);
+    }
+
+    .metric-card.cyan-top::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #06B6D4, #22D3EE);
+    }
+
+    .metric-card.emerald-top::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #10B981, #34D399);
+    }
+
+    .metric-val {
+      font-size: 17.8px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+
+    .metric-lbl {
+      font-family: "GeistMonoLocal", Consolas, monospace;
+      font-size: 10.1px;
+      font-weight: 500;
+      color: #A1A1AA;
+      margin-top: 4px;
+    }
+
+    .pillars-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 9px 11px;
+      border-radius: 11px;
+      background: rgba(14, 16, 23, 0.92);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      font-family: "GeistMonoLocal", Consolas, monospace;
+      font-size: 11.4px;
+      font-weight: 700;
+      color: #E4E4E7;
+    }
+
+    .pillar-sep {
+      color: #06B6D4;
+      font-weight: 900;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    .urdu-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(11, 12, 16, 0.9));
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      direction: rtl;
+    }
+
+    .urdu-text {
+      font-family: "Noto Nastaliq Urdu", "Tahoma", "Segoe UI", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.8;
+      color: #FEF08A;
+    }
+
+    .url-cta {
+      font-family: "GeistMonoLocal", Consolas, monospace;
+      font-size: 11.7px;
+      font-weight: 700;
+      color: #22D3EE;
+      letter-spacing: 0.01em;
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .showcase-card {
+      background: linear-gradient(165deg, rgba(16, 18, 26, 0.95) 0%, rgba(8, 9, 13, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      padding: 19px 17px;
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.65),
+        0 0 40px rgba(6, 182, 212, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-wrap {
+      position: relative;
+      width: 161px;
+      height: 161px;
+      border-radius: 28px;
+      padding: 4px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.5), rgba(245, 158, 11, 0.5));
+      box-shadow: 0 0 36px rgba(6, 182, 212, 0.22), 0 0 28px rgba(245, 158, 11, 0.14);
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      display: block;
+    }
+
+    .terminal-box {
+      width: 100%;
+      background: #050507;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      overflow: hidden;
+      font-family: "GeistMonoLocal", Consolas, monospace;
+    }
+
+    .term-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 11px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 9.4px;
+      color: #A1A1AA;
+    }
+
+    .term-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-r { background: #EF4444; }
+    .dot-y { background: #F59E0B; }
+    .dot-g { background: #10B981; }
+
+    .term-body {
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 10.5px;
+      line-height: 1.35;
+    }
+
+    .t-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .t-ok { color: #34D399; font-weight: 700; }
+    .t-key { color: #E4E4E7; }
+    .t-tag-gold { color: #FBBF24; font-weight: 700; }
+    .t-tag-cyan { color: #22D3EE; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="noise"></div>
+    <div class="frame-line"></div>
+    <div class="frame-accent-top"></div>
+
+    <div class="safe-zone">
+      <div class="left-col">
+        <div class="eyebrow-row">
+          <span class="pill-gold"><span class="pill-dot"></span>MalikClaw v2.0.0 — Agentic Era 2026</span>
+          <span class="pill-cyan">Pure Go 1.25+ • MIT</span>
+        </div>
+
+        <div class="headline-block">
+          <h1>MalikClaw <span class="gold-gradient">v2.0.0</span><br /><span class="cyan-gradient">Agentic Era 2026</span></h1>
+          <p class="subhead">Autonomous AI for developers &amp; everyday life — WhatsApp, Telegram, Android ADB &amp; local Ollama in English or Urdu.</p>
+        </div>
+
+        <div class="metrics-strip">
+          <div class="metric-card gold-top">
+            <div class="metric-val">&lt;10MB RAM</div>
+            <div class="metric-lbl">99% lighter core SLA</div>
+          </div>
+          <div class="metric-card cyan-top">
+            <div class="metric-val">&lt;1s Boot</div>
+            <div class="metric-lbl">Single static Go binary</div>
+          </div>
+          <div class="metric-card emerald-top">
+            <div class="metric-val">$10 Hardware</div>
+            <div class="metric-lbl">SBC • Laptop • Termux</div>
+          </div>
+        </div>
+
+        <div class="pillars-bar">
+          <span>SSRF Firewall</span>
+          <span class="pillar-sep">•</span>
+          <span>Prompt Guard</span>
+          <span class="pillar-sep">•</span>
+          <span>Smart Cost Router</span>
+          <span class="pillar-sep">•</span>
+          <span>MCP + SKILL.md</span>
+        </div>
+
+        <div class="footer-row">
+          <div class="urdu-badge">
+            <span class="urdu-text">آگے بڑھو، ملک کلاؤ!</span>
+          </div>
+          <div class="url-cta">malikclaw.vercel.app</div>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <div class="showcase-card">
+          <div class="logo-wrap">
+            <img src="../../logo.png" alt="MalikClaw Gryphon Logo" />
+          </div>
+
+          <div class="terminal-box">
+            <div class="term-head">
+              <div class="term-dots">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+              </div>
+              <span>malikclaw gateway :18790</span>
+            </div>
+            <div class="term-body">
+              <div class="t-row">
+                <span class="t-key"><span class="t-ok">✓</span> SSRF Firewall</span>
+                <span class="t-tag-cyan">ENFORCED</span>
+              </div>
+              <div class="t-row">
+                <span class="t-key"><span class="t-ok">✓</span> Prompt Guard</span>
+                <span class="t-tag-cyan">ISOLATED</span>
+              </div>
+              <div class="t-row">
+                <span class="t-key"><span class="t-ok">✓</span> Smart Cost Router</span>
+                <span class="t-tag-gold">Ollama → AI</span>
+              </div>
+              <div class="t-row">
+                <span class="t-key"><span class="t-ok">✓</span> MCP + SKILL.md</span>
+                <span class="t-tag-gold">21 Channels</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

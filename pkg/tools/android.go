@@ -15,14 +15,32 @@ import (
 )
 
 type AndroidControlTool struct {
-	tempDir string
+	tempDir  string
+	lookPath func(string) (string, error)
+	runner   func(serial string, args ...string) (string, error)
 }
 
 func NewAndroidControlTool() *AndroidControlTool {
 	tempDir := filepath.Join(os.TempDir(), "malikclaw-android")
 	_ = os.MkdirAll(tempDir, 0755)
+	return NewAndroidControlToolWithRunner(tempDir, nil, nil)
+}
+
+// NewAndroidControlToolWithRunner creates an AndroidControlTool with injectable
+// lookPath and ADB command runner dependencies for deterministic unit testing.
+func NewAndroidControlToolWithRunner(
+	tempDir string,
+	lookPath func(string) (string, error),
+	runner func(serial string, args ...string) (string, error),
+) *AndroidControlTool {
+	if tempDir == "" {
+		tempDir = filepath.Join(os.TempDir(), "malikclaw-android")
+		_ = os.MkdirAll(tempDir, 0755)
+	}
 	return &AndroidControlTool{
-		tempDir: tempDir,
+		tempDir:  tempDir,
+		lookPath: lookPath,
+		runner:   runner,
 	}
 }
 
@@ -81,7 +99,11 @@ func (t *AndroidControlTool) Execute(ctx context.Context, args map[string]any) *
 	serial, _ := args["serial"].(string)
 
 	// Check if ADB is installed
-	if _, err := exec.LookPath("adb"); err != nil {
+	lookPathFn := t.lookPath
+	if lookPathFn == nil {
+		lookPathFn = exec.LookPath
+	}
+	if _, err := lookPathFn("adb"); err != nil {
 		return ErrorResult("ADB (Android Debug Bridge) not found. Please install it to use this tool.")
 	}
 
@@ -110,6 +132,10 @@ func (t *AndroidControlTool) Execute(ctx context.Context, args map[string]any) *
 }
 
 func (t *AndroidControlTool) runAdb(serial string, args ...string) (string, error) {
+	if t.runner != nil {
+		return t.runner(serial, args...)
+	}
+
 	fullArgs := []string{}
 	if serial != "" {
 		fullArgs = append(fullArgs, "-s", serial)

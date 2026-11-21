@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, Copy, Check, Cpu, Smartphone, Box, ShieldCheck } from "lucide-react";
 import { Language, translations } from "@/i18n/translations";
@@ -70,6 +70,25 @@ export default function QuickInstall({ language = "en" }: QuickInstallProps) {
     }
   };
 
+  const handleTabKeyDown = (e: KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex = currentIndex;
+    if (e.key === "ArrowRight") {
+      nextIndex = (currentIndex + 1) % installOptions.length;
+    } else if (e.key === "ArrowLeft") {
+      nextIndex = (currentIndex - 1 + installOptions.length) % installOptions.length;
+    } else if (e.key === "Home") {
+      nextIndex = 0;
+    } else if (e.key === "End") {
+      nextIndex = installOptions.length - 1;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    const nextOption = installOptions[nextIndex];
+    setActiveMethod(nextOption.id);
+    document.getElementById(`install-tab-${nextOption.id}`)?.focus();
+  };
+
   return (
     <div id="quick-install" className="w-full max-w-4xl mx-auto font-mono scroll-mt-28">
       <div className="relative rounded-2xl bg-[#0B0C10] text-zinc-100 border border-zinc-800 shadow-xl dark:shadow-[0_0_40px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden transition-colors duration-300 hover:border-amber-500/40">
@@ -93,21 +112,31 @@ export default function QuickInstall({ language = "en" }: QuickInstallProps) {
           </div>
 
           {/* Interactive Method Pills */}
-          <div dir="ltr" className="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-white/10">
-            {installOptions.map((opt) => {
+          <div
+            dir="ltr"
+            role="tablist"
+            aria-label="Installation methods"
+            className="flex flex-wrap items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-white/10"
+          >
+            {installOptions.map((opt, idx) => {
               const Icon = opt.icon;
               const isActive = activeMethod === opt.id;
               return (
                 <button
                   key={opt.id}
+                  id={`install-tab-${opt.id}`}
+                  role="tab"
                   type="button"
+                  aria-selected={isActive}
+                  aria-controls="install-command-panel"
+                  tabIndex={isActive ? 0 : -1}
                   onClick={() => setActiveMethod(opt.id)}
-                  className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 ${
+                  onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                  className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                     isActive
                       ? "text-amber-300 font-semibold"
                       : "text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]"
                   }`}
-                  aria-pressed={isActive}
                 >
                   {isActive && (
                     <motion.div
@@ -126,6 +155,9 @@ export default function QuickInstall({ language = "en" }: QuickInstallProps) {
 
         {/* Command Body (non-interactive container; single Copy button for valid a11y) */}
         <div
+          id="install-command-panel"
+          role="tabpanel"
+          aria-labelledby={`install-tab-${selected.id}`}
           dir="ltr"
           className="relative p-4 sm:p-5 flex items-center justify-between gap-4 bg-zinc-950/60"
         >
@@ -167,6 +199,10 @@ export default function QuickInstall({ language = "en" }: QuickInstallProps) {
               </>
             )}
           </button>
+
+          <span className="sr-only" aria-live="polite">
+            {copied ? `${t.quickInstall.copied} ${selected.label} command copied to clipboard.` : ""}
+          </span>
         </div>
 
         {/* Footer Meta Strip */}

@@ -59,16 +59,33 @@ func (info SkillInfo) validate() error {
 }
 
 type SkillsLoader struct {
-	workspace       string
-	workspaceSkills string // workspace skills (project-level)
-	globalSkills    string // global skills (~/.malikclaw/skills)
-	builtinSkills   string // builtin skills
+	workspace             string
+	workspaceSkills       string // workspace skills (<workspace>/skills)
+	workspaceAgentsSkills string // universal workspace skills (<workspace>/.agents/skills)
+	globalSkills          string // global skills (~/.malikclaw/skills)
+	universalSkills       string // universal global skills (~/.agents/skills)
+	builtinSkills         string // builtin skills
+}
+
+// WithUniversalDirs configures universal <workspace>/.agents/skills and ~/.agents/skills
+// discovery paths while preserving the NewSkillsLoader constructor signature.
+func (sl *SkillsLoader) WithUniversalDirs(workspaceAgentsSkills, universalSkills string) *SkillsLoader {
+	sl.workspaceAgentsSkills = workspaceAgentsSkills
+	sl.universalSkills = universalSkills
+	return sl
 }
 
 // SkillRoots returns all unique skill root directories used by this loader.
-// The order follows resolution priority: workspace > global > builtin.
+// The order follows resolution priority:
+// <workspace>/skills > <workspace>/.agents/skills > ~/.malikclaw/skills > ~/.agents/skills > builtin.
 func (sl *SkillsLoader) SkillRoots() []string {
-	roots := []string{sl.workspaceSkills, sl.globalSkills, sl.builtinSkills}
+	roots := []string{
+		sl.workspaceSkills,
+		sl.workspaceAgentsSkills,
+		sl.globalSkills,
+		sl.universalSkills,
+		sl.builtinSkills,
+	}
 	seen := make(map[string]struct{}, len(roots))
 	out := make([]string, 0, len(roots))
 
@@ -114,18 +131,15 @@ func (sl *SkillsLoader) ListSkills() []SkillInfo {
 				continue
 			}
 			skillFile := filepath.Join(dir, d.Name(), "SKILL.md")
-			if _, err := os.Stat(skillFile); err != nil {
+			metadata := sl.getSkillMetadata(skillFile)
+			if metadata == nil {
 				continue
 			}
 			info := SkillInfo{
-				Name:   d.Name(),
-				Path:   skillFile,
-				Source: source,
-			}
-			metadata := sl.getSkillMetadata(skillFile)
-			if metadata != nil {
-				info.Description = metadata.Description
-				info.Name = metadata.Name
+				Name:        metadata.Name,
+				Path:        skillFile,
+				Source:      source,
+				Description: metadata.Description,
 			}
 			if err := info.validate(); err != nil {
 				slog.Warn("invalid skill from "+source, "name", info.Name, "error", err)
@@ -139,34 +153,29 @@ func (sl *SkillsLoader) ListSkills() []SkillInfo {
 		}
 	}
 
-	// Priority: workspace > global > builtin
+	// Priority: <workspace>/skills > <workspace>/.agents/skills > ~/.malikclaw/skills > ~/.agents/skills > builtin
 	addSkills(sl.workspaceSkills, "workspace")
+	addSkills(sl.workspaceAgentsSkills, "workspace-agents")
 	addSkills(sl.globalSkills, "global")
+	addSkills(sl.universalSkills, "agents")
 	addSkills(sl.builtinSkills, "builtin")
 
 	return skills
 }
 
 func (sl *SkillsLoader) LoadSkill(name string) (string, bool) {
-	// 1. load from workspace skills first (project-level)
-	if sl.workspaceSkills != "" {
-		skillFile := filepath.Join(sl.workspaceSkills, name, "SKILL.md")
-		if content, err := os.ReadFile(skillFile); err == nil {
-			return sl.stripFrontmatter(string(content)), true
-		}
+	roots := []string{
+		sl.workspaceSkills,
+		sl.workspaceAgentsSkills,
+		sl.globalSkills,
+		sl.universalSkills,
+		sl.builtinSkills,
 	}
-
-	// 2. then load from global skills (~/.malikclaw/skills)
-	if sl.globalSkills != "" {
-		skillFile := filepath.Join(sl.globalSkills, name, "SKILL.md")
-		if content, err := os.ReadFile(skillFile); err == nil {
-			return sl.stripFrontmatter(string(content)), true
+	for _, root := range roots {
+		if root == "" {
+			continue
 		}
-	}
-
-	// 3. finally load from builtin skills
-	if sl.builtinSkills != "" {
-		skillFile := filepath.Join(sl.builtinSkills, name, "SKILL.md")
+		skillFile := filepath.Join(root, name, "SKILL.md")
 		if content, err := os.ReadFile(skillFile); err == nil {
 			return sl.stripFrontmatter(string(content)), true
 		}
@@ -229,43 +238,49 @@ func (sl *SkillsLoader) getSkillMetadata(skillPath string) *SkillMetadata {
 
 	frontmatter, bodyContent := splitFrontmatter(string(content))
 	dirName := filepath.Base(filepath.Dir(skillPath))
-	title, bodyDescription := extractMarkdownMetadata(bodyContent)
 
 	metadata := &SkillMetadata{
-		Name:        dirName,
-		Description: bodyDescription,
+		Name: dirName,
 	}
-	if title != "" && namePattern.MatchString(title) && len(title) <= MaxNameLength {
-		metadata.Name = title
-	}
+	hasFrontmatterName := false
 
-	if frontmatter == "" {
-		return metadata
-	}
-
-	// Try JSON first (for backward compatibility)
-	var jsonMeta struct {
-		Name        string `json:"name"`
-		Description string `json:"description"`
-	}
-	if err := json.Unmarshal([]byte(frontmatter), &jsonMeta); err == nil {
-		if jsonMeta.Name != "" {
-			metadata.Name = jsonMeta.Name
+	if frontmatter != "" {
+		// Try JSON first (for backward compatibility)
+		var jsonMeta struct {
+			Name        string `json:"name"`
+			Description string `json:"description"`
 		}
-		if jsonMeta.Description != "" {
-			metadata.Description = jsonMeta.Description
+		if err := json.Unmarshal([]byte(frontmatter), &jsonMeta); err == nil {
+			if jsonMeta.Name != "" {
+				metadata.Name = jsonMeta.Name
+				hasFrontmatterName = true
+			}
+			if jsonMeta.Description != "" {
+				metadata.Description = jsonMeta.Description
+			}
+		} else {
+			// Fall back to simple YAML parsing
+			yamlMeta := sl.parseSimpleYAML(frontmatter)
+			if name := yamlMeta["name"]; name != "" {
+				metadata.Name = name
+				hasFrontmatterName = true
+			}
+			if description := yamlMeta["description"]; description != "" {
+				metadata.Description = description
+			}
 		}
-		return metadata
 	}
 
-	// Fall back to simple YAML parsing
-	yamlMeta := sl.parseSimpleYAML(frontmatter)
-	if name := yamlMeta["name"]; name != "" {
-		metadata.Name = name
+	if !hasFrontmatterName || metadata.Description == "" {
+		title, bodyDescription := extractMarkdownMetadata(bodyContent)
+		if !hasFrontmatterName && title != "" && namePattern.MatchString(title) && len(title) <= MaxNameLength {
+			metadata.Name = title
+		}
+		if metadata.Description == "" {
+			metadata.Description = bodyDescription
+		}
 	}
-	if description := yamlMeta["description"]; description != "" {
-		metadata.Description = description
-	}
+
 	return metadata
 }
 

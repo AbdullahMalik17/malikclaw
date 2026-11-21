@@ -11,15 +11,17 @@ import (
 	"sync"
 	"time"
 
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
 // GitHubRegistry implements SkillRegistry using a centralized JSON index.
 // This ensures a lightweight backend without a database.
 type GitHubRegistry struct {
-	indexURL   string
-	client     *http.Client
-	maxZipSize int
+	indexURL       string
+	client         *http.Client
+	maxZipSize     int
+	allowLocalhost bool
 
 	mu    sync.RWMutex
 	cache *githubIndexCache
@@ -47,13 +49,23 @@ func NewGitHubRegistry(indexURL string) *GitHubRegistry {
 		// Default to a fictional centralized repo index for MalikClaw
 		indexURL = "https://raw.githubusercontent.com/AbdullahMalik17/malikclaw-skills/main/index.json"
 	}
+	client, err := security.NewSafeHTTPClient(15*time.Second, "", false)
+	if err != nil {
+		client = &http.Client{Timeout: 15 * time.Second}
+	}
 	return &GitHubRegistry{
 		indexURL:   indexURL,
 		maxZipSize: 50 * 1024 * 1024, // 50MB
-		client: &http.Client{
-			Timeout: 15 * time.Second,
-		},
+		client:     client,
 	}
+}
+
+// SetAllowLocalhost configures whether loopback URLs are permitted (for tests).
+func (g *GitHubRegistry) SetAllowLocalhost(allow bool) {
+	if client, err := security.NewSafeHTTPClient(15*time.Second, "", allow); err == nil {
+		g.client = client
+	}
+	g.allowLocalhost = allow
 }
 
 func (g *GitHubRegistry) Name() string {
@@ -69,6 +81,10 @@ func (g *GitHubRegistry) fetchIndex(ctx context.Context) (map[string]githubSkill
 		return skills, nil
 	}
 	g.mu.RUnlock()
+
+	if err := security.ValidateURL(g.indexURL, g.allowLocalhost); err != nil {
+		return nil, fmt.Errorf("github index URL blocked by SSRF policy: %w", err)
+	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", g.indexURL, nil)
 	if err != nil {
@@ -185,6 +201,9 @@ func (g *GitHubRegistry) DownloadAndInstall(ctx context.Context, slug, version, 
 	downloadURL := skill.DownloadURL
 	if downloadURL == "" {
 		return nil, fmt.Errorf("no download URL provided for skill %q", slug)
+	}
+	if err := security.ValidateURL(downloadURL, g.allowLocalhost); err != nil {
+		return nil, fmt.Errorf("skill download URL blocked by SSRF policy: %w", err)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", downloadURL, nil)

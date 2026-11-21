@@ -7,7 +7,19 @@ import (
 	"time"
 
 	"github.com/playwright-community/playwright-go"
+
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
+
+type browserPage interface {
+	Goto(url string, options ...playwright.PageGotoOptions) (playwright.Response, error)
+	Locator(selector string, options ...playwright.PageLocatorOptions) playwright.Locator
+	Content() (string, error)
+	Screenshot(options ...playwright.PageScreenshotOptions) ([]byte, error)
+	WaitForSelector(selector string, options ...playwright.PageWaitForSelectorOptions) (playwright.ElementHandle, error)
+	URL() string
+	Close(options ...playwright.PageCloseOptions) error
+}
 
 // BrowserToolOptions configures the headless browser tool.
 type BrowserToolOptions struct {
@@ -17,11 +29,12 @@ type BrowserToolOptions struct {
 
 // BrowserTool provides full headless browser automation using Playwright.
 type BrowserTool struct {
-	pw      *playwright.Playwright
-	browser playwright.Browser
-	context playwright.BrowserContext
-	page    playwright.Page
-	timeout time.Duration
+	pw             *playwright.Playwright
+	browser        playwright.Browser
+	context        playwright.BrowserContext
+	page           browserPage
+	timeout        time.Duration
+	allowLocalhost bool
 }
 
 func NewBrowserTool(opts BrowserToolOptions) (*BrowserTool, error) {
@@ -117,6 +130,9 @@ func (t *BrowserTool) Execute(ctx context.Context, args map[string]any) *ToolRes
 		if !ok || urlStr == "" {
 			return ErrorResult("url is required for navigate")
 		}
+		if err := security.ValidateURL(urlStr, t.allowLocalhost); err != nil {
+			return ErrorResult(fmt.Sprintf("navigation blocked by SSRF policy: %v", err))
+		}
 		if _, err := t.page.Goto(urlStr, playwright.PageGotoOptions{
 			Timeout: playwright.Float(float64(t.timeout.Milliseconds())),
 		}); err != nil {
@@ -157,10 +173,15 @@ func (t *BrowserTool) Execute(ctx context.Context, args map[string]any) *ToolRes
 		if err != nil {
 			return ErrorResult(fmt.Sprintf("failed to get page content: %v", err))
 		}
-		return &ToolResult{
-			ForLLM:  content,
-			ForUser: fmt.Sprintf("Retrieved %d bytes of page content", len(content)),
+		source := "browser"
+		if pageURL := t.page.URL(); pageURL != "" {
+			source = "browser:" + pageURL
 		}
+		wrapped, _ := security.SanitizeUntrustedOutput(source, content)
+		return (&ToolResult{
+			ForLLM:  wrapped,
+			ForUser: fmt.Sprintf("Retrieved %d bytes of page content", len(content)),
+		}).WithUntrusted(source).WithSanitized()
 
 	case "screenshot":
 		screenshotBytes, err := t.page.Screenshot(playwright.PageScreenshotOptions{

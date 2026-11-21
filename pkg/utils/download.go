@@ -8,22 +8,32 @@ import (
 	"os"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 // DownloadToFile streams an HTTP response body to a temporary file in small
 // chunks (~32KB), keeping peak memory usage constant regardless of file size.
-//
-// Parameters:
-//   - ctx:      context for cancellation/timeout
-//   - client:   HTTP client to use (caller controls timeouts, transport, etc.)
-//   - req:      fully prepared *http.Request (method, URL, headers, etc.)
-//   - maxBytes: maximum bytes to download; 0 means no limit
-//
-// Returns the path to the temporary file. The caller is responsible for
-// removing it when done (defer os.Remove(path)).
-//
-// On any error the temp file is cleaned up automatically.
+// It enforces SSRF validation on req.URL (disallowing localhost/private IPs).
 func DownloadToFile(ctx context.Context, client *http.Client, req *http.Request, maxBytes int64) (string, error) {
+	return DownloadToFileWithOptions(ctx, client, req, maxBytes, false)
+}
+
+// DownloadToFileWithOptions streams an HTTP response body to a temporary file,
+// validating req.URL via security.ValidateURL(url, allowLocalhost).
+func DownloadToFileWithOptions(
+	ctx context.Context,
+	client *http.Client,
+	req *http.Request,
+	maxBytes int64,
+	allowLocalhost bool,
+) (string, error) {
+	if req == nil || req.URL == nil {
+		return "", fmt.Errorf("download request or URL is nil")
+	}
+	if err := security.ValidateURL(req.URL.String(), allowLocalhost); err != nil {
+		return "", fmt.Errorf("download URL blocked by SSRF policy: %w", err)
+	}
+
 	// Attach context.
 	req = req.WithContext(ctx)
 

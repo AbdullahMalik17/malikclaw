@@ -39,6 +39,7 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
 
   return (
     <section
+      aria-labelledby="security-heading"
       dir={isRTL ? "rtl" : "ltr"}
       className="w-full py-24 relative max-w-6xl mx-auto px-4 sm:px-6 font-mono"
     >
@@ -59,7 +60,10 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
           <Shield className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400" aria-hidden="true" />
           <span>{t.enterpriseSafety.badge}</span>
         </div>
-        <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isRTL ? "font-urdu" : "uppercase"}`}>
+        <h2
+          id="security-heading"
+          className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isRTL ? "font-urdu" : "uppercase"}`}
+        >
           {t.enterpriseSafety.title}
         </h2>
         <p className={`text-text-muted mt-3 text-base sm:text-lg max-w-2xl mx-auto font-sans ${isRTL ? "font-urdu" : ""}`}>

@@ -9,16 +9,40 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/auth"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
+const defaultCalendarBaseURL = "https://www.googleapis.com"
+
 type CalendarTool struct {
+	httpClient *http.Client
+	baseURL    string
+	tokenFunc  func() (string, error)
 }
 
 func NewCalendarTool() *CalendarTool {
-	return &CalendarTool{}
+	return &CalendarTool{
+		httpClient: &http.Client{Timeout: 15 * time.Second},
+		baseURL:    defaultCalendarBaseURL,
+	}
+}
+
+func (t *CalendarTool) getHTTPClient() *http.Client {
+	if t.httpClient != nil {
+		return t.httpClient
+	}
+	return &http.Client{Timeout: 15 * time.Second}
+}
+
+func (t *CalendarTool) getBaseURL() string {
+	if t.baseURL != "" {
+		return strings.TrimSuffix(t.baseURL, "/")
+	}
+	return defaultCalendarBaseURL
 }
 
 func (t *CalendarTool) Name() string {
@@ -50,30 +74,39 @@ func (t *CalendarTool) Parameters() map[string]any {
 func (t *CalendarTool) Execute(ctx context.Context, args map[string]any) *ToolResult {
 	operation, _ := args["operation"].(string)
 
-	cred, err := auth.GetCredential("google-calendar")
-	if err != nil || cred == nil {
-		// Fallback to checking channels config if available or just return error
-		return ErrorResult(fmt.Sprintf("Calendar not authenticated. Use dashboard to connect or 'malikclaw auth login' first. Error: %v", err))
-	}
+	var accessToken string
+	if t.tokenFunc != nil {
+		tok, err := t.tokenFunc()
+		if err != nil {
+			return ErrorResult(fmt.Sprintf("Calendar authentication failed: %v", err))
+		}
+		accessToken = tok
+	} else {
+		cred, err := auth.GetCredential("google-calendar")
+		if err != nil || cred == nil {
+			// Fallback to checking channels config if available or just return error
+			return ErrorResult(fmt.Sprintf("Calendar not authenticated. Use dashboard to connect or 'malikclaw auth login' first. Error: %v", err))
+		}
 
-	accessToken := cred.AccessToken
-	if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
-		if cred.RefreshToken != "" {
-			clientID := os.Getenv("MALIKCLAW_CALENDAR_CLIENT_ID")
-			clientSecret := os.Getenv("MALIKCLAW_CALENDAR_CLIENT_SECRET")
-			if clientID != "" && clientSecret != "" {
-				// Basic OAuth config refresh
-				cfg := auth.GoogleGmailOAuthConfig(clientID, clientSecret)
-				newCred, err := auth.RefreshAccessToken(cred, cfg)
-				if err == nil {
-					accessToken = newCred.AccessToken
-					_ = auth.SetCredential("google-calendar", newCred)
+		accessToken = cred.AccessToken
+		if !cred.ExpiresAt.IsZero() && time.Now().After(cred.ExpiresAt) {
+			if cred.RefreshToken != "" {
+				clientID := os.Getenv("MALIKCLAW_CALENDAR_CLIENT_ID")
+				clientSecret := os.Getenv("MALIKCLAW_CALENDAR_CLIENT_SECRET")
+				if clientID != "" && clientSecret != "" {
+					// Basic OAuth config refresh
+					cfg := auth.GoogleGmailOAuthConfig(clientID, clientSecret)
+					newCred, err := auth.RefreshAccessToken(cred, cfg)
+					if err == nil {
+						accessToken = newCred.AccessToken
+						_ = auth.SetCredential("google-calendar", newCred)
+					}
 				}
 			}
 		}
 	}
 
-	client := &http.Client{}
+	client := t.getHTTPClient()
 
 	switch operation {
 	case "list_events":
@@ -89,7 +122,7 @@ func (t *CalendarTool) Execute(ctx context.Context, args map[string]any) *ToolRe
 
 func (t *CalendarTool) listEvents(ctx context.Context, client *http.Client, token string, maxResults int) *ToolResult {
 	timeMin := time.Now().Format(time.RFC3339)
-	url := fmt.Sprintf("https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=%s&maxResults=%d&singleEvents=true&orderBy=startTime", timeMin, maxResults)
+	url := fmt.Sprintf("%s/calendar/v3/calendars/primary/events?timeMin=%s&maxResults=%d&singleEvents=true&orderBy=startTime", t.getBaseURL(), timeMin, maxResults)
 	req, _ := http.NewRequestWithContext(ctx, "GET", url, nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -109,8 +142,9 @@ func (t *CalendarTool) listEvents(ctx context.Context, client *http.Client, toke
 	}
 
 	data, _ := json.MarshalIndent(result, "", "  ")
-	return &ToolResult{
-		ForLLM:  string(data),
+	wrapped, _ := security.SanitizeUntrustedOutput("calendar:list_events", string(data))
+	return (&ToolResult{
+		ForLLM:  wrapped,
 		ForUser: "Calendar events retrieved successfully.",
-	}
+	}).WithUntrusted("calendar:list_events").WithSanitized()
 }

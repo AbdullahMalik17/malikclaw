@@ -26,6 +26,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/docs/debug", changeFrequency: "monthly", priority: 0.6 },
     { path: "/docs/antigravity/auth", changeFrequency: "monthly", priority: 0.6 },
     { path: "/docs/antigravity/usage", changeFrequency: "monthly", priority: 0.6 },
+    { path: "/docs/channels/whatsapp", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/telegram", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/discord", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/slack", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/feishu", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/dingtalk", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/matrix", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/line", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/qq", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/wecom", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/onebot", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/channels/maixcam", changeFrequency: "monthly", priority: 0.65 },
   ];
 
   return routes.map((route) => ({

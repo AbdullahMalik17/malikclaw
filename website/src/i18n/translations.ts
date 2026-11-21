@@ -32,6 +32,13 @@ export interface Translation {
     titlePart2: string;
     subtitle: string;
     specs: string;
+    tracks: {
+      everydayLabel: string;
+      everydayDesc: string;
+      devLabel: string;
+      devDesc: string;
+      archLink: string;
+    };
     stats: Array<{
       value: string;
       label: string;
@@ -259,6 +266,13 @@ const enBase: Translation = {
     subtitle:
       "Run autonomous AI for everyday life on any laptop, $10 SBC, or Android phone in English or Urdu. Pure Go (<10MB RAM), Smart Cost Router, SSRF + Prompt Guard, and universal SKILL.md + MCP.",
     specs: "< 10MB RAM · < 1s Cold Start · SSRF + Prompt Guard.",
+    tracks: {
+      everydayLabel: "For Everyday Life",
+      everydayDesc: "WhatsApp, Android & Urdu routines",
+      devLabel: "For Developers & MCP",
+      devDesc: "Live benchmarks & <10MB Go runtime",
+      archLink: "Architecture Docs",
+    },
     stats: [
       {
         value: "< 10MB",
@@ -381,7 +395,7 @@ const enBase: Translation = {
     go: "Go (Native)",
     ram1GB: "> 1GB",
     ram10MB: "< 10MB",
-    startup500s: "> 500s",
+    startup500s: "8.5s - 18.0s",
     startup1s: "< 1s",
     costMac: "Mac Mini (~$599)",
     costSBC: "Any SBC (~$10)",
@@ -397,8 +411,8 @@ const enBase: Translation = {
       {
         criterion: "RAM Footprint",
         category: "Efficiency",
-        malikclaw: "<10MB (8.4 MB idle RSS)",
-        malikclawSub: "99% memory savings",
+        malikclaw: "<10MB Core SLA (~14.2 MB x86_64 RSS)",
+        malikclawSub: "8.4 MB edge idle • 99% memory savings",
         openclaw: "> 1.2 GB",
         cloudGateways: "2.0 GB - 4.0 GB",
       },
@@ -407,7 +421,7 @@ const enBase: Translation = {
         category: "Speed",
         malikclaw: "< 1s Cold Boot",
         malikclawSub: "Instant execution",
-        openclaw: "> 500s (Node/Python boot)",
+        openclaw: "8.5s - 18.0s (Node.js/TS boot)",
         cloudGateways: "5s - 30s (Cold lambda/VM)",
       },
       {
@@ -602,6 +616,13 @@ const urBase: Translation = {
     subtitle:
       "کسی بھی لیپ ٹاپ، $10 کے بورڈ یا اینڈرائیڈ فون پر انگریزی یا اردو میں روزمرہ کے کام خودکار بنائیں۔ خالص Go (<10MB RAM)، اسمارٹ کاسٹ روٹر، SSRF + پرامپٹ گارڈ، اور یونیورسل SKILL.md + MCP۔",
     specs: "<10MB RAM · 1s Boot · SSRF + Prompt Guard",
+    tracks: {
+      everydayLabel: "روزمرہ زندگی کے لیے",
+      everydayDesc: "واٹس ایپ، اینڈرائیڈ اور اردو روٹینز",
+      devLabel: "ڈویلپرز اور MCP کے لیے",
+      devDesc: "لائیو موازنہ اور <10MB Go رن ٹائم",
+      archLink: "آرکیٹیکچر دستاویزات",
+    },
     stats: [
       {
         value: "< 10MB",
@@ -724,7 +745,7 @@ const urBase: Translation = {
     go: "Go (Native)",
     ram1GB: "> 1GB",
     ram10MB: "< 10MB",
-    startup500s: "> 500s",
+    startup500s: "8.5s - 18.0s",
     startup1s: "< 1s",
     costMac: "Mac Mini (~$599)",
     costSBC: "کوئی بھی بورڈ (~$10)",
@@ -740,8 +761,8 @@ const urBase: Translation = {
       {
         criterion: "میموری فٹ پرنٹ (RAM)",
         category: "کارکردگی",
-        malikclaw: "<10MB (8.4 MB آئیڈل RSS)",
-        malikclawSub: "99% میموری کی بچت",
+        malikclaw: "<10MB کور SLA (~14.2 MB x86_64 RSS)",
+        malikclawSub: "8.4 MB ایج آئیڈل • 99% میموری کی بچت",
         openclaw: "> 1.2 GB",
         cloudGateways: "2.0 GB - 4.0 GB",
       },
@@ -750,7 +771,7 @@ const urBase: Translation = {
         category: "رفتار",
         malikclaw: "< 1s کولڈ بوٹ",
         malikclawSub: "فوری ایگزیکیوشن",
-        openclaw: "> 500s (Node/Python بوٹ)",
+        openclaw: "8.5s - 18.0s (Node.js/TS بوٹ)",
         cloudGateways: "5s - 30s (کلاؤڈ VM)",
       },
       {
@@ -939,9 +960,18 @@ export const translations: Record<Language, Translation> = {
     hero: {
       ...enBase.hero,
       tagline: "Rapide comme un aigle, fort comme un lion.",
-      title: "Le Champion de l'Edge AI.",
+      title: "Donnez à chaque appareil la puissance de l'IA.",
+      titlePart1: "Donnez à chaque appareil",
+      titlePart2: "la puissance de l'IA.",
       subtitle: "Infrastructure IA personnelle ultra-légère pour ordinateur portable, carte à 10$ ou téléphone Android.",
       specs: "<10MB RAM · 1s Démarrage · SSRF + Prompt Guard.",
+      tracks: {
+        everydayLabel: "Pour le quotidien",
+        everydayDesc: "WhatsApp, Android et routines",
+        devLabel: "Pour développeurs & MCP",
+        devDesc: "Benchmarks & runtime Go <10 Mo",
+        archLink: "Docs Architecture",
+      },
     },
     terminal: {
       ...enBase.terminal,
@@ -970,9 +1000,18 @@ export const translations: Record<Language, Translation> = {
     hero: {
       ...enBase.hero,
       tagline: "鷲のように速く、獅子のように強い。",
-      title: "エッジ AI チャンピオン。",
+      title: "すべてのデバイスに知性の力を。",
+      titlePart1: "すべてのデバイスに",
+      titlePart2: "知性の力を。",
       subtitle: "ノートPC、$10 SBC、Androidスマホ向けの超軽量パーソナルAIインフラ。",
       specs: "<10MB RAM · 1秒起動 · SSRF + Prompt Guard",
+      tracks: {
+        everydayLabel: "毎日の生活に",
+        everydayDesc: "WhatsApp・Android・日常の自動化",
+        devLabel: "開発者 & MCP 向け",
+        devDesc: "ベンチマーク & <10MB Go ランタイム",
+        archLink: "アーキテクチャ資料",
+      },
     },
     terminal: {
       ...enBase.terminal,
@@ -997,9 +1036,18 @@ export const translations: Record<Language, Translation> = {
     hero: {
       ...enBase.hero,
       tagline: "Rápido como uma águia, forte como um leão.",
-      title: "O Campeão de Edge AI.",
+      title: "Capacite Cada Dispositivo com Inteligência.",
+      titlePart1: "Capacite Cada Dispositivo",
+      titlePart2: "com Inteligência.",
       subtitle: "Infraestrutura de IA pessoal ultra-leve para laptop, SBC de $10 ou celular Android.",
       specs: "<10MB RAM · 1s Inicialização · SSRF + Prompt Guard.",
+      tracks: {
+        everydayLabel: "Para o Dia a Dia",
+        everydayDesc: "WhatsApp, Android e rotinas",
+        devLabel: "Para Devs & MCP",
+        devDesc: "Benchmarks e runtime Go <10MB",
+        archLink: "Docs de Arquitetura",
+      },
     },
     terminal: {
       ...enBase.terminal,
@@ -1024,9 +1072,18 @@ export const translations: Record<Language, Translation> = {
     hero: {
       ...enBase.hero,
       tagline: "Nhanh như đại bàng, mạnh như sư tử.",
-      title: "Nhà vô địch Edge AI.",
+      title: "Trao Quyền Trí Tuệ Cho Mọi Thiết Bị.",
+      titlePart1: "Trao Quyền Trí Tuệ",
+      titlePart2: "Cho Mọi Thiết Bị.",
       subtitle: "Cơ sở hạ tầng AI cá nhân siêu nhẹ cho laptop, SBC $10 hoặc điện thoại Android.",
       specs: "<10MB RAM · 1s Khởi động · SSRF + Prompt Guard.",
+      tracks: {
+        everydayLabel: "Cho Cuộc Sống Hàng Ngày",
+        everydayDesc: "WhatsApp, Android & tác vụ tự động",
+        devLabel: "Cho Lập Trình Viên & MCP",
+        devDesc: "Benchmark & runtime Go <10MB",
+        archLink: "Tài liệu Kiến trúc",
+      },
     },
     terminal: {
       ...enBase.terminal,

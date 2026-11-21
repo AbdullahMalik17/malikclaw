@@ -9,13 +9,14 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/netip"
 	"net/url"
 	"regexp"
 	"strings"
 	"sync/atomic"
 	"time"
 
-	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 const (
@@ -176,16 +177,20 @@ func (p *BraveSearchProvider) Search(ctx context.Context, query string, count in
 }
 
 type TavilySearchProvider struct {
-	keyPool *APIKeyPool
-	baseURL string
-	proxy   string
-	client  *http.Client
+	keyPool        *APIKeyPool
+	baseURL        string
+	proxy          string
+	allowLocalhost bool
+	client         *http.Client
 }
 
 func (p *TavilySearchProvider) Search(ctx context.Context, query string, count int) (string, error) {
 	searchURL := p.baseURL
 	if searchURL == "" {
 		searchURL = "https://api.tavily.com/search"
+	}
+	if err := security.ValidateURL(searchURL, p.allowLocalhost); err != nil {
+		return "", fmt.Errorf("invalid Tavily URL: %w", err)
 	}
 
 	var lastErr error
@@ -466,10 +471,16 @@ func (p *PerplexitySearchProvider) Search(ctx context.Context, query string, cou
 }
 
 type SearXNGSearchProvider struct {
-	baseURL string
+	baseURL        string
+	allowLocalhost bool
+	client         *http.Client
 }
 
 func (p *SearXNGSearchProvider) Search(ctx context.Context, query string, count int) (string, error) {
+	if err := security.ValidateURL(p.baseURL, p.allowLocalhost); err != nil {
+		return "", fmt.Errorf("invalid SearXNG URL: %w", err)
+	}
+
 	searchURL := fmt.Sprintf("%s/search?q=%s&format=json&categories=general",
 		strings.TrimSuffix(p.baseURL, "/"),
 		url.QueryEscape(query))
@@ -479,7 +490,14 @@ func (p *SearXNGSearchProvider) Search(ctx context.Context, query string, count 
 		return "", fmt.Errorf("failed to create request: %w", err)
 	}
 
-	client := &http.Client{Timeout: 10 * time.Second}
+	client := p.client
+	if client == nil {
+		var clientErr error
+		client, clientErr = security.NewSafeHTTPClient(10*time.Second, "", p.allowLocalhost)
+		if clientErr != nil {
+			return "", fmt.Errorf("failed to create safe HTTP client: %w", clientErr)
+		}
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("request failed: %w", err)
@@ -528,17 +546,21 @@ func (p *SearXNGSearchProvider) Search(ctx context.Context, query string, count 
 }
 
 type GLMSearchProvider struct {
-	apiKey       string
-	baseURL      string
-	searchEngine string
-	proxy        string
-	client       *http.Client
+	apiKey         string
+	baseURL        string
+	searchEngine   string
+	proxy          string
+	allowLocalhost bool
+	client         *http.Client
 }
 
 func (p *GLMSearchProvider) Search(ctx context.Context, query string, count int) (string, error) {
 	searchURL := p.baseURL
 	if searchURL == "" {
 		searchURL = "https://open.bigmodel.cn/api/paas/v4/web_search"
+	}
+	if err := security.ValidateURL(searchURL, p.allowLocalhost); err != nil {
+		return "", fmt.Errorf("invalid GLM Search URL: %w", err)
 	}
 
 	payload := map[string]any{
@@ -630,12 +652,16 @@ type WebSearchToolOptions struct {
 	SearXNGBaseURL       string
 	SearXNGMaxResults    int
 	SearXNGEnabled       bool
+	SearXNGAllowLocalhost bool
 	GLMSearchAPIKey      string
 	GLMSearchBaseURL     string
 	GLMSearchEngine      string
 	GLMSearchMaxResults  int
 	GLMSearchEnabled     bool
+	GLMSearchAllowLocalhost bool
+	TavilyAllowLocalhost bool
 	Proxy                string
+	AllowLocalhost       bool
 }
 
 func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
@@ -643,7 +669,7 @@ func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
 	maxResults := 5
 	// Priority: Perplexity > Brave > SearXNG > Tavily > DuckDuckGo > GLM Search
 	if opts.PerplexityEnabled && len(opts.PerplexityAPIKeys) > 0 {
-		client, err := utils.CreateHTTPClient(opts.Proxy, perplexityTimeout)
+		client, err := security.NewSafeHTTPClient(perplexityTimeout, opts.Proxy, opts.AllowLocalhost)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create HTTP client for Perplexity: %w", err)
 		}
@@ -656,7 +682,7 @@ func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
 			maxResults = opts.PerplexityMaxResults
 		}
 	} else if opts.BraveEnabled && len(opts.BraveAPIKeys) > 0 {
-		client, err := utils.CreateHTTPClient(opts.Proxy, searchTimeout)
+		client, err := security.NewSafeHTTPClient(searchTimeout, opts.Proxy, opts.AllowLocalhost)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create HTTP client for Brave: %w", err)
 		}
@@ -665,26 +691,37 @@ func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
 			maxResults = opts.BraveMaxResults
 		}
 	} else if opts.SearXNGEnabled && opts.SearXNGBaseURL != "" {
-		provider = &SearXNGSearchProvider{baseURL: opts.SearXNGBaseURL}
+		allowLocal := opts.AllowLocalhost || opts.SearXNGAllowLocalhost
+		client, err := security.NewSafeHTTPClient(searchTimeout, opts.Proxy, allowLocal)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create HTTP client for SearXNG: %w", err)
+		}
+		provider = &SearXNGSearchProvider{
+			baseURL:        opts.SearXNGBaseURL,
+			allowLocalhost: allowLocal,
+			client:         client,
+		}
 		if opts.SearXNGMaxResults > 0 {
 			maxResults = opts.SearXNGMaxResults
 		}
 	} else if opts.TavilyEnabled && len(opts.TavilyAPIKeys) > 0 {
-		client, err := utils.CreateHTTPClient(opts.Proxy, searchTimeout)
+		allowLocal := opts.AllowLocalhost || opts.TavilyAllowLocalhost
+		client, err := security.NewSafeHTTPClient(searchTimeout, opts.Proxy, allowLocal)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create HTTP client for Tavily: %w", err)
 		}
 		provider = &TavilySearchProvider{
-			keyPool: NewAPIKeyPool(opts.TavilyAPIKeys),
-			baseURL: opts.TavilyBaseURL,
-			proxy:   opts.Proxy,
-			client:  client,
+			keyPool:        NewAPIKeyPool(opts.TavilyAPIKeys),
+			baseURL:        opts.TavilyBaseURL,
+			proxy:          opts.Proxy,
+			allowLocalhost: allowLocal,
+			client:         client,
 		}
 		if opts.TavilyMaxResults > 0 {
 			maxResults = opts.TavilyMaxResults
 		}
 	} else if opts.DuckDuckGoEnabled {
-		client, err := utils.CreateHTTPClient(opts.Proxy, searchTimeout)
+		client, err := security.NewSafeHTTPClient(searchTimeout, opts.Proxy, opts.AllowLocalhost)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create HTTP client for DuckDuckGo: %w", err)
 		}
@@ -693,7 +730,8 @@ func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
 			maxResults = opts.DuckDuckGoMaxResults
 		}
 	} else if opts.GLMSearchEnabled && opts.GLMSearchAPIKey != "" {
-		client, err := utils.CreateHTTPClient(opts.Proxy, searchTimeout)
+		allowLocal := opts.AllowLocalhost || opts.GLMSearchAllowLocalhost
+		client, err := security.NewSafeHTTPClient(searchTimeout, opts.Proxy, allowLocal)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create HTTP client for GLM Search: %w", err)
 		}
@@ -702,11 +740,12 @@ func NewWebSearchTool(opts WebSearchToolOptions) (*WebSearchTool, error) {
 			searchEngine = "search_std"
 		}
 		provider = &GLMSearchProvider{
-			apiKey:       opts.GLMSearchAPIKey,
-			baseURL:      opts.GLMSearchBaseURL,
-			searchEngine: searchEngine,
-			proxy:        opts.Proxy,
-			client:       client,
+			apiKey:         opts.GLMSearchAPIKey,
+			baseURL:        opts.GLMSearchBaseURL,
+			searchEngine:   searchEngine,
+			proxy:          opts.Proxy,
+			allowLocalhost: allowLocal,
+			client:         client,
 		}
 		if opts.GLMSearchMaxResults > 0 {
 			maxResults = opts.GLMSearchMaxResults
@@ -766,10 +805,13 @@ func (t *WebSearchTool) Execute(ctx context.Context, args map[string]any) *ToolR
 		return ErrorResult(fmt.Sprintf("search failed: %v", err))
 	}
 
-	return &ToolResult{
-		ForLLM:  result,
+	source := "web_search:" + query
+	wrapped, _ := security.SanitizeUntrustedOutput(source, result)
+
+	return (&ToolResult{
+		ForLLM:  wrapped,
 		ForUser: result,
-	}
+	}).WithUntrusted(source).WithSanitized()
 }
 
 type WebFetchTool struct {
@@ -792,25 +834,9 @@ func NewWebFetchToolWithProxy(maxChars int, proxy string, fetchLimitBytes int64)
 	if maxChars <= 0 {
 		maxChars = defaultMaxChars
 	}
-	client, err := utils.CreateHTTPClient(proxy, fetchTimeout)
+	client, err := security.NewSafeHTTPClientWithPolicy(fetchTimeout, proxy, allowPrivateWebFetchHosts.Load, maxRedirects)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create HTTP client for web fetch: %w", err)
-	}
-	if transport, ok := client.Transport.(*http.Transport); ok {
-		dialer := &net.Dialer{
-			Timeout:   15 * time.Second,
-			KeepAlive: 30 * time.Second,
-		}
-		transport.DialContext = newSafeDialContext(dialer)
-	}
-	client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
-		if len(via) >= maxRedirects {
-			return fmt.Errorf("stopped after %d redirects", maxRedirects)
-		}
-		if isObviousPrivateHost(req.URL.Hostname()) {
-			return fmt.Errorf("redirect target is private or local network host")
-		}
-		return nil
 	}
 	if fetchLimitBytes <= 0 {
 		fetchLimitBytes = 10 * 1024 * 1024 // Security Fallback
@@ -868,11 +894,15 @@ func (t *WebFetchTool) Execute(ctx context.Context, args map[string]any) *ToolRe
 		return ErrorResult("missing domain in URL")
 	}
 
-	// Lightweight pre-flight: block obvious localhost/literal-IP without DNS resolution.
-	// The real SSRF guard is newSafeDialContext at connect time.
-	hostname := parsedURL.Hostname()
-	if isObviousPrivateHost(hostname) {
-		return ErrorResult("fetching private or local network hosts is not allowed")
+	if err := security.ValidateURL(urlStr, allowPrivateWebFetchHosts.Load()); err != nil {
+		if errors.Is(err, security.ErrBlockedHost) || errors.Is(err, security.ErrBlockedIP) {
+			return ErrorResult(fmt.Sprintf("fetching private or local network hosts is not allowed: %v", err))
+		}
+		// Keep lightweight pre-flight behavior consistent when DNS fails transiently in unit tests
+		// unless it's an obvious blocked host/scheme; connect-time DialContext still guards.
+		if !errors.Is(err, security.ErrDNSResolution) {
+			return ErrorResult(fmt.Sprintf("invalid or disallowed URL: %v", err))
+		}
 	}
 
 	maxChars := t.maxChars
@@ -934,19 +964,26 @@ func (t *WebFetchTool) Execute(ctx context.Context, args map[string]any) *ToolRe
 		text = text[:maxChars]
 	}
 
+	source := "web_fetch:" + urlStr
+	wrappedText, _ := security.SanitizeUntrustedOutput(source, text)
+
 	result := map[string]any{
 		"url":       urlStr,
 		"status":    resp.StatusCode,
 		"extractor": extractor,
 		"truncated": truncated,
 		"length":    len(text),
-		"text":      text,
+		"text":      wrappedText,
 	}
 
-	resultJSON, _ := json.MarshalIndent(result, "", "  ")
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(result)
 
-	return &ToolResult{
-		ForLLM: string(resultJSON),
+	return (&ToolResult{
+		ForLLM: strings.TrimSpace(buf.String()),
 		ForUser: fmt.Sprintf(
 			"Fetched %d bytes from %s (extractor: %s, truncated: %v)",
 			len(text),
@@ -954,7 +991,7 @@ func (t *WebFetchTool) Execute(ctx context.Context, args map[string]any) *ToolRe
 			extractor,
 			truncated,
 		),
-	}
+	}).WithUntrusted(source).WithSanitized()
 }
 
 func (t *WebFetchTool) extractText(htmlContent string) string {
@@ -979,126 +1016,23 @@ func (t *WebFetchTool) extractText(htmlContent string) string {
 	return strings.Join(cleanLines, "\n")
 }
 
-// newSafeDialContext re-resolves DNS at connect time to mitigate DNS rebinding (TOCTOU)
-// where a hostname resolves to a public IP during pre-flight but a private IP at connect time.
+// newSafeDialContext delegates to security.NewSafeDialContextFunc to mitigate DNS rebinding (TOCTOU).
 func newSafeDialContext(dialer *net.Dialer) func(context.Context, string, string) (net.Conn, error) {
-	return func(ctx context.Context, network, address string) (net.Conn, error) {
-		if allowPrivateWebFetchHosts.Load() {
-			return dialer.DialContext(ctx, network, address)
-		}
-
-		host, port, err := net.SplitHostPort(address)
-		if err != nil {
-			return nil, fmt.Errorf("invalid target address %q: %w", address, err)
-		}
-		if host == "" {
-			return nil, fmt.Errorf("empty target host")
-		}
-
-		if ip := net.ParseIP(host); ip != nil {
-			if isPrivateOrRestrictedIP(ip) {
-				return nil, fmt.Errorf("blocked private or local target: %s", host)
-			}
-			return dialer.DialContext(ctx, network, net.JoinHostPort(ip.String(), port))
-		}
-
-		ipAddrs, err := net.DefaultResolver.LookupIPAddr(ctx, host)
-		if err != nil {
-			return nil, fmt.Errorf("failed to resolve %s: %w", host, err)
-		}
-
-		attempted := 0
-		var lastErr error
-		for _, ipAddr := range ipAddrs {
-			if isPrivateOrRestrictedIP(ipAddr.IP) {
-				continue
-			}
-			attempted++
-			conn, err := dialer.DialContext(ctx, network, net.JoinHostPort(ipAddr.IP.String(), port))
-			if err == nil {
-				return conn, nil
-			}
-			lastErr = err
-		}
-
-		if attempted == 0 {
-			return nil, fmt.Errorf("all resolved addresses for %s are private or restricted", host)
-		}
-		if lastErr != nil {
-			return nil, fmt.Errorf("failed connecting to public addresses for %s: %w", host, lastErr)
-		}
-		return nil, fmt.Errorf("failed connecting to public addresses for %s", host)
-	}
+	return security.NewSafeDialContextFunc(dialer, allowPrivateWebFetchHosts.Load)
 }
 
-// isObviousPrivateHost performs a lightweight, no-DNS check for obviously private hosts.
-// It catches localhost, literal private IPs, and empty hosts. It does NOT resolve DNS —
-// the real SSRF guard is newSafeDialContext which checks IPs at connect time.
-func isObviousPrivateHost(host string) bool {
-	if allowPrivateWebFetchHosts.Load() {
-		return false
-	}
-
-	h := strings.ToLower(strings.TrimSpace(host))
-	h = strings.TrimSuffix(h, ".")
-	if h == "" {
-		return true
-	}
-
-	if h == "localhost" || strings.HasSuffix(h, ".localhost") {
-		return true
-	}
-
-	if ip := net.ParseIP(h); ip != nil {
-		return isPrivateOrRestrictedIP(ip)
-	}
-
-	return false
-}
-
-// isPrivateOrRestrictedIP returns true for IPs that should never be reached via web_fetch:
-// RFC 1918, loopback, link-local (incl. cloud metadata 169.254.x.x), carrier-grade NAT,
-// IPv6 unique-local (fc00::/7), 6to4 (2002::/16), and Teredo (2001:0000::/32).
+// isPrivateOrRestrictedIP delegates to security.IsBlockedIP so all IP range rules
+// (RFC 1918, loopback, link-local/metadata, CGNAT, ULA, 6to4, Teredo) live in one place.
 func isPrivateOrRestrictedIP(ip net.IP) bool {
 	if ip == nil {
 		return true
 	}
-
-	if ip.IsLoopback() || ip.IsLinkLocalUnicast() || ip.IsLinkLocalMulticast() ||
-		ip.IsMulticast() || ip.IsUnspecified() {
+	addr, ok := netip.AddrFromSlice(ip)
+	if !ok {
 		return true
 	}
-
-	if ip4 := ip.To4(); ip4 != nil {
-		// IPv4 private, loopback, link-local, and carrier-grade NAT ranges.
-		if ip4[0] == 10 ||
-			ip4[0] == 127 ||
-			ip4[0] == 0 ||
-			(ip4[0] == 172 && ip4[1] >= 16 && ip4[1] <= 31) ||
-			(ip4[0] == 192 && ip4[1] == 168) ||
-			(ip4[0] == 169 && ip4[1] == 254) ||
-			(ip4[0] == 100 && ip4[1] >= 64 && ip4[1] <= 127) {
-			return true
-		}
-		return false
+	if ip.To4() != nil {
+		addr = addr.Unmap()
 	}
-
-	if len(ip) == net.IPv6len {
-		// IPv6 unique local addresses (fc00::/7)
-		if (ip[0] & 0xfe) == 0xfc {
-			return true
-		}
-		// 6to4 addresses (2002::/16): check the embedded IPv4 at bytes [2:6].
-		if ip[0] == 0x20 && ip[1] == 0x02 {
-			embedded := net.IPv4(ip[2], ip[3], ip[4], ip[5])
-			return isPrivateOrRestrictedIP(embedded)
-		}
-		// Teredo (2001:0000::/32): client IPv4 is at bytes [12:16], XOR-inverted.
-		if ip[0] == 0x20 && ip[1] == 0x01 && ip[2] == 0x00 && ip[3] == 0x00 {
-			client := net.IPv4(ip[12]^0xff, ip[13]^0xff, ip[14]^0xff, ip[15]^0xff)
-			return isPrivateOrRestrictedIP(client)
-		}
-	}
-
-	return false
+	return security.IsBlockedIP(addr, false)
 }

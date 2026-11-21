@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 var (
@@ -36,7 +38,12 @@ func CheckPromptInjection(ctx context.Context, message string) error {
 			return fmt.Errorf("security violation: blocked by prompt injection guard")
 		}
 	}
-	
+
+	if report := security.ScanPromptInjection(message); report.Detected &&
+		(report.Severity == security.SeverityHigh || report.Severity == security.SeverityCritical) {
+		return fmt.Errorf("security violation: blocked by prompt injection guard (%s)", report.Severity)
+	}
+
 	// Check for excessive repetitive non-alphanumeric characters which can confuse LLMs (buffer overflow style jailbreaks).
 	nonAlphaNumRatio := getNonAlphaNumRatio(message)
 	if len(message) > 500 && nonAlphaNumRatio > 0.6 {

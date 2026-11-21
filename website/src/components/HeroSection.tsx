@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Language, translations } from "@/i18n/translations";
-import { ArrowRight, Github, Zap, Shield, Cpu, Sparkles, HardDrive } from "lucide-react";
+import { ArrowRight, Github, Zap, Shield, Cpu, Sparkles, HardDrive, MessageCircle, Terminal, BookOpen } from "lucide-react";
 import QuickInstall from "./QuickInstall";
 
 interface HeroSectionProps {
@@ -94,7 +94,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
         {/* Hero Headline */}
         <motion.h1
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-          className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] text-foreground max-w-4xl font-sans ${isRTL ? "font-urdu leading-[1.35]" : ""}`}
+          className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground max-w-4xl font-sans ${isRTL ? "font-urdu leading-[1.65]" : "leading-[1.08]"}`}
         >
           <span className="text-gold-gradient block sm:inline">
             {t.hero.titlePart1}
@@ -111,6 +111,41 @@ export default function HeroSection({ language }: HeroSectionProps) {
         >
           {t.hero.subtitle}
         </motion.p>
+
+        {/* Dual-Track Quick-Jump Strip */}
+        <motion.nav
+          aria-label="Audience quick navigation"
+          variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+          className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 w-full max-w-3xl"
+        >
+          <a
+            href="#agentic-era"
+            className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-1/90 border border-card-border hover:border-amber-500/50 text-xs text-foreground transition-colors shadow-sm"
+          >
+            <MessageCircle className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 shrink-0" aria-hidden="true" />
+            <span className="font-bold">{t.hero.tracks.everydayLabel}</span>
+            <span className="hidden sm:inline text-text-muted">· {t.hero.tracks.everydayDesc}</span>
+            <ArrowRight className="w-3 h-3 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
+          </a>
+
+          <a
+            href="#benchmarks"
+            className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-1/90 border border-card-border hover:border-cyan-500/50 text-xs text-foreground transition-colors shadow-sm"
+          >
+            <Terminal className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400 shrink-0" aria-hidden="true" />
+            <span className="font-bold">{t.hero.tracks.devLabel}</span>
+            <span className="hidden sm:inline text-text-muted">· {t.hero.tracks.devDesc}</span>
+            <ArrowRight className="w-3 h-3 text-text-muted group-hover:text-cyan-700 dark:group-hover:text-cyan-400 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
+          </a>
+
+          <Link
+            href="/docs/architecture"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-2/80 border border-card-border hover:border-purple-500/50 text-xs font-semibold text-text-muted hover:text-foreground transition-colors"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400 shrink-0" aria-hidden="true" />
+            <span>{t.hero.tracks.archLink}</span>
+          </Link>
+        </motion.nav>
 
         {/* Interactive Quick Install Snippet */}
         <motion.div

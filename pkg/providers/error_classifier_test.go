@@ -45,6 +45,7 @@ func TestClassifyError_StatusCodes(t *testing.T) {
 		{500, FailoverTimeout},
 		{502, FailoverTimeout},
 		{503, FailoverTimeout},
+		{504, FailoverTimeout},
 		{521, FailoverTimeout},
 		{522, FailoverTimeout},
 		{523, FailoverTimeout},

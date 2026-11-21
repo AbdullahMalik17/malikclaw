@@ -1,30 +1,34 @@
 <div align="center">
-  <img src="assets/image.png" alt="MalikClaw AI Agent running on $10 Linux SBC">
+  <a href="https://malikclaw.vercel.app">
+    <img src="assets/social-preview.png" alt="MalikClaw v2.0.0 — Agentic Era 2026 Banner" width="840" style="max-width: 100%; height: auto;" />
+  </a>
 
-  <h1>MalikClaw 🦅</h1>
+  <h1>MalikClaw 🦅 <a href="https://malikclaw.vercel.app"><code>v2.0.0</code></a></h1>
 
-  <h3>انتہائی موثر ذاتی AI اسسٹنٹ</h3>
-  <p><strong>پروڈکشن گریڈ • &lt;10MB RAM • &lt;1s بُوٹ • $10 ہارڈویئر • دنیا کے لیے بنایا گیا!</strong></p>
+  <h3>ایجنٹک ایرا 2026 — روزمرہ زندگی اور ڈیولپرز کے لیے تیز ترین ذاتی AI ایجنٹ</h3>
+  <p><strong>پروڈکشن گریڈ • &lt;10MB RAM (کور SLA) • &lt;1s بُوٹ • $10 ہارڈویئر • SSRF + Prompt Guard • Smart Cost Router</strong></p>
 
   <p>
-    <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status"></a>
-    <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
-    <img src="https://img.shields.io/badge/Platform-Linux%2FmacOS%2FWindows%2FDocker-blue" alt="Platform Support">
-    <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License"></a>
-    <br>
-    <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars"></a>
-    <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks"></a>
-    <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues"></a>
-    <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
-    <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&theme=dark" alt="Listed on MCP Market"></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml"><img src="https://github.com/AbdullahMalik17/malikclaw/actions/workflows/build.yml/badge.svg" alt="Build Status" /></a>
+    <img src="https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&amp;logo=go&amp;logoColor=white" alt="Go 1.25+" />
+    <a href="https://pkg.go.dev/github.com/AbdullahMalik17/malikclaw"><img src="https://pkg.go.dev/badge/github.com/AbdullahMalik17/malikclaw.svg" alt="Go Reference" /></a>
+    <a href="https://snyk.io/test/github/AbdullahMalik17/malikclaw"><img src="https://snyk.io/test/github/AbdullahMalik17/malikclaw/badge.svg" alt="Snyk Security" /></a>
+    <a href="https://malikclaw.vercel.app"><img src="https://img.shields.io/badge/v2.0.0-malikclaw.vercel.app-F59E0B?style=flat&amp;logo=vercel&amp;logoColor=white" alt="Official Website" /></a>
+    <img src="https://img.shields.io/badge/Platform-Linux%2FmacOS%2FWindows%2FAndroid%2FDocker-blue" alt="Platform Support" />
+    <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License" /></a>
+    <br />
+    <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars" /></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks" /></a>
+    <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues" /></a>
+    <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&amp;utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&amp;theme=dark" alt="Listed on MCP Market" /></a>
   </p>
 
-  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="1200" height="600" style="max-width: 100%; height: auto;" />
+  <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="900" height="520" style="max-width: 100%; height: auto;" />
 
 <p align="center">
   <a href="#-فوری-شروع">فوری شروع</a> •
   <a href="#-خصوصیات">خصوصیات</a> •
-  <a href="#-آرکیٹیکچر">آرکیٹیکچر</a> •
+  <a href="#-سسٹم-آرکیٹیکچر">آرکیٹیکچر</a> •
   <a href="#-انسٹالیشن">انسٹالیشن</a> •
   <a href="#-ڈیمو">ڈیمو</a> •
   <a href="#-دستاویزات">دستاویزات</a> •
@@ -53,16 +57,16 @@ irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1
 
 **Docker:**
 ```bash
-docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
+docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
 ```
 
 ### سیٹ اپ (5 منٹ)
 
 1. **آن بورڈنگ چلائیں:** `malikclaw onboard`
-2. **API کیز شامل کریں:** `~/.malikclaw/config.json` میں ایڈٹ کریں
+2. **API کیز شامل کریں:** `~/.malikclaw/config.json` میں ایڈٹ کریں (یا SmartCostRouter کے لیے مقامی Ollama استعمال کریں)
 3. **ٹیسٹ کریں:** `malikclaw agent -m "Hello!"`
 
-📖 **مکمل گائیڈ:** [PRODUCT.md](PRODUCT.md) | [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | [INSTALLATION.md](docs/INSTALLATION.md)
+📖 **مکمل گائیڈ:** [PRODUCT.md](PRODUCT.md) | [QUICKSTART.md](QUICKSTART.md) | [INSTALLATION.md](docs/INSTALLATION.md)
 
 ---
 
@@ -86,19 +90,19 @@ PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE
 
 ### 💬 اومنی چینل میسجنگ اور سوشل میڈیا انٹیگریشن
 
-- **میسجنگ پلیٹ فارمز:** Telegram, Discord, WhatsApp, Matrix, TikTok, LinkedIn, Reddit, Twitter (X), WeCom, QQ, DingTalk, LINE, Feishu, Slack
+- **21 میسجنگ اور سوشل پلیٹ فارمز:** Telegram, Discord, WhatsApp (`whatsapp` اور `whatsapp_native`), Matrix, Slack, Google Chat, IRC, TikTok, LinkedIn, Twitter (X), Reddit, Instagram, WeCom, QQ, DingTalk, LINE, Feishu, OneBot, Pico, MaixCam
 - **زیرو فٹ پرنٹ گیٹ وے:** پورٹ 18790 پر واحد HTTP سرور
 
 ### 🌍 کثیر لسانی سپورٹ
 
-- **مقامی انٹرفیس:** اردو، انگریزی، جاپانی، فرانسیسی، پرتگالی، ویتنامی، اور بڑھ رہا ہے
+- **مقامی انٹرفیس:** اردو، انگریزی، جاپانی، فرانسیسی، پرتگالی، ویتنامی
 - **RTL سپورٹ:** اردو/عربی صارفین کے لیے مقامی دائیں سے بائیں سپورٹ
-- **عالمی کمیونٹی:** 6+ براعظموں سے شراکت دار
+- **عالمی رسائی:** دنیا بھر کے ڈیولپرز اور روزمرہ صارفین کے لیے اوپن سورس (MIT)
 
 ### 🪶 انتہائی ہلکا پھلکا
 
 - **<10MB RAM** — عام AI ایجنٹس سے 99% چھوٹا
-- **<1s بُوٹ** — Python پر مبنی متبادل سے 400 گنا تیز شروعات
+- **<0.8s بُوٹ (<1s SLA)** — Python/Node.js ایجنٹس (8.5s–42.0s) کے مقابلے میں فوری شروعات
 - **$10 ہارڈویئر** — Orange Pi Zero، Raspberry Pi Zero، RISC-V، پرانے Android فونز پر چلتا ہے
 - **کراس پلیٹ فارم** — Linux, macOS, Windows, Docker
 
@@ -128,15 +132,15 @@ PLAN ➔ ACT ➔ OBSERVE ➔ REFLECT ➔ MEMORY UPDATE
 
 ## 📊 کارکردگی کا موازنہ
 
-| پیمانہ | OpenClaw | NanoBot | **MalikClaw** |
-|--------|----------|---------|---------------|
-| **زبان** | TypeScript | Python | **Go** |
-| **RAM استعمال** | >1GB | >100MB | **<10MB** |
-| **بُوٹ کا وقت** (0.8GHz) | >500s | >30s | **<1s** |
-| **ہارڈویئر لاگت** | $599 | ~$50 | **$10** |
-| **پرائیویسی** | کلاؤڈ | لوکل | **100% لوکل** |
+| پیمانہ | OpenClaw | Python ایجنٹس (AutoGen / CrewAI) | **MalikClaw `v2.0.0` (Go 1.25+)** |
+|--------|----------|----------------------------------|-----------------------------------|
+| **زبان** | TypeScript (Node.js) | Python | **Pure Go 1.25+** |
+| **RAM استعمال** | `350MB – 1.2GB` | `180MB – 450MB` | **`<10MB` کور SLA** (`~14.2 MB` x86_64 RSS) |
+| **بُوٹ کا وقت** | `8.5s – 18.0s` | `12.4s – 35.0s` | **`<0.8s`** (`<1s` SLA) |
+| **کم از کم ہارڈویئر** | 1GB RAM Pi ($35+) | 2GB RAM PC ($100+) | **$10 ایج SBC / لیپ ٹاپ / پرانا فون** |
+| **سیکیورٹی و رازداری** | پلگ ان جانچ | دستی سینڈ باکس | **SSRF فائر وال + Prompt Guard + 100% لوکل** |
 
-<img src="assets/compare.jpg" alt="Performance comparison chart" width="512">
+📖 **مکمل بینچ مارک طریقہ کار اور نتائج:** [docs/benchmark/results.md](docs/benchmark/results.md)
 
 ---
 
@@ -177,10 +181,10 @@ make build-all
 
 ```bash
 # کم از کم (Alpine-based)
-docker compose -f docker/docker-compose.yml up
+docker compose -f docker/docker-compose.yml --profile gateway up
 
 # مکمل خصوصیت (Node.js 24 MCP سپورٹ کے لیے)
-docker compose -f docker/docker-compose.full.yml up
+docker compose -f docker/docker-compose.full.yml --profile gateway up
 ```
 
 #### 4. پیکج مینیجرز
@@ -301,7 +305,7 @@ malikclaw gateway
 
 یا Docker کے ساتھ:
 ```bash
-docker run -d -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
+docker run -d -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
 ```
 
 ---
@@ -310,10 +314,22 @@ docker run -d -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahma
 
 ### بنیادی کنفگ
 
-`~/.malikclaw/config.json` ایڈٹ کریں:
+سیٹ اپ کے لیے `malikclaw onboard` چلائیں یا `~/.malikclaw/config.json` ایڈٹ کریں (موجودہ کنفگ دیکھنے کے لیے `malikclaw config show` استعمال کریں):
 
 ```json
 {
+  "agents": {
+    "defaults": {
+      "model_name": "gpt-4o-mini",
+      "restrict_to_workspace": true,
+      "max_tokens": 8192,
+      "routing": {
+        "enabled": true,
+        "mode": "smart",
+        "fast_model": "gpt-4o-mini"
+      }
+    }
+  },
   "model_list": [
     {
       "model_name": "gpt-4o-mini",
@@ -326,12 +342,9 @@ docker run -d -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahma
       "duckduckgo": { "enabled": true },
       "tavily": { "enabled": false }
     },
-    "shell": { "enabled": true },
-    "file": { "enabled": true }
-  },
-  "performance": {
-    "low_memory_mode": true,
-    "max_concurrent_tasks": 2
+    "exec": { "enabled": true, "enable_deny_patterns": true },
+    "read_file": { "enabled": true },
+    "write_file": { "enabled": true }
   }
 }
 ```
@@ -386,7 +399,7 @@ docker run -d -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahma
 | دستاویز | تفصیل | سامعین |
 |----------|-------------|----------|
 | [PRODUCT.md](PRODUCT.md) | **فوری شروع گائیڈ** (5 منٹ سیٹ اپ) | نئے صارفین |
-| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | کمانڈ چیٹ شیٹ | تمام صارفین |
+| [QUICKSTART.md](QUICKSTART.md) | فوری شروع گائیڈ | تمام صارفین |
 | [README.product.md](README.product.md) | پروڈکٹ کا جائزہ | عمومی |
 | [pkg/agent/agentloop/README.md](pkg/agent/agentloop/README.md) | ایجنٹ لوپ آرکیٹیکچر | ڈیولپرز |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | شراکت کے رہنما خطوط | شراکت دار |
@@ -406,7 +419,7 @@ source ~/.bashrc
 ```
 
 **"API key not configured":**
-1. config کھولیں: `malikclaw config edit`
+1. config فائل کا راستہ دیکھیں (`malikclaw config path`) اور `~/.malikclaw/config.json` کھولیں (یا موجودہ کنفگ دیکھنے کے لیے `malikclaw config show` چلائیں)
 2. `model_list` میں اپنی API key شامل کریں
 3. محفوظ کریں اور دوبارہ کوشش کریں
 
@@ -423,17 +436,32 @@ adb devices
 ```
 
 **کم RAM والی ڈیوائسز پر "Out of memory":**
+`~/.malikclaw/config.json` میں `agents.defaults` اور `tools.read_file` کی حدود کم کریں (تصدیق کے لیے `malikclaw config show` چلائیں یا `malikclaw onboard` سے دوبارہ سیٹ اپ کریں):
 ```json
 {
-  "performance": {
-    "low_memory_mode": true,
-    "max_concurrent_tasks": 1,
-    "gc_interval_seconds": 180
+  "agents": {
+    "defaults": {
+      "max_tokens": 4096,
+      "max_tool_iterations": 10,
+      "summarize_message_threshold": 15,
+      "summarize_token_percent": 60,
+      "routing": {
+        "enabled": true,
+        "mode": "smart",
+        "fast_model": "gpt-4o-mini"
+      }
+    }
+  },
+  "tools": {
+    "read_file": {
+      "enabled": true,
+      "max_read_file_size": 131072
+    }
   }
 }
 ```
 
-📖 **مزید مدد:** [PRODUCT.md#troubleshooting](PRODUCT.md#troubleshooting)
+📖 **مزید مدد:** [PRODUCT.md#-troubleshooting](PRODUCT.md#-troubleshooting)
 
 ---
 
@@ -475,7 +503,7 @@ make lint
 دنیا بھر کے ڈیولپرز اور صارفین کی ہماری عالمی کمیونٹی میں شامل ہوں:
 
 - **GitHub:** [بحثیں](https://github.com/AbdullahMalik17/malikclaw/discussions)
-- **ویب سائٹ:** [malikclaw.io](https://malikclaw.io)
+- **ویب سائٹ:** [malikclaw.vercel.app](https://malikclaw.vercel.app)
 - **Twitter:** [@AbdullahMalik17](https://twitter.com/AbdullahMalik17)
 - **Discord:** [سرور میں شامل ہوں](https://discord.gg/malikclaw) (جلد ہی)
 
@@ -489,15 +517,9 @@ MIT License — تفصیلات کے لیے [LICENSE](LICENSE) فائل دیکھ�
 
 ## 🌍 دنیا کے لیے بنایا گیا
 
-MalikClaw کو فخر کے ساتھ دنیا بھر کے ڈیولپرز اور تنظیمیں استعمال کرتی ہیں:
+MalikClaw کو دنیا بھر کے ڈیولپرز اور روزمرہ صارفین کے لیے بنایا گیا ہے — کثیر لسانی سپورٹ (**اردو RTL، انگریزی، جاپانی، فرانسیسی، پرتگالی، ویتنامی**) اور ہر قسم کے ہارڈویئر (`$10` SBC، لیپ ٹاپ، Android Termux، اور Docker) کے ساتھ!
 
-- 🌏 **ایشیا:** پاکستان، بھارت، جاپان، چین، ویتنام، فلپائن
-- 🌍 **یورپ:** جرمنی، فرانس، برطانیہ، نیدرلینڈز، پولینڈ
-- 🌎 **امریکہ:** امریکہ، برازیل، کینیڈا، میکسیکو، ارجنٹائن
-- 🌍 **افریقہ:** نائجیریا، مصر، جنوبی افریقہ، کینیا
-- 🌏 **اوشیانا:** آسٹریلیا، نیوزی لینڈ
-
-**20+ ممالک سے شراکت دار** اور ہر روز بڑھ رہے ہیں!
+**100% اوپن سورس — MIT لائسنس!**
 
 ---
 
@@ -534,7 +556,7 @@ MalikClaw کو فخر کے ساتھ دنیا بھر کے ڈیولپرز اور �
 - Linux/macOS اور Windows کے لیے ایک کمانڈ انسٹالرز
 - فون، ای میل، اور سرچ کی صلاحیتوں کا مظاہرہ کرنے والا انٹرایکٹو ڈیمو اسکرپٹ
 - چیٹ انٹرفیس اور اسٹیٹس ڈیش بورڈ کے ساتھ جدید ویب UI
-- جامع دستاویزات (PRODUCT.md، QUICK_REFERENCE.md)
+- جامع دستاویزات (PRODUCT.md، QUICKSTART.md)
 
 ---
 

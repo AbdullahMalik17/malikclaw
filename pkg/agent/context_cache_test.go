@@ -551,6 +551,10 @@ description: delete-me-v1
 // empty results, panics, or data races.
 // Run with: go test -race ./pkg/agent/ -run TestConcurrentBuildSystemPromptWithCache
 func TestConcurrentBuildSystemPromptWithCache(t *testing.T) {
+	tmpHome := t.TempDir()
+	setTestHome(t, tmpHome)
+	t.Setenv("MALIKCLAW_BUILTIN_SKILLS", t.TempDir())
+
 	tmpDir := setupWorkspace(t, map[string]string{
 		"IDENTITY.md":          "# Identity\nConcurrency test agent.",
 		"SOUL.md":              "# Soul\nBe helpful.",

@@ -85,7 +85,7 @@ func (c *Channel) authenticate(ctx context.Context) error {
 		return err
 	}
 	req.SetBasicAuth(c.config.ClientID, c.config.ClientSecret)
-	req.Header.Add("User-Agent", "malikclaw/1.0.0")
+	req.Header.Add("User-Agent", "malikclaw/2.0.0")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := http.DefaultClient.Do(req)
@@ -123,7 +123,7 @@ func (c *Channel) poll(ctx context.Context) {
 
 			req, _ := http.NewRequestWithContext(ctx, "GET", "https://oauth.reddit.com/message/inbox/unread", nil)
 			req.Header.Set("Authorization", "Bearer "+c.token)
-			req.Header.Set("User-Agent", "malikclaw/1.0.0")
+			req.Header.Set("User-Agent", "malikclaw/2.0.0")
 
 			resp, err := http.DefaultClient.Do(req)
 			if err != nil {
@@ -175,7 +175,7 @@ func (c *Channel) markRead(ctx context.Context, id string) {
 	data.Set("id", id)
 	req, _ := http.NewRequestWithContext(ctx, "POST", "https://oauth.reddit.com/api/read_message", strings.NewReader(data.Encode()))
 	req.Header.Set("Authorization", "Bearer "+c.token)
-	req.Header.Set("User-Agent", "malikclaw/1.0.0")
+	req.Header.Set("User-Agent", "malikclaw/2.0.0")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	resp, err := http.DefaultClient.Do(req)
 	if err == nil {
@@ -209,7 +209,7 @@ func (c *Channel) Send(ctx context.Context, msg bus.OutboundMessage) error {
 		return channels.ClassifySendError(http.StatusBadRequest, err)
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
-	req.Header.Set("User-Agent", "malikclaw/1.0.0")
+	req.Header.Set("User-Agent", "malikclaw/2.0.0")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := http.DefaultClient.Do(req)

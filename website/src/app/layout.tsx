@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/logo.png",
+        url: "/assets/og-banner.png",
         width: 1200,
         height: 630,
         alt: "MalikClaw v2.0.0 Agentic Era 2026 — Gryphon Edge AI Assistant",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     description:
       "Pure Go AI agent (<10MB RAM) for everyday WhatsApp/Telegram & Android ADB automation, defense-in-depth security, smart cost routing, and SKILL.md + MCP.",
     creator: "@Ab4695Athar",
-    images: ["/assets/logo.png"],
+    images: ["/assets/og-banner.png"],
   },
   robots: {
     index: true,
@@ -96,7 +96,7 @@ const softwareApplicationJsonLd = {
   description:
     "MalikClaw v2.0.0 is an ultra-lightweight, pure-Go autonomous AI assistant (<10MB RAM, <1s cold boot) engineered for everyday life automation in English and Urdu on $10 edge SBCs or spare phones. Features a built-in SSRF network firewall, prompt-injection structural guard, smart multi-model cost router (local Ollama to frontier models), and universal SKILL.md + Model Context Protocol (MCP) support.",
   url: "https://malikclaw.vercel.app",
-  image: "https://malikclaw.vercel.app/assets/logo.png",
+  image: "https://malikclaw.vercel.app/assets/og-banner.png",
   downloadUrl: "https://github.com/AbdullahMalik17/malikclaw/releases/latest",
   softwareHelp: "https://malikclaw.vercel.app/docs",
   license: "https://opensource.org/licenses/MIT",
@@ -141,6 +141,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap"
+        />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
         <link rel="icon" href="/favicon.ico" />

@@ -8,6 +8,8 @@ import (
 	"strings"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
+
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 // MCPManager defines the interface for MCP manager operations
@@ -211,20 +213,26 @@ func (t *MCPTool) Execute(ctx context.Context, args map[string]any) *ToolResult 
 		return ErrorResult("MCP tool execution failed: nil result").WithError(nilErr)
 	}
 
+	source := fmt.Sprintf("mcp:%s:%s", t.serverName, t.tool.Name)
+
 	// Handle error result from server
 	if result.IsError {
 		errMsg := extractContentText(result.Content)
-		return ErrorResult(fmt.Sprintf("MCP tool returned error: %s", errMsg)).
-			WithError(fmt.Errorf("MCP tool error: %s", errMsg))
+		wrappedErr, _ := security.SanitizeUntrustedOutput(source, errMsg)
+		return ErrorResult(fmt.Sprintf("MCP tool returned error: %s", wrappedErr)).
+			WithError(fmt.Errorf("MCP tool error: %s", errMsg)).
+			WithUntrusted(source).
+			WithSanitized()
 	}
 
 	// Extract text content from result
 	output := extractContentText(result.Content)
+	wrapped, _ := security.SanitizeUntrustedOutput(source, output)
 
-	return &ToolResult{
-		ForLLM:  output,
+	return (&ToolResult{
+		ForLLM:  wrapped,
 		IsError: false,
-	}
+	}).WithUntrusted(source).WithSanitized()
 }
 
 // extractContentText extracts text from MCP content array

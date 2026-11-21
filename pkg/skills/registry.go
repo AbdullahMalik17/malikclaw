@@ -59,8 +59,9 @@ type SkillRegistry interface {
 
 // GitHubConfig configures the GitHub index registry.
 type GitHubConfig struct {
-	Enabled  bool
-	IndexURL string
+	Enabled        bool
+	IndexURL       string
+	AllowLocalhost bool
 }
 
 // RegistryConfig holds configuration for all skill registries.
@@ -82,6 +83,7 @@ type ClawHubConfig struct {
 	Timeout         int    // seconds, 0 = default (30s)
 	MaxZipSize      int    // bytes, 0 = default (50MB)
 	MaxResponseSize int    // bytes, 0 = default (2MB)
+	AllowLocalhost  bool
 }
 
 // RegistryManager coordinates multiple skill registries.
@@ -111,7 +113,11 @@ func NewRegistryManagerFromConfig(cfg RegistryConfig) *RegistryManager {
 		rm.AddRegistry(NewClawHubRegistry(cfg.ClawHub))
 	}
 	if cfg.GitHub.Enabled {
-		rm.AddRegistry(NewGitHubRegistry(cfg.GitHub.IndexURL))
+		reg := NewGitHubRegistry(cfg.GitHub.IndexURL)
+		if cfg.GitHub.AllowLocalhost {
+			reg.SetAllowLocalhost(true)
+		}
+		rm.AddRegistry(reg)
 	}
 	return rm
 }

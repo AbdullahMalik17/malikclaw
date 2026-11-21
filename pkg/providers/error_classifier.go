@@ -95,7 +95,7 @@ var (
 
 	// Transient HTTP status codes that map to timeout (server-side failures).
 	transientStatusCodes = map[int]bool{
-		500: true, 502: true, 503: true,
+		500: true, 502: true, 503: true, 504: true,
 		521: true, 522: true, 523: true, 524: true,
 		529: true,
 	}

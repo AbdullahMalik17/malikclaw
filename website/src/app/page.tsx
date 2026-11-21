@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div
       dir={isRTL ? "rtl" : "ltr"}
-      className={`min-h-screen bg-transparent text-foreground font-sans selection:bg-amber-500 selection:text-black relative overflow-hidden ${isRTL ? "rtl font-urdu" : ""}`}
+      className={`min-h-screen bg-transparent text-foreground font-sans selection:bg-amber-500 selection:text-black relative overflow-x-clip ${isRTL ? "rtl font-urdu" : ""}`}
     >
       {/* Floating Command Header */}
       <NavigationHeader
@@ -47,7 +47,10 @@ export default function Home() {
         <HeroSection language={language} />
 
         {/* 2. Interactive Terminal Simulator Component */}
-        <section className="w-full flex flex-col items-center justify-center my-6 max-w-5xl">
+        <section
+          aria-label="Interactive Terminal Simulator"
+          className="w-full flex flex-col items-center justify-center my-6 max-w-5xl"
+        >
           <TerminalSimulator language={language} />
         </section>
 

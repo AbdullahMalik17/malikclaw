@@ -33,6 +33,7 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/media"
 	"github.com/AbdullahMalik17/malikclaw/pkg/providers"
 	"github.com/AbdullahMalik17/malikclaw/pkg/routing"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 	"github.com/AbdullahMalik17/malikclaw/pkg/skills"
 	"github.com/AbdullahMalik17/malikclaw/pkg/state"
 	"github.com/AbdullahMalik17/malikclaw/pkg/tools"
@@ -167,26 +168,30 @@ func registerSharedTools(
 				BraveMaxResults:      cfg.Tools.Web.Brave.MaxResults,
 				BraveEnabled:         cfg.Tools.Web.Brave.Enabled,
 				TavilyAPIKeys:        config.MergeAPIKeys(cfg.Tools.Web.Tavily.APIKey, cfg.Tools.Web.Tavily.APIKeys),
-				TavilyBaseURL:        cfg.Tools.Web.Tavily.BaseURL,
-				TavilyMaxResults:     cfg.Tools.Web.Tavily.MaxResults,
-				TavilyEnabled:        cfg.Tools.Web.Tavily.Enabled,
-				DuckDuckGoMaxResults: cfg.Tools.Web.DuckDuckGo.MaxResults,
-				DuckDuckGoEnabled:    cfg.Tools.Web.DuckDuckGo.Enabled,
+				TavilyBaseURL:           cfg.Tools.Web.Tavily.BaseURL,
+				TavilyMaxResults:        cfg.Tools.Web.Tavily.MaxResults,
+				TavilyEnabled:           cfg.Tools.Web.Tavily.Enabled,
+				TavilyAllowLocalhost:    cfg.Tools.Web.Tavily.AllowLocalhost,
+				DuckDuckGoMaxResults:    cfg.Tools.Web.DuckDuckGo.MaxResults,
+				DuckDuckGoEnabled:       cfg.Tools.Web.DuckDuckGo.Enabled,
 				PerplexityAPIKeys: config.MergeAPIKeys(
 					cfg.Tools.Web.Perplexity.APIKey,
 					cfg.Tools.Web.Perplexity.APIKeys,
 				),
-				PerplexityMaxResults: cfg.Tools.Web.Perplexity.MaxResults,
-				PerplexityEnabled:    cfg.Tools.Web.Perplexity.Enabled,
-				SearXNGBaseURL:       cfg.Tools.Web.SearXNG.BaseURL,
-				SearXNGMaxResults:    cfg.Tools.Web.SearXNG.MaxResults,
-				SearXNGEnabled:       cfg.Tools.Web.SearXNG.Enabled,
-				GLMSearchAPIKey:      cfg.Tools.Web.GLMSearch.APIKey,
-				GLMSearchBaseURL:     cfg.Tools.Web.GLMSearch.BaseURL,
-				GLMSearchEngine:      cfg.Tools.Web.GLMSearch.SearchEngine,
-				GLMSearchMaxResults:  cfg.Tools.Web.GLMSearch.MaxResults,
-				GLMSearchEnabled:     cfg.Tools.Web.GLMSearch.Enabled,
-				Proxy:                cfg.Tools.Web.Proxy,
+				PerplexityMaxResults:    cfg.Tools.Web.Perplexity.MaxResults,
+				PerplexityEnabled:       cfg.Tools.Web.Perplexity.Enabled,
+				SearXNGBaseURL:          cfg.Tools.Web.SearXNG.BaseURL,
+				SearXNGMaxResults:       cfg.Tools.Web.SearXNG.MaxResults,
+				SearXNGEnabled:          cfg.Tools.Web.SearXNG.Enabled,
+				SearXNGAllowLocalhost:   cfg.Tools.Web.SearXNG.AllowLocalhost,
+				GLMSearchAPIKey:         cfg.Tools.Web.GLMSearch.APIKey,
+				GLMSearchBaseURL:        cfg.Tools.Web.GLMSearch.BaseURL,
+				GLMSearchEngine:         cfg.Tools.Web.GLMSearch.SearchEngine,
+				GLMSearchMaxResults:     cfg.Tools.Web.GLMSearch.MaxResults,
+				GLMSearchEnabled:        cfg.Tools.Web.GLMSearch.Enabled,
+				GLMSearchAllowLocalhost: cfg.Tools.Web.GLMSearch.AllowLocalhost,
+				Proxy:                   cfg.Tools.Web.Proxy,
+				AllowLocalhost:          cfg.Tools.Web.AllowLocalhost,
 			})
 			if err != nil {
 				logger.ErrorCF("agent", "Failed to create web search tool", map[string]any{"error": err.Error()})
@@ -1143,6 +1148,10 @@ func (al *AgentLoop) runAgenticLoop(
 				if lastObservation == "" {
 					lastObservation = execResult.Output
 				}
+				if isUntrustedToolName(step.Tool) && lastObservation != "" &&
+					!strings.HasPrefix(strings.TrimSpace(lastObservation), "<untrusted_data ") {
+					lastObservation, _ = security.SanitizeUntrustedOutput("tool:"+step.Tool, lastObservation)
+				}
 			} else {
 				lastObservation = "Execution completed without output"
 			}
@@ -1278,8 +1287,12 @@ func (al *AgentLoop) runLLMIteration(
 				fbResult, fbErr := al.fallback.Execute(
 					ctx,
 					activeCandidates,
-					func(ctx context.Context, provider, model string) (*providers.LLMResponse, error) {
-						return agent.Provider.Chat(ctx, messages, providerToolDefs, model, llmOpts)
+					func(ctx context.Context, providerName, modelName string) (*providers.LLMResponse, error) {
+						targetProvider, targetModel := agent.ResolveProvider(providerName, modelName)
+						if targetProvider == nil {
+							return nil, fmt.Errorf("no provider available for %s/%s", providerName, modelName)
+						}
+						return targetProvider.Chat(ctx, messages, providerToolDefs, targetModel, llmOpts)
 					},
 				)
 				if fbErr != nil {
@@ -1294,6 +1307,13 @@ func (al *AgentLoop) runLLMIteration(
 					)
 				}
 				resp, callErr = fbResult.Response, nil
+			} else if len(activeCandidates) == 1 {
+				targetProvider, targetModel := agent.ResolveProvider(activeCandidates[0].Provider, activeCandidates[0].Model)
+				if targetProvider == nil {
+					targetProvider = agent.Provider
+					targetModel = activeModel
+				}
+				resp, callErr = targetProvider.Chat(ctx, messages, providerToolDefs, targetModel, llmOpts)
 			} else {
 				resp, callErr = agent.Provider.Chat(ctx, messages, providerToolDefs, activeModel, llmOpts)
 			}
@@ -1514,11 +1534,9 @@ func (al *AgentLoop) runLLMIteration(
 						})
 					}
 
-					// Determine content for the agent loop (ForLLM or error).
-					content := result.ForLLM
-					if content == "" && result.Err != nil {
-						content = result.Err.Error()
-					}
+					// Determine content for the agent loop (ForLLM or error), enforcing
+					// untrusted data boundary isolation and prompt-injection scanning.
+					content := sanitizeToolResultForLLM(tc.Name, result)
 					if content == "" {
 						return
 					}
@@ -1590,11 +1608,9 @@ func (al *AgentLoop) runLLMIteration(
 				})
 			}
 
-			// Determine content for LLM based on tool result
-			contentForLLM := r.result.ForLLM
-			if contentForLLM == "" && r.result.Err != nil {
-				contentForLLM = r.result.Err.Error()
-			}
+			// Determine content for LLM based on tool result, enforcing untrusted
+			// output isolation and prompt-injection scanning without double-wrapping.
+			contentForLLM := sanitizeToolResultForLLM(r.tc.Name, r.result)
 
 			toolResultMsg := providers.Message{
 				Role:       "tool",
@@ -1635,6 +1651,46 @@ func (al *AgentLoop) selectCandidates(
 	userMsg string,
 	history []providers.Message,
 ) (candidates []providers.FallbackCandidate, model string) {
+	if agent.CostRouter != nil {
+		toolCount := 0
+		if agent.Tools != nil {
+			toolCount = agent.Tools.Count()
+		}
+		decision := agent.CostRouter.ClassifyAndRoute(userMsg, toolCount)
+
+		rawModels := make([]string, 0, 1+len(decision.Fallbacks))
+		if decision.Model != "" {
+			rawModels = append(rawModels, decision.Model)
+		}
+		rawModels = append(rawModels, decision.Fallbacks...)
+
+		resolved := agent.ResolveCandidates(rawModels)
+		seen := make(map[string]bool, len(resolved))
+		for _, c := range resolved {
+			seen[providers.ModelKey(c.Provider, c.Model)] = true
+		}
+		for _, c := range agent.Candidates {
+			k := providers.ModelKey(c.Provider, c.Model)
+			if !seen[k] {
+				seen[k] = true
+				resolved = append(resolved, c)
+			}
+		}
+
+		if len(resolved) > 0 {
+			logger.InfoCF("agent", "SmartCostRouter decision",
+				map[string]any{
+					"agent_id":          agent.ID,
+					"tier":              string(decision.Tier),
+					"model":             decision.Model,
+					"complexity_score":  decision.ComplexityScore,
+					"estimated_savings": decision.EstimatedSavings,
+					"rationale":         decision.Rationale,
+				})
+			return resolved, resolved[0].Model
+		}
+	}
+
 	if agent.Router == nil || len(agent.LightCandidates) == 0 {
 		return agent.Candidates, agent.Model
 	}
@@ -1658,6 +1714,40 @@ func (al *AgentLoop) selectCandidates(
 			"threshold":   agent.Router.Threshold(),
 		})
 	return agent.LightCandidates, agent.Router.LightModel()
+}
+
+func isUntrustedToolName(toolName string) bool {
+	switch toolName {
+	case "web_fetch", "web_search", "browser_automation", "gmail", "calendar":
+		return true
+	default:
+		return strings.HasPrefix(toolName, "mcp_")
+	}
+}
+
+func sanitizeToolResultForLLM(toolName string, res *tools.ToolResult) string {
+	if res == nil {
+		return ""
+	}
+	content := res.ForLLM
+	if content == "" && res.Err != nil {
+		content = res.Err.Error()
+	}
+	if content == "" {
+		return ""
+	}
+	if res.Sanitized {
+		return content
+	}
+	if res.Untrusted || isUntrustedToolName(toolName) {
+		source := res.UntrustedSource
+		if source == "" {
+			source = "tool:" + toolName
+		}
+		wrapped, _ := security.SanitizeUntrustedOutput(source, content)
+		return wrapped
+	}
+	return content
 }
 
 // maybeSummarize triggers summarization if the session history exceeds thresholds.

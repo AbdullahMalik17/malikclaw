@@ -19,10 +19,32 @@ import (
 
 func newTestRegistry(serverURL, authToken string) *ClawHubRegistry {
 	return NewClawHubRegistry(ClawHubConfig{
-		Enabled:   true,
-		BaseURL:   serverURL,
-		AuthToken: authToken,
+		Enabled:        true,
+		BaseURL:        serverURL,
+		AuthToken:      authToken,
+		AllowLocalhost: true,
 	})
+}
+
+func TestClawHubRegistrySSRFBlockedByDefault(t *testing.T) {
+	tests := []struct {
+		name    string
+		baseURL string
+	}{
+		{name: "loopback blocked by default", baseURL: "http://127.0.0.1:8080"},
+		{name: "cloud metadata blocked by default", baseURL: "http://169.254.169.254"},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			reg := NewClawHubRegistry(ClawHubConfig{
+				Enabled: true,
+				BaseURL: tc.baseURL,
+			})
+			_, err := reg.Search(context.Background(), "github", 5)
+			require.Error(t, err)
+			assert.Contains(t, err.Error(), "SSRF")
+		})
+	}
 }
 
 func TestClawHubRegistrySearch(t *testing.T) {

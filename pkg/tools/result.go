@@ -34,6 +34,17 @@ type ToolResult struct {
 	// Media contains media store refs produced by this tool.
 	// When non-empty, the agent will publish these as OutboundMediaMessage.
 	Media []string `json:"media,omitempty"`
+
+	// Untrusted marks whether ForLLM originated from an external/untrusted source
+	// (e.g. web fetch, web search, MCP server, email, calendar, browser content).
+	Untrusted bool `json:"untrusted,omitempty"`
+
+	// UntrustedSource identifies the origin of untrusted content (e.g. "web_fetch:https://...").
+	UntrustedSource string `json:"untrusted_source,omitempty"`
+
+	// Sanitized tracks internally whether the tool already scanned and wrapped ForLLM
+	// with security boundaries so AgentLoop never double-wraps it.
+	Sanitized bool `json:"-"`
 }
 
 // NewToolResult creates a basic ToolResult with content for the LLM.
@@ -156,5 +167,20 @@ func (tr *ToolResult) MarshalJSON() ([]byte, error) {
 //	result := ErrorResult("Operation failed").WithError(err)
 func (tr *ToolResult) WithError(err error) *ToolResult {
 	tr.Err = err
+	return tr
+}
+
+// WithUntrusted marks the ToolResult as originating from an untrusted external source
+// and returns the result for chaining.
+func (tr *ToolResult) WithUntrusted(source string) *ToolResult {
+	tr.Untrusted = true
+	tr.UntrustedSource = source
+	return tr
+}
+
+// WithSanitized marks that the ToolResult's ForLLM content has already been scanned
+// and wrapped with untrusted data boundaries.
+func (tr *ToolResult) WithSanitized() *ToolResult {
+	tr.Sanitized = true
 	return tr
 }

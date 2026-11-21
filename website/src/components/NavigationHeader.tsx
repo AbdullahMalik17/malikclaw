@@ -114,6 +114,7 @@ export default function NavigationHeader({
             onClick={handleLanguageCycle}
             className="flex items-center gap-1.5 text-xs font-medium text-foreground border border-card-border hover:border-amber-500/50 rounded-lg px-2.5 py-1.5 bg-surface-2/80 hover:bg-surface-2 transition-colors"
             title={`Switch language (current: ${t.langSwitcher[language]})`}
+            aria-label={`Switch language (current: ${t.langSwitcher[language]})`}
           >
             <Languages className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="font-semibold">{t.langSwitcher[language]}</span>
@@ -150,6 +151,8 @@ export default function NavigationHeader({
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 text-text-muted hover:text-foreground md:hidden rounded-lg hover:bg-surface-2 transition-colors"
             aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-nav-menu"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
           </button>
@@ -160,6 +163,7 @@ export default function NavigationHeader({
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-nav-menu"
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}

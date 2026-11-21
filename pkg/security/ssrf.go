@@ -1,12 +1,15 @@
 package security
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net"
+	"net/http"
 	"net/netip"
 	"net/url"
 	"strings"
+	"time"
 )
 
 var (
@@ -79,6 +82,20 @@ func IsBlockedIP(ip netip.Addr, allowLocalhost bool) bool {
 	for _, prefix := range blockedPrefixes {
 		if prefix.Contains(addr) {
 			return true
+		}
+	}
+
+	if addr.Is6() {
+		b := addr.As16()
+		// 6to4 (2002::/16): embedded IPv4 address at bytes [2:6].
+		if b[0] == 0x20 && b[1] == 0x02 {
+			embedded := netip.AddrFrom4([4]byte{b[2], b[3], b[4], b[5]})
+			return IsBlockedIP(embedded, allowLocalhost)
+		}
+		// Teredo (2001:0000::/32): XOR-inverted client IPv4 at bytes [12:16].
+		if b[0] == 0x20 && b[1] == 0x01 && b[2] == 0x00 && b[3] == 0x00 {
+			client := netip.AddrFrom4([4]byte{b[12] ^ 0xff, b[13] ^ 0xff, b[14] ^ 0xff, b[15] ^ 0xff})
+			return IsBlockedIP(client, allowLocalhost)
 		}
 	}
 
@@ -159,4 +176,167 @@ func ValidateURL(rawURL string, allowLocalhost bool) error {
 	}
 
 	return nil
+}
+
+// NewSafeDialContext returns a net.Dialer DialContext function that validates
+// target IP addresses at connect time via IsBlockedIP to prevent DNS-rebinding
+// (TOCTOU) SSRF attacks.
+func NewSafeDialContext(dialer *net.Dialer, allowLocalhost bool) func(context.Context, string, string) (net.Conn, error) {
+	return NewSafeDialContextFunc(dialer, func() bool { return allowLocalhost })
+}
+
+// NewSafeDialContextFunc is like NewSafeDialContext but evaluates allowLocalhost
+// dynamically per connection via allowLocalhostFn.
+func NewSafeDialContextFunc(dialer *net.Dialer, allowLocalhostFn func() bool) func(context.Context, string, string) (net.Conn, error) {
+	if dialer == nil {
+		dialer = &net.Dialer{
+			Timeout:   15 * time.Second,
+			KeepAlive: 30 * time.Second,
+		}
+	}
+
+	return func(ctx context.Context, network, address string) (net.Conn, error) {
+		allowLocalhost := allowLocalhostFn != nil && allowLocalhostFn()
+
+		host, port, err := net.SplitHostPort(address)
+		if err != nil {
+			return nil, fmt.Errorf("%w: invalid target address %q: %v", ErrInvalidURL, address, err)
+		}
+		host = strings.TrimSpace(host)
+		if host == "" {
+			return nil, fmt.Errorf("%w: empty target host", ErrInvalidURL)
+		}
+
+		lowerHost := strings.ToLower(strings.TrimSuffix(host, "."))
+		if lowerHost == "metadata.google.internal" ||
+			lowerHost == "metadata.goog" ||
+			strings.HasSuffix(lowerHost, ".metadata.google.internal") {
+			return nil, fmt.Errorf("%w: %q", ErrBlockedHost, host)
+		}
+		if !allowLocalhost && (lowerHost == "localhost" || strings.HasSuffix(lowerHost, ".localhost")) {
+			return nil, fmt.Errorf("%w: %q (localhost is not allowed)", ErrBlockedHost, host)
+		}
+
+		if ip, parseErr := netip.ParseAddr(host); parseErr == nil {
+			if IsBlockedIP(ip, allowLocalhost) {
+				return nil, fmt.Errorf("%w: %s", ErrBlockedIP, ip.String())
+			}
+			return dialer.DialContext(ctx, network, net.JoinHostPort(ip.String(), port))
+		}
+
+		ipAddrs, err := net.DefaultResolver.LookupIPAddr(ctx, host)
+		if err != nil {
+			return nil, fmt.Errorf("%w: %s: %v", ErrDNSResolution, host, err)
+		}
+		if len(ipAddrs) == 0 {
+			return nil, fmt.Errorf("%w: %s resolved to no IP addresses", ErrDNSResolution, host)
+		}
+
+		attempted := 0
+		var lastErr error
+		for _, ipAddr := range ipAddrs {
+			addr, ok := netip.AddrFromSlice(ipAddr.IP)
+			if !ok {
+				continue
+			}
+			if ipAddr.IP.To4() != nil {
+				addr = addr.Unmap()
+			}
+			if IsBlockedIP(addr, allowLocalhost) {
+				continue
+			}
+			attempted++
+			conn, dialErr := dialer.DialContext(ctx, network, net.JoinHostPort(addr.String(), port))
+			if dialErr == nil {
+				return conn, nil
+			}
+			lastErr = dialErr
+		}
+
+		if attempted == 0 {
+			return nil, fmt.Errorf("%w: all resolved addresses for %s are blocked", ErrBlockedIP, host)
+		}
+		if lastErr != nil {
+			return nil, fmt.Errorf("failed connecting to public addresses for %s: %w", host, lastErr)
+		}
+		return nil, fmt.Errorf("failed connecting to public addresses for %s", host)
+	}
+}
+
+// NewSafeCheckRedirect returns an http.Client CheckRedirect callback that caps
+// redirect hops and validates every redirect target URL via ValidateURL.
+func NewSafeCheckRedirect(allowLocalhost bool, maxRedirects int) func(*http.Request, []*http.Request) error {
+	return NewSafeCheckRedirectFunc(func() bool { return allowLocalhost }, maxRedirects)
+}
+
+// NewSafeCheckRedirectFunc is like NewSafeCheckRedirect but evaluates allowLocalhost
+// dynamically via allowLocalhostFn.
+func NewSafeCheckRedirectFunc(allowLocalhostFn func() bool, maxRedirects int) func(*http.Request, []*http.Request) error {
+	if maxRedirects <= 0 {
+		maxRedirects = 10
+	}
+	return func(req *http.Request, via []*http.Request) error {
+		if len(via) >= maxRedirects {
+			return fmt.Errorf("stopped after %d redirects", maxRedirects)
+		}
+		allowLocalhost := allowLocalhostFn != nil && allowLocalhostFn()
+		if err := ValidateURL(req.URL.String(), allowLocalhost); err != nil {
+			return fmt.Errorf("redirect target blocked: %w", err)
+		}
+		return nil
+	}
+}
+
+// NewSafeHTTPClient builds an *http.Client with SSRF-safe DialContext, redirect
+// validation, optional proxy support (http/https/socks5/socks5h), and timeout.
+func NewSafeHTTPClient(timeout time.Duration, proxyURL string, allowLocalhost bool) (*http.Client, error) {
+	return NewSafeHTTPClientWithPolicy(timeout, proxyURL, func() bool { return allowLocalhost }, 10)
+}
+
+// NewSafeHTTPClientWithPolicy builds an SSRF-safe *http.Client using a dynamic
+// allowLocalhostFn policy and configurable redirect limit.
+func NewSafeHTTPClientWithPolicy(
+	timeout time.Duration,
+	proxyURL string,
+	allowLocalhostFn func() bool,
+	maxRedirects int,
+) (*http.Client, error) {
+	dialer := &net.Dialer{
+		Timeout:   15 * time.Second,
+		KeepAlive: 30 * time.Second,
+	}
+
+	transport := &http.Transport{
+		DialContext:         NewSafeDialContextFunc(dialer, allowLocalhostFn),
+		MaxIdleConns:        10,
+		IdleConnTimeout:     30 * time.Second,
+		TLSHandshakeTimeout: 15 * time.Second,
+	}
+
+	if proxyURL != "" {
+		parsedProxy, err := url.Parse(proxyURL)
+		if err != nil {
+			return nil, fmt.Errorf("invalid proxy URL: %w", err)
+		}
+		switch strings.ToLower(parsedProxy.Scheme) {
+		case "http", "https", "socks5", "socks5h":
+		default:
+			return nil, fmt.Errorf(
+				"unsupported proxy scheme %q (supported: http, https, socks5, socks5h)",
+				parsedProxy.Scheme,
+			)
+		}
+		if parsedProxy.Host == "" {
+			return nil, fmt.Errorf("invalid proxy URL: missing host")
+		}
+		transport.Proxy = http.ProxyURL(parsedProxy)
+	} else {
+		transport.Proxy = http.ProxyFromEnvironment
+	}
+
+	return &http.Client{
+		Timeout:       timeout,
+		Transport:     transport,
+		CheckRedirect: NewSafeCheckRedirectFunc(allowLocalhostFn, maxRedirects),
+	}, nil
 }

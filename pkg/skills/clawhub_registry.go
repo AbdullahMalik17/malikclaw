@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 	"github.com/AbdullahMalik17/malikclaw/pkg/utils"
 )
 
@@ -28,6 +29,7 @@ type ClawHubRegistry struct {
 	downloadPath    string // For fetching ZIP files for download
 	maxZipSize      int
 	maxResponseSize int
+	allowLocalhost  bool
 	client          *http.Client
 }
 
@@ -65,6 +67,11 @@ func NewClawHubRegistry(cfg ClawHubConfig) *ClawHubRegistry {
 		maxResp = cfg.MaxResponseSize
 	}
 
+	client, err := security.NewSafeHTTPClient(timeout, "", cfg.AllowLocalhost)
+	if err != nil {
+		client = &http.Client{Timeout: timeout}
+	}
+
 	return &ClawHubRegistry{
 		baseURL:         baseURL,
 		authToken:       cfg.AuthToken,
@@ -73,14 +80,8 @@ func NewClawHubRegistry(cfg ClawHubConfig) *ClawHubRegistry {
 		downloadPath:    downloadPath,
 		maxZipSize:      maxZip,
 		maxResponseSize: maxResp,
-		client: &http.Client{
-			Timeout: timeout,
-			Transport: &http.Transport{
-				MaxIdleConns:        5,
-				IdleConnTimeout:     30 * time.Second,
-				TLSHandshakeTimeout: 10 * time.Second,
-			},
-		},
+		allowLocalhost:  cfg.AllowLocalhost,
+		client:          client,
 	}
 }
 
@@ -301,6 +302,9 @@ func (c *ClawHubRegistry) doGet(ctx context.Context, urlStr string) ([]byte, err
 }
 
 func (c *ClawHubRegistry) newGetRequest(ctx context.Context, urlStr, accept string) (*http.Request, error) {
+	if err := security.ValidateURL(urlStr, c.allowLocalhost); err != nil {
+		return nil, fmt.Errorf("registry URL blocked by SSRF policy: %w", err)
+	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, urlStr, nil)
 	if err != nil {
 		return nil, err

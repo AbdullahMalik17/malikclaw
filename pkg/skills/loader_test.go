@@ -417,3 +417,46 @@ func TestGetSkillMetadata_IgnoresHTMLCommentBlocks(t *testing.T) {
 	assert.Equal(t, "biomed-skill", meta.Name)
 	assert.Equal(t, "Summarize biomedical papers.", meta.Description)
 }
+
+func TestSkillsLoader_UniversalAgentsDirsPrecedence(t *testing.T) {
+	tmp := t.TempDir()
+	ws := filepath.Join(tmp, "workspace")
+	wsAgents := filepath.Join(ws, ".agents", "skills")
+	global := filepath.Join(tmp, "global")
+	universal := filepath.Join(tmp, "home", ".agents", "skills")
+	builtin := filepath.Join(tmp, "builtin")
+
+	// Same skill across tiers -> highest precedence wins:
+	// workspace > workspace-agents > global > agents > builtin
+	createSkillDir(t, filepath.Join(ws, "skills"), "shared", "shared", "from workspace")
+	createSkillDir(t, wsAgents, "shared", "shared", "from workspace-agents")
+	createSkillDir(t, global, "shared", "shared", "from global")
+	createSkillDir(t, universal, "shared", "shared", "from agents")
+	createSkillDir(t, builtin, "shared", "shared", "from builtin")
+
+	// Unique skills in universal tiers
+	createSkillDir(t, wsAgents, "ws-agent-only", "ws-agent-only", "workspace agents skill")
+	createSkillDir(t, universal, "global-agent-only", "global-agent-only", "universal agents skill")
+
+	sl := NewSkillsLoader(ws, global, builtin).WithUniversalDirs(wsAgents, universal)
+	listed := sl.ListSkills()
+
+	byName := map[string]SkillInfo{}
+	for _, s := range listed {
+		byName[s.Name] = s
+	}
+
+	require.Contains(t, byName, "shared")
+	assert.Equal(t, "workspace", byName["shared"].Source)
+	assert.Equal(t, "from workspace", byName["shared"].Description)
+
+	require.Contains(t, byName, "ws-agent-only")
+	assert.Equal(t, "workspace-agents", byName["ws-agent-only"].Source)
+
+	require.Contains(t, byName, "global-agent-only")
+	assert.Equal(t, "agents", byName["global-agent-only"].Source)
+
+	content, ok := sl.LoadSkill("global-agent-only")
+	require.True(t, ok)
+	assert.Contains(t, content, "# global-agent-only")
+}

@@ -17,6 +17,7 @@ import (
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/config"
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 // headerTransport is an http.RoundTripper that adds custom headers to requests
@@ -252,7 +253,7 @@ func (m *Manager) ConnectServer(
 	// Create client
 	client := mcp.NewClient(&mcp.Implementation{
 		Name:    "malikclaw",
-		Version: "1.0.0",
+		Version: "2.0.0",
 	}, nil)
 
 	// Create transport based on configuration
@@ -276,30 +277,36 @@ func (m *Manager) ConnectServer(
 		if cfg.URL == "" {
 			return fmt.Errorf("URL is required for SSE/HTTP transport")
 		}
+		if err := security.ValidateURL(cfg.URL, cfg.AllowLocalhost); err != nil {
+			return fmt.Errorf("MCP server URL %q blocked by SSRF policy: %w", cfg.URL, err)
+		}
 		logger.DebugCF("mcp", "Using SSE/HTTP transport",
 			map[string]any{
 				"server": name,
 				"url":    cfg.URL,
 			})
 
-		sseTransport := &mcp.StreamableClientTransport{
-			Endpoint: cfg.URL,
+		sseClient, err := security.NewSafeHTTPClient(0, "", cfg.AllowLocalhost)
+		if err != nil {
+			return fmt.Errorf("failed to create safe HTTP client for MCP transport: %w", err)
 		}
 
-		// Add custom headers if provided
+		// Add custom headers if provided while preserving SSRF-safe DialContext & CheckRedirect.
 		if len(cfg.Headers) > 0 {
-			// Create a custom HTTP client with header-injecting transport
-			sseTransport.HTTPClient = &http.Client{
-				Transport: &headerTransport{
-					base:    http.DefaultTransport,
-					headers: cfg.Headers,
-				},
+			sseClient.Transport = &headerTransport{
+				base:    sseClient.Transport,
+				headers: cfg.Headers,
 			}
 			logger.DebugCF("mcp", "Added custom HTTP headers",
 				map[string]any{
 					"server":       name,
 					"header_count": len(cfg.Headers),
 				})
+		}
+
+		sseTransport := &mcp.StreamableClientTransport{
+			Endpoint:   cfg.URL,
+			HTTPClient: sseClient,
 		}
 
 		transport = sseTransport

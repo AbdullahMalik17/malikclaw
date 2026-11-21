@@ -270,6 +270,14 @@ func (t *ExecTool) Execute(ctx context.Context, args map[string]any) *ToolResult
 	cmd.Stderr = &stderr
 
 	if err := cmd.Start(); err != nil {
+		if errors.Is(cmdCtx.Err(), context.DeadlineExceeded) {
+			msg := fmt.Sprintf("Command timed out after %v", t.timeout)
+			return &ToolResult{
+				ForLLM:  msg,
+				ForUser: msg,
+				IsError: true,
+			}
+		}
 		return ErrorResult(fmt.Sprintf("failed to start command: %v", err))
 	}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { Language, translations } from "@/i18n/translations";
 import { MessageSquare, Mail, Briefcase, Hash, Slack, Send, Plus, Twitter, Linkedin, Video, MessageCircle, Layers } from "lucide-react";
@@ -27,6 +28,7 @@ export default function Integrations({ language }: IntegrationsProps) {
 
   return (
     <section
+      aria-labelledby="integrations-heading"
       dir={isUrdu ? "rtl" : "ltr"}
       className="w-full py-24 relative overflow-hidden font-mono px-4 sm:px-6 max-w-6xl mx-auto"
     >
@@ -47,7 +49,10 @@ export default function Integrations({ language }: IntegrationsProps) {
           <Layers className="w-3.5 h-3.5" aria-hidden="true" />
           <span>{t.integrations.badge}</span>
         </div>
-        <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isUrdu ? "font-urdu" : "uppercase"}`}>
+        <h2
+          id="integrations-heading"
+          className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans ${isUrdu ? "font-urdu" : "uppercase"}`}
+        >
           {t.integrations.title}
         </h2>
         <p className={`text-text-muted mt-3 text-base sm:text-lg max-w-2xl mx-auto font-sans ${isUrdu ? "font-urdu" : ""}`}>
@@ -69,8 +74,14 @@ export default function Integrations({ language }: IntegrationsProps) {
               className="flex flex-col items-center justify-center p-6 rounded-2xl bg-card-bg border border-card-border backdrop-blur-xl transition-colors duration-200 hover:border-amber-500/45 group cursor-default"
             >
               <div
-                className="w-13 h-13 rounded-xl flex items-center justify-center mb-3 border border-card-border"
-                style={{ backgroundColor: item.bg, color: item.color }}
+                className="w-13 h-13 rounded-xl flex items-center justify-center mb-3 border border-card-border [color:var(--icon-light)] dark:[color:var(--icon-dark)]"
+                style={
+                  {
+                    backgroundColor: item.bg,
+                    "--icon-light": item.color,
+                    "--icon-dark": item.darkColor,
+                  } as CSSProperties
+                }
               >
                 <Icon size={26} aria-hidden="true" />
               </div>

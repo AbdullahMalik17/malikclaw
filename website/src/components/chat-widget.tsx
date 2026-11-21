@@ -11,10 +11,23 @@ export default function ChatWidget() {
   const { messages, sendMessage, status } = useChat();
   const isLoading = status === "submitted" || status === "streaming";
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        toggleButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,10 +38,14 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-6 end-6 z-50 flex flex-col items-end">
+    <aside aria-label="MalikClaw Assistant" className="fixed bottom-6 end-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="malikclaw-assistant-dialog"
+            role="dialog"
+            aria-modal="false"
+            aria-labelledby="chat-widget-title"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -42,7 +59,9 @@ export default function ChatWidget() {
                   <Bot className="w-4 h-4 text-amber-400" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white tracking-tight text-sm">MalikClaw Assistant</h3>
+                  <h3 id="chat-widget-title" className="font-semibold text-white tracking-tight text-sm">
+                    MalikClaw Assistant
+                  </h3>
                   <div className="flex items-center gap-1.5 text-xs text-emerald-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     Online
@@ -141,13 +160,16 @@ export default function ChatWidget() {
       </AnimatePresence>
 
       <button
+        ref={toggleButtonRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls="malikclaw-assistant-dialog"
         aria-label={isOpen ? "Close chat assistant" : "Open chat assistant"}
         className="w-14 h-14 rounded-2xl bg-amber-500 text-black border border-amber-400/50 flex items-center justify-center shadow-lg hover:bg-amber-400 active:scale-[0.98] transition-all"
       >
         {isOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <MessageSquare className="w-6 h-6" aria-hidden="true" />}
       </button>
-    </div>
+    </aside>
   );
 }
