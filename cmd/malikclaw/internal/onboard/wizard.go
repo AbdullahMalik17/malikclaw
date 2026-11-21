@@ -15,6 +15,7 @@ import (
 
 	"github.com/AbdullahMalik17/malikclaw/cmd/malikclaw/internal"
 	"github.com/AbdullahMalik17/malikclaw/pkg/config"
+	"github.com/AbdullahMalik17/malikclaw/pkg/security"
 )
 
 type wizardLang int
@@ -62,7 +63,12 @@ func NewOnboardWizardWithOptions(opts OnboardWizardOptions) *OnboardWizard {
 	}
 	client := opts.HTTPClient
 	if client == nil {
-		client = &http.Client{Timeout: 1200 * time.Millisecond}
+		safeClient, err := security.NewSafeHTTPClient(1200*time.Millisecond, "", true)
+		if err == nil {
+			client = safeClient
+		} else {
+			client = &http.Client{Timeout: 1200 * time.Millisecond}
+		}
 	}
 	ollamaURL := strings.TrimSpace(opts.OllamaURL)
 	if ollamaURL == "" {
@@ -232,6 +238,12 @@ func (w *OnboardWizard) setupWorkspace(cfg *config.Config) {
 }
 
 func (w *OnboardWizard) detectOllamaModels() []string {
+	// Ollama is intentionally a local-server opt-in: loopback is allowed here,
+	// while private/LINK-local/cloud-metadata targets and non-HTTP(S) URLs remain blocked.
+	if err := security.ValidateURL(w.ollamaURL, true); err != nil {
+		return nil
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 1200*time.Millisecond)
 	defer cancel()
 
