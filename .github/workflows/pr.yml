@@ -26,11 +26,14 @@ jobs:
       - name: Run go generate
         run: go generate ./...
 
+      - name: Run go vet
+        run: go vet ./...
+
       - name: Golangci Lint
         uses: golangci/golangci-lint-action@v9
         with:
-          version: latest
-          verify: false
+          version: v2
+          verify: true
           args: --timeout=5m
 
       - name: Run Govulncheck

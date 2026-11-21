@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { Language, translations } from "@/i18n/translations";
+import { MALIKCLAW_VERSION } from "@/lib/version";
 import { Play, Pause, RotateCcw, Copy, Check, Terminal, Cpu, HardDrive, Shield, Zap, Sparkles } from "lucide-react";
 
 interface TerminalSimulatorProps {
@@ -42,7 +43,7 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       icon: "⚡",
       command: "malikclaw run --agent gryphon --goal 'Backup DB & alert Telegram'",
       logs: [
-        { type: "sys", tag: "INIT", content: "MalikClaw v0.2.3 Gryphon Engine initializing on Linux ARM64...", delay: 200 },
+        { type: "sys", tag: "INIT", content: `MalikClaw ${MALIKCLAW_VERSION} Gryphon Engine initializing on Linux ARM64...`, delay: 200 },
         { type: "sys", tag: "SYS", content: "Memory Allocated: 8.4MB | Goroutines: 14 | Cold Boot: 0.82s", delay: 600 },
         { type: "plan", tag: "PLAN", content: "Deconstructed goal into 3 tool DAG nodes: [sys_backup, pg_dump, telegram_send]", delay: 1100 },
         { type: "act", tag: "ACT", content: "Dispatching Go routine `pg_dump` -> /var/backups/db_2026_08_25.sql.gz", delay: 1800 },

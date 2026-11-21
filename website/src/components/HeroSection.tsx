@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Language, translations } from "@/i18n/translations";
+import { MALIKCLAW_VERSION } from "@/lib/version";
 import { ArrowRight, Github, Zap, Shield, Cpu, Sparkles, HardDrive, Terminal } from "lucide-react";
 import QuickInstall from "./QuickInstall";
 
@@ -92,13 +93,13 @@ export default function HeroSection({ language }: HeroSectionProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
             </span>
-            <span className="tracking-wider uppercase">v0.2.3 • Production Ready</span>
+            <span className="tracking-wider uppercase">{MALIKCLAW_VERSION} • Agentic Era 2026</span>
           </div>
 
           {/* Autonomous Edge Tagline Badge */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 backdrop-blur-xl text-xs font-medium text-zinc-300">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="uppercase tracking-wider">The Edge AI Champion</span>
+            <span className="uppercase tracking-wider">Everyday Edge AI Champion</span>
           </div>
         </motion.div>
 
@@ -120,8 +121,8 @@ export default function HeroSection({ language }: HeroSectionProps) {
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} 
           className="text-base sm:text-xl text-zinc-400 max-w-2xl leading-relaxed font-sans font-normal"
         >
-          Run autonomous AI agents on <strong className="text-amber-300 font-semibold">$10 edge hardware</strong> with{" "}
-          <strong className="text-amber-300 font-semibold">&lt;10MB RAM</strong>. Pure Go-powered speed with local-first zero-trust privacy.
+          Run autonomous AI agents for everyday life on <strong className="text-amber-300 font-semibold">$10 edge hardware</strong> or an old phone with{" "}
+          <strong className="text-amber-300 font-semibold">&lt;10MB RAM</strong>. Pure Go speed, smart Ollama-to-frontier cost routing, and defense-in-depth local privacy.
         </motion.p>
 
         {/* Interactive Quick Install Snippet */}

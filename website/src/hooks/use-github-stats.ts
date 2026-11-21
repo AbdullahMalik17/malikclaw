@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { MALIKCLAW_VERSION } from '@/lib/version';
 
 interface GitHubStats {
   stars: number;
@@ -12,7 +13,7 @@ interface GitHubStats {
 export function useGitHubStats(): GitHubStats {
   const [stats, setStats] = useState<GitHubStats>({
     stars: 0,
-    latestRelease: 'v0.2.1',
+    latestRelease: MALIKCLAW_VERSION,
     isLoading: true,
     error: null,
   });
@@ -40,10 +41,10 @@ export function useGitHubStats(): GitHubStats {
           },
         });
 
-        let latestRelease = 'v0.2.1';
+        let latestRelease = MALIKCLAW_VERSION;
         if (releaseResponse.ok) {
           const releaseData = await releaseResponse.json();
-          latestRelease = releaseData.tag_name || 'v0.2.1';
+          latestRelease = releaseData.tag_name || MALIKCLAW_VERSION;
         }
 
         setStats({

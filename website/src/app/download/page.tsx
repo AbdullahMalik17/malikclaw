@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Github, Download, Terminal, Cpu, Globe, Smartphone, Check, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
+import { MALIKCLAW_VERSION } from "@/lib/version";
 
 const platforms = [
   {
@@ -181,7 +182,7 @@ export default function DownloadPage() {
               Download <span className="text-transparent bg-clip-text bg-gradient-to-r from-gryphon-gold via-[#fbbf24] to-[#d97706]">MalikClaw</span>
             </h1>
             <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              Current Version: <span className="text-[#0df2c9] font-mono">v0.2.3</span>
+              Current Version: <span className="text-[#0df2c9] font-mono">{MALIKCLAW_VERSION}</span>
             </p>
             <p className="text-lg text-zinc-500 max-w-3xl mx-auto mt-2">
               Choose your platform and get started with the ultra-lightweight AI assistant in minutes.

@@ -40,8 +40,8 @@ export default function NavigationHeader({
   };
 
   const navLinks = [
+    { label: "v2.0 Era", href: "#agentic-era", id: "agentic-era" },
     { label: t.nav.features, href: "#features", id: "features" },
-    { label: "Architecture", href: "#features", id: "architecture" },
     { label: "Benchmarks", href: "#benchmarks", id: "benchmarks" },
     { label: t.nav.docs, href: "/docs", id: "docs", isRoute: true },
     { label: t.nav.download, href: "#download", id: "download" },

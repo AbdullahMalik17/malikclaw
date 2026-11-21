@@ -14,8 +14,8 @@
 ### 🛡️ Pillar 2: Defense-in-Depth Security & Hardening
 - [x] **Workspace Directory Jailing**: Restrict tool read/write access to `~/.malikclaw/workspace`.
 - [x] **Shell Execution Regex Filter**: Intercept and reject privilege escalation and destructive commands.
-- [ ] **Prompt Injection Defense Engine**: Structural JSON schema validation to neutralize jailbreaks and prompt manipulation.
-- [ ] **SSRF & Network Boundary Firewall**: Built-in IP blocklists preventing agents from accessing internal cloud metadata endpoints (`169.254.169.254`).
+- [x] **Prompt Injection Defense Engine**: Structural boundary isolation (`WrapUntrusted`) and heuristic injection detection (`pkg/security/prompt_guard.go`).
+- [x] **SSRF & Network Boundary Firewall**: Built-in IP/CIDR blocklists preventing agents from accessing internal cloud metadata endpoints (`169.254.169.254`) and private networks (`pkg/security/ssrf.go`).
 - [ ] **ChaCha20-Poly1305 Encrypted Vault**: AES/ChaCha20 encrypted storage for API keys and sensitive tokens.
 
 ### 🔌 Pillar 3: Protocol-First Connectivity & Local Model Supremacy
@@ -27,7 +27,7 @@
 ### 🧠 Pillar 4: Autonomous Multi-Agent Swarms & MCP
 - [x] **Production 5-Stage Agent Loop**: Plan ➔ Act ➔ Observe ➔ Reflect ➔ Memory Update cycle.
 - [x] **Model Context Protocol (MCP)**: Attach third-party MCP tool servers dynamically.
-- [ ] **Smart Multi-Model Cost Router**: Automatically route simple subtasks to fast/cheap local models (Ollama/Llama 3.3) and complex reasoning to frontier models (Claude 3.7 / GPT-4o).
+- [x] **Smart Multi-Model Cost Router**: Automatically route simple subtasks to fast/cheap local models (Ollama/mini) and complex reasoning to frontier models (`pkg/routing/cost_router.go`).
 - [ ] **Peer-to-Peer Agent Swarms**: Decentralized communication between multiple local MalikClaw nodes across a mesh network.
 
 ### 🌐 Pillar 5: Developer Experience & Global Community

@@ -34,10 +34,10 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
       badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
     },
     {
-      title: "Isolated Edge Sandbox",
-      description: "All vector embeddings, episodic memories, and session contexts remain on your physical hardware. Zero unauthorized cloud egress or telemetry leakage.",
+      title: "SSRF Firewall & Prompt-Injection Guard",
+      description: "Defense-in-depth v2.0.0 isolation blocks private-IP SSRF probes, structurally fences untrusted inputs against prompt injection, and keeps all embeddings and memories local.",
       icon: Lock,
-      tag: "ZERO CLOUD EGRESS",
+      tag: "DEFENSE-IN-DEPTH",
       accent: "text-emerald-400",
       border: "hover:border-emerald-500/40",
       glow: "hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]",

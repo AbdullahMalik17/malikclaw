@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [2.0.0] - 2026-11-21
+
+### Added
+- **SSRF & Network Boundary Firewall (`pkg/security/ssrf.go`)**: Deterministic stdlib-only IP/CIDR validator blocking loopback, RFC1918 private networks, link-local/cloud metadata (`169.254.169.254`, `metadata.google.internal`), CGNAT, IPv6 ULA, and IPv4-mapped IPv6 bypasses, with explicit opt-in for local Ollama/vLLM endpoints.
+- **Prompt-Injection Structural Defense (`pkg/security/prompt_guard.go`)**: Data-boundary isolation (`WrapUntrusted`) with anti-spoofing tag escaping and heuristic prompt-injection scanner (`ScanPromptInjection`) for role overrides, secret exfiltration, and encoded shell payloads.
+- **Smart Multi-Model Cost Router (`pkg/routing/cost_router.go`)**: Complexity-aware 3-tier router (`TierFast` local/mini → `TierBalanced` → `TierReasoning` frontier) with automatic fallback chains and cost-savings rationale.
+- **Website v2.0.0 ("Agentic Era 2026") & SEO/GEO Upgrade**: Added Schema.org `SoftwareApplication` JSON-LD structured data, updated metadata, and dedicated "Everyday Life Made Easy" + v2.0.0 agentic security/routing highlights.
+- **Multi-Agent Upgrade & Launch Documentation**: Added `docs/AGENT_UPGRADE_PROMPTS_V2.md`, `docs/ACHIEVEMENTS_AUDIT_2026.md`, and `docs/MARKETING_CAMPAIGN_V2.md`.
+
+### Fixed
+- **GitHub Actions CI (`golangci-lint` v2 migration)**: Migrated `.golangci.yaml` to `version: "2"` schema (`linters.settings`, `linters.exclusions.rules`, `formatters.settings.gci`) and updated `.github/workflows/pr.yml` to pin `version: v2` with `verify: true` and `go vet ./...`, resolving the `unsupported version of the configuration: ""` exit code 3 failure.
+
+---
+
 ## [1.0.0] - 2026-06-15
 
 ### Added

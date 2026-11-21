@@ -5,6 +5,7 @@ import { Language } from "@/i18n/translations";
 import NavigationHeader from "@/components/NavigationHeader";
 import HeroSection from "@/components/HeroSection";
 import TerminalSimulator from "@/components/TerminalSimulator";
+import AgenticEraSection from "@/components/AgenticEraSection";
 import FeaturesBento from "@/components/FeaturesBento";
 import BenchmarkTable from "@/components/BenchmarkTable";
 import EnterpriseSafety from "@/components/EnterpriseSafety";
@@ -37,6 +38,9 @@ export default function Home() {
         <section className="w-full flex flex-col items-center justify-center my-6 max-w-5xl">
           <TerminalSimulator language={language} />
         </section>
+
+        {/* 2.5. v2.0.0 Agentic Era 2026 & Everyday Life Made Easy */}
+        <AgenticEraSection language={language} />
 
         {/* 3. Features Bento Grid 2.0 & Architecture DAG Flow */}
         <FeaturesBento language={language} />
