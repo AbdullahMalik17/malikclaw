@@ -3,6 +3,7 @@ package launcherconfig
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -47,12 +48,14 @@ func TestSaveAndLoadRoundTrip(t *testing.T) {
 		}
 	}
 
-	stat, err := os.Stat(path)
-	if err != nil {
-		t.Fatalf("Stat() error = %v", err)
-	}
-	if perm := stat.Mode().Perm(); perm != 0o600 {
-		t.Fatalf("file perm = %o, want 600", perm)
+	if runtime.GOOS != "windows" {
+		stat, err := os.Stat(path)
+		if err != nil {
+			t.Fatalf("Stat() error = %v", err)
+		}
+		if perm := stat.Mode().Perm(); perm != 0o600 {
+			t.Fatalf("file perm = %o, want 600", perm)
+		}
 	}
 }
 

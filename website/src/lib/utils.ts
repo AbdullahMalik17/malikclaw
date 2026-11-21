@@ -1,4 +1,4 @@
-export type ClassValue = string | number | boolean | undefined | null | { [key: string]: any } | ClassValue[];
+export type ClassValue = string | number | boolean | undefined | null | Record<string, boolean | undefined | null> | ClassValue[];
 
 /**
  * Combines class names into a clean space-separated string.

@@ -67,7 +67,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
         headingPrefix: "ایجنٹک ایرا 2026 اور",
         headingHighlight: "روزمرہ زندگی کی آسانی",
         subtitle:
-          "ملک کلاؤ v2.0.0 صرف ایک ڈویلپر ٹول نہیں — یہ آپ کا نجی، محفوظ اور سستا روزمرہ اے آئی ساتھی ہے جو پرانے فون یا $10 کے بورڈ پر انگریزی اور اردو دونوں میں کام کرتا ہے۔",
+          "ملک کلاؤ v2.0.0 صرف ایک ڈویلپر ٹول نہیں — یہ آپ کا نجی، محفوظ اور سستا روزمرہ اے آئی ساتھی ہے جو کسی بھی لیپ ٹاپ، پرانے فون یا $10 کے بورڈ پر انگریزی اور اردو دونوں میں کام کرتا ہے۔",
         routineTitle: "روزمرہ آٹومیشن کی ایک جھلک",
         routineItems: [
           { time: "07:00 AM", label: "صبح کا خلاصہ (موسم + ایجنڈا)" },
@@ -83,20 +83,20 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             badge: "روزمرہ زندگی",
             title: "روزمرہ زندگی کی آسانی",
             description:
-              "واٹس ایپ اور ٹیلی گرام کے جوابات، صبح کے بریفنگز، اینڈرائیڈ ADB فون ٹاسکس، اور روزانہ یاددہانیاں اردو یا انگریزی میں خودکار بنائیں — چاہے پرانے فون یا $10 SBC پر۔",
+              "واٹس ایپ اور ٹیلی گرام کے جوابات، صبح کے بریفنگز، اینڈرائیڈ ADB فون ٹاسکس، اور روزانہ یاددہانیاں اردو یا انگریزی میں خودکار بنائیں — چاہے لیپ ٹاپ، پرانے فون یا $10 SBC پر۔",
             highlights: [
               "WhatsApp اور Telegram پر خودکار جوابات",
               "صبح کی بریفنگ اور روزانہ یاددہانیاں",
-              "پرانے Android فون یا $10 بورڈ پر <10MB RAM",
+              "لیپ ٹاپ، Android فون یا $10 بورڈ پر <10MB RAM",
             ],
             footerLabel: "بائی لنگوئل سپورٹ",
             footerValue: "اردو + English",
             icon: MessageCircle,
-            accentText: "text-amber-400",
-            badgeClasses: "bg-amber-500/10 text-amber-300 border-amber-500/30",
-            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-400",
+            accentText: "text-amber-700 dark:text-amber-400",
+            badgeClasses: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400",
             borderHover: "hover:border-amber-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(245,158,11,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(245,158,11,0.14)]",
           },
           {
             id: "defense-in-depth",
@@ -112,11 +112,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "سیکیورٹی لیئر",
             footerValue: "SSRF + Injection Guard",
             icon: ShieldAlert,
-            accentText: "text-emerald-400",
-            badgeClasses: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
-            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
+            accentText: "text-emerald-700 dark:text-emerald-400",
+            badgeClasses: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
             borderHover: "hover:border-emerald-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(16,185,129,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(16,185,129,0.14)]",
           },
           {
             id: "cost-router",
@@ -132,11 +132,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "روٹنگ پالیسی",
             footerValue: "Ollama → Frontier",
             icon: GitBranch,
-            accentText: "text-cyan-400",
-            badgeClasses: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
-            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
+            accentText: "text-cyan-700 dark:text-cyan-400",
+            badgeClasses: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
+            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-700 dark:text-cyan-400",
             borderHover: "hover:border-cyan-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(6,182,212,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(6,182,212,0.14)]",
           },
           {
             id: "skill-mcp",
@@ -152,11 +152,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "پروٹوکول اسٹینڈرڈ",
             footerValue: "SKILL.md + MCP",
             icon: Blocks,
-            accentText: "text-purple-400",
-            badgeClasses: "bg-purple-500/10 text-purple-300 border-purple-500/30",
-            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-400",
+            accentText: "text-purple-700 dark:text-purple-400",
+            badgeClasses: "bg-purple-500/10 text-purple-800 dark:text-purple-300 border-purple-500/30",
+            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-700 dark:text-purple-400",
             borderHover: "hover:border-purple-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(168,85,247,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(168,85,247,0.14)]",
           },
         ] as PillarCard[],
       }
@@ -165,7 +165,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
         headingPrefix: "Agentic Era 2026 &",
         headingHighlight: "Everyday Life Made Easy",
         subtitle:
-          "MalikClaw v2.0.0 turns any $10 SBC or spare phone into a hardened, cost-smart personal AI operator — automating daily routines in English or Urdu with enterprise-grade guardrails.",
+          "MalikClaw v2.0.0 turns any laptop, $10 SBC, or spare phone into a hardened, cost-smart personal AI operator — automating daily routines in English or Urdu with enterprise-grade guardrails.",
         routineTitle: "Everyday Routine Preview",
         routineItems: [
           { time: "07:00 AM", label: "Morning Briefing & Weather" },
@@ -181,20 +181,20 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             badge: "EVERYDAY UX",
             title: "Everyday Life Made Easy",
             description:
-              "Automate WhatsApp and Telegram replies, morning briefings, Android ADB phone tasks, and daily reminders in English or Urdu — even on an old phone or $10 SBC.",
+              "Automate WhatsApp and Telegram replies, morning briefings, Android ADB phone tasks, and daily reminders in English or Urdu — on any laptop, spare phone, or $10 SBC.",
             highlights: [
               "WhatsApp & Telegram smart triage and replies",
               "Scheduled morning briefings & daily reminders",
               "Native English & Urdu (RTL) on <10MB RAM",
             ],
             footerLabel: "Hardware Target",
-            footerValue: "Old Phone or $10 SBC",
+            footerValue: "Laptop, Phone or $10 SBC",
             icon: MessageCircle,
-            accentText: "text-amber-400",
-            badgeClasses: "bg-amber-500/10 text-amber-300 border-amber-500/30",
-            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-400",
+            accentText: "text-amber-700 dark:text-amber-400",
+            badgeClasses: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400",
             borderHover: "hover:border-amber-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(245,158,11,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(245,158,11,0.14)]",
           },
           {
             id: "defense-in-depth",
@@ -210,11 +210,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "Runtime Protection",
             footerValue: "SSRF + Injection Guard",
             icon: ShieldAlert,
-            accentText: "text-emerald-400",
-            badgeClasses: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
-            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
+            accentText: "text-emerald-700 dark:text-emerald-400",
+            badgeClasses: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
             borderHover: "hover:border-emerald-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(16,185,129,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(16,185,129,0.14)]",
           },
           {
             id: "cost-router",
@@ -230,11 +230,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "Routing Pipeline",
             footerValue: "Local Ollama → Frontier",
             icon: GitBranch,
-            accentText: "text-cyan-400",
-            badgeClasses: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
-            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
+            accentText: "text-cyan-700 dark:text-cyan-400",
+            badgeClasses: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
+            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-700 dark:text-cyan-400",
             borderHover: "hover:border-cyan-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(6,182,212,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(6,182,212,0.14)]",
           },
           {
             id: "skill-mcp",
@@ -250,11 +250,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "Open Standards",
             footerValue: "SKILL.md + MCP Native",
             icon: Blocks,
-            accentText: "text-purple-400",
-            badgeClasses: "bg-purple-500/10 text-purple-300 border-purple-500/30",
-            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-400",
+            accentText: "text-purple-700 dark:text-purple-400",
+            badgeClasses: "bg-purple-500/10 text-purple-800 dark:text-purple-300 border-purple-500/30",
+            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-700 dark:text-purple-400",
             borderHover: "hover:border-purple-500/45",
-            glowHover: "hover:shadow-[0_0_32px_rgba(168,85,247,0.18)]",
+            glowHover: "hover:shadow-[0_0_28px_rgba(168,85,247,0.14)]",
           },
         ] as PillarCard[],
       };
@@ -262,6 +262,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
   return (
     <section
       id="agentic-era"
+      dir={isUrdu ? "rtl" : "ltr"}
       aria-labelledby="agentic-era-heading"
       className="w-full py-20 relative max-w-6xl mx-auto px-4 sm:px-6 font-mono scroll-mt-24"
     >
@@ -279,14 +280,14 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
         transition={{ duration: 0.5 }}
         className="text-center mb-12 relative z-10"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-300 mb-4 shadow-[0_0_20px_rgba(245,158,11,0.16)]">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
-          <span className="tracking-wider uppercase">{copy.eyebrow}</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-800 dark:text-amber-300 mb-4 shadow-sm">
+          <Sparkles className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
+          <span className="tracking-wider uppercase tabular-nums">{copy.eyebrow}</span>
         </div>
 
         <h2
           id="agentic-era-heading"
-          className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight ${
+          className={`text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground font-sans leading-tight ${
             isUrdu ? "font-urdu" : "uppercase"
           }`}
         >
@@ -295,7 +296,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
         </h2>
 
         <p
-          className={`text-zinc-300 mt-4 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed font-sans ${
+          className={`text-text-muted mt-4 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed font-sans ${
             isUrdu ? "font-urdu" : ""
           }`}
         >
@@ -310,24 +311,24 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.45 }}
         aria-label={copy.routineTitle}
-        className="relative z-10 mb-10 rounded-2xl bg-zinc-950/80 border border-white/10 p-4 sm:p-5 backdrop-blur-xl"
+        className="relative z-10 mb-10 rounded-2xl bg-card-bg border border-card-border p-4 sm:p-5 backdrop-blur-xl shadow-sm"
       >
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-3 border-b border-white/[0.06]">
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-3 border-b border-card-border">
+          <div className="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wider">
             <Clock className="w-3.5 h-3.5" aria-hidden="true" />
             <span>{copy.routineTitle}</span>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-zinc-400">
+          <div className="flex items-center gap-3 text-[11px] text-text-muted">
             <span className="inline-flex items-center gap-1">
-              <Smartphone className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
+              <Smartphone className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400" aria-hidden="true" />
               ADB + Termux
             </span>
-            <span className="inline-flex items-center gap-1">
-              <Cpu className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
+            <span className="inline-flex items-center gap-1 tabular-nums">
+              <Cpu className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
               &lt;10MB RAM
             </span>
             <span className="inline-flex items-center gap-1">
-              <Lock className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
+              <Lock className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
               Zero-Trust
             </span>
           </div>
@@ -337,12 +338,12 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
           {copy.routineItems.map((item) => (
             <li
               key={item.time}
-              className="flex items-center gap-2.5 rounded-xl bg-black/50 border border-white/[0.06] px-3.5 py-2.5"
+              className="flex items-center gap-2.5 rounded-xl bg-surface-2 border border-card-border px-3.5 py-2.5"
             >
-              <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 tabular-nums">
                 {item.time}
               </span>
-              <span className="text-xs text-zinc-200 font-sans leading-snug">
+              <span className="text-xs text-foreground font-sans leading-snug">
                 {item.label}
               </span>
             </li>
@@ -364,17 +365,12 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             <motion.article
               key={pillar.id}
               variants={cardVariants}
-              className={`glass-card-interactive p-6 sm:p-8 rounded-2xl border border-white/[0.08] ${pillar.borderHover} ${pillar.glowHover} flex flex-col justify-between group relative overflow-hidden`}
+              className={`glass-card-interactive p-6 sm:p-8 rounded-2xl ${pillar.borderHover} ${pillar.glowHover} flex flex-col justify-between group relative overflow-hidden`}
             >
-              <div
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
-              />
-
               <div>
                 <div className="flex items-center justify-between gap-3 mb-5">
                   <div
-                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 ${pillar.iconBoxClasses}`}
+                    className={`w-12 h-12 rounded-xl border flex items-center justify-center shadow-sm transition-colors duration-200 ${pillar.iconBoxClasses}`}
                   >
                     <Icon className="w-6 h-6" aria-hidden="true" />
                   </div>
@@ -386,7 +382,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
                 </div>
 
                 <h3
-                  className={`text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight font-sans ${
+                  className={`text-xl sm:text-2xl font-bold text-foreground mb-3 tracking-tight font-sans ${
                     isUrdu ? "font-urdu" : ""
                   }`}
                 >
@@ -394,7 +390,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
                 </h3>
 
                 <p
-                  className={`text-zinc-300 text-sm leading-relaxed mb-5 font-sans ${
+                  className={`text-text-muted text-sm leading-relaxed mb-5 font-sans ${
                     isUrdu ? "font-urdu" : ""
                   }`}
                 >
@@ -405,7 +401,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
                   {pillar.highlights.map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-2 text-xs sm:text-sm text-zinc-300 font-sans"
+                      className="flex items-start gap-2 text-xs sm:text-sm text-foreground/90 font-sans"
                     >
                       <CheckCircle2
                         className={`w-4 h-4 shrink-0 mt-0.5 ${pillar.accentText}`}
@@ -417,8 +413,8 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
                 </ul>
               </div>
 
-              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between gap-2 text-xs">
-                <span className="text-zinc-400">{pillar.footerLabel}</span>
+              <div className="pt-4 border-t border-card-border flex items-center justify-between gap-2 text-xs">
+                <span className="text-text-muted">{pillar.footerLabel}</span>
                 <span className={`font-bold ${pillar.accentText}`}>
                   {pillar.footerValue}
                 </span>
@@ -438,17 +434,17 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
       >
         <Link
           href="/docs/installation"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-xs uppercase tracking-wider shadow-[0_0_24px_rgba(245,158,11,0.3)] transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-black font-bold text-xs uppercase tracking-wider shadow-md dark:shadow-[0_0_24px_rgba(245,158,11,0.3)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 w-full sm:w-auto"
         >
           <span>{copy.ctaLabel}</span>
-          <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
         </Link>
 
         <Link
           href="/trust"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-zinc-900/90 border border-white/10 hover:border-emerald-500/40 text-zinc-200 hover:text-white font-bold text-xs uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-1 border border-card-border hover:border-emerald-500/50 text-foreground font-bold text-xs uppercase tracking-wider transition-colors active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 w-full sm:w-auto"
         >
-          <ShieldAlert className="w-4 h-4 text-emerald-400" aria-hidden="true" />
+          <ShieldAlert className="w-4 h-4 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
           <span>{copy.securityCta}</span>
         </Link>
       </motion.div>

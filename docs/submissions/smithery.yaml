@@ -1,0 +1,66 @@
+# ==============================================================================
+# LOCAL DRAFT ONLY — SERVER-BRIDGE-GATED TEMPLATE (DO NOT SUBMIT OR MOVE TO ROOT)
+# ==============================================================================
+# Architectural Gate:
+#   MalikClaw v2.0.0 currently acts as an MCP Client/Host (`pkg/mcp/manager.go`
+#   uses `mcp.NewClient`), and `pkg/mcp_servers/` does not exist yet.
+#   Smithery probes MCP servers over `stdio` or `http` (`initialize`, `tools/list`).
+#   Do NOT copy this file to the repository root or submit at https://smithery.ai/new
+#   until an MCP server entrypoint (e.g. `malikclaw mcp serve`) is implemented.
+# ==============================================================================
+
+runtime: "container"
+
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
+
+startCommand:
+  type: "stdio"
+  configSchema:
+    type: "object"
+    required: []
+    properties:
+      configPath:
+        type: "string"
+        description: "Path to MalikClaw JSON configuration file."
+        default: "/home/malikclaw/.malikclaw/config.json"
+      workspace:
+        type: "string"
+        description: "Jailed workspace directory for agent file and shell operations."
+        default: "/home/malikclaw/.malikclaw/workspace"
+      model:
+        type: "string"
+        description: "Default fast-tier model identifier (local Ollama or cloud provider)."
+        default: "ollama/qwen2.5:7b"
+      ollamaBaseUrl:
+        type: "string"
+        description: "Optional local Ollama endpoint for 100% offline inference."
+        default: "http://localhost:11434"
+      allowLocalhost:
+        type: "boolean"
+        description: "Allow SSRF firewall to reach explicit localhost endpoints such as Ollama."
+        default: true
+  # TODO: Requires implementing the `malikclaw mcp serve` MCP server bridge command.
+  commandFunction: |-
+    (config) => ({
+      command: "malikclaw",
+      args: [
+        "-c",
+        config.configPath || "/home/malikclaw/.malikclaw/config.json",
+        "mcp",
+        "serve"
+      ],
+      env: {
+        MALIKCLAW_WORKSPACE: config.workspace || "/home/malikclaw/.malikclaw/workspace",
+        MALIKCLAW_MODEL: config.model || "ollama/qwen2.5:7b",
+        OLLAMA_BASE_URL: config.ollamaBaseUrl || "http://localhost:11434",
+        MALIKCLAW_ALLOW_LOCALHOST: String(config.allowLocalhost ?? true)
+      }
+    })
+  exampleConfig:
+    configPath: "/home/malikclaw/.malikclaw/config.json"
+    workspace: "/home/malikclaw/.malikclaw/workspace"
+    model: "ollama/qwen2.5:7b"
+    ollamaBaseUrl: "http://localhost:11434"
+    allowLocalhost: true

@@ -6,10 +6,12 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // TestFilesystemTool_ReadFile_Success verifies successful file reading
@@ -288,6 +290,39 @@ func TestFilesystemTool_ReadFile_RejectsSymlinkEscape(t *testing.T) {
 	}
 }
 
+// Block write paths that look inside workspace but point outside via symlink.
+func TestFilesystemTool_WriteFile_RejectsSymlinkEscape(t *testing.T) {
+	root := t.TempDir()
+	workspace := filepath.Join(root, "workspace")
+	if err := os.MkdirAll(workspace, 0o755); err != nil {
+		t.Fatalf("failed to create workspace: %v", err)
+	}
+
+	outsideTarget := filepath.Join(root, "outside.txt")
+	if err := os.WriteFile(outsideTarget, []byte("original"), 0o644); err != nil {
+		t.Fatalf("failed to write outside target: %v", err)
+	}
+
+	link := filepath.Join(workspace, "escape.txt")
+	if err := os.Symlink(outsideTarget, link); err != nil {
+		t.Skipf("symlink not supported in this environment: %v", err)
+	}
+
+	tool := NewWriteFileTool(workspace, true)
+	result := tool.Execute(context.Background(), map[string]any{
+		"path":    link,
+		"content": "overwritten",
+	})
+
+	if !result.IsError {
+		t.Fatalf("expected symlink write escape to be blocked")
+	}
+
+	data, err := os.ReadFile(outsideTarget)
+	require.NoError(t, err)
+	assert.Equal(t, "original", string(data))
+}
+
 func TestFilesystemTool_EmptyWorkspace_AccessDenied(t *testing.T) {
 	tool := NewReadFileTool("", true, MaxReadFileSize) // restrict=true but workspace=""
 
@@ -367,14 +402,17 @@ func TestHostRW_Read_PermissionDenied(t *testing.T) {
 	if os.Getuid() == 0 {
 		t.Skip("skipping permission test: running as root")
 	}
+	if runtime.GOOS == "windows" {
+		t.Skip("skipping permission test: POSIX 0o000 mode does not deny reads on Windows")
+	}
 	tmpDir := t.TempDir()
 	protected := filepath.Join(tmpDir, "protected.txt")
 	err := os.WriteFile(protected, []byte("secret"), 0o000)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	defer os.Chmod(protected, 0o644) // ensure cleanup
 
 	_, err = (&hostFs{}).ReadFile(protected)
-	assert.Error(t, err)
+	require.Error(t, err)
 	assert.Contains(t, err.Error(), "access denied")
 }
 

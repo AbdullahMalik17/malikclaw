@@ -8,6 +8,9 @@ const sidebarItems = [
       { name: "Introduction", href: "/docs" },
       { name: "Installation", href: "/docs/installation" },
       { name: "Quick Start", href: "/docs/quick-start" },
+      { name: "Build from Source", href: "/docs/installation/source" },
+      { name: "Docker Deployment", href: "/docs/deployment/docker" },
+      { name: "Mobile Operation", href: "/docs/mobile-operation" },
       { name: "Troubleshooting", href: "/docs/troubleshooting" },
       { name: "Debug Guide", href: "/docs/debug" },
     ],
@@ -49,13 +52,13 @@ const sidebarItems = [
 
 export default function DocsLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-[#0df2c9]/30">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-amber-500/30">
       {/* Navigation */}
       <nav className="fixed w-full z-50 top-0 border-b border-card-border bg-background/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <span className="text-xl font-bold tracking-tighter text-foreground">MalikClaw</span>
-            <span className="px-2 py-0.5 rounded-full bg-[#0df2c9]/10 text-[#0df2c9] text-xs font-medium border border-[#0df2c9]/20">
+            <span className="px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-700 dark:text-[#0df2c9] text-xs font-medium border border-teal-600/20 dark:border-[#0df2c9]/20">
               Docs
             </span>
           </Link>
@@ -68,12 +71,12 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 
       <div className="max-w-7xl mx-auto px-6 pt-24 flex gap-12">
         {/* Sidebar */}
-        <aside className="hidden lg:block w-64 flex-shrink-0 border-r border-card-border pr-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24 
+        <aside className="hidden lg:block w-64 flex-shrink-0 border-e border-card-border pe-8 h-[calc(100vh-6rem)] overflow-y-auto sticky top-24 
           [&::-webkit-scrollbar]:w-1.5
           [&::-webkit-scrollbar-track]:bg-transparent
-          [&::-webkit-scrollbar-thumb]:bg-white/10
+          [&::-webkit-scrollbar-thumb]:bg-border-strong
           [&::-webkit-scrollbar-thumb]:rounded-full
-          hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
+          hover:[&::-webkit-scrollbar-thumb]:bg-amber-500/60">
           <div className="space-y-8 pb-12">
             {sidebarItems.map((section) => (
               <div key={section.title} className="space-y-3">
@@ -81,7 +84,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
                 <ul className="space-y-2">
                   {section.items.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="text-sm text-text-muted hover:text-gryphon-gold transition-colors">
+                      <Link href={item.href} className="text-sm text-text-muted hover:text-amber-700 dark:hover:text-gryphon-gold transition-colors">
                         {item.name}
                       </Link>
                     </li>

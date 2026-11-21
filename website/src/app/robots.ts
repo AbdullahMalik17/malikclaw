@@ -5,12 +5,42 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "Googlebot",
-        allow: ["/", "/docs/", "/assets/"],
+        allow: ["/", "/docs/", "/assets/", "/llms.txt"],
         disallow: ["/api/", "/_next/"],
       },
       {
         userAgent: "Bingbot",
-        allow: ["/", "/docs/", "/assets/"],
+        allow: ["/", "/docs/", "/assets/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "GPTBot",
+        allow: ["/", "/docs/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "OAI-SearchBot",
+        allow: ["/", "/docs/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "ClaudeBot",
+        allow: ["/", "/docs/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "PerplexityBot",
+        allow: ["/", "/docs/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "Google-Extended",
+        allow: ["/", "/docs/", "/llms.txt"],
+        disallow: ["/api/", "/_next/"],
+      },
+      {
+        userAgent: "Applebot-Extended",
+        allow: ["/", "/docs/", "/llms.txt"],
         disallow: ["/api/", "/_next/"],
       },
       {
@@ -23,7 +53,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "*",
-        allow: ["/", "/docs/", "/assets/"],
+        allow: ["/", "/docs/", "/assets/", "/llms.txt"],
         disallow: ["/api/", "/_next/", "/*.json$"],
       },
     ],

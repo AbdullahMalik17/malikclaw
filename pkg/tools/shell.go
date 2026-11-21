@@ -78,8 +78,13 @@ var (
 		regexp.MustCompile(`\bsource\s+.*\.sh\b`),
 	}
 
-	// absolutePathPattern matches absolute file paths in commands (Unix and Windows).
-	absolutePathPattern = regexp.MustCompile(`[A-Za-z]:\\[^\\\"']+|/[^\s\"']+`)
+	// absolutePathPattern matches absolute file paths in commands (Unix and Windows):
+	// 1. Windows drive backslash paths: C:\... (including bare C:\)
+	// 2. Windows drive forward-slash paths: C:/foo (excludes scheme:// via [^/\s...])
+	// 3. Windows UNC / device backslash paths: \\server\share, \\?\C:\..., \\.\...
+	// 4. Unix / forward-slash / UNC forward-slash paths: /..., //..., ///...
+	// Stops at whitespace, quotes, and shell command separators (;|&<>).
+	absolutePathPattern = regexp.MustCompile(`[A-Za-z]:(?:\\[^\s\"';|&<>]*|/[^/\s\"';|&<>][^\s\"';|&<>]*)|\\\\[^\s\"';|&<>]+|/[^\s\"';|&<>]+`)
 
 	// safePaths are kernel pseudo-devices that are always safe to reference in
 	// commands, regardless of workspace restriction. They contain no user data
@@ -370,7 +375,7 @@ func (t *ExecTool) guardCommand(command, cwd string) string {
 
 		cwdPath, err := filepath.Abs(cwd)
 		if err != nil {
-			return ""
+			return "Command blocked by safety guard (invalid working dir)"
 		}
 
 		// Web URL schemes whose path components (starting with //) should be exempt
@@ -389,11 +394,11 @@ func (t *ExecTool) guardCommand(command, cwd string) string {
 			// Use the exact match position (loc[0]) so that duplicate //path substrings
 			// in the same command are each evaluated at their own position.
 			if strings.HasPrefix(raw, "//") && loc[0] > 0 {
-				before := cmd[:loc[0]]
+				beforeLower := strings.ToLower(cmd[:loc[0]])
 				isWebURL := false
 
 				for _, scheme := range webSchemes {
-					if strings.HasSuffix(before, scheme) {
+					if strings.HasSuffix(beforeLower, scheme) {
 						isWebURL = true
 						break
 					}
@@ -402,11 +407,21 @@ func (t *ExecTool) guardCommand(command, cwd string) string {
 				if isWebURL {
 					continue
 				}
+
+				// Extract local path from file:// URIs while preserving remote
+				// file://host/... as UNC so it remains blocked.
+				if strings.HasSuffix(beforeLower, "file:") {
+					raw = normalizeFileURIPath(raw)
+				}
+			}
+
+			if safePaths[raw] {
+				continue
 			}
 
 			p, err := filepath.Abs(raw)
 			if err != nil {
-				continue
+				return "Command blocked by safety guard (invalid path)"
 			}
 
 			if safePaths[p] {
@@ -414,17 +429,40 @@ func (t *ExecTool) guardCommand(command, cwd string) string {
 			}
 
 			rel, err := filepath.Rel(cwdPath, p)
-			if err != nil {
-				continue
-			}
-
-			if strings.HasPrefix(rel, "..") {
+			if err != nil || !filepath.IsLocal(rel) {
 				return "Command blocked by safety guard (path outside working dir)"
 			}
 		}
 	}
 
 	return ""
+}
+
+func isDriveLetter(b byte) bool {
+	return (b >= 'A' && b <= 'Z') || (b >= 'a' && b <= 'z')
+}
+
+// normalizeFileURIPath extracts local paths from file:// URI components (starting with "//"),
+// handling file:///C:/..., file://C:\..., file:///etc/passwd, and file://localhost/...,
+// while leaving remote authorities (file://host/...) unchanged as UNC paths so they stay blocked.
+func normalizeFileURIPath(raw string) string {
+	if !strings.HasPrefix(raw, "//") {
+		return raw
+	}
+	after := raw[2:]
+	if len(after) > len("localhost/") && strings.EqualFold(after[:len("localhost/")], "localhost/") {
+		after = after[len("localhost"):]
+	}
+	if strings.HasPrefix(after, "/") {
+		if len(after) >= 3 && isDriveLetter(after[1]) && after[2] == ':' {
+			return after[1:]
+		}
+		return after
+	}
+	if len(after) >= 2 && isDriveLetter(after[0]) && after[1] == ':' {
+		return after
+	}
+	return raw
 }
 
 func (t *ExecTool) SetTimeout(timeout time.Duration) {

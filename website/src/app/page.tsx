@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Language } from "@/i18n/translations";
 import NavigationHeader from "@/components/NavigationHeader";
 import HeroSection from "@/components/HeroSection";
@@ -19,18 +19,30 @@ export default function Home() {
   const [language, setLanguage] = useState<Language>("en");
   const isRTL = language === "ur";
 
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = isRTL ? "rtl" : "ltr";
+    return () => {
+      document.documentElement.lang = "en";
+      document.documentElement.dir = "ltr";
+    };
+  }, [language, isRTL]);
+
   return (
-    <div className={`min-h-screen bg-transparent text-zinc-100 font-sans selection:bg-amber-500 selection:text-black relative overflow-hidden ${isRTL ? "rtl font-urdu" : ""}`}>
+    <div
+      dir={isRTL ? "rtl" : "ltr"}
+      className={`min-h-screen bg-transparent text-foreground font-sans selection:bg-amber-500 selection:text-black relative overflow-hidden ${isRTL ? "rtl font-urdu" : ""}`}
+    >
       {/* Floating Command Header */}
-      <NavigationHeader 
-        isUrdu={isRTL} 
-        language={language} 
-        onLanguageChange={setLanguage} 
+      <NavigationHeader
+        isUrdu={isRTL}
+        language={language}
+        onLanguageChange={setLanguage}
       />
-      
+
       {/* Main Landing Page Stream */}
       <main className="pt-28 pb-16 px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center">
-        
+
         {/* 1. Hero Section + QuickInstall + Metrics Strip */}
         <HeroSection language={language} />
 
@@ -60,7 +72,7 @@ export default function Home() {
         {/* 8. Binary Downloads for Windows, Linux, Android, Docker */}
         <Download language={language} />
       </main>
-      
+
       {/* 9. Social Proof Testimonials Marquee */}
       <SocialProofMarquee language={language} />
 

@@ -67,7 +67,7 @@ func (b *Logger) Fatalf(format string, v ...any) {
 // format: format string
 // a: format arguments
 //
-//nolint:goprintffuncname
+//nolint:goprintffuncname // Exported method name Log is required for 3rd-party logger compatibility (e.g. discordgo.Logger)
 func (b *Logger) Log(msgL, caller int, format string, a ...any) {
 	level := LogLevel(msgL)
 	if b.levels != nil {

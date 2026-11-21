@@ -38,12 +38,12 @@ func TestExpandHomeWithTilde(t *testing.T) {
 
 func TestResolveWorkspace(t *testing.T) {
 	result := ResolveWorkspace("/home/user/.malikclaw")
-	assert.Equal(t, "/home/user/.malikclaw/workspace", result)
+	assert.Equal(t, filepath.Join("/home/user/.malikclaw", "workspace"), result)
 }
 
 func TestRelPath(t *testing.T) {
 	result := RelPath("/home/user/.malikclaw/workspace/file.txt", "/home/user/.malikclaw")
-	assert.Equal(t, "workspace/file.txt", result)
+	assert.Equal(t, filepath.Join("workspace", "file.txt"), result)
 }
 
 func TestRelPathError(t *testing.T) {

@@ -1,0 +1,31 @@
+# MalikClaw v2.0.0 — Agentic Era 2026
+
+> Pure-Go autonomous AI agent runtime (<10MB RAM, <1s cold boot) built for both developers and everyday users on any laptop, $10 SBC, or spare Android phone — in English and Urdu (native RTL).
+
+## Overview
+MalikClaw is an ultra-lightweight, open-source (MIT) AI agent engine written in Go 1.25+ with a Next.js web interface. It replaces bloated Python/Node.js agent gateways (>1.2GB RAM) with a single standalone binary (~12MB on disk, 8.4MB idle RSS RAM) capable of running 24/7 on Raspberry Pi Zero 2 W, LicheePi Nano RISC-V boards, Termux Android phones, laptops, and cloud servers.
+
+## Core v2.0.0 Capabilities
+- **Everyday Life Made Easy**: Automate WhatsApp & Telegram replies, morning briefings, Android ADB phone actions, and daily reminders in English or Urdu (`malikclaw onboard`).
+- **Defense-in-Depth Zero-Trust Security**:
+  - Built-in **SSRF Network Boundary Firewall** (`ValidateURL` / `IsBlockedIP`) blocking private/link-local egress.
+  - **Prompt-Injection Structural Guard** (`WrapUntrusted` / `ScanPromptInjection`) isolating untrusted tool outputs.
+  - **ed25519 Cryptographic Action Signing** and Human-in-the-Loop approval gates.
+- **Smart Multi-Model Cost Router**: Routes simple everyday tasks to fast local Ollama / mini models (`TierFast`) and escalates complex reasoning/coding to frontier models (`TierBalanced` / `TierReasoning`) with automatic 429/5xx fallback.
+- **Universal SKILL.md + MCP Ecosystem**: First-class Model Context Protocol (MCP) client and drop-in `SKILL.md` skills (`~/.agents/skills/`, GitHub/ClawHub registries).
+
+## Quick Install
+- **Linux / macOS**: `curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash`
+- **Windows (PowerShell)**: `irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex`
+- **Docker**: `docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest`
+- **Go Install**: `go install github.com/AbdullahMalik17/malikclaw/cmd/malikclaw@latest`
+
+## Key Links
+- Website: https://malikclaw.vercel.app
+- Documentation: https://malikclaw.vercel.app/docs
+- Quick Start: https://malikclaw.vercel.app/docs/quick-start
+- Installation: https://malikclaw.vercel.app/docs/installation
+- Security & Trust: https://malikclaw.vercel.app/trust
+- Downloads: https://malikclaw.vercel.app/download
+- Source Repository: https://github.com/AbdullahMalik17/malikclaw
+- MCP Market: https://mcpmarket.com/server/malikclaw

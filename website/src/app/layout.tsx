@@ -1,17 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, JetBrains_Mono } from 'next/font/google';
-
-const outfit = Outfit({ 
-  subsets: ['latin'], 
-  variable: '--font-sans',
-  display: 'swap' 
-});
-
-const jetbrainsMono = JetBrains_Mono({ 
-  subsets: ['latin'], 
-  variable: '--font-mono',
-  display: 'swap' 
-});
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import PWARegister from "@/components/pwa-register";
@@ -86,9 +75,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+        },
+      }
+    : {}),
 };
 
 const softwareApplicationJsonLd = {
@@ -128,7 +121,7 @@ const softwareApplicationJsonLd = {
   ],
   sameAs: [
     "https://github.com/AbdullahMalik17/malikclaw",
-    "https://mcpmarket.com/ko/server/malikclaw",
+    "https://mcpmarket.com/server/malikclaw",
   ],
 } as const;
 
@@ -146,7 +139,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />

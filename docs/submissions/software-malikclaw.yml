@@ -1,0 +1,14 @@
+name: MalikClaw
+website_url: https://malikclaw.vercel.app
+source_code_url: https://github.com/AbdullahMalik17/malikclaw
+description: Lightweight personal AI agent runtime in Go with 21 messaging channels, local Ollama and MCP client support, Android ADB automation, SSRF and prompt-injection guards, and a web dashboard.
+licenses:
+  - MIT
+platforms:
+  - Docker
+  - Go
+tags:
+  - Automation
+  - Generative Artificial Intelligence (GenAI)
+depends_3rdparty: false
+documentation_url: https://malikclaw.vercel.app/docs/quick-start

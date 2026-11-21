@@ -485,10 +485,12 @@ func TestDefaultConfig_WorkspacePath_Default(t *testing.T) {
 	// Unset to ensure we test the default
 	t.Setenv("MALIKCLAW_HOME", "")
 	// Set a known home for consistent test results
-	t.Setenv("HOME", "/tmp/home")
+	homeDir := filepath.FromSlash("/tmp/home")
+	t.Setenv("HOME", homeDir)
+	t.Setenv("USERPROFILE", homeDir)
 
 	cfg := DefaultConfig()
-	want := filepath.Join("/tmp/home", ".malikclaw", "workspace")
+	want := filepath.Join(homeDir, ".malikclaw", "workspace")
 
 	if cfg.Agents.Defaults.Workspace != want {
 		t.Errorf("Default workspace path = %q, want %q", cfg.Agents.Defaults.Workspace, want)
@@ -496,10 +498,11 @@ func TestDefaultConfig_WorkspacePath_Default(t *testing.T) {
 }
 
 func TestDefaultConfig_WorkspacePath_WithMalikclawHome(t *testing.T) {
-	t.Setenv("MALIKCLAW_HOME", "/custom/malikclaw/home")
+	customHome := filepath.FromSlash("/custom/malikclaw/home")
+	t.Setenv("MALIKCLAW_HOME", customHome)
 
 	cfg := DefaultConfig()
-	want := "/custom/malikclaw/home/workspace"
+	want := filepath.Join(customHome, "workspace")
 
 	if cfg.Agents.Defaults.Workspace != want {
 		t.Errorf("Workspace path with MALIKCLAW_HOME = %q, want %q", cfg.Agents.Defaults.Workspace, want)

@@ -620,3 +620,61 @@ func TestShellTool_URLBypassPrevented(t *testing.T) {
 		}
 	}
 }
+
+// TestShellTool_WindowsPathAndUNCSandboxing verifies that cross-drive paths, forward-slash
+// drive paths, UNC/device paths, command-chained paths, and file:// URIs cannot escape
+// the workspace sandbox while legitimate in-workspace file:// URIs are permitted.
+func TestShellTool_WindowsPathAndUNCSandboxing(t *testing.T) {
+	tmpDir := t.TempDir()
+	tool, err := NewExecTool(tmpDir, true)
+	if err != nil {
+		t.Fatalf("unable to configure exec tool: %s", err)
+	}
+
+	testFile := filepath.Join(tmpDir, "test.txt")
+	if err := os.WriteFile(testFile, []byte("ok"), 0o644); err != nil {
+		t.Fatalf("failed to create test file: %v", err)
+	}
+
+	otherDrive := "D:"
+	if strings.HasPrefix(strings.ToUpper(tmpDir), "D:") {
+		otherDrive = "C:"
+	}
+
+	blockedCommands := []string{
+		"cat " + otherDrive + `\secret.txt`,
+		"cat " + otherDrive + `/secret.txt`,
+		"cat " + testFile + ";" + otherDrive + `\secret.txt`,
+		`cat \\127.0.0.1\c$\Windows\win.ini`,
+		`cat //127.0.0.1/c$/Windows/win.ini`,
+		"cat file://localhost/etc/passwd",
+		"cat file://evilhost/share/secret",
+		"cat FILE:///etc/passwd",
+		"cat file:///" + otherDrive + "/Windows/win.ini",
+	}
+
+	for _, cmd := range blockedCommands {
+		result := tool.Execute(context.Background(), map[string]any{"command": cmd})
+		if !result.IsError || !strings.Contains(result.ForLLM, "path outside working dir") {
+			t.Errorf("escape attempt should be blocked: %q\n  got: %s", cmd, result.ForLLM)
+		}
+	}
+
+	slashFile := filepath.ToSlash(testFile)
+	allowedCommands := []string{
+		"cat file://" + testFile,
+		"cat file:///" + strings.TrimPrefix(slashFile, "/"),
+	}
+	if strings.HasPrefix(slashFile, "/") {
+		allowedCommands = append(allowedCommands, "cat file://localhost"+slashFile)
+	} else {
+		allowedCommands = append(allowedCommands, "cat file://localhost/"+slashFile)
+	}
+
+	for _, cmd := range allowedCommands {
+		result := tool.Execute(context.Background(), map[string]any{"command": cmd})
+		if result.IsError && strings.Contains(result.ForLLM, "blocked") {
+			t.Errorf("in-workspace file:// URI should not be blocked: %q\n  got: %s", cmd, result.ForLLM)
+		}
+	}
+}

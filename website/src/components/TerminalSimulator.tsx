@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { Language, translations } from "@/i18n/translations";
 import { MALIKCLAW_VERSION } from "@/lib/version";
-import { Play, Pause, RotateCcw, Copy, Check, Terminal, Cpu, HardDrive, Shield, Zap, Sparkles } from "lucide-react";
+import { Play, Pause, RotateCcw, Copy, Check, Terminal, Cpu, HardDrive, Shield, Zap, Smartphone, Globe } from "lucide-react";
 
 interface TerminalSimulatorProps {
   language?: Language;
@@ -21,90 +21,90 @@ export interface LogLine {
 
 export interface Scenario {
   id: "autonomous" | "adb" | "urdu";
-  name: string;
-  icon: string;
   command: string;
   logs: LogLine[];
 }
+
+const SCENARIOS: Scenario[] = [
+  {
+    id: "autonomous",
+    command: "malikclaw run --agent gryphon --goal 'Backup DB & alert Telegram'",
+    logs: [
+      { type: "sys", tag: "INIT", content: `MalikClaw ${MALIKCLAW_VERSION} Gryphon Engine initializing on Linux ARM64...`, delay: 200 },
+      { type: "sys", tag: "SYS", content: "Memory Allocated: 8.4MB | Goroutines: 14 | Cold Boot: 0.82s", delay: 400 },
+      { type: "plan", tag: "PLAN", content: "Deconstructed goal into 3 tool DAG nodes: [sys_backup, pg_dump, telegram_send]", delay: 500 },
+      { type: "act", tag: "ACT", content: "Dispatching Go routine `pg_dump` -> /var/backups/db_2026_11_21.sql.gz", delay: 650 },
+      { type: "observe", tag: "OBSERVE", content: "Backup generated (14.2 MB compressed, SHA256: 9f8a3c8e4d21)", delay: 650 },
+      { type: "act", tag: "ACT", content: "Dispatching tool `telegram_send` -> ChatID: #dev-alerts (ed25519 signed)", delay: 600 },
+      { type: "observe", tag: "OBSERVE", content: "HTTP 200 OK | Message ID: 489102 | Latency: 38ms", delay: 650 },
+      { type: "reflect", tag: "REFLECT", content: "Objective complete. All constraints satisfied with zero memory leaks.", delay: 550 },
+      { type: "success", tag: "SUCCESS", content: "✓ Task execution finished in 4.22s. Standby mode active.", delay: 550 },
+    ],
+  },
+  {
+    id: "adb",
+    command: "malikclaw adb --device 192.168.1.104:5555 --action automate",
+    logs: [
+      { type: "sys", tag: "ADB", content: "Connecting to ADB daemon at 192.168.1.104:5555 via TCP/IP...", delay: 200 },
+      { type: "sys", tag: "CONNECTED", content: "Device online: Galaxy Tab S9 Ultra (Android 15, API 35)", delay: 450 },
+      { type: "plan", tag: "PLAN", content: "Building UI interaction pipeline based on live screenshot OCR matrix", delay: 600 },
+      { type: "act", tag: "ACT", content: "adb shell input tap 540 1280 (Click 'Confirm Transfer')", delay: 650 },
+      { type: "observe", tag: "OBSERVE", content: "Frame captured via minicap: UI state changed to `Transfer Completed`", delay: 750 },
+      { type: "reflect", tag: "REFLECT", content: "Confirmation verified via visual diffing (99.8% match rate)", delay: 650 },
+      { type: "success", tag: "SUCCESS", content: "✓ Remote Android automation loop completed successfully.", delay: 650 },
+    ],
+  },
+  {
+    id: "urdu",
+    command: "malikclaw chat --lang ur --prompt 'سسٹم کی کارکردگی کا جائزہ لو'",
+    logs: [
+      { type: "sys", tag: "LANG", content: "Loading Urdu Natural Language Processor (RTL Engine Active)", delay: 200 },
+      { type: "urdu", tag: "PLAN", content: "مقصود کو سمجھا گیا: 'سسٹم مانیٹرنگ اور میٹرکس رپورٹ'", delay: 600 },
+      { type: "act", tag: "ACT", content: "Collecting metrics: CPU Load, Memory Footprint, SBC Temperature...", delay: 650 },
+      { type: "observe", tag: "OBSERVE", content: "CPU: 1.2% | RAM: 8.4MB | Temp: 38°C (All parameters nominal)", delay: 650 },
+      { type: "urdu", tag: "RESPONSE", content: '"تمام سسٹمز بالکل ٹھیک کام کر رہے ہیں۔ میموری صرف 8.4MB ہے۔"', delay: 750 },
+      { type: "urdu", tag: "SUCCESS", content: '"آگے بڑھو، ملک کلاؤ!"', delay: 700 },
+    ],
+  },
+];
 
 export default function TerminalSimulator({ language = "en" }: TerminalSimulatorProps) {
   const t = translations[language] || translations.en;
   const [activeScenarioId, setActiveScenarioId] = useState<"autonomous" | "adb" | "urdu">("autonomous");
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [visibleLogs, setVisibleLogs] = useState<LogLine[]>([]);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  const scenarios: Scenario[] = [
-    {
-      id: "autonomous",
-      name: "⚡ Autonomous",
-      icon: "⚡",
-      command: "malikclaw run --agent gryphon --goal 'Backup DB & alert Telegram'",
-      logs: [
-        { type: "sys", tag: "INIT", content: `MalikClaw ${MALIKCLAW_VERSION} Gryphon Engine initializing on Linux ARM64...`, delay: 200 },
-        { type: "sys", tag: "SYS", content: "Memory Allocated: 8.4MB | Goroutines: 14 | Cold Boot: 0.82s", delay: 600 },
-        { type: "plan", tag: "PLAN", content: "Deconstructed goal into 3 tool DAG nodes: [sys_backup, pg_dump, telegram_send]", delay: 1100 },
-        { type: "act", tag: "ACT", content: "Dispatching Go routine `pg_dump` -> /var/backups/db_2026_08_25.sql.gz", delay: 1800 },
-        { type: "observe", tag: "OBSERVE", content: "Backup generated (14.2 MB compressed, SHA256: 9f8a3c8e4d21)", delay: 2500 },
-        { type: "act", tag: "ACT", content: "Dispatching tool `telegram_send` -> ChatID: #dev-alerts (ed25519 signed)", delay: 3100 },
-        { type: "observe", tag: "OBSERVE", content: "HTTP 200 OK | Message ID: 489102 | Latency: 38ms", delay: 3800 },
-        { type: "reflect", tag: "REFLECT", content: "Objective complete. All constraints satisfied with zero memory leaks.", delay: 4400 },
-        { type: "success", tag: "SUCCESS", content: "✓ Task execution finished in 4.22s. Standby mode active.", delay: 5000 },
-      ],
-    },
-    {
-      id: "adb",
-      name: "📱 Android ADB",
-      icon: "📱",
-      command: "malikclaw adb --device 192.168.1.104:5555 --action automate",
-      logs: [
-        { type: "sys", tag: "ADB", content: "Connecting to ADB daemon at 192.168.1.104:5555 via TCP/IP...", delay: 200 },
-        { type: "sys", tag: "CONNECTED", content: "Device online: Galaxy Tab S9 Ultra (Android 15, API 35)", delay: 700 },
-        { type: "plan", tag: "PLAN", content: "Building UI interaction pipeline based on live screenshot OCR matrix", delay: 1300 },
-        { type: "act", tag: "ACT", content: "adb shell input tap 540 1280 (Click 'Confirm Transfer')", delay: 2000 },
-        { type: "observe", tag: "OBSERVE", content: "Frame captured via minicap: UI state changed to `Transfer Completed`", delay: 2800 },
-        { type: "reflect", tag: "REFLECT", content: "Confirmation verified via visual diffing (99.8% match rate)", delay: 3500 },
-        { type: "success", tag: "SUCCESS", content: "✓ Remote Android automation loop completed successfully.", delay: 4200 },
-      ],
-    },
-    {
-      id: "urdu",
-      name: "🇵🇰 Urdu Loop",
-      icon: "🇵🇰",
-      command: "malikclaw chat --lang ur --prompt 'سسٹم کی کارکردگی کا جائزہ لو'",
-      logs: [
-        { type: "sys", tag: "LANG", content: "Loading Urdu Natural Language Processor (RTL Engine Active)", delay: 200 },
-        { type: "plan", tag: "PLAN", content: "مقصود کو سمجھا گیا: 'سسٹم مانیٹرنگ اور میٹرکس رپورٹ'", delay: 800 },
-        { type: "act", tag: "ACT", content: "Collecting metrics: CPU Load, Memory Footprint, SBC Temperature...", delay: 1500 },
-        { type: "observe", tag: "OBSERVE", content: "CPU: 1.2% | RAM: 8.4MB | Temp: 38°C (All parameters nominal)", delay: 2200 },
-        { type: "urdu", tag: "RESPONSE", content: '"تمام سسٹمز بالکل ٹھیک کام کر رہے ہیں۔ میموری صرف 8.4MB ہے۔"', delay: 3000 },
-        { type: "success", tag: "SUCCESS", content: '"آگے بڑھو، ملک کلاؤ!"', delay: 3800 },
-      ],
-    },
-  ];
-
-  const currentScenario = scenarios.find((s) => s.id === activeScenarioId) || scenarios[0];
+  const currentScenario = SCENARIOS.find((s) => s.id === activeScenarioId) || SCENARIOS[0];
+  const currentIndex = visibleLogs.length;
 
   useEffect(() => {
-    setVisibleLogs([]);
-    setCurrentIndex(0);
     if (!isPlaying) return;
+    if (visibleLogs.length >= currentScenario.logs.length) return;
 
-    const timers = currentScenario.logs.map((log, index) => {
-      return setTimeout(() => {
-        setCurrentIndex(index + 1);
-        setVisibleLogs((prev) => [...prev, log]);
-      }, log.delay);
-    });
+    const nextLog = currentScenario.logs[visibleLogs.length];
+    const timer = setTimeout(() => {
+      setVisibleLogs((prev) => [...prev, nextLog]);
+    }, nextLog.delay);
 
-    return () => timers.forEach((timer) => clearTimeout(timer));
-  }, [activeScenarioId, isPlaying]);
+    return () => clearTimeout(timer);
+  }, [currentScenario, isPlaying, visibleLogs.length]);
 
   useEffect(() => {
     terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [visibleLogs]);
+
+  const handleSelectScenario = (id: "autonomous" | "adb" | "urdu") => {
+    setActiveScenarioId(id);
+    setVisibleLogs([]);
+    setIsPlaying(true);
+  };
+
+  const handleRestart = () => {
+    setVisibleLogs([]);
+    setIsPlaying(true);
+  };
 
   const handleCopyLogs = () => {
     const jsonOutput = JSON.stringify(
@@ -122,10 +122,15 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  const handleRestart = () => {
-    setVisibleLogs([]);
-    setCurrentIndex(0);
-    setIsPlaying(true);
+  const scenarioLabel = (id: Scenario["id"]) => {
+    switch (id) {
+      case "autonomous":
+        return { label: t.terminal.tabAutonomous, Icon: Zap };
+      case "adb":
+        return { label: t.terminal.tabAdb, Icon: Smartphone };
+      case "urdu":
+        return { label: t.terminal.tabUrdu, Icon: Globe };
+    }
   };
 
   const getTagBadgeStyle = (type: LogType) => {
@@ -133,17 +138,17 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       case "sys":
         return "bg-zinc-800 text-zinc-300 border-zinc-700";
       case "plan":
-        return "bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.2)]";
+        return "bg-amber-500/20 text-amber-300 border-amber-500/40";
       case "act":
-        return "bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.2)]";
+        return "bg-cyan-500/20 text-cyan-300 border-cyan-500/40";
       case "observe":
         return "bg-blue-500/20 text-blue-300 border-blue-500/40";
       case "reflect":
-        return "bg-purple-500/20 text-purple-300 border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.2)]";
+        return "bg-purple-500/20 text-purple-300 border-purple-500/40";
       case "success":
-        return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+        return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
       case "urdu":
-        return "bg-amber-500/20 text-amber-300 border-amber-500/40 font-urdu";
+        return "bg-amber-500/20 text-amber-300 border-amber-500/40 font-sans";
       default:
         return "bg-zinc-800 text-zinc-300 border-zinc-700";
     }
@@ -175,7 +180,7 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full max-w-3xl rounded-2xl overflow-hidden bg-zinc-950/90 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl text-left font-mono relative transition-all duration-300 hover:border-amber-500/40 hover:shadow-[0_0_40px_rgba(245,158,11,0.15)]"
+      className="w-full max-w-4xl rounded-2xl overflow-hidden bg-[#0B0C10] text-zinc-100 border border-zinc-800 shadow-xl dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl font-mono relative transition-colors duration-300 hover:border-amber-500/40"
     >
       {/* Terminal Window Header Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-black/60 gap-3">
@@ -187,87 +192,93 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
             <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
           </div>
 
-          <div className="flex items-center gap-2 pl-2 border-l border-zinc-800 text-xs text-zinc-400">
-            <Terminal className="w-3.5 h-3.5 text-amber-400" />
+          <div className="flex items-center gap-2 ps-2 border-s border-zinc-800 text-xs text-zinc-400">
+            <Terminal className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
             <span className="font-semibold text-zinc-200">malikclaw shell</span>
           </div>
 
           <div className="hidden md:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-bold text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-            LIVE AGENT SIMULATOR
+            {t.terminal.liveBadge}
           </div>
         </div>
 
         {/* Controls: Mode Switcher + Action Buttons */}
         <div className="flex items-center justify-between w-full sm:w-auto gap-2">
           {/* Mode Switcher Tabs */}
-          <div className="flex items-center gap-1 bg-zinc-900/90 p-0.5 rounded-lg border border-white/5">
-            {scenarios.map((sc) => (
-              <button
-                key={sc.id}
-                onClick={() => {
-                  setActiveScenarioId(sc.id);
-                  setIsPlaying(true);
-                }}
-                className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                  activeScenarioId === sc.id
-                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
-                    : "text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03]"
-                }`}
-              >
-                <span>{sc.name}</span>
-              </button>
-            ))}
+          <div className="flex items-center gap-1 bg-zinc-900/90 p-0.5 rounded-lg border border-white/10">
+            {SCENARIOS.map((sc) => {
+              const { label, Icon } = scenarioLabel(sc.id);
+              return (
+                <button
+                  key={sc.id}
+                  type="button"
+                  onClick={() => handleSelectScenario(sc.id)}
+                  className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                    activeScenarioId === sc.id
+                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                      : "text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]"
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>{label}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1">
             <button
+              type="button"
               onClick={() => setIsPlaying(!isPlaying)}
               className="p-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors"
               title={isPlaying ? "Pause" : "Play"}
               aria-label={isPlaying ? "Pause simulation" : "Play simulation"}
             >
-              {isPlaying ? <Pause className="w-3.5 h-3.5 text-amber-400" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
+              {isPlaying ? <Pause className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" /> : <Play className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />}
             </button>
 
             <button
+              type="button"
               onClick={handleRestart}
               className="p-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors"
               title="Replay Simulation"
               aria-label="Replay simulation"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
 
             <button
+              type="button"
               onClick={handleCopyLogs}
               className="p-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors"
               title="Copy Output JSON"
               aria-label="Copy JSON Output"
             >
-              {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5" aria-hidden="true" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Terminal Command Header */}
-      <div className="px-4 sm:px-5 py-2.5 bg-zinc-950/80 border-b border-white/[0.06] text-xs sm:text-sm text-zinc-300 flex items-center gap-2 overflow-x-auto">
-        <span className="text-amber-400 font-bold select-none shrink-0">🦅 gryphon@edge:~$</span>
-        <span className="text-zinc-200 font-mono font-medium whitespace-nowrap">{currentScenario.command}</span>
+      {/* Terminal Command Header (always LTR shell) */}
+      <div dir="ltr" className="px-4 sm:px-5 py-2.5 bg-zinc-950/90 border-b border-white/[0.06] text-xs sm:text-sm text-zinc-300 flex items-center gap-2 overflow-x-auto text-left">
+        <span className="text-amber-400 font-bold select-none shrink-0">gryphon@edge:~$</span>
+        <span className="text-zinc-100 font-mono font-medium whitespace-nowrap">{currentScenario.command}</span>
       </div>
 
       {/* Streaming Animated Logs Viewport */}
-      <div className="p-4 sm:p-5 text-left font-mono text-xs sm:text-sm leading-relaxed min-h-[290px] max-h-[360px] overflow-y-auto space-y-2.5 bg-black/40">
+      <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-relaxed min-h-[290px] max-h-[360px] overflow-y-auto space-y-2.5 bg-black/50">
         <AnimatePresence>
           {visibleLogs.map((log, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -8 }}
+              key={`${activeScenarioId}-${index}`}
+              dir={log.type === "urdu" ? "rtl" : "ltr"}
+              initial={{ opacity: 0, x: log.type === "urdu" ? 8 : -8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.25 }}
-              className="flex items-start gap-2.5"
+              transition={{ duration: 0.2 }}
+              className={`flex items-start gap-2.5 ${log.type === "urdu" ? "text-right" : "text-left"}`}
             >
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold border uppercase shrink-0 ${getTagBadgeStyle(log.type)}`}>
                 {log.tag}
@@ -280,9 +291,9 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
         </AnimatePresence>
 
         {currentIndex < currentScenario.logs.length && isPlaying && (
-          <div className="flex items-center gap-2 text-zinc-500 pt-1">
-            <span className="animate-spin text-amber-400 text-xs">⚡</span>
-            <span className="text-xs italic text-zinc-400">Agent executing next node...</span>
+          <div className="flex items-center gap-2 text-zinc-400 pt-1">
+            <Zap className="w-3.5 h-3.5 text-amber-400 animate-pulse" aria-hidden="true" />
+            <span className="text-xs italic text-zinc-400">{t.terminal.executing}</span>
             <motion.span
               animate={{ opacity: [0, 1, 0] }}
               transition={{ repeat: Infinity, duration: 0.8 }}
@@ -296,24 +307,24 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
 
       {/* Real-Time Telemetry Bar */}
       <div className="px-4 py-2.5 border-t border-white/[0.08] bg-zinc-950/90 flex flex-wrap items-center justify-between text-[11px] text-zinc-400 gap-2 font-mono">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 tabular-nums">
           <span className="flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-amber-400" />
+            <Cpu className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
             <span>CPU: <strong className="text-zinc-200">1.2%</strong></span>
           </span>
           <span className="flex items-center gap-1.5">
-            <HardDrive className="w-3.5 h-3.5 text-cyan-400" />
+            <HardDrive className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
             <span>RAM: <strong className="text-zinc-200">8.4 MB</strong></span>
           </span>
           <span className="flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Go Goroutines: <strong className="text-zinc-200">14</strong></span>
+            <Zap className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
+            <span>Goroutines: <strong className="text-zinc-200">14</strong></span>
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 text-zinc-400">
-          <Shield className="w-3.5 h-3.5 text-amber-400" />
-          <span>Zero-Trust Sandbox Active</span>
+        <div className="flex items-center gap-1.5 text-zinc-300">
+          <Shield className="w-3.5 h-3.5 text-amber-400" aria-hidden="true" />
+          <span>{t.terminal.sandboxActive}</span>
         </div>
       </div>
     </motion.div>

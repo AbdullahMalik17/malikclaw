@@ -80,7 +80,7 @@ func EnableFileLogging(filePath string) error {
 
 	// Close old file if exists
 	if logFile != nil {
-		logFile.Close()
+		_ = logFile.Close()
 	}
 
 	logFile = newFile
@@ -93,7 +93,7 @@ func DisableFileLogging() {
 	defer mu.Unlock()
 
 	if logFile != nil {
-		logFile.Close()
+		_ = logFile.Close()
 		logFile = nil
 	}
 	fileLogger = zerolog.Logger{}
@@ -129,22 +129,26 @@ func getCallerInfo() (string, int, string) {
 	return "???", 0, "???"
 }
 
-//nolint:zerologlint
-func getEvent(logger zerolog.Logger, level LogLevel) *zerolog.Event {
+func emitLogEvent(l zerolog.Logger, level LogLevel, message string, populate func(*zerolog.Event)) {
+	var event *zerolog.Event
 	switch level {
 	case zerolog.DebugLevel:
-		return logger.Debug()
+		event = l.Debug()
 	case zerolog.InfoLevel:
-		return logger.Info()
+		event = l.Info()
 	case zerolog.WarnLevel:
-		return logger.Warn()
+		event = l.Warn()
 	case zerolog.ErrorLevel:
-		return logger.Error()
+		event = l.Error()
 	case zerolog.FatalLevel:
-		return logger.Fatal()
+		event = l.Fatal()
 	default:
-		return logger.Info()
+		event = l.Info()
 	}
+	if populate != nil {
+		populate(event)
+	}
+	event.Msg(message)
 }
 
 func logMessage(level LogLevel, component string, message string, fields map[string]any) {
@@ -154,32 +158,29 @@ func logMessage(level LogLevel, component string, message string, fields map[str
 
 	callerFile, callerLine, callerFunc := getCallerInfo()
 
-	event := getEvent(logger, level)
+	emitLogEvent(logger, level, message, func(event *zerolog.Event) {
+		// Build combined field with component and caller
+		if component != "" {
+			event.Str("caller", fmt.Sprintf("%-6s %s:%d (%s)", component, callerFile, callerLine, callerFunc))
+		} else {
+			event.Str("caller", fmt.Sprintf("<none> %s:%d (%s)", callerFile, callerLine, callerFunc))
+		}
 
-	// Build combined field with component and caller
-	if component != "" {
-		event.Str("caller", fmt.Sprintf("%-6s %s:%d (%s)", component, callerFile, callerLine, callerFunc))
-	} else {
-		event.Str("caller", fmt.Sprintf("<none> %s:%d (%s)", callerFile, callerLine, callerFunc))
-	}
-
-	for k, v := range fields {
-		event.Interface(k, v)
-	}
-
-	event.Msg(message)
+		for k, v := range fields {
+			event.Interface(k, v)
+		}
+	})
 
 	// Also log to file if enabled
 	if fileLogger.GetLevel() != zerolog.NoLevel {
-		fileEvent := getEvent(fileLogger, level)
-
-		if component != "" {
-			fileEvent.Str("component", component)
-		}
-		for k, v := range fields {
-			fileEvent.Interface(k, v)
-		}
-		fileEvent.Msg(message)
+		emitLogEvent(fileLogger, level, message, func(fileEvent *zerolog.Event) {
+			if component != "" {
+				fileEvent.Str("component", component)
+			}
+			for k, v := range fields {
+				fileEvent.Interface(k, v)
+			}
+		})
 	}
 
 	if level == FATAL {

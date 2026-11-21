@@ -11,7 +11,7 @@ const platforms = [
     name: "Windows",
     icon: Globe,
     description: "Windows 10/11 (64-bit)",
-    color: "#0df2c9",
+    color: "#0E7490",
     downloads: [
       {
         name: "Windows x86_64 (ZIP)",
@@ -27,12 +27,13 @@ const platforms = [
       },
     ],
     installCommands: [
+      { manager: "PowerShell (irm)", command: "irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex" },
       { manager: "Winget", command: "winget install malikclaw" },
       { manager: "Chocolatey", command: "choco install malikclaw" },
     ],
     instructions: [
-      "Download the ZIP file for your architecture",
-      "Extract the contents to a folder (e.g., C:\\Program Files\\MalikClaw)",
+      "Run the PowerShell one-liner above, or download the ZIP file for your architecture",
+      "If installing manually, extract the contents to C:\\Program Files\\MalikClaw",
       "Add the folder to your system PATH",
       "Open PowerShell or Command Prompt and run: malikclaw onboard",
     ],
@@ -42,7 +43,7 @@ const platforms = [
     name: "macOS",
     icon: Terminal,
     description: "Intel & Apple Silicon (M1/M2/M3)",
-    color: "#8e2de2",
+    color: "#7E22CE",
     downloads: [
       {
         name: "macOS x86_64 (TAR.GZ)",
@@ -59,7 +60,7 @@ const platforms = [
     ],
     installCommands: [
       { manager: "Homebrew", command: "brew install malikclaw" },
-      { manager: "Manual", command: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash" },
+      { manager: "cURL", command: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash" },
     ],
     instructions: [
       "Download the TAR.GZ file for your architecture",
@@ -73,7 +74,7 @@ const platforms = [
     name: "Linux",
     icon: Cpu,
     description: "x86_64, ARM64, ARMv6/7, RISC-V",
-    color: "#0df2c9",
+    color: "#0E7490",
     downloads: [
       {
         name: "Linux x86_64 (TAR.GZ)",
@@ -124,7 +125,7 @@ const platforms = [
     name: "Android",
     icon: Smartphone,
     description: "Termux (ARM64/ARMv8)",
-    color: "#8e2de2",
+    color: "#7E22CE",
     downloads: [
       {
         name: "Linux ARM64 (for Termux)",
@@ -152,18 +153,18 @@ const platforms = [
 
 export default function DownloadPage() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-[#0df2c9]/30">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-amber-500/30">
       {/* Navigation */}
-      <nav className="fixed w-full z-50 top-0 border-b border-white/10 bg-black/50 backdrop-blur-md">
+      <nav className="fixed w-full z-50 top-0 border-b border-card-border bg-background/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tighter text-white hover:text-[#0df2c9] transition-colors">
+          <Link href="/" className="text-xl font-bold tracking-tighter text-foreground hover:text-amber-700 dark:hover:text-amber-400 transition-colors">
             MalikClaw
           </Link>
           <div className="flex items-center gap-6 text-sm font-medium">
-            <Link href="/" className="text-zinc-400 hover:text-white transition-colors">Home</Link>
-            <Link href="/docs" className="text-zinc-400 hover:text-white transition-colors">Docs</Link>
-            <a href="https://github.com/AbdullahMalik17/malikclaw" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors">
-              <Github className="w-4 h-4" />
+            <Link href="/" className="text-text-muted hover:text-foreground transition-colors">Home</Link>
+            <Link href="/docs" className="text-text-muted hover:text-foreground transition-colors">Docs</Link>
+            <a href="https://github.com/AbdullahMalik17/malikclaw" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-text-muted hover:text-foreground transition-colors">
+              <Github className="w-4 h-4" aria-hidden="true" />
               <span className="hidden sm:inline">GitHub</span>
             </a>
           </div>
@@ -178,13 +179,13 @@ export default function DownloadPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 leading-tight">
-              Download <span className="text-transparent bg-clip-text bg-gradient-to-r from-gryphon-gold via-[#fbbf24] to-[#d97706]">MalikClaw</span>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 leading-tight text-foreground">
+              Download <span className="text-gold-gradient">MalikClaw</span>
             </h1>
-            <p className="text-xl text-zinc-400 max-w-3xl mx-auto">
-              Current Version: <span className="text-[#0df2c9] font-mono">{MALIKCLAW_VERSION}</span>
+            <p className="text-xl text-text-muted max-w-3xl mx-auto">
+              Current Version: <span className="text-teal-700 dark:text-[#0df2c9] font-mono tabular-nums">{MALIKCLAW_VERSION}</span>
             </p>
-            <p className="text-lg text-zinc-500 max-w-3xl mx-auto mt-2">
+            <p className="text-lg text-text-muted max-w-3xl mx-auto mt-2">
               Choose your platform and get started with the ultra-lightweight AI assistant in minutes.
             </p>
           </motion.div>
@@ -201,45 +202,45 @@ export default function DownloadPage() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="scroll-mt-24"
             >
-              <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-b from-[#111] to-[#050505] border border-white/5 hover:border-white/20 transition-all duration-500 group relative overflow-hidden shadow-2xl">
+              <div className="p-8 md:p-10 rounded-[2rem] bg-card-bg border border-card-border hover:border-border-strong transition-colors duration-300 group relative overflow-hidden shadow-xl">
                 {/* Ambient Glow */}
-                <div 
-                  className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none" 
+                <div
+                  className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[80px] opacity-10 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"
                   style={{ backgroundColor: platform.color }}
                 ></div>
 
                 <div className="flex items-start gap-6 mb-8 relative z-10">
-                  <div 
+                  <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 border"
-                    style={{ backgroundColor: `${platform.color}15`, borderColor: `${platform.color}30` }}
+                    style={{ backgroundColor: `${platform.color}18`, borderColor: `${platform.color}35` }}
                   >
-                    <platform.icon className="w-8 h-8" style={{ color: platform.color }} />
+                    <platform.icon className="w-8 h-8" style={{ color: platform.color }} aria-hidden="true" />
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">{platform.name}</h2>
-                    <p className="text-zinc-400 text-lg">{platform.description}</p>
+                    <h2 className="text-3xl font-bold text-foreground mb-2 tracking-tight">{platform.name}</h2>
+                    <p className="text-text-muted text-lg">{platform.description}</p>
                   </div>
                 </div>
 
                 {/* Download Links */}
                 <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-white mb-4">Download Options</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-4">Download Options</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {platform.downloads.map((download) => (
                       <a
                         key={download.name}
                         href={download.url}
-                        className="flex items-center justify-between p-4 rounded-lg bg-[#0a0a0c] border border-white/5 hover:border-[#0df2c9]/50 transition-colors group"
+                        className="flex items-center justify-between p-4 rounded-xl bg-surface-2 border border-card-border hover:border-teal-600/50 dark:hover:border-[#0df2c9]/50 transition-colors group"
                       >
                         <div>
-                          <div className="font-medium text-white group-hover:text-[#0df2c9] transition-colors">
+                          <div className="font-medium text-foreground group-hover:text-teal-700 dark:group-hover:text-[#0df2c9] transition-colors">
                             {download.name}
                           </div>
-                          <div className="text-sm text-zinc-500 mt-1">{download.arch}</div>
+                          <div className="text-sm text-text-muted mt-1">{download.arch}</div>
                         </div>
-                        <div className="text-right">
-                          <Download className="w-5 h-5 text-zinc-400 group-hover:text-[#0df2c9] transition-colors mx-auto" />
-                          <div className="text-xs text-zinc-500 mt-1">{download.size}</div>
+                        <div className="text-end">
+                          <Download className="w-5 h-5 text-text-muted group-hover:text-teal-700 dark:group-hover:text-[#0df2c9] transition-colors mx-auto" aria-hidden="true" />
+                          <div className="text-xs text-text-muted mt-1 tabular-nums">{download.size}</div>
                         </div>
                       </a>
                     ))}
@@ -249,17 +250,17 @@ export default function DownloadPage() {
                 {/* Package Managers */}
                 {platform.installCommands.length > 0 && (
                   <div className="mb-8">
-                    <h3 className="text-lg font-semibold text-white mb-4">Install with Package Manager</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-4">Install with Package Manager</h3>
                     <div className="space-y-3">
                       {platform.installCommands.map((pkg) => (
-                        <div key={pkg.manager} className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0c] border border-white/5">
-                          <Check className="w-5 h-5 text-[#0df2c9] flex-shrink-0" />
-                          <div className="flex-1">
-                            <span className="text-sm font-medium text-zinc-400">{pkg.manager}:</span>
-                            <code className="ml-2 px-3 py-1 rounded bg-black/50 text-sm text-[#0df2c9] font-mono">
-                              {pkg.command}
-                            </code>
+                        <div key={pkg.manager} className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 text-zinc-100">
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Check className="w-4 h-4 text-[#0df2c9]" aria-hidden="true" />
+                            <span className="text-sm font-medium text-zinc-300">{pkg.manager}:</span>
                           </div>
+                          <code className="px-3 py-1 rounded bg-black/60 text-xs sm:text-sm text-[#0df2c9] font-mono overflow-x-auto select-all">
+                            {pkg.command}
+                          </code>
                         </div>
                       ))}
                     </div>
@@ -268,14 +269,14 @@ export default function DownloadPage() {
 
                 {/* Installation Instructions */}
                 <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-white mb-4">Manual Installation Steps</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-4">Manual Installation Steps</h3>
                   <ol className="space-y-3">
                     {platform.instructions.map((step, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-[#0df2c9]/10 text-[#0df2c9] text-sm font-medium flex-shrink-0">
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-teal-500/15 text-teal-800 dark:text-[#0df2c9] text-sm font-semibold flex-shrink-0 tabular-nums">
                           {i + 1}
                         </span>
-                        <span className="text-zinc-300">{step}</span>
+                        <span className="text-text-muted">{step}</span>
                       </li>
                     ))}
                   </ol>
@@ -283,14 +284,14 @@ export default function DownloadPage() {
 
                 {/* Warnings */}
                 {platform.warnings && (
-                  <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-600/25">
                     <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-amber-700 dark:text-amber-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <div>
-                        <h4 className="font-medium text-yellow-500 mb-2">Important Notes</h4>
+                        <h4 className="font-medium text-amber-800 dark:text-amber-400 mb-2">Important Notes</h4>
                         <ul className="space-y-1">
                           {platform.warnings.map((warning, i) => (
-                            <li key={i} className="text-sm text-yellow-200/80">• {warning}</li>
+                            <li key={i} className="text-sm text-amber-900 dark:text-amber-200/85">• {warning}</li>
                           ))}
                         </ul>
                       </div>
@@ -307,16 +308,16 @@ export default function DownloadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-[#0a0a0a] via-[#111] to-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-500 relative overflow-hidden group"
+          className="mt-12 p-8 md:p-10 rounded-[2rem] bg-card-bg border border-card-border hover:border-border-strong transition-colors duration-300 relative overflow-hidden group"
         >
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0df2c9]/30 to-transparent"></div>
-          <h2 className="text-2xl font-bold text-white mb-4">Build from Source</h2>
-          <p className="text-zinc-400 mb-6">
-            Want the latest features or need a custom build? Compile MalikClaw from source.
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent"></div>
+          <h2 className="text-2xl font-bold text-foreground mb-4">Build from Source</h2>
+          <p className="text-text-muted mb-6">
+            Want the latest features or need a custom build? Compile MalikClaw from source (Go 1.25+).
           </p>
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-[#0a0a0c] border border-white/5">
-              <code className="text-sm text-zinc-300 font-mono">
+            <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 overflow-x-auto">
+              <code className="text-sm text-zinc-100 font-mono">
                 git clone https://github.com/AbdullahMalik17/malikclaw.git<br />
                 cd malikclaw<br />
                 make deps<br />
@@ -324,11 +325,11 @@ export default function DownloadPage() {
                 sudo make install
               </code>
             </div>
-            <Link 
+            <Link
               href="/docs/installation/source"
-              className="inline-flex items-center gap-2 text-[#0df2c9] hover:text-white transition-colors font-medium"
+              className="inline-flex items-center gap-2 text-teal-700 dark:text-[#0df2c9] hover:text-foreground transition-colors font-medium"
             >
-              View detailed build instructions <ArrowRight className="w-4 h-4" />
+              View detailed build instructions <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
             </Link>
           </div>
         </motion.div>
@@ -338,43 +339,43 @@ export default function DownloadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 p-8 md:p-10 rounded-[2rem] bg-gradient-to-r from-[#0a0a0a] via-[#111] to-[#0a0a0a] border border-white/5 hover:border-white/20 transition-all duration-500 relative overflow-hidden group"
+          className="mt-8 p-8 md:p-10 rounded-[2rem] bg-card-bg border border-card-border hover:border-border-strong transition-colors duration-300 relative overflow-hidden group"
         >
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#8e2de2]/30 to-transparent"></div>
-          <h2 className="text-2xl font-bold text-white mb-4">Docker Deployment</h2>
-          <p className="text-zinc-400 mb-6">
-            Run MalikClaw in a container with Docker Compose.
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
+          <h2 className="text-2xl font-bold text-foreground mb-4">Docker Deployment</h2>
+          <p className="text-text-muted mb-6">
+            Run MalikClaw in a container with the official GHCR image or Docker Compose.
           </p>
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-[#0a0a0c] border border-white/5">
-              <code className="text-sm text-zinc-300 font-mono">
-                docker compose -f docker/docker-compose.yml --profile gateway up -d
+            <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 overflow-x-auto">
+              <code className="text-sm text-zinc-100 font-mono">
+                docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
               </code>
             </div>
-            <Link 
+            <Link
               href="/docs/deployment/docker"
-              className="inline-flex items-center gap-2 text-[#0df2c9] hover:text-white transition-colors font-medium"
+              className="inline-flex items-center gap-2 text-teal-700 dark:text-[#0df2c9] hover:text-foreground transition-colors font-medium"
             >
-              View Docker documentation <ArrowRight className="w-4 h-4" />
+              View Docker documentation <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
             </Link>
           </div>
         </motion.div>
 
         {/* CTA */}
         <div className="mt-16 text-center">
-          <p className="text-zinc-400 mb-4">Need help getting started?</p>
-          <Link 
-            href="/docs/quickstart"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[#0df2c9] text-black font-semibold hover:bg-[#0bc2a1] transition-colors"
+          <p className="text-text-muted mb-4">Need help getting started?</p>
+          <Link
+            href="/docs/quick-start"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 text-black font-semibold hover:bg-amber-400 transition-colors"
           >
-            Read Quick Start Guide <ArrowRight className="w-5 h-5" />
+            Read Quick Start Guide <ArrowRight className="w-5 h-5 rtl:rotate-180" aria-hidden="true" />
           </Link>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/10 py-12 text-center text-sm text-zinc-500">
-        <p>Built with Next.js, Go and ❤️ by the MalikClaw Community.</p>
+      <footer className="border-t border-card-border py-12 text-center text-sm text-text-muted">
+        <p>Built with Next.js, Go 1.25+ and ❤️ by the MalikClaw Community.</p>
         <p className="mt-2 text-xs">© 2026 Muhammad Abdullah Athar</p>
       </footer>
     </div>

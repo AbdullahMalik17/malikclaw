@@ -110,16 +110,27 @@ func (o *OpenclawHandler) ExecuteConfigMigration(srcConfigPath, dstConfigPath st
 
 func resolveSourceHome(override string) (string, error) {
 	if override != "" {
-		return internal.ExpandHome(override), nil
+		return expandOpenclawHome(override), nil
 	}
 	if envHome := os.Getenv("OPENCLAW_HOME"); envHome != "" {
-		return internal.ExpandHome(envHome), nil
+		return expandOpenclawHome(envHome), nil
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", fmt.Errorf("resolving home directory: %w", err)
 	}
 	return filepath.Join(home, ".openclaw"), nil
+}
+
+func expandOpenclawHome(path string) string {
+	if path == "~" {
+		return internal.ExpandHome(path)
+	}
+	if strings.HasPrefix(path, "~/") || strings.HasPrefix(path, `~\`) {
+		home := internal.ExpandHome("~")
+		return filepath.Join(home, filepath.FromSlash(path[2:]))
+	}
+	return path
 }
 
 func findSourceConfig(sourceHome string) (string, error) {

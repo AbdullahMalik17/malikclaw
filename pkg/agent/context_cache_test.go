@@ -383,11 +383,18 @@ Updated content.`
 	}
 }
 
+func setTestHome(t *testing.T, dir string) {
+	t.Helper()
+	t.Setenv("MALIKCLAW_HOME", "")
+	t.Setenv("HOME", dir)
+	t.Setenv("USERPROFILE", dir)
+}
+
 // TestGlobalSkillFileContentChange verifies that modifying a global skill
 // (~/.malikclaw/skills) invalidates the cached system prompt.
 func TestGlobalSkillFileContentChange(t *testing.T) {
 	tmpHome := t.TempDir()
-	t.Setenv("HOME", tmpHome)
+	setTestHome(t, tmpHome)
 
 	tmpDir := setupWorkspace(t, nil)
 	defer os.RemoveAll(tmpDir)
@@ -444,7 +451,7 @@ description: global-v2
 // invalidates the cached system prompt.
 func TestBuiltinSkillFileContentChange(t *testing.T) {
 	tmpHome := t.TempDir()
-	t.Setenv("HOME", tmpHome)
+	setTestHome(t, tmpHome)
 
 	tmpDir := setupWorkspace(t, nil)
 	defer os.RemoveAll(tmpDir)

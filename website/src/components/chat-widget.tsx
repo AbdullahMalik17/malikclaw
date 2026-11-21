@@ -1,21 +1,31 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type FormEvent } from "react";
 import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat() as any;
+  const [input, setInput] = useState("");
+  const { messages, sendMessage, status } = useChat();
+  const isLoading = status === "submitted" || status === "streaming";
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (!trimmed || isLoading) return;
+    setInput("");
+    await sendMessage({ text: trimmed });
+  };
+
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-6 end-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -23,69 +33,82 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="mb-4 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] flex flex-col bg-[#050505] border border-zinc-800 overflow-hidden font-mono"
+            className="mb-4 w-[350px] sm:w-[400px] h-[500px] max-h-[80vh] flex flex-col rounded-2xl bg-[#0B0C10] border border-zinc-800 shadow-2xl overflow-hidden font-mono text-zinc-100"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/5">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.04]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-black border border-zinc-800 flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-[#0df2c9]" />
+                <div className="w-8 h-8 rounded-lg bg-black border border-zinc-800 flex items-center justify-center">
+                  <Bot className="w-4 h-4 text-amber-400" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white tracking-tight">MalikClaw Assistant</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-[#0df2c9]">
-                    <span className="w-1.5 h-1.5 bg-[#0df2c9]"></span>
+                  <h3 className="font-semibold text-white tracking-tight text-sm">MalikClaw Assistant</h3>
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     Online
                   </div>
                 </div>
               </div>
-              <button 
+              <button
+                type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 bg-black border border-zinc-800 hover:bg-zinc-900 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                aria-label="Close MalikClaw Assistant"
+                className="w-8 h-8 rounded-lg bg-black border border-zinc-800 hover:bg-zinc-900 flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
 
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {messages.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-50">
-                  <Bot className="w-12 h-12 text-zinc-500" />
-                  <p className="text-zinc-400 text-sm max-w-[200px]">How can I help you deploy MalikClaw today?</p>
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-70">
+                  <Bot className="w-12 h-12 text-amber-400" aria-hidden="true" />
+                  <p className="text-zinc-300 text-sm max-w-[220px]">How can I help you deploy MalikClaw v2.0.0 today?</p>
                 </div>
               ) : (
-                messages.map((m: any) => (
-                  <div 
-                    key={m.id} 
-                    className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div className={`flex items-start gap-3 max-w-[85%] ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                      <div className={`w-8 h-8 flex items-center justify-center shrink-0 ${
-                        m.role === 'user' ? 'bg-zinc-800' : 'bg-black border border-zinc-800'
-                      }`}>
-                        {m.role === 'user' ? <User className="w-4 h-4 text-zinc-400" /> : <Bot className="w-4 h-4 text-[#0df2c9]" />}
-                      </div>
-                      <div className={`px-4 py-3 text-sm ${
-                        m.role === 'user' 
-                          ? 'bg-zinc-800 text-white' 
-                          : 'bg-black text-zinc-300 border border-zinc-800'
-                      }`}>
-                        {m.content}
+                messages.map((m) => {
+                  const text = m.parts
+                    .filter((part): part is Extract<typeof part, { type: "text" }> => part.type === "text")
+                    .map((part) => part.text)
+                    .join("");
+
+                  return (
+                    <div
+                      key={m.id}
+                      className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                    >
+                      <div className={`flex items-start gap-3 max-w-[85%] ${m.role === "user" ? "flex-row-reverse" : ""}`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          m.role === "user" ? "bg-zinc-800" : "bg-black border border-zinc-800"
+                        }`}>
+                          {m.role === "user" ? (
+                            <User className="w-4 h-4 text-zinc-300" aria-hidden="true" />
+                          ) : (
+                            <Bot className="w-4 h-4 text-amber-400" aria-hidden="true" />
+                          )}
+                        </div>
+                        <div className={`px-4 py-3 rounded-xl text-sm whitespace-pre-wrap break-words ${
+                          m.role === "user"
+                            ? "bg-zinc-800 text-white"
+                            : "bg-black text-zinc-200 border border-zinc-800"
+                        }`}>
+                          {text}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-black border border-zinc-800 flex items-center justify-center shrink-0">
-                      <Bot className="w-4 h-4 text-[#0df2c9]" />
+                    <div className="w-8 h-8 rounded-lg bg-black border border-zinc-800 flex items-center justify-center shrink-0">
+                      <Bot className="w-4 h-4 text-amber-400" aria-hidden="true" />
                     </div>
-                    <div className="px-4 py-3 bg-black text-zinc-300 border border-zinc-800 flex items-center gap-2">
-                       <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
-                       <span className="text-sm text-zinc-500">Thinking...</span>
+                    <div className="px-4 py-3 rounded-xl bg-black text-zinc-300 border border-zinc-800 flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin text-zinc-400" aria-hidden="true" />
+                      <span className="text-sm text-zinc-400">Thinking...</span>
                     </div>
                   </div>
                 </div>
@@ -94,20 +117,22 @@ export default function ChatWidget() {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-white/5 bg-white/5">
+            <div className="p-4 border-t border-white/10 bg-white/[0.04]">
               <form onSubmit={handleSubmit} className="relative flex items-center">
                 <input
                   value={input}
-                  onChange={handleInputChange}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question..."
-                  className="w-full bg-black border border-zinc-800 pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-zinc-500 transition-colors placeholder:text-zinc-600"
+                  aria-label="Ask MalikClaw Assistant a question"
+                  className="w-full rounded-xl bg-black border border-zinc-800 ps-4 pe-12 py-3 text-sm text-white focus:outline-none focus:border-amber-500/60 transition-colors placeholder:text-zinc-500"
                 />
-                <button 
-                  type="submit" 
-                  disabled={isLoading || !(input || '').trim()}
-                  className="absolute right-2 p-2 bg-black border border-zinc-800 text-white hover:bg-zinc-900 disabled:opacity-50 transition-colors"
+                <button
+                  type="submit"
+                  disabled={isLoading || !input.trim()}
+                  aria-label="Send message"
+                  className="absolute end-2 p-2 rounded-lg bg-zinc-900 border border-zinc-700 text-white hover:bg-zinc-800 disabled:opacity-50 transition-colors"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4" aria-hidden="true" />
                 </button>
               </form>
             </div>
@@ -115,14 +140,14 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-white text-black border border-zinc-800 flex items-center justify-center transition-shadow hover:bg-zinc-200"
+        aria-label={isOpen ? "Close chat assistant" : "Open chat assistant"}
+        className="w-14 h-14 rounded-2xl bg-amber-500 text-black border border-amber-400/50 flex items-center justify-center shadow-lg hover:bg-amber-400 active:scale-[0.98] transition-all"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
-      </motion.button>
+        {isOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <MessageSquare className="w-6 h-6" aria-hidden="true" />}
+      </button>
     </div>
   );
 }

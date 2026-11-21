@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.AbdullahMalik17/malikclaw",
+  "title": "MalikClaw",
+  "description": "Lightweight Go AI agent runtime with 21 channels, Ollama, SSRF/prompt guards, and MCP support.",
+  "version": "2.0.0",
+  "websiteUrl": "https://malikclaw.vercel.app",
+  "repository": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/abdullahmalik17/malikclaw:2.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "http://localhost:18790/mcp"
+    }
+  ]
+}

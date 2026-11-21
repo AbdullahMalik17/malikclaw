@@ -1,12 +1,44 @@
 package utils
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
 )
+
+func TestOnboardHelperProcess(t *testing.T) {
+	if os.Getenv("GO_WANT_ONBOARD_HELPER") != "1" {
+		return
+	}
+	switch os.Getenv("ONBOARD_HELPER_MODE") {
+	case "create-config":
+		configPath := os.Getenv("MALIKCLAW_CONFIG")
+		expectedPath := os.Getenv("EXPECTED_CONFIG_PATH")
+		if configPath != expectedPath {
+			fmt.Fprintf(os.Stderr, "MALIKCLAW_CONFIG = %q, want %q\n", configPath, expectedPath)
+			os.Exit(1)
+		}
+		if err := os.MkdirAll(filepath.Dir(configPath), 0o755); err != nil {
+			fmt.Fprintf(os.Stderr, "mkdir failed: %v\n", err)
+			os.Exit(1)
+		}
+		if err := os.WriteFile(configPath, []byte("{}"), 0o644); err != nil {
+			fmt.Fprintf(os.Stderr, "write failed: %v\n", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	case "noop":
+		os.Exit(0)
+	case "fail":
+		fmt.Fprintln(os.Stderr, "onboarding failed")
+		os.Exit(2)
+	default:
+		os.Exit(1)
+	}
+}
 
 func TestEnsureOnboardedSkipsWhenConfigExists(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "config.json")
@@ -17,10 +49,13 @@ func TestEnsureOnboardedSkipsWhenConfigExists(t *testing.T) {
 	origExecCommand := execCommand
 	defer func() { execCommand = origExecCommand }()
 
+	t.Setenv("GO_WANT_ONBOARD_HELPER", "1")
+	t.Setenv("ONBOARD_HELPER_MODE", "fail")
+
 	called := false
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		called = true
-		return exec.Command("sh", "-c", "exit 1")
+		return exec.Command(os.Args[0], "-test.run=^TestOnboardHelperProcess$")
 	}
 
 	if err := EnsureOnboarded(configPath); err != nil {
@@ -34,6 +69,8 @@ func TestEnsureOnboardedSkipsWhenConfigExists(t *testing.T) {
 func TestEnsureOnboardedRunsOnboardWhenConfigMissing(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "config.json")
 	t.Setenv("EXPECTED_CONFIG_PATH", configPath)
+	t.Setenv("GO_WANT_ONBOARD_HELPER", "1")
+	t.Setenv("ONBOARD_HELPER_MODE", "create-config")
 
 	origExecCommand := execCommand
 	defer func() { execCommand = origExecCommand }()
@@ -43,13 +80,7 @@ func TestEnsureOnboardedRunsOnboardWhenConfigMissing(t *testing.T) {
 	execCommand = func(name string, args ...string) *exec.Cmd {
 		gotName = name
 		gotArgs = append([]string(nil), args...)
-		return exec.Command(
-			"sh",
-			"-c",
-			`test "$MALIKCLAW_CONFIG" = "$EXPECTED_CONFIG_PATH" &&
-mkdir -p "$(dirname "$MALIKCLAW_CONFIG")" &&
-printf '{}' > "$MALIKCLAW_CONFIG"`,
-		)
+		return exec.Command(os.Args[0], "-test.run=^TestOnboardHelperProcess$")
 	}
 
 	if err := EnsureOnboarded(configPath); err != nil {
@@ -68,12 +99,14 @@ printf '{}' > "$MALIKCLAW_CONFIG"`,
 
 func TestEnsureOnboardedFailsWhenOnboardDoesNotCreateConfig(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "config.json")
+	t.Setenv("GO_WANT_ONBOARD_HELPER", "1")
+	t.Setenv("ONBOARD_HELPER_MODE", "noop")
 
 	origExecCommand := execCommand
 	defer func() { execCommand = origExecCommand }()
 
 	execCommand = func(name string, args ...string) *exec.Cmd {
-		return exec.Command("sh", "-c", "exit 0")
+		return exec.Command(os.Args[0], "-test.run=^TestOnboardHelperProcess$")
 	}
 
 	if err := EnsureOnboarded(configPath); err == nil {
@@ -83,12 +116,14 @@ func TestEnsureOnboardedFailsWhenOnboardDoesNotCreateConfig(t *testing.T) {
 
 func TestEnsureOnboardedIncludesOnboardOutputOnFailure(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "config.json")
+	t.Setenv("GO_WANT_ONBOARD_HELPER", "1")
+	t.Setenv("ONBOARD_HELPER_MODE", "fail")
 
 	origExecCommand := execCommand
 	defer func() { execCommand = origExecCommand }()
 
 	execCommand = func(name string, args ...string) *exec.Cmd {
-		return exec.Command("sh", "-c", "echo onboarding failed >&2; exit 2")
+		return exec.Command(os.Args[0], "-test.run=^TestOnboardHelperProcess$")
 	}
 
 	err := EnsureOnboarded(configPath)

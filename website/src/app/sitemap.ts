@@ -2,68 +2,36 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://malikclaw.vercel.app";
-  
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/docs`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/docs/installation`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/docs/installation/android`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/download`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    // Documentation pages
-    {
-      url: `${baseUrl}/docs/architecture`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/docs/configuration`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/docs/channels`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/docs/features`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/docs/faq`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
+  const lastModified = new Date();
+
+  const routes: Array<{ path: string; changeFrequency: "weekly" | "monthly"; priority: number }> = [
+    { path: "", changeFrequency: "weekly", priority: 1.0 },
+    { path: "/download", changeFrequency: "weekly", priority: 0.9 },
+    { path: "/trust", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/docs", changeFrequency: "weekly", priority: 0.9 },
+    { path: "/docs/quick-start", changeFrequency: "weekly", priority: 0.85 },
+    { path: "/docs/installation", changeFrequency: "weekly", priority: 0.85 },
+    { path: "/docs/installation/windows", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/installation/macos", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/installation/linux", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/installation/android", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/installation/source", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/deployment/docker", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/mobile-operation", changeFrequency: "monthly", priority: 0.65 },
+    { path: "/docs/architecture", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/configuration", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/providers", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/docs/security", changeFrequency: "monthly", priority: 0.75 },
+    { path: "/docs/troubleshooting", changeFrequency: "monthly", priority: 0.6 },
+    { path: "/docs/debug", changeFrequency: "monthly", priority: 0.6 },
+    { path: "/docs/antigravity/auth", changeFrequency: "monthly", priority: 0.6 },
+    { path: "/docs/antigravity/usage", changeFrequency: "monthly", priority: 0.6 },
   ];
+
+  return routes.map((route) => ({
+    url: `${baseUrl}${route.path}`,
+    lastModified,
+    changeFrequency: route.changeFrequency,
+    priority: route.priority,
+  }));
 }

@@ -10,8 +10,10 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/AbdullahMalik17/malikclaw/pkg/fileutil"
@@ -569,18 +571,66 @@ func (r *sandboxFs) WriteFile(path string, data []byte) error {
 		}
 
 		if err := root.Rename(tmpRelPath, relPath); err != nil {
-			root.Remove(tmpRelPath)
-			return fmt.Errorf("failed to rename temp file over target: %w", err)
+			_ = root.Remove(tmpRelPath)
+			if runtime.GOOS == "windows" && errors.Is(err, windowsErrorInvalidHandle) {
+				if fallbackErr := writeFileDirectInRoot(root, relPath, data); fallbackErr != nil {
+					return fallbackErr
+				}
+			} else {
+				return fmt.Errorf("failed to rename temp file over target: %w", err)
+			}
 		}
 
-		// Sync directory to ensure rename is durable
-		if dirFile, err := root.Open("."); err == nil {
+		// Sync directory to ensure write/rename is durable
+		dirToSync := dir
+		if dirToSync == "" || dirToSync == "/" {
+			dirToSync = "."
+		}
+		if dirFile, err := root.Open(dirToSync); err == nil {
 			_ = dirFile.Sync()
 			dirFile.Close()
 		}
 
 		return nil
 	})
+}
+
+// windowsErrorInvalidHandle is Win32 ERROR_INVALID_HANDLE (6), returned by
+// Go 1.26 os.Root.Rename (internal/syscall/windows.Renameat) on Windows
+// environments where NtSetInformationFile rejects a non-null RootDirectory.
+const windowsErrorInvalidHandle = syscall.Errno(6)
+
+// writeFileDirectInRoot writes data to relPath strictly through root's
+// handle-confined os.Root operations (preserving OBJ_DONT_REPARSE symlink
+// containment). If relPath is a symlink, the link entry is removed first so
+// callers never write through a symlink target.
+func writeFileDirectInRoot(root *os.Root, relPath string, data []byte) error {
+	if info, err := root.Lstat(relPath); err == nil && info.Mode()&os.ModeSymlink != 0 {
+		if rmErr := root.Remove(relPath); rmErr != nil {
+			return fmt.Errorf("failed to remove target symlink: %w", rmErr)
+		}
+	}
+
+	f, err := root.OpenFile(relPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600)
+	if err != nil {
+		return fmt.Errorf("failed to open target file: %w", err)
+	}
+
+	if _, err = f.Write(data); err != nil {
+		_ = f.Close()
+		return fmt.Errorf("failed to write target file: %w", err)
+	}
+
+	if err = f.Sync(); err != nil {
+		_ = f.Close()
+		return fmt.Errorf("failed to sync target file: %w", err)
+	}
+
+	if err = f.Close(); err != nil {
+		return fmt.Errorf("failed to close target file: %w", err)
+	}
+
+	return nil
 }
 
 func (r *sandboxFs) ReadDir(path string) ([]os.DirEntry, error) {
