@@ -18,6 +18,7 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/pulls"><img src="https://img.shields.io/github/issues-pr/AbdullahMalik17/malikclaw" alt="GitHub pull requests"></a>
     <br>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&theme=dark" alt="Listed on MCP Market"></a>
   </p>
 
   <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="1200" height="600" style="max-width: 100%; height: auto;" />

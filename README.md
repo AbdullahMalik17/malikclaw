@@ -9,6 +9,7 @@
     <img src="https://img.shields.io/badge/Platform-Linux%20%7C%20macOS%20%7C%20Windows%20%7C%20Android%20%7C%20Docker-blue" alt="Platform Support" />
     <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License" /></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/stargazers"><img src="https://img.shields.io/github/stars/AbdullahMalik17/malikclaw?style=social" alt="GitHub stars" /></a>
+    <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&amp;utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&amp;theme=dark" alt="Listed on MCP Market" /></a>
   </p>
   <p>
     <a href="QUICKSTART.md"><strong>Quickstart Guide</strong></a> •

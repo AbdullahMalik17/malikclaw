@@ -18,6 +18,7 @@
     <img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go&logoColor=white" alt="Golang 1.21+">
     <a href="https://github.com/AbdullahMalik17/malikclaw/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AbdullahMalik17/malikclaw?color=green" alt="MIT License"></a>
     <a href="https://malikclaw.io"><img src="https://img.shields.io/badge/Website-malikclaw.io-blue?style=flat&logo=google-chrome&logoColor=white" alt="Official Website"></a>
+    <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&theme=dark" alt="Listed on MCP Market"></a>
   </p>
 
 [اردو](README.ur.md) | [日本語](README.ja.md) | [Português](README.pt-br.md) | [Tiếng Việt](README.vi.md) | [Français](README.fr.md) | **English**
