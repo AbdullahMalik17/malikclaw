@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { 
   IconRobot, 
   IconMessage2, 
@@ -22,7 +22,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
