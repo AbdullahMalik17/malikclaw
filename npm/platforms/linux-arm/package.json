@@ -1,0 +1,32 @@
+{
+  "name": "@malikclaw/cli-linux-arm",
+  "version": "0.0.0",
+  "description": "The MalikClaw native CLI binary for linux arm.",
+  "license": "MIT",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "malikclaw": "bin/malikclaw",
+  "files": [
+    "bin/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",
+    "directory": "npm/platforms/linux-arm"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
+  },
+  "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
+  "keywords": [
+    "malikclaw",
+    "cli",
+    "ai",
+    "agent",
+    "binary"
+  ]
+}

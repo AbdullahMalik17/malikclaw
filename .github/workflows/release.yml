@@ -109,3 +109,66 @@ jobs:
           gh release edit "${{ inputs.tag }}" \
             --draft=${{ inputs.draft }} \
             --prerelease=${{ inputs.prerelease }}
+
+  npm:
+    name: Publish npm packages
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for `npm publish --provenance`
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TAG: ${{ inputs.tag }}
+      NPM_DIST_TAG: ${{ inputs.prerelease && 'next' || 'latest' }}
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+
+      - name: Require NPM_TOKEN
+        shell: bash
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::The NPM_TOKEN repository secret is not set. Create an npm automation token (npmjs.com -> Access Tokens) and add it under Settings -> Secrets -> Actions as NPM_TOKEN, then re-run this workflow. Nothing was published."
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Download release archives
+        shell: bash
+        run: |
+          mkdir -p dist
+          gh release download "$RELEASE_TAG" \
+            --pattern 'malikclaw_*.tar.gz' \
+            --pattern 'malikclaw_*.zip' \
+            --dir dist
+          ls -l dist
+
+      - name: Build npm packages from archives
+        shell: bash
+        run: node npm/scripts/build-npm-packages.js --version "${RELEASE_TAG#v}" --dir dist
+
+      - name: Verify packaging consistency
+        shell: bash
+        run: node npm/scripts/verify.js
+
+      - name: Publish platform packages (before the wrapper)
+        shell: bash
+        run: |
+          for pkg in npm/platforms/*/; do
+            echo "::group::publish ${pkg}"
+            npm publish "${pkg}" --access public --provenance --tag "${NPM_DIST_TAG}"
+            echo "::endgroup::"
+          done
+
+      - name: Publish malikclaw wrapper (last, so it never points at unpublished packages)
+        shell: bash
+        run: npm publish npm/cli --access public --provenance --tag "${NPM_DIST_TAG}"

@@ -1,0 +1,3 @@
+# Built binaries are produced by npm/scripts/build-npm-packages.js and are
+# never committed. (package.json manifests in <os>-<cpu>/ ARE committed.)
+*/bin/

@@ -1,0 +1,32 @@
+{
+  "name": "@malikclaw/cli-linux-s390x",
+  "version": "0.0.0",
+  "description": "The MalikClaw native CLI binary for linux s390x.",
+  "license": "MIT",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "s390x"
+  ],
+  "malikclaw": "bin/malikclaw",
+  "files": [
+    "bin/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",
+    "directory": "npm/platforms/linux-s390x"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
+  },
+  "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
+  "keywords": [
+    "malikclaw",
+    "cli",
+    "ai",
+    "agent",
+    "binary"
+  ]
+}

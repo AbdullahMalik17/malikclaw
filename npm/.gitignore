@@ -1,0 +1,8 @@
+# The root .gitignore has a bare `bin/` rule that would otherwise swallow the
+# wrapper's committed shim (npm/cli/bin/malikclaw.js). Re-include it explicitly.
+!cli/bin/
+
+# Local smoke-test artifacts (junctions/copies of platform packages)
+node_modules/
+# npm pack output
+*.tgz

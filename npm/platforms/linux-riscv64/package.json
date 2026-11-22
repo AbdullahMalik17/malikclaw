@@ -1,0 +1,32 @@
+{
+  "name": "@malikclaw/cli-linux-riscv64",
+  "version": "0.0.0",
+  "description": "The MalikClaw native CLI binary for linux riscv64.",
+  "license": "MIT",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "riscv64"
+  ],
+  "malikclaw": "bin/malikclaw",
+  "files": [
+    "bin/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",
+    "directory": "npm/platforms/linux-riscv64"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
+  },
+  "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
+  "keywords": [
+    "malikclaw",
+    "cli",
+    "ai",
+    "agent",
+    "binary"
+  ]
+}

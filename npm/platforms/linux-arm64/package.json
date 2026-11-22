@@ -1,0 +1,32 @@
+{
+  "name": "@malikclaw/cli-linux-arm64",
+  "version": "0.0.0",
+  "description": "The MalikClaw native CLI binary for linux arm64.",
+  "license": "MIT",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "malikclaw": "bin/malikclaw",
+  "files": [
+    "bin/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",
+    "directory": "npm/platforms/linux-arm64"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
+  },
+  "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
+  "keywords": [
+    "malikclaw",
+    "cli",
+    "ai",
+    "agent",
+    "binary"
+  ]
+}

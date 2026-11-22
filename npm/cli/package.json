@@ -1,0 +1,40 @@
+{
+  "name": "malikclaw",
+  "version": "0.0.0",
+  "description": "MalikClaw - a multi-platform AI agent framework CLI. Installs a tiny shim that runs the native binary shipped in a per-platform @malikclaw/cli-* package.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "malikclaw": "bin/malikclaw.js"
+  },
+  "files": [
+    "bin/malikclaw.js",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "verify": "node ../scripts/verify.js"
+  },
+  "keywords": [
+    "malikclaw",
+    "ai",
+    "agent",
+    "cli",
+    "llm",
+    "automation",
+    "golang"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",
+    "directory": "npm/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
+  },
+  "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
+  "optionalDependencies": {},
+  "dependencies": {}
+}
