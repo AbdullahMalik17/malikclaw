@@ -137,34 +137,6 @@ func TestOnboardWizard_UrduAndRomanUrduFlows(t *testing.T) {
 		},
 	}
 
-	func TestDetectOllamaModelsRejectsBlockedURLs(t *testing.T) {
-		tests := []struct {
-			name string
-			url  string
-		}{
-			{name: "cloud metadata", url: "http://169.254.169.254/latest/api/tags"},
-			{name: "private address", url: "http://192.168.1.20:11434"},
-			{name: "file scheme", url: "file:///tmp/models"},
-			{name: "empty host", url: "http:///api/tags"},
-		}
-
-		for _, tc := range tests {
-			t.Run(tc.name, func(t *testing.T) {
-				wizard := NewOnboardWizardWithOptions(OnboardWizardOptions{
-					In:        strings.NewReader(""),
-					Out:        &bytes.Buffer{},
-					OllamaURL: tc.url,
-					LookPath: func(string) (string, error) {
-						return "", errors.New("not found")
-					},
-				})
-				if got := wizard.detectOllamaModels(); len(got) != 0 {
-					t.Fatalf("detectOllamaModels(%q) = %v, want no models", tc.url, got)
-				}
-			})
-		}
-	}
-
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			tmpDir := t.TempDir()
@@ -201,6 +173,34 @@ func TestOnboardWizard_UrduAndRomanUrduFlows(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, cfg.Agents.Defaults.Routing)
 			assert.Equal(t, "gemini-2.5-flash", cfg.Agents.Defaults.Routing.FastModel)
+		})
+	}
+}
+
+func TestDetectOllamaModelsRejectsBlockedURLs(t *testing.T) {
+	tests := []struct {
+		name string
+		url  string
+	}{
+		{name: "cloud metadata", url: "http://169.254.169.254/latest/api/tags"},
+		{name: "private address", url: "http://192.168.1.20:11434"},
+		{name: "file scheme", url: "file:///tmp/models"},
+		{name: "empty host", url: "http:///api/tags"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			wizard := NewOnboardWizardWithOptions(OnboardWizardOptions{
+				In:        strings.NewReader(""),
+				Out:       &bytes.Buffer{},
+				OllamaURL: tc.url,
+				LookPath: func(string) (string, error) {
+					return "", errors.New("not found")
+				},
+			})
+			if got := wizard.detectOllamaModels(); len(got) != 0 {
+				t.Fatalf("detectOllamaModels(%q) = %v, want no models", tc.url, got)
+			}
 		})
 	}
 }
