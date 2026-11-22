@@ -42,7 +42,7 @@ check_prerequisites() {
         echo "  curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash"
         exit 1
     fi
-    log_success "MalikClaw installed: $(which $MALIKCLAW_CMD)"
+    log_success "MalikClaw installed: $(command -v "$MALIKCLAW_CMD")"
 
     # Check config
     if [[ ! -f "$CONFIG_FILE" ]]; then
@@ -53,7 +53,9 @@ check_prerequisites() {
     log_success "Configuration found: $CONFIG_FILE"
 
     # Show version
-    log_info "Version: $($MALIKCLAW_CMD --version)"
+    local version_output
+    version_output=$("$MALIKCLAW_CMD" --version)
+    log_info "Version: $(printf '%s\n' "$version_output" | awk 'NF{line=$0} END{print line}')"
 }
 
 # Demo 1: Phone Control via ADB
@@ -174,7 +176,11 @@ EOF
 
     # Test web search (if DuckDuckGo enabled)
     log_info "Testing web search..."
-    if $MALIKCLAW_CMD agent -m "What is the capital of Pakistan?" --timeout 30s 2>/dev/null; then
+    local timeout_cmd=()
+    if command -v timeout &>/dev/null; then
+        timeout_cmd=(timeout 30)
+    fi
+    if "${timeout_cmd[@]}" "$MALIKCLAW_CMD" agent -m "What is the capital of Pakistan?" 2>/dev/null; then
         log_success "Web search working!"
     else
         log_warn "Web search test failed. Check your internet connection."

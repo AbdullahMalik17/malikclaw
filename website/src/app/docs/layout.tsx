@@ -21,6 +21,7 @@ const sidebarItems = [
       { name: "Architecture", href: "/docs/architecture" },
       { name: "Configuration", href: "/docs/configuration" },
       { name: "Provider & Models", href: "/docs/providers" },
+      { name: "Smart Model Routing", href: "/docs/routing" },
       { name: "Security Sandbox", href: "/docs/security" },
     ],
   },

@@ -15,6 +15,7 @@ const STATIC_MAPPING: Record<string, { file: string; title: string }> = {
   "configuration": { file: "tools_configuration.md", title: "Configuration" },
   "architecture": { file: "ARCHITECTURE.md", title: "Architecture" },
   "providers": { file: "PROVIDERS.md", title: "Providers & Models" },
+  "routing": { file: "ROUTING.md", title: "Smart Model Routing" },
   "security": { file: "SECURITY.md", title: "Security" },
   "troubleshooting": { file: "troubleshooting.md", title: "Troubleshooting" },
   "debug": { file: "debug.md", title: "Debug Guide" },

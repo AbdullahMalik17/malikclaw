@@ -86,14 +86,25 @@ export default function AndroidInstallation() {
       </div>
 
       <h2>Step 4: Download MalikClaw</h2>
-      <p>Download the ARM64 binary:</p>
+      <p>Easiest route — <code>install.sh</code> detects Termux and installs into <code>$PREFIX/bin</code>:</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_arm64<br />
-          chmod +x malikclaw_Linux_arm64
+          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
         </code>
       </div>
+
+      <p>Or fetch the ARM64 release archive by hand (most modern phones; check with <code>uname -m</code>):</p>
+
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_arm64.tar.gz<br />
+          tar -xzf malikclaw_Linux_arm64.tar.gz<br />
+          chmod +x malikclaw
+        </code>
+      </div>
+
+      <p>The archive unpacks to binaries named <code>malikclaw</code> (plus the launcher), not the archive name.</p>
 
       <h2>Step 5: Run with Proot</h2>
 
@@ -102,7 +113,7 @@ export default function AndroidInstallation() {
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          ./malikclaw_Linux_arm64 onboard
+          malikclaw onboard
         </code>
       </div>
 
@@ -112,7 +123,7 @@ export default function AndroidInstallation() {
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           termux-chroot<br />
-          ./malikclaw_Linux_arm64 onboard
+          malikclaw onboard
         </code>
       </div>
 
@@ -157,7 +168,7 @@ export default function AndroidInstallation() {
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           termux-wake-lock<br />
-          ./malikclaw_Linux_arm64 gateway
+          malikclaw gateway
         </code>
       </div>
 
@@ -166,7 +177,7 @@ export default function AndroidInstallation() {
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           mkdir -p ~/.termux/boot/<br />
-          echo &quot;./malikclaw_Linux_arm64 gateway&quot; &gt; ~/.termux/boot/start-malikclaw<br />
+          echo &quot;malikclaw gateway&quot; &gt; ~/.termux/boot/start-malikclaw<br />
           chmod +x ~/.termux/boot/start-malikclaw
         </code>
       </div>
@@ -196,7 +207,7 @@ export default function AndroidInstallation() {
       <h3>Permission denied</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          chmod +x malikclaw_Linux_arm64
+          chmod +x malikclaw
         </code>
       </div>
 

@@ -64,7 +64,26 @@ function Test-WSL2 {
 Write-Step "Detecting Environment"
 
 $useWSL = Test-WSL2
-$arch = (Get-CimInstance Win32_Processor).AddressWidth
+$rawArch = $null
+try {
+    $rawArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
+} catch {
+    $rawArch = $env:PROCESSOR_ARCHITECTURE
+}
+if ([string]::IsNullOrWhiteSpace($rawArch)) {
+    $rawArch = $env:PROCESSOR_ARCHITECTURE
+}
+
+switch ($rawArch.ToUpperInvariant()) {
+    "X64"   { $archiveArch = "x86_64" }
+    "AMD64" { $archiveArch = "x86_64" }
+    "ARM64" { $archiveArch = "arm64" }
+    default {
+        Write-Error "Unsupported architecture: $rawArch (supported: x86_64/AMD64, arm64)"
+        exit 1
+    }
+}
+
 $installPath = ""
 
 if ($useWSL) {
@@ -75,7 +94,7 @@ if ($useWSL) {
     $installPath = "$env:USERPROFILE\.local\bin"
 }
 
-Write-Info "Architecture: $arch-bit"
+Write-Info "Architecture: $archiveArch ($rawArch)"
 Write-Info "Install Path: $installPath"
 
 # Step 2: Create Install Directory
@@ -103,24 +122,31 @@ if ($currentPath -notlike "*$installPath*") {
 # Step 3: Download Binary
 Write-Step "Downloading Binary"
 
-$mapArch = @{
-    "64" = "amd64"
-    "32" = "arm"  # Fallback
-}
-$goArch = $mapArch[$arch.ToString()]
-
-$downloadUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest/download/$BINARY_NAME-windows-$goArch.exe"
+$downloadUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest/download/${BINARY_NAME}_Windows_${archiveArch}.zip"
 $outputFile = "$installPath\$BINARY_NAME.exe"
+$tempDir = Join-Path ([System.IO.Path]::GetTempPath()) "malikclaw-install-$PID"
+$zipFile = Join-Path $tempDir "$BINARY_NAME.zip"
 
 Write-Info "Downloading from: $downloadUrl"
 
 try {
-    Invoke-WebRequest -Uri $downloadUrl -OutFile $outputFile -UseBasicParsing
-    Write-Success "Downloaded: $outputFile"
+    New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile -UseBasicParsing
+    Expand-Archive -Path $zipFile -DestinationPath $tempDir -Force
+    $extractedExe = Join-Path $tempDir "$BINARY_NAME.exe"
+    if (!(Test-Path $extractedExe)) {
+        throw "Expected binary '$BINARY_NAME.exe' was not found in archive"
+    }
+    Copy-Item -Path $extractedExe -Destination $outputFile -Force
+    Write-Success "Installed: $outputFile"
 } catch {
-    Write-Error "Download failed: $_"
+    Write-Error "Download/extraction failed: $_"
     Write-Info "Manual download: https://github.com/$REPO_OWNER/$REPO_NAME/releases"
     exit 1
+} finally {
+    if (Test-Path $tempDir) {
+        Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+    }
 }
 
 # Step 4: Create Config Directory
@@ -180,16 +206,40 @@ if (!(Test-Path $CONFIG_FILE)) {
 if ($useWSL) {
     Write-Step "Installing in WSL2"
 
-    Write-Info "Downloading Linux binary for WSL2..."
-    $wslDownloadUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest/download/$BINARY_NAME-linux-$goArch"
+    Write-Info "Downloading Linux archive for WSL2..."
+    $wslDownloadUrl = "https://github.com/$REPO_OWNER/$REPO_NAME/releases/latest/download/${BINARY_NAME}_Linux_${archiveArch}.tar.gz"
     $wslOutput = "$CONFIG_DIR\$BINARY_NAME"
+    $wslTempDir = Join-Path ([System.IO.Path]::GetTempPath()) "malikclaw-wsl-install-$PID"
+    $wslArchive = Join-Path $wslTempDir "$BINARY_NAME.tar.gz"
 
     try {
-        Invoke-WebRequest -Uri $wslDownloadUrl -OutFile $wslOutput -UseBasicParsing
-        chmod +x $wslOutput 2>$null
+        New-Item -ItemType Directory -Path $wslTempDir -Force | Out-Null
+        Invoke-WebRequest -Uri $wslDownloadUrl -OutFile $wslArchive -UseBasicParsing
+        if (Get-Command tar.exe -ErrorAction SilentlyContinue) {
+            & tar.exe -xzf $wslArchive -C $wslTempDir $BINARY_NAME
+            if ($LASTEXITCODE -ne 0) { throw "tar.exe exited with code $LASTEXITCODE" }
+        } else {
+            $wslArchiveUnix = (& wsl wslpath -u $wslArchive).Trim()
+            $wslTempUnix = (& wsl wslpath -u $wslTempDir).Trim()
+            & wsl tar -xzf $wslArchiveUnix -C $wslTempUnix $BINARY_NAME
+            if ($LASTEXITCODE -ne 0) { throw "wsl tar exited with code $LASTEXITCODE" }
+        }
+        $wslExtracted = Join-Path $wslTempDir $BINARY_NAME
+        if (!(Test-Path $wslExtracted)) {
+            throw "Expected binary '$BINARY_NAME' was not found in archive"
+        }
+        Copy-Item -Path $wslExtracted -Destination $wslOutput -Force
+        $wslOutputUnix = (& wsl wslpath -u $wslOutput).Trim()
+        & wsl chmod +x $wslOutputUnix
+        if ($LASTEXITCODE -ne 0) { throw "wsl chmod exited with code $LASTEXITCODE" }
+        & wsl sh -c "mkdir -p ~/.local/bin && ln -sf '$wslOutputUnix' ~/.local/bin/$BINARY_NAME"
         Write-Success "WSL2 binary installed: $wslOutput"
     } catch {
-        Write-Warn "WSL2 binary download failed, using Windows binary"
+        Write-Warn "WSL2 binary download failed ($_); using Windows binary"
+    } finally {
+        if (Test-Path $wslTempDir) {
+            Remove-Item -Path $wslTempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
     }
 }
 
@@ -197,10 +247,13 @@ if ($useWSL) {
 Write-Step "Verifying Installation"
 
 try {
-    & $outputFile --version 2>&1 | Out-Null
+    $null = & $outputFile --version
+    if ($LASTEXITCODE -ne 0) {
+        throw "Binary exited with code $LASTEXITCODE"
+    }
     Write-Success "Binary is executable"
 } catch {
-    Write-Error "Binary verification failed"
+    Write-Error "Binary verification failed: $_"
     exit 1
 }
 

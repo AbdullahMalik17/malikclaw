@@ -15,15 +15,18 @@ MalikClaw is an ultra-lightweight, open-source (MIT) AI agent engine written in 
 - **Universal SKILL.md + MCP Ecosystem**: First-class Model Context Protocol (MCP) client and drop-in `SKILL.md` skills (`~/.agents/skills/`, GitHub/ClawHub registries).
 
 ## Quick Install
-- **Linux / macOS**: `curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash`
+- **Linux / Android (Termux)**: `curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash`
 - **Windows (PowerShell)**: `irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex`
-- **Docker**: `docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest`
+- **macOS**: download `malikclaw_Darwin_arm64.tar.gz` (or `malikclaw_Darwin_x86_64.tar.gz`) from GitHub Releases
+- **Linux packages**: `malikclaw_x86_64.deb` / `malikclaw_aarch64.deb` / `malikclaw_x86_64.rpm` from GitHub Releases
+- **Docker**: `docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest` (tag `latest` or the release tag, e.g. `v2.0.0`; the Launcher image variant is tagged `launcher`)
 - **Go Install**: `go install github.com/AbdullahMalik17/malikclaw/cmd/malikclaw@latest`
 
 ## Key Links
 - Website: https://malikclaw.vercel.app
 - Documentation: https://malikclaw.vercel.app/docs
 - Quick Start: https://malikclaw.vercel.app/docs/quick-start
+- Smart Model Routing: https://malikclaw.vercel.app/docs/routing
 - Installation: https://malikclaw.vercel.app/docs/installation
 - Security & Trust: https://malikclaw.vercel.app/trust
 - Downloads: https://malikclaw.vercel.app/download

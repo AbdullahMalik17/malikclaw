@@ -12,7 +12,7 @@ export default function InstallationPage() {
 
       <h2>Quick Install</h2>
 
-      <h3>Linux/macOS</h3>
+      <h3>Linux / Android (Termux)</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
@@ -26,10 +26,21 @@ export default function InstallationPage() {
         </code>
       </div>
 
+      <h3>macOS</h3>
+      <p className="text-sm text-text-muted">
+        <code>install.sh</code> has no macOS branch. Install with <code>go install</code>, the Docker image, or the
+        signed <code>Darwin</code> archives — see the macOS guide.
+      </p>
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          go install github.com/AbdullahMalik17/malikclaw/cmd/malikclaw@latest
+        </code>
+      </div>
+
       <h2>Platform-Specific Guides</h2>
       <ul className="space-y-2 my-4">
         <li><Link href="/docs/installation/windows" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Windows Installation</Link> - Detailed Windows setup guide</li>
-        <li><Link href="/docs/installation/macos" className="text-teal-700 dark:text-[#0df2c9] hover:underline">macOS Installation</Link> - Homebrew and manual installation</li>
+        <li><Link href="/docs/installation/macos" className="text-teal-700 dark:text-[#0df2c9] hover:underline">macOS Installation</Link> - Go install, Docker, and manual archives</li>
         <li><Link href="/docs/installation/linux" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Linux Installation</Link> - DEB, RPM, Docker, and binary installation</li>
         <li><Link href="/docs/installation/android" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Android/Termux</Link> - Run MalikClaw on your phone</li>
       </ul>
@@ -38,15 +49,15 @@ export default function InstallationPage() {
       <p>After installation, verify MalikClaw is working:</p>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          malikclaw --version
+          malikclaw version
         </code>
       </div>
       <p>You should see output similar to:</p>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
-        <code className="text-sm text-zinc-100 font-mono block">
-          MalikClaw v2.0.0<br />
-          Go version: go1.25.7<br />
-          Build time: 2026-11-21
+        <code className="text-sm text-zinc-100 font-mono block whitespace-pre">
+{`🦅 malikclaw 2.0.0 (git: a1b2c3d)
+  Build: 2026-11-21T09:00:00Z
+  Go: go1.25.7`}
         </code>
       </div>
 

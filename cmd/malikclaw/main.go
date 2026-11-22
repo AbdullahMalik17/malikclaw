@@ -36,8 +36,9 @@ func NewMalikclawCommand() *cobra.Command {
 	var configPath string
 
 	cmd := &cobra.Command{
-		Use:   "malikclaw",
-		Short: short,
+		Use:     "malikclaw",
+		Short:   short,
+		Version: config.GetVersion(),
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if configPath != "" {
 				os.Setenv("MALIKCLAW_CONFIG", configPath)

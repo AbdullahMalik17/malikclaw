@@ -79,33 +79,61 @@ detect_environment() {
     
     ARCH=$(uname -m)
     OS=$(uname -s)
-    ENV_TYPE="linux"
+    ENV_TYPE="standard"
     
-    # Detect Termux
-    if is_termux; then
-        ENV_TYPE="termux"
-        log_info "Detected: ${CYAN}Termux (Android)${NC}"
-    else
-        log_info "Detected: ${CYAN}Standard Linux${NC}"
-    fi
+    case "$OS" in
+        Linux)
+            ARCHIVE_OS="Linux"
+            if is_termux; then
+                ENV_TYPE="termux"
+                log_info "Detected: ${CYAN}Termux (Android)${NC}"
+            else
+                ENV_TYPE="linux"
+                log_info "Detected: ${CYAN}Standard Linux${NC}"
+            fi
+            ;;
+        Darwin)
+            ARCHIVE_OS="Darwin"
+            ENV_TYPE="darwin"
+            log_info "Detected: ${CYAN}macOS (Darwin)${NC}"
+            ;;
+        FreeBSD)
+            ARCHIVE_OS="Freebsd"
+            ENV_TYPE="freebsd"
+            log_info "Detected: ${CYAN}FreeBSD${NC}"
+            ;;
+        *)
+            log_error "Unsupported OS: $OS"
+            echo -e "${YELLOW}Supported: Linux, Darwin (macOS), FreeBSD${NC}"
+            return 1
+            ;;
+    esac
     
     # Detect Architecture
     case "$ARCH" in
         aarch64|arm64)
-            ARCH="arm64"
+            ARCHIVE_ARCH="arm64"
             log_info "Architecture: ${CYAN}ARM64 (aarch64)${NC}"
             ;;
         armv7l|armhf|armv7)
-            ARCH="arm"
+            ARCHIVE_ARCH="armv7"
             log_info "Architecture: ${CYAN}ARMv7 (32-bit)${NC}"
             ;;
+        armv6l|armv6)
+            ARCHIVE_ARCH="armv6"
+            log_info "Architecture: ${CYAN}ARMv6 (32-bit)${NC}"
+            ;;
         x86_64|amd64)
-            ARCH="amd64"
+            ARCHIVE_ARCH="x86_64"
             log_info "Architecture: ${CYAN}x86_64${NC}"
+            ;;
+        riscv64)
+            ARCHIVE_ARCH="riscv64"
+            log_info "Architecture: ${CYAN}RISC-V 64${NC}"
             ;;
         *)
             log_error "Unsupported architecture: $ARCH"
-            echo -e "${YELLOW}Supported: aarch64, armv7l, x86_64${NC}"
+            echo -e "${YELLOW}Supported: x86_64, aarch64/arm64, armv7l, armv6l, riscv64${NC}"
             return 1
             ;;
     esac
@@ -119,7 +147,7 @@ detect_environment() {
         log_info "Install Path: ${CYAN}$INSTALL_BIN${NC} (System)"
     fi
     
-    BINARY_URL="https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/latest/download/${BINARY_NAME}-linux-${ARCH}"
+    ARCHIVE_URL="https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/latest/download/${BINARY_NAME}_${ARCHIVE_OS}_${ARCHIVE_ARCH}.tar.gz"
 }
 
 # --- Step 2: Setup Termux Environment (if needed) ---
@@ -155,48 +183,69 @@ setup_termux() {
 fetch_binary() {
     log_step "Fetching Latest Release"
     
-    local temp_binary
-    temp_binary=$(mktemp)
+    if ! command -v tar &>/dev/null; then
+        log_error "tar is required to extract the release archive."
+        return 1
+    fi
     
-    log_info "Downloading from: ${CYAN}$BINARY_URL${NC}"
+    local temp_dir archive_path extracted_binary
+    temp_dir=$(mktemp -d)
+    archive_path="$temp_dir/${BINARY_NAME}.tar.gz"
+    extracted_binary="$temp_dir/${BINARY_NAME}"
     
-    if ! download_file "$BINARY_URL" "$temp_binary"; then
-        log_error "Failed to download binary"
+    log_info "Downloading from: ${CYAN}$ARCHIVE_URL${NC}"
+    
+    if ! download_file "$ARCHIVE_URL" "$archive_path"; then
+        log_error "Failed to download release archive"
         echo -e "${YELLOW}Check your internet connection or visit:${NC}"
         echo -e "${CYAN}https://github.com/${REPO_OWNER}/${REPO_NAME}/releases${NC}"
-        rm -f "$temp_binary"
+        rm -rf "$temp_dir"
         return 1
     fi
     
     # Verify download succeeded
-    if [[ ! -s "$temp_binary" ]]; then
-        log_error "Downloaded file is empty"
-        rm -f "$temp_binary"
+    if [[ ! -s "$archive_path" ]]; then
+        log_error "Downloaded archive is empty"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Extract release archive
+    if ! tar -xzf "$archive_path" -C "$temp_dir"; then
+        log_error "Failed to extract release archive"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    if [[ ! -f "$extracted_binary" ]]; then
+        log_error "Binary ${BINARY_NAME} not found in archive"
+        rm -rf "$temp_dir"
         return 1
     fi
     
     # Set executable permissions
-    chmod +x "$temp_binary"
-    log_success "Binary downloaded and permissions set"
+    chmod +x "$extracted_binary"
+    log_success "Binary extracted and permissions set"
     
     # Move to install location
     if [[ "$ENV_TYPE" == "termux" ]]; then
         mkdir -p "$INSTALL_BIN"
-        mv "$temp_binary" "$INSTALL_BIN/${BINARY_NAME}"
+        mv "$extracted_binary" "$INSTALL_BIN/${BINARY_NAME}"
     else
         # Try to install to system path, fallback to user path
         if [[ -w "$INSTALL_BIN" ]]; then
-            mv "$temp_binary" "$INSTALL_BIN/${BINARY_NAME}"
+            mv "$extracted_binary" "$INSTALL_BIN/${BINARY_NAME}"
         else
             log_warn "Cannot write to $INSTALL_BIN (need sudo)"
             log_info "Installing to $HOME/.local/bin instead..."
             INSTALL_BIN="$HOME/.local/bin"
             mkdir -p "$INSTALL_BIN"
-            mv "$temp_binary" "$INSTALL_BIN/${BINARY_NAME}"
+            mv "$extracted_binary" "$INSTALL_BIN/${BINARY_NAME}"
             log_info "Add to PATH: ${CYAN}export PATH=\$HOME/.local/bin:\$PATH${NC}"
         fi
     fi
     
+    rm -rf "$temp_dir"
     log_success "Binary installed to: ${INSTALL_BIN}/${BINARY_NAME}"
 }
 
@@ -313,9 +362,13 @@ post_install() {
     fi
     
     # Show version info
-    local version_info
-    if version_info=$("$INSTALL_BIN/${BINARY_NAME}" --version 2>&1); then
-        log_info "Version: ${CYAN}$version_info${NC}"
+    local version_output version_line
+    if version_output=$("$INSTALL_BIN/${BINARY_NAME}" --version 2>&1); then
+        version_line=$(printf '%s\n' "$version_output" | awk 'NF{line=$0} END{print line}')
+        log_info "Version: ${CYAN}${version_line}${NC}"
+    else
+        log_error "Binary version check failed"
+        return 1
     fi
     
     # Create wrapper script for Termux if needed

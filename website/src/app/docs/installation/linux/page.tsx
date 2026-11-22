@@ -27,33 +27,19 @@ export default function LinuxInstallation() {
         </div>
       </div>
 
-      <h2>Method 1: Auto Installer (Recommended)</h2>
-      <p>Our installation script works on most Linux distributions:</p>
-
-      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
-        <code className="text-sm text-zinc-100 font-mono block">
-          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
-        </code>
-      </div>
-
-      <p>The script will:</p>
-      <ul>
-        <li>Detect your distribution and architecture</li>
-        <li>Download the appropriate binary</li>
-        <li>Install to <code>/usr/local/bin</code></li>
-        <li>Create systemd service (optional)</li>
-      </ul>
-
-      <h2>Method 2: Distribution Packages</h2>
+      <h2>Method 1: Release Packages</h2>
+      <p>GoReleaser publishes <code>deb</code> and <code>rpm</code> packages that install to <code>/usr/bin</code>. Package file names use the nfpm architecture aliases — <code>x86_64</code>, <code>aarch64</code>, <code>armv6</code>/<code>armv7</code> — not the Go arch names.</p>
 
       <h3>Debian/Ubuntu (DEB)</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_amd64.deb<br />
-          sudo dpkg -i malikclaw_amd64.deb<br />
+          wget https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_x86_64.deb<br />
+          sudo dpkg -i malikclaw_x86_64.deb<br />
           sudo apt-get install -f  # Fix dependencies if needed
         </code>
       </div>
+
+      <p>On 64-bit ARM boards (Raspberry Pi 4/5, Orange Pi) use <code>malikclaw_aarch64.deb</code> instead.</p>
 
       <h3>Fedora/RHEL (RPM)</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
@@ -63,13 +49,30 @@ export default function LinuxInstallation() {
         </code>
       </div>
 
-      <h3>Arch Linux (AUR)</h3>
+      <h2>Method 2: Auto Installer Script</h2>
+      <p><code>install.sh</code> is tuned for small boards and Termux. It detects <code>x86_64</code>, <code>aarch64</code>/<code>arm64</code> and <code>armv7l</code> only, and installs to <code>/usr/local/bin</code> (or Termux&apos;s <code>$PREFIX/bin</code>):</p>
+
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          yay -S malikclaw<br />
-          # or<br />
-          paru -S malikclaw
+          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
         </code>
+      </div>
+
+      <p>The script will:</p>
+      <ul>
+        <li>Detect a standard Linux host versus a Termux/Android environment</li>
+        <li>Resolve the architecture to a Go <code>GOARCH</code> value</li>
+        <li>Download the binary and install it into your PATH</li>
+        <li>Create <code>~/.malikclaw</code> plus its workspace and prompt you to run <code>malikclaw onboard</code></li>
+      </ul>
+
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 my-4 not-prose">
+        <p className="text-sm text-foreground m-0">
+          <strong>Known issue:</strong> <code>install.sh</code> still requests flat asset names
+          (<code>malikclaw-linux-amd64</code>), while releases ship GoReleaser archives
+          (<code>malikclaw_Linux_x86_64.tar.gz</code>). Until the script is realigned, the one-liner can fail with
+          a 404 — Method 1 or 3 below are the verified paths. RISC-V boards must use Method 3.
+        </p>
       </div>
 
       <h2>Method 3: Manual Binary Installation</h2>
@@ -135,7 +138,7 @@ export default function LinuxInstallation() {
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          malikclaw --version
+          malikclaw version
         </code>
       </div>
 
@@ -162,10 +165,30 @@ export default function LinuxInstallation() {
       </div>
 
       <h2>Systemd Service (Optional)</h2>
-      <p>Run MalikClaw as a background service:</p>
+      <p>
+        No release artifact installs a unit file. Create <code>/etc/systemd/system/malikclaw.service</code> yourself —
+        the gateway, not <code>agent</code>, is the long-running process:
+      </p>
+
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block whitespace-pre">
+{`[Unit]
+Description=MalikClaw gateway
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/malikclaw gateway
+Restart=on-failure
+User=malikclaw
+
+[Install]
+WantedBy=multi-user.target`}
+        </code>
+      </div>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
+          sudo systemctl daemon-reload<br />
           sudo systemctl enable malikclaw<br />
           sudo systemctl start malikclaw<br />
           sudo systemctl status malikclaw
@@ -173,14 +196,26 @@ export default function LinuxInstallation() {
       </div>
 
       <h2>Docker Installation</h2>
-      <p>For containerized deployments (non-root UID 1000 user):</p>
+      <p>
+        The image is a scratch-simple Alpine layer running as <strong>root</strong>, so the config directory lives at
+        <code>/root/.malikclaw</code>. Publishes for <code>linux/amd64</code>, <code>linux/arm64</code> and
+        <code>linux/riscv64</code> under these tags: <code>latest</code> and the release tag (e.g. <code>v2.0.0</code>),
+        or <code>nightly</code> for nightly builds. The web-launcher variant is tagged <code>launcher</code> /
+        <code>{'{{tag}}-launcher'}</code>.
+      </p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           docker pull ghcr.io/abdullahmalik17/malikclaw:latest<br />
-          docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
+          docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/root/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest
         </code>
       </div>
+
+      <p>
+        On the first run — with no mounted <code>config.json</code> — the entrypoint executes
+        <code>malikclaw onboard</code> and exits. Mount or create the config (add your API key), then restart the
+        container; subsequent starts run <code>malikclaw gateway</code> on port <code>18790</code>.
+      </p>
 
       <h2>Uninstall</h2>
 

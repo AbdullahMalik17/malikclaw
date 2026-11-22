@@ -26,8 +26,8 @@ export default function WindowsInstallation() {
         </div>
       </div>
 
-      <h2>Method 1: PowerShell One-Liner (Recommended)</h2>
-      <p>Install the latest signed Windows binary and configure PATH automatically:</p>
+      <h2>Method 1: PowerShell Installer (install.ps1)</h2>
+      <p>Installs the Windows binary, falls back to the Linux binary inside WSL2 when available, and configures PATH:</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
@@ -35,24 +35,41 @@ export default function WindowsInstallation() {
         </code>
       </div>
 
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 my-4 not-prose">
+        <p className="text-sm text-foreground m-0">
+          <strong>Known issue:</strong> <code>install.ps1</code> requests a flat
+          <code>malikclaw-windows-amd64.exe</code> asset, while GoReleaser publishes
+          <code>malikclaw_Windows_x86_64.zip</code>. If the script 404s, use Method 2 or Method 3 below.
+        </p>
+      </div>
+
       <p>Verify the installation and start onboarding:</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          malikclaw --version<br />
+          malikclaw version<br />
           malikclaw onboard
         </code>
       </div>
 
-      <h2>Method 2: Winget &amp; Chocolatey</h2>
-      <p>You can also install using Windows Package Manager or Chocolatey:</p>
+      <h2>Method 2: Winget</h2>
+      <p>
+        GoReleaser submits the manifest to the <code>AbdullahMalik17/winget-pkgs</code> repository under the package
+        name <code>malikclaw</code>, so install it with the full ID:
+      </p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          winget install malikclaw<br />
-          # or<br />
-          choco install malikclaw
+          winget install AbdullahMalik17.malikclaw
         </code>
+      </div>
+
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 my-4 not-prose">
+        <p className="text-sm text-foreground m-0">
+          <strong>Note:</strong> there is no Chocolatey package, and no scoop bucket — Method 3 (ZIP) or the PowerShell
+          installer are the only other supported routes. The winget manifest is published at release time, so it can
+          trail the newest GitHub release by a few hours.
+        </p>
       </div>
 
       <h2>Method 3: Manual Installation</h2>
@@ -102,7 +119,7 @@ export default function WindowsInstallation() {
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          malikclaw --version
+          malikclaw version
         </code>
       </div>
 
@@ -116,12 +133,10 @@ export default function WindowsInstallation() {
 
       <h2>Uninstall</h2>
 
-      <h3>Winget/Chocolatey</h3>
+      <h3>Winget</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          winget uninstall malikclaw<br />
-          # or<br />
-          choco uninstall malikclaw
+          winget uninstall AbdullahMalik17.malikclaw
         </code>
       </div>
 

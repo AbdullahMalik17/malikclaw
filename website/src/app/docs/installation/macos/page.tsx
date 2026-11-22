@@ -26,38 +26,47 @@ export default function MacOSInstallation() {
         </div>
       </div>
 
-      <h2>Method 1: Homebrew (Recommended)</h2>
-      <p>The easiest way to install MalikClaw on macOS.</p>
+      <h2>Method 1: Go Install (Recommended)</h2>
+      <p>Build and install the latest tagged release straight from the module with the Go toolchain (Go 1.25.7 or newer).</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          brew install malikclaw
+          go install github.com/AbdullahMalik17/malikclaw/cmd/malikclaw@latest
         </code>
       </div>
 
-      <p>If you don&apos;t have Homebrew installed:</p>
+      <p>If you don&apos;t have Go yet:</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          /bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
+          brew install go<br />
+          export PATH=&quot;$(go env GOPATH)/bin:$PATH&quot;
         </code>
       </div>
 
-      <h2>Method 2: Auto Installer Script</h2>
-      <p>Our installation script handles everything automatically:</p>
+      <h2>Method 2: Docker Image</h2>
+      <p>Skip the local install entirely and run the published multi-arch image:</p>
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash
+          docker pull ghcr.io/abdullahmalik17/malikclaw:latest<br />
+          docker run -it --rm -v ~/.malikclaw:/root/.malikclaw --entrypoint malikclaw ghcr.io/abdullahmalik17/malikclaw:latest version
         </code>
       </div>
 
-      <p>The script will:</p>
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 my-4 not-prose">
+        <p className="text-sm text-foreground m-0">
+          <strong>Note:</strong> the <code>install.sh</code> one-liner supports Linux and Android/Termux only — its
+          architecture detection has no macOS branch. On a Mac, use one of the methods on this page.
+        </p>
+      </div>
+
+      <p>The manual archive route:</p>
       <ul>
-        <li>Detect your architecture (Intel or Apple Silicon)</li>
-        <li>Download the appropriate binary</li>
+        <li>Pick the <code>Darwin_arm64</code> or <code>Darwin_x86_64</code> tarball below</li>
+        <li>Extract the <code>malikclaw</code> binary</li>
         <li>Install to <code>/usr/local/bin</code></li>
-        <li>Set up permissions automatically</li>
+        <li>Clear the Gatekeeper quarantine attribute</li>
       </ul>
 
       <h2>Method 3: Manual Installation</h2>
@@ -114,7 +123,7 @@ export default function MacOSInstallation() {
 
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          malikclaw --version
+          malikclaw version
         </code>
       </div>
 
@@ -139,10 +148,10 @@ export default function MacOSInstallation() {
 
       <h2>Uninstall</h2>
 
-      <h3>Homebrew</h3>
+      <h3>Go Install</h3>
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
-          brew uninstall malikclaw
+          rm &quot;$(go env GOPATH)/bin/malikclaw&quot;
         </code>
       </div>
 

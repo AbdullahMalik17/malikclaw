@@ -3,11 +3,16 @@ on:
   push:
     tags:
       - 'v*'
+permissions:
+  contents: write
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -16,5 +21,9 @@ jobs:
           git config user.email "bot@malikclaw.io"
           git config user.name "MalikClaw Bot"
           git add website/src/lib/version.ts
-          git commit -m "chore: sync version to $(git describe --tags --abbrev=0)" || exit 0
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: sync version to $(git describe --tags --abbrev=0)"
+            git push origin HEAD:main
+          else
+            echo "website/src/lib/version.ts already up to date."
+          fi

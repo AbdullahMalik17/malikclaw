@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"slices"
 	"testing"
@@ -58,4 +59,17 @@ func TestNewMalikclawCommand(t *testing.T) {
 
 		assert.False(t, subcmd.Hidden)
 	}
+}
+
+func TestNewMalikclawCommand_VersionFlag(t *testing.T) {
+	cmd := NewMalikclawCommand()
+	assert.Equal(t, config.GetVersion(), cmd.Version)
+
+	var buf bytes.Buffer
+	cmd.SetOut(&buf)
+	cmd.SetErr(&buf)
+	cmd.SetArgs([]string{"--version"})
+
+	require.NoError(t, cmd.Execute())
+	assert.Contains(t, buf.String(), config.GetVersion())
 }
