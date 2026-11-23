@@ -497,6 +497,10 @@ func (r *sandboxFs) execute(path string, fn func(root *os.Root, relPath string) 
 		return fmt.Errorf("workspace is not defined")
 	}
 
+	if _, err := validatePath(path, r.workspace, true); err != nil {
+		return err
+	}
+
 	root, err := os.OpenRoot(r.workspace)
 	if err != nil {
 		return fmt.Errorf("failed to open workspace: %w", err)

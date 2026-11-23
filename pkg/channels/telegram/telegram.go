@@ -47,8 +47,10 @@ type TelegramChannel struct {
 	ctx     context.Context
 	cancel  context.CancelFunc
 
-	registerFunc     func(context.Context, []commands.Definition) error
-	commandRegCancel context.CancelFunc
+	registerFunc      func(context.Context, []commands.Definition) error
+	commandRegBackoff []time.Duration
+	commandRegCancel  context.CancelFunc
+	commandRegDone    chan struct{}
 }
 
 func NewTelegramChannel(cfg *config.Config, bus *bus.MessageBus) (*TelegramChannel, error) {

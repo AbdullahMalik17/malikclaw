@@ -14,7 +14,12 @@ func TestStartCommandRegistration_DoesNotBlock(t *testing.T) {
 	ch := &TelegramChannel{}
 	started := make(chan struct{}, 1)
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	defer func() {
+		cancel()
+		if ch.commandRegDone != nil {
+			<-ch.commandRegDone
+		}
+	}()
 
 	ch.registerFunc = func(context.Context, []commands.Definition) error {
 		started <- struct{}{}
@@ -31,13 +36,16 @@ func TestStartCommandRegistration_DoesNotBlock(t *testing.T) {
 }
 
 func TestStartCommandRegistration_RetriesUntilSuccessThenStops(t *testing.T) {
-	ch := &TelegramChannel{}
+	ch := &TelegramChannel{
+		commandRegBackoff: []time.Duration{5 * time.Millisecond},
+	}
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
-	origBackoff := commandRegistrationBackoff
-	commandRegistrationBackoff = []time.Duration{5 * time.Millisecond}
-	defer func() { commandRegistrationBackoff = origBackoff }()
+	defer func() {
+		cancel()
+		if ch.commandRegDone != nil {
+			<-ch.commandRegDone
+		}
+	}()
 
 	var attempts atomic.Int32
 	ch.registerFunc = func(context.Context, []commands.Definition) error {
@@ -69,13 +77,16 @@ func TestStartCommandRegistration_RetriesUntilSuccessThenStops(t *testing.T) {
 }
 
 func TestStartCommandRegistration_StopsAfterCancel(t *testing.T) {
-	ch := &TelegramChannel{}
+	ch := &TelegramChannel{
+		commandRegBackoff: []time.Duration{5 * time.Millisecond},
+	}
 	ctx, cancel := context.WithCancel(context.Background())
-
-	origBackoff := commandRegistrationBackoff
-	commandRegistrationBackoff = []time.Duration{5 * time.Millisecond}
-	defer func() { commandRegistrationBackoff = origBackoff }()
-	defer cancel()
+	defer func() {
+		cancel()
+		if ch.commandRegDone != nil {
+			<-ch.commandRegDone
+		}
+	}()
 
 	var attempts atomic.Int32
 	ch.registerFunc = func(context.Context, []commands.Definition) error {
@@ -87,7 +98,7 @@ func TestStartCommandRegistration_StopsAfterCancel(t *testing.T) {
 
 	time.Sleep(20 * time.Millisecond)
 	cancel()
-	time.Sleep(20 * time.Millisecond) // allow in-flight attempt to settle
+	<-ch.commandRegDone
 	stable := attempts.Load()
 	time.Sleep(30 * time.Millisecond)
 	if attempts.Load() != stable {

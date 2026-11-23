@@ -12,7 +12,7 @@ import (
 	"github.com/AbdullahMalik17/malikclaw/pkg/logger"
 )
 
-var commandRegistrationBackoff = []time.Duration{
+var defaultCommandRegistrationBackoff = []time.Duration{
 	5 * time.Second,
 	15 * time.Second,
 	60 * time.Second,
@@ -20,11 +20,14 @@ var commandRegistrationBackoff = []time.Duration{
 	10 * time.Minute,
 }
 
-func commandRegistrationDelay(attempt int) time.Duration {
-	if len(commandRegistrationBackoff) == 0 {
+func commandRegistrationDelay(backoff []time.Duration, attempt int) time.Duration {
+	if len(backoff) == 0 {
+		backoff = defaultCommandRegistrationBackoff
+	}
+	if len(backoff) == 0 {
 		return 0
 	}
-	base := commandRegistrationBackoff[min(attempt, len(commandRegistrationBackoff)-1)]
+	base := backoff[min(attempt, len(backoff)-1)]
 	// Full jitter in [0.5, 1.0) to avoid synchronized retries across instances.
 	return time.Duration(float64(base) * (0.5 + rand.Float64()*0.5))
 }
@@ -69,10 +72,14 @@ func (c *TelegramChannel) startCommandRegistration(ctx context.Context, defs []c
 
 	regCtx, cancel := context.WithCancel(ctx)
 	c.commandRegCancel = cancel
+	backoff := slices.Clone(c.commandRegBackoff)
+	done := make(chan struct{})
+	c.commandRegDone = done
 
 	// Registration runs asynchronously so Telegram message intake is never blocked
 	// by temporary upstream API failures. Retry stops on success or channel shutdown.
 	go func() {
+		defer close(done)
 		attempt := 0
 		timer := time.NewTimer(0)
 		if !timer.Stop() {
@@ -91,7 +98,7 @@ func (c *TelegramChannel) startCommandRegistration(ctx context.Context, defs []c
 				return
 			}
 
-			delay := commandRegistrationDelay(attempt)
+			delay := commandRegistrationDelay(backoff, attempt)
 			logger.WarnCF("telegram", "Telegram command registration failed; will retry", map[string]any{
 				"error":       err.Error(),
 				"retry_after": delay.String(),
