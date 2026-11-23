@@ -1,6 +1,6 @@
 "use client";
 
-import { Cpu, Globe, Smartphone, Terminal, Download as DownloadIcon, ArrowRight } from "lucide-react";
+import { Cpu, Globe, Smartphone, Terminal, Download as DownloadIcon, ArrowRight, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Language, translations } from "@/i18n/translations";
@@ -21,7 +21,7 @@ export default function Download({ language }: DownloadProps) {
       desc: t.download.windowsDesc,
       icon: Globe,
       color: "text-cyan-700 dark:text-cyan-400",
-      border: "hover:border-cyan-500/45",
+      border: "hover:border-cyan-500/40",
       btnText: t.download.downloadExe,
       href: "https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Windows_x86_64.zip",
       tag: "x86_64 / ARM64",
@@ -31,7 +31,7 @@ export default function Download({ language }: DownloadProps) {
       desc: t.download.linuxDesc,
       icon: Cpu,
       color: "text-amber-700 dark:text-amber-400",
-      border: "hover:border-amber-500/45",
+      border: "hover:border-amber-500/40",
       btnText: t.download.downloadBinary,
       href: "https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_x86_64.tar.gz",
       tag: "ARM64 / RISC-V",
@@ -40,8 +40,8 @@ export default function Download({ language }: DownloadProps) {
       name: t.download.android,
       desc: t.download.androidDesc,
       icon: Smartphone,
-      color: "text-purple-700 dark:text-purple-400",
-      border: "hover:border-purple-500/45",
+      color: "text-sky-700 dark:text-sky-400",
+      border: "hover:border-sky-500/40",
       btnText: t.nav.setupGuide,
       href: "/docs/installation/android",
       tag: "Termux / Proot",
@@ -52,7 +52,7 @@ export default function Download({ language }: DownloadProps) {
       desc: t.download.dockerDesc,
       icon: Terminal,
       color: "text-emerald-700 dark:text-emerald-400",
-      border: "hover:border-emerald-500/45",
+      border: "hover:border-emerald-500/40",
       btnText: "docker run -d --name malikclaw -p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw ghcr.io/abdullahmalik17/malikclaw:latest",
       href: "/docs/deployment/docker",
       tag: t.download.containerTag,
@@ -97,7 +97,7 @@ export default function Download({ language }: DownloadProps) {
           >
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-card-bg border border-card-border text-foreground">
               <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-              <span>{t.download.githubStars} <strong className="text-amber-700 dark:text-amber-400 tabular-nums">{stars.toLocaleString()} ★</strong></span>
+              <span>{t.download.githubStars} <strong className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-400 tabular-nums">{stars.toLocaleString()} <Star className="w-3.5 h-3.5 fill-current" aria-hidden="true" /></strong></span>
             </div>
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-card-bg border border-card-border text-foreground">
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -146,7 +146,7 @@ export default function Download({ language }: DownloadProps) {
                     </code>
                     <Link
                       href={platform.href}
-                      className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-surface-2 hover:bg-surface-1 border border-card-border hover:border-amber-500/40 text-foreground font-bold text-[11px] uppercase tracking-wider transition-colors"
+                      className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-surface-2 hover:bg-surface-1 border border-card-border hover:border-amber-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60 text-foreground font-bold text-[11px] uppercase tracking-wider transition-colors"
                     >
                       <span>{t.nav.docs}</span>
                       <ArrowRight className="w-3 h-3 rtl:rotate-180" aria-hidden="true" />
@@ -155,7 +155,7 @@ export default function Download({ language }: DownloadProps) {
                 ) : platform.isRoute ? (
                   <Link
                     href={platform.href}
-                    className="flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-xl bg-surface-2 hover:bg-surface-1 border border-card-border hover:border-amber-500/40 text-foreground font-bold text-xs uppercase tracking-wider transition-colors active:scale-[0.98]"
+                    className="flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-xl bg-surface-2 hover:bg-surface-1 border border-card-border hover:border-amber-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60 text-foreground font-bold text-xs uppercase tracking-wider transition-colors active:scale-[0.98]"
                   >
                     <span>{platform.btnText}</span>
                     <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" />
@@ -163,7 +163,7 @@ export default function Download({ language }: DownloadProps) {
                 ) : (
                   <a
                     href={platform.href}
-                    className="flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-black font-bold text-xs uppercase tracking-wider transition-all shadow-sm"
+                    className="flex items-center justify-center gap-1.5 w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.98] text-black font-bold text-xs uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background shadow-sm"
                   >
                     <DownloadIcon className="w-3.5 h-3.5" aria-hidden="true" />
                     <span>{platform.btnText}</span>

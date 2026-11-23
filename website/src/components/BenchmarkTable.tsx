@@ -4,6 +4,7 @@ import { useState, type KeyboardEvent } from "react";
 import { motion } from "framer-motion";
 import { Check, Sparkles, Shield, Cpu, Activity, Lock } from "lucide-react";
 import { Language, translations } from "@/i18n/translations";
+import BrandMark from "./BrandMark";
 
 interface BenchmarkTableProps {
   language: Language;
@@ -239,7 +240,10 @@ export default function BenchmarkTable({ language }: BenchmarkTableProps) {
                   <th className="py-5 px-4 sm:px-6 font-bold text-black bg-gradient-to-r from-amber-500 to-amber-400 uppercase tracking-wider w-[28%]">
                     <div className="flex items-center gap-1.5 justify-start">
                       <Sparkles className="w-4 h-4 text-black" aria-hidden="true" />
-                      <span>{t.comparison.malikclawHeader} 🦅</span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <span>{t.comparison.malikclawHeader}</span>
+                        <BrandMark className="h-4 w-4 text-black" />
+                      </span>
                     </div>
                   </th>
                 </tr>
@@ -356,7 +360,7 @@ export default function BenchmarkTable({ language }: BenchmarkTableProps) {
                     <td className="py-4 px-4 sm:px-6 font-semibold text-foreground">
                       {isUrdu ? row.pillarUr : row.pillar}
                     </td>
-                    <td className="py-4 px-4 sm:px-6 bg-amber-500/[0.08] border-s border-e border-amber-500/20 text-amber-800 dark:text-amber-300 font-bold">
+                    <td className="py-4 px-4 sm:px-6 bg-amber-500/[0.08] border-s border-e border-amber-500/20 text-amber-800 dark:text-amber-300 font-bold tabular-nums">
                       {row.impl}
                     </td>
                     <td className="py-4 px-4 sm:px-6 text-text-muted">
@@ -370,7 +374,7 @@ export default function BenchmarkTable({ language }: BenchmarkTableProps) {
         )}
 
         {/* Table Footer Banner */}
-        <div className="px-6 py-4 bg-surface-2/80 border-t border-card-border flex flex-wrap items-center justify-between text-xs text-text-muted gap-3">
+        <div className="px-6 py-4 bg-surface-2/80 border-t border-card-border flex flex-wrap items-center justify-between text-xs text-text-muted gap-3 tabular-nums">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0" aria-hidden="true" />
             <span>

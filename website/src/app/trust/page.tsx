@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { Shield, Lock, UserCheck, Database, AlertTriangle, FileText, ArrowRight } from "lucide-react";
 
@@ -27,8 +28,21 @@ export const metadata: Metadata = {
 export default function TrustPage() {
   return (
     <div className="min-h-screen bg-background text-foreground pb-24">
+      <nav className="sticky top-0 z-50 border-b border-card-border bg-background/85 backdrop-blur-md">
+        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+          <Link href="/" className="text-base font-bold tracking-tight text-foreground hover:text-amber-700 dark:hover:text-amber-400 transition-colors">
+            MalikClaw
+          </Link>
+          <div className="flex items-center gap-5 text-sm font-medium">
+            <Link href="/" className="text-text-muted hover:text-foreground transition-colors">Home</Link>
+            <Link href="/docs" className="text-text-muted hover:text-foreground transition-colors">Docs</Link>
+            <Link href="/download" className="text-text-muted hover:text-foreground transition-colors">Download</Link>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <div className="relative overflow-hidden border-b border-card-border bg-surface-1 pt-32 pb-20">
+      <div className="relative overflow-hidden border-b border-card-border bg-surface-1 pt-20 pb-20">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gryphon-gold/15 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
@@ -47,57 +61,57 @@ export default function TrustPage() {
       <div className="max-w-4xl mx-auto px-6 mt-20 space-y-24">
 
         {/* 1. Threat Model */}
-        <section className="group">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 rounded-xl bg-red-500/10 text-red-700 dark:text-red-400 border border-red-500/20">
-              <AlertTriangle className="w-6 h-6" aria-hidden="true" />
+        <section className="grid md:grid-cols-[minmax(0,17rem)_1fr] gap-8">
+          <div className="md:sticky md:top-24 md:self-start">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
+                <AlertTriangle className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <h2 className="text-2xl font-bold text-foreground">Threat Model</h2>
             </div>
-            <h2 className="text-3xl font-bold text-foreground">Threat Model</h2>
+            <p className="text-sm text-text-muted">MalikClaw v2.0.0 is engineered to defend against:</p>
           </div>
-          <div className="bg-card-bg border border-card-border rounded-3xl p-8 transition-colors hover:border-border-strong">
-            <p className="mb-6 text-lg text-foreground">MalikClaw v2.0.0 is engineered to protect against:</p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <span className="text-amber-700 dark:text-gryphon-gold mt-1">▹</span>
-                <div>
-                  <strong className="text-foreground block">Prompt-Injection Structural Guard</strong>
-                  <span className="text-text-muted">Structural separation and scanning of untrusted tool outputs vs system instructions.</span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-amber-700 dark:text-gryphon-gold mt-1">▹</span>
-                <div>
-                  <strong className="text-foreground block">SSRF Network Boundary Firewall</strong>
-                  <span className="text-text-muted">Blocks private-IP, loopback, and cloud metadata egress across outbound HTTP, web, and MCP tools.</span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-amber-700 dark:text-gryphon-gold mt-1">▹</span>
-                <div>
-                  <strong className="text-foreground block">Privilege Escalation</strong>
-                  <span className="text-text-muted">Agent runs in unprivileged user space without root access requirements.</span>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <ul className="divide-y divide-card-border border-y border-card-border">
+            <li className="flex items-start gap-4 py-5 px-1 hover:bg-surface-2/60 transition-colors">
+              <span className="text-amber-700 dark:text-amber-400 mt-1 font-mono text-xs tabular-nums">01</span>
+              <div>
+                <strong className="text-foreground block mb-1">Prompt-Injection Structural Guard</strong>
+                <span className="text-text-muted text-sm">Structural separation and scanning of untrusted tool outputs vs system instructions.</span>
+              </div>
+            </li>
+            <li className="flex items-start gap-4 py-5 px-1 hover:bg-surface-2/60 transition-colors">
+              <span className="text-amber-700 dark:text-amber-400 mt-1 font-mono text-xs tabular-nums">02</span>
+              <div>
+                <strong className="text-foreground block mb-1">SSRF Network Boundary Firewall</strong>
+                <span className="text-text-muted text-sm">Blocks private-IP, loopback, and cloud metadata egress across outbound HTTP, web, and MCP tools.</span>
+              </div>
+            </li>
+            <li className="flex items-start gap-4 py-5 px-1 hover:bg-surface-2/60 transition-colors">
+              <span className="text-amber-700 dark:text-amber-400 mt-1 font-mono text-xs tabular-nums">03</span>
+              <div>
+                <strong className="text-foreground block mb-1">Privilege Escalation</strong>
+                <span className="text-text-muted text-sm">Agent runs in unprivileged user space without root access requirements.</span>
+              </div>
+            </li>
+          </ul>
         </section>
 
         {/* 2. Cryptographic Verification */}
-        <section className="group">
+        <section>
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 rounded-xl bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20">
+            <div className="p-3 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20">
               <Lock className="w-6 h-6" aria-hidden="true" />
             </div>
             <h2 className="text-3xl font-bold text-foreground">Cryptographic Verification</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card-bg border border-card-border rounded-3xl p-8">
+            <div className="glass-card p-8 rounded-2xl hover:border-amber-500/40 transition-colors">
               <h3 className="text-xl font-bold text-foreground mb-4">Signed Actions</h3>
               <p className="text-text-muted">
                 Critical transactions are signed using local Ed25519 keys generated upon installation. The private key never leaves your device&apos;s secure enclave (or equivalent keystore).
               </p>
             </div>
-            <div className="bg-card-bg border border-card-border rounded-3xl p-8">
+            <div className="glass-card p-8 rounded-2xl hover:border-amber-500/40 transition-colors">
               <h3 className="text-xl font-bold text-foreground mb-4">Skill Integrity</h3>
               <p className="text-text-muted">
                 Skills fetched from the registry are checksummed and signature-verified before execution. Tampered skills are automatically rejected.
@@ -107,44 +121,45 @@ export default function TrustPage() {
         </section>
 
         {/* 3. Human-in-the-Loop */}
-        <section className="group">
+        <section>
           <div className="flex items-center gap-4 mb-6">
             <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               <UserCheck className="w-6 h-6" aria-hidden="true" />
             </div>
             <h2 className="text-3xl font-bold text-foreground">Human-in-the-Loop (HITL)</h2>
           </div>
-          <div className="bg-card-bg border border-card-border rounded-3xl p-8 relative overflow-hidden">
-            <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-[80px]"></div>
-            <p className="text-lg mb-8 relative z-10 text-foreground">
-              High-risk actions require explicit human approval via the local TUI or web interface before the agent can proceed.
-            </p>
-            <div className="grid sm:grid-cols-3 gap-4 relative z-10">
-              <div className="bg-surface-2 p-4 rounded-xl border border-card-border">
-                <span className="font-bold text-foreground block mb-1">Stripe</span>
-                <span className="text-sm text-text-muted">Payments &amp; Refunds</span>
-              </div>
-              <div className="bg-surface-2 p-4 rounded-xl border border-card-border">
-                <span className="font-bold text-foreground block mb-1">Gmail</span>
-                <span className="text-sm text-text-muted">Sending external emails</span>
-              </div>
-              <div className="bg-surface-2 p-4 rounded-xl border border-card-border">
-                <span className="font-bold text-foreground block mb-1">Odoo</span>
-                <span className="text-sm text-text-muted">Modifying ERP records</span>
-              </div>
-            </div>
-          </div>
+          <p className="text-lg mb-8 text-foreground max-w-2xl">
+            High-risk actions require explicit human approval via the local TUI or web interface before the agent can proceed.
+          </p>
+          <ul className="divide-y divide-card-border border-y border-card-border">
+            {[
+              { name: "Stripe", detail: "Payments & Refunds" },
+              { name: "Gmail", detail: "Sending external emails" },
+              { name: "Odoo", detail: "Modifying ERP records" },
+            ].map((item) => (
+              <li key={item.name} className="flex items-center justify-between gap-4 py-4 px-1 hover:bg-surface-2/60 transition-colors">
+                <span className="font-bold text-foreground">{item.name}</span>
+                <span className="flex items-center gap-3 text-sm text-text-muted">
+                  {item.detail}
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-800 dark:text-emerald-400 text-[11px] font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    Approval required
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* 4. Local-First Data Flow */}
-        <section className="group">
+        <section>
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20">
+            <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
               <Database className="w-6 h-6" aria-hidden="true" />
             </div>
             <h2 className="text-3xl font-bold text-foreground">Local-First Data Flow</h2>
           </div>
-          <div className="bg-card-bg border border-card-border rounded-3xl p-8">
+          <div className="glass-card rounded-2xl p-8 hover:border-emerald-500/40 transition-colors">
             <p className="mb-8 text-lg text-foreground">Your data never leaves your device without explicit consent. Vector embeddings and memories are stored in your local workspace.</p>
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-2 p-8 rounded-2xl border border-card-border">
@@ -178,14 +193,14 @@ export default function TrustPage() {
         <div className="grid md:grid-cols-2 gap-8">
           <section>
             <div className="flex items-center gap-3 mb-4">
-              <FileText className="w-5 h-5 text-amber-700 dark:text-gryphon-gold" aria-hidden="true" />
+              <FileText className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
               <h3 className="text-2xl font-bold text-foreground">Audit Logs</h3>
             </div>
-            <div className="bg-card-bg border border-card-border rounded-3xl p-6 h-full">
+            <div className="glass-card rounded-2xl p-6 h-full hover:border-amber-500/40 transition-colors">
               <p className="text-text-muted mb-6">
                 Every API call, file access, and state change can be recorded in an immutable local ledger for complete transparency.
               </p>
-              <code className="block bg-[#0B0C10] p-4 rounded-xl text-amber-300 font-mono text-sm border border-zinc-800">
+              <code className="block bg-[#0B0C10] p-4 rounded-xl text-amber-300 font-mono text-sm border border-zinc-800 select-all">
                 malikclaw agent --audit-log
               </code>
             </div>
@@ -193,10 +208,10 @@ export default function TrustPage() {
 
           <section>
             <div className="flex items-center gap-3 mb-4">
-              <Shield className="w-5 h-5 text-amber-700 dark:text-gryphon-gold" aria-hidden="true" />
+              <Shield className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
               <h3 className="text-2xl font-bold text-foreground">Vulnerability Reporting</h3>
             </div>
-            <div className="bg-card-bg border border-card-border rounded-3xl p-6 h-full flex flex-col justify-between">
+            <div className="glass-card rounded-2xl p-6 h-full flex flex-col justify-between hover:border-amber-500/40 transition-colors">
               <p className="text-text-muted mb-6">
                 Security is an ongoing process. If you discover a vulnerability, please report it securely through our dedicated channel.
               </p>
@@ -204,7 +219,7 @@ export default function TrustPage() {
                 href="https://github.com/AbdullahMalik17/malikclaw/blob/main/SECURITY.md"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-foreground font-bold hover:text-amber-700 dark:hover:text-gryphon-gold transition-colors"
+                className="inline-flex items-center gap-2 text-foreground font-bold hover:text-amber-700 dark:hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/60 rounded transition-colors"
               >
                 Read SECURITY.md <ArrowRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
               </a>

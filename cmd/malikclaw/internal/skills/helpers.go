@@ -17,11 +17,6 @@ import (
 
 const skillsSearchMaxResults = 20
 
-// skillsInstallFromRegistry installs a skill from a named registry (e.g. clawhub).
-func skillsInstallFromRegistry(cfg *config.Config, registryName, slug string) error {
-	return skillsInstallFromRegistryWithTarget(cfg, registryName, slug, false)
-}
-
 func skillsInstallFromRegistryWithTarget(cfg *config.Config, registryName, slug string, global bool) error {
 	err := utils.ValidateSkillIdentifier(registryName)
 	if err != nil {

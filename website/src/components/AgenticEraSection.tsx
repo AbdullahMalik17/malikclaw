@@ -132,11 +132,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "روٹنگ پالیسی",
             footerValue: "Ollama → Frontier",
             icon: GitBranch,
-            accentText: "text-cyan-700 dark:text-cyan-400",
-            badgeClasses: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
-            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-700 dark:text-cyan-400",
-            borderHover: "hover:border-cyan-500/45",
-            glowHover: "hover:shadow-[0_0_28px_rgba(6,182,212,0.14)]",
+            accentText: "text-amber-700 dark:text-amber-400",
+            badgeClasses: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400",
+            borderHover: "hover:border-amber-500/45",
+            glowHover: "hover:shadow-[0_0_28px_rgba(245,158,11,0.14)]",
           },
           {
             id: "skill-mcp",
@@ -152,11 +152,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "پروٹوکول اسٹینڈرڈ",
             footerValue: "SKILL.md + MCP",
             icon: Blocks,
-            accentText: "text-purple-700 dark:text-purple-400",
-            badgeClasses: "bg-purple-500/10 text-purple-800 dark:text-purple-300 border-purple-500/30",
-            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-700 dark:text-purple-400",
-            borderHover: "hover:border-purple-500/45",
-            glowHover: "hover:shadow-[0_0_28px_rgba(168,85,247,0.14)]",
+            accentText: "text-emerald-700 dark:text-emerald-400",
+            badgeClasses: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
+            borderHover: "hover:border-emerald-500/45",
+            glowHover: "hover:shadow-[0_0_28px_rgba(16,185,129,0.14)]",
           },
         ] as PillarCard[],
       }
@@ -230,11 +230,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "Routing Pipeline",
             footerValue: "Local Ollama → Frontier",
             icon: GitBranch,
-            accentText: "text-cyan-700 dark:text-cyan-400",
-            badgeClasses: "bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
-            iconBoxClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-700 dark:text-cyan-400",
-            borderHover: "hover:border-cyan-500/45",
-            glowHover: "hover:shadow-[0_0_28px_rgba(6,182,212,0.14)]",
+            accentText: "text-amber-700 dark:text-amber-400",
+            badgeClasses: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+            iconBoxClasses: "bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-400",
+            borderHover: "hover:border-amber-500/45",
+            glowHover: "hover:shadow-[0_0_28px_rgba(245,158,11,0.14)]",
           },
           {
             id: "skill-mcp",
@@ -250,11 +250,11 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
             footerLabel: "Open Standards",
             footerValue: "SKILL.md + MCP Native",
             icon: Blocks,
-            accentText: "text-purple-700 dark:text-purple-400",
-            badgeClasses: "bg-purple-500/10 text-purple-800 dark:text-purple-300 border-purple-500/30",
-            iconBoxClasses: "bg-purple-500/10 border-purple-500/30 text-purple-700 dark:text-purple-400",
-            borderHover: "hover:border-purple-500/45",
-            glowHover: "hover:shadow-[0_0_28px_rgba(168,85,247,0.14)]",
+            accentText: "text-emerald-700 dark:text-emerald-400",
+            badgeClasses: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+            iconBoxClasses: "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
+            borderHover: "hover:border-emerald-500/45",
+            glowHover: "hover:shadow-[0_0_28px_rgba(16,185,129,0.14)]",
           },
         ] as PillarCard[],
       };
@@ -269,7 +269,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
       {/* Subtle Ambient Glow */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[420px] bg-gradient-to-r from-amber-500/8 via-cyan-500/6 to-purple-500/8 blur-[150px] pointer-events-none rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 amber-ambient-glow pointer-events-none"
       />
 
       {/* Section Header */}
@@ -320,7 +320,7 @@ export default function AgenticEraSection({ language }: AgenticEraSectionProps) 
           </div>
           <div className="flex items-center gap-3 text-[11px] text-text-muted">
             <span className="inline-flex items-center gap-1">
-              <Smartphone className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400" aria-hidden="true" />
+              <Smartphone className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
               ADB + Termux
             </span>
             <span className="inline-flex items-center gap-1 tabular-nums">

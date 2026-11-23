@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { Language, translations } from "@/i18n/translations";
 import { MALIKCLAW_VERSION } from "@/lib/version";
@@ -74,7 +74,8 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [visibleLogs, setVisibleLogs] = useState<LogLine[]>([]);
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   const currentScenario = SCENARIOS.find((s) => s.id === activeScenarioId) || SCENARIOS[0];
   const currentIndex = visibleLogs.length;
@@ -92,7 +93,9 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
   }, [currentScenario, isPlaying, visibleLogs.length]);
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const box = terminalBodyRef.current;
+    if (!box) return;
+    box.scrollTop = box.scrollHeight;
   }, [visibleLogs]);
 
   const handleSelectScenario = (id: "autonomous" | "adb" | "urdu") => {
@@ -140,11 +143,11 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       case "plan":
         return "bg-amber-500/20 text-amber-300 border-amber-500/40";
       case "act":
-        return "bg-cyan-500/20 text-cyan-300 border-cyan-500/40";
+        return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
       case "observe":
-        return "bg-blue-500/20 text-blue-300 border-blue-500/40";
+        return "bg-zinc-700/40 text-zinc-200 border-zinc-600";
       case "reflect":
-        return "bg-purple-500/20 text-purple-300 border-purple-500/40";
+        return "bg-amber-500/15 text-amber-200 border-amber-500/35";
       case "success":
         return "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
       case "urdu":
@@ -161,11 +164,11 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       case "plan":
         return "text-amber-200 font-medium";
       case "act":
-        return "text-cyan-300 font-mono";
+        return "text-emerald-300 font-mono";
       case "observe":
-        return "text-blue-300 font-mono";
+        return "text-zinc-300 font-mono";
       case "reflect":
-        return "text-purple-300";
+        return "text-amber-200";
       case "success":
         return "text-emerald-400 font-bold";
       case "urdu":
@@ -177,7 +180,7 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="w-full max-w-4xl rounded-2xl overflow-hidden bg-[#0B0C10] text-zinc-100 border border-zinc-800 shadow-xl dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl font-mono relative transition-colors duration-300 hover:border-amber-500/40"
@@ -269,13 +272,20 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
       </div>
 
       {/* Streaming Animated Logs Viewport */}
-      <div className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-relaxed min-h-[290px] max-h-[360px] overflow-y-auto space-y-2.5 bg-black/50">
+      <div
+        ref={terminalBodyRef}
+        className="p-4 sm:p-5 font-mono text-xs sm:text-sm leading-relaxed min-h-[290px] max-h-[360px] overflow-y-auto space-y-2.5 bg-black/50"
+      >
         <AnimatePresence>
           {visibleLogs.map((log, index) => (
             <motion.div
               key={`${activeScenarioId}-${index}`}
               dir={log.type === "urdu" ? "rtl" : "ltr"}
-              initial={{ opacity: 0, x: log.type === "urdu" ? 8 : -8 }}
+              initial={
+                prefersReducedMotion
+                  ? false
+                  : { opacity: 0, x: log.type === "urdu" ? 8 : -8 }
+              }
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2 }}
               className={`flex items-start gap-2.5 ${log.type === "urdu" ? "text-right" : "text-left"}`}
@@ -295,14 +305,12 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
             <Zap className="w-3.5 h-3.5 text-amber-400 animate-pulse" aria-hidden="true" />
             <span className="text-xs italic text-zinc-400">{t.terminal.executing}</span>
             <motion.span
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 0.8 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: [0, 1, 0] }}
+              transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 0.8 }}
               className="inline-block w-2 h-4 bg-amber-400"
             />
           </div>
         )}
-
-        <div ref={terminalEndRef} />
       </div>
 
       {/* Real-Time Telemetry Bar */}
@@ -313,7 +321,7 @@ export default function TerminalSimulator({ language = "en" }: TerminalSimulator
             <span>CPU: <strong className="text-zinc-200">1.2%</strong></span>
           </span>
           <span className="flex items-center gap-1.5">
-            <HardDrive className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
+            <HardDrive className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
             <span>RAM: <strong className="text-zinc-200">8.4 MB</strong></span>
           </span>
           <span className="flex items-center gap-1.5">

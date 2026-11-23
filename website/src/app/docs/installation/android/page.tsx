@@ -1,21 +1,27 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download, Check, Smartphone, AlertTriangle } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Android Installation (Termux) — MalikClaw Documentation",
+  description:
+    "Run MalikClaw on Android with Termux: install proot, fetch the ARM64 binary or installer script, onboard, and keep the gateway alive in the background.",
+  alternates: { canonical: "/docs/installation/android" },
+};
+
 export default function AndroidInstallation() {
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-teal-700 dark:prose-a:text-[#0df2c9] prose-headings:text-foreground prose-code:text-teal-800 dark:prose-code:text-[#0df2c9] prose-code:bg-teal-500/10 dark:prose-code:bg-[#0df2c9]/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-amber-700 dark:prose-a:text-amber-400 prose-headings:text-foreground prose-code:text-amber-800 dark:prose-code:text-amber-300 prose-code:bg-amber-500/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
       <h1 className="text-4xl font-extrabold tracking-tight mb-4 text-foreground">Android Installation (Termux)</h1>
       <p className="text-xl text-text-muted mb-8">
         Run MalikClaw on your Android phone using Termux. Give your old phone a second life as an AI assistant!
       </p>
 
-      <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-600/25 mb-8 not-prose">
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 mb-8 not-prose">
         <div className="flex items-start gap-3">
-          <Check className="w-5 h-5 text-teal-700 dark:text-[#0df2c9] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <Check className="w-5 h-5 text-amber-700 dark:text-amber-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div>
-            <h3 className="font-semibold text-teal-800 dark:text-[#0df2c9] mb-1">Requirements</h3>
+            <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">Requirements</h3>
             <ul className="text-sm text-text-muted space-y-1">
               <li>• Android 7.0 (Nougat) or later</li>
               <li>• ARM64 processor (most modern phones)</li>

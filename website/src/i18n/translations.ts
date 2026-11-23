@@ -52,6 +52,7 @@ export interface Translation {
     footerMeta: string;
     autoDetect: string;
     badges: {
+      npm: string;
       curl: string;
       irm: string;
       docker: string;
@@ -303,6 +304,7 @@ const enBase: Translation = {
     footerMeta: "Zero dependencies • <10MB RAM • ~12MB Go binary • ed25519 signed",
     autoDetect: "Auto-detects architecture",
     badges: {
+      npm: "Node.js",
       curl: "Recommended",
       irm: "PowerShell",
       docker: "Containerized",
@@ -580,7 +582,7 @@ const enBase: Translation = {
     mcpMarket: "MCP Market Listing",
     a2as: "A2AS Certified",
     builtWith: "Crafted with Go, Next.js &",
-    copyright: "© 2026 Muhammad Abdullah Athar. All rights reserved. 🦅 Swift. Strong. Secure.",
+    copyright: "© 2026 Muhammad Abdullah Athar. All rights reserved. Swift. Strong. Secure.",
   },
   langSwitcher: {
     en: "English",
@@ -653,6 +655,7 @@ const urBase: Translation = {
     footerMeta: "زیرو ڈیپینڈنسیز • <10MB RAM • ~12MB Go بائنری • ed25519 دستخط شدہ",
     autoDetect: "خودکار آرکیٹیکچر کی شناخت",
     badges: {
+      npm: "نوڈ جے ایس",
       curl: "تجویز کردہ",
       irm: "پاور شیل",
       docker: "کنٹینر",
@@ -930,7 +933,7 @@ const urBase: Translation = {
     mcpMarket: "MCP مارکیٹ لسٹنگ",
     a2as: "A2AS تصدیق شدہ",
     builtWith: "Go، Next.js اور",
-    copyright: "© 2026 Muhammad Abdullah Athar. جملہ حقوق محفوظ ہیں۔ 🦅 تیز، مضبوط، محفوظ۔",
+    copyright: "© 2026 Muhammad Abdullah Athar. جملہ حقوق محفوظ ہیں۔ تیز، مضبوط، محفوظ۔",
   },
   langSwitcher: {
     en: "English",

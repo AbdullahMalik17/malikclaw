@@ -2,15 +2,33 @@
 
 import { Language, translations } from "@/i18n/translations";
 import { Github, Sparkles } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+import { useReducedMotion } from "framer-motion";
+import { testimonials, type Testimonial } from "@/data/testimonials";
 
 interface SocialProofMarqueeProps {
   language: Language;
 }
 
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  return (
+    <div className="w-[320px] md:w-[420px] shrink-0 bg-card-bg border border-card-border p-5 rounded-2xl whitespace-normal backdrop-blur-xl hover:border-amber-500/45 transition-colors shadow-md">
+      <div className="flex flex-col h-full justify-between gap-3">
+        <p className="text-foreground/90 text-xs sm:text-sm italic font-sans">
+          &ldquo;{testimonial.quote}&rdquo;
+        </p>
+        <div className="pt-2 border-t border-card-border flex items-center justify-between">
+          <p className="text-foreground text-xs font-bold font-sans">{testimonial.author}</p>
+          <p className="text-amber-700 dark:text-amber-400 text-[11px] font-semibold">{testimonial.role}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SocialProofMarquee({ language }: SocialProofMarqueeProps) {
   const t = translations[language];
   const isUrdu = language === "ur";
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section
@@ -47,28 +65,29 @@ export default function SocialProofMarquee({ language }: SocialProofMarqueeProps
             </div>
           </a>
         </div>
+      ) : prefersReducedMotion ? (
+        <ul
+          dir="ltr"
+          aria-label={t.socialProof.heading}
+          className="mx-auto flex w-full max-w-6xl gap-4 overflow-x-auto px-4 sm:px-6 pb-3"
+        >
+          {testimonials.map((testimonial, idx) => (
+            <li key={`${testimonial.author}-${idx}`} className="shrink-0">
+              <TestimonialCard testimonial={testimonial} />
+            </li>
+          ))}
+        </ul>
       ) : (
         <div dir="ltr" className="relative flex overflow-x-hidden group">
-          <div className="flex animate-marquee hover:[animation-play-state:paused] whitespace-nowrap">
+          <div className="flex animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap">
             {[...testimonials, ...testimonials, ...testimonials].map((testimonial, idx) => (
-              <div
-                key={idx}
-                className="w-[320px] md:w-[420px] mx-3 inline-block bg-card-bg border border-card-border p-5 rounded-2xl whitespace-normal backdrop-blur-xl hover:border-amber-500/45 transition-colors shadow-md"
-              >
-                <div className="flex flex-col h-full justify-between gap-3">
-                  <p className="text-foreground/90 text-xs sm:text-sm italic font-sans">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </p>
-                  <div className="pt-2 border-t border-card-border flex items-center justify-between">
-                    <p className="text-foreground text-xs font-bold font-sans">{testimonial.author}</p>
-                    <p className="text-amber-700 dark:text-amber-400 text-[11px] font-semibold">{testimonial.role}</p>
-                  </div>
-                </div>
+              <div key={idx} className="mx-3 flex">
+                <TestimonialCard testimonial={testimonial} />
               </div>
             ))}
           </div>
-          <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+          <div aria-hidden="true" className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div aria-hidden="true" className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-background to-transparent pointer-events-none" />
         </div>
       )}
     </section>

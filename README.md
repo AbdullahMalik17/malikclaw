@@ -49,6 +49,7 @@ Whether you want an everyday personal assistant with **zero coding** or a harden
     <ul>
       <li><strong>Linux / macOS / Termux:</strong> <code>curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash</code></li>
       <li><strong>Windows (PowerShell):</strong> <code>irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex</code></li>
+      <li><strong>Node.js (all platforms):</strong> <code>npm install -g malikclaw</code></li>
     </ul>
   </li>
   <li><strong>Run guided setup:</strong> <code>malikclaw onboard</code></li>
@@ -74,7 +75,7 @@ Whether you want an everyday personal assistant with **zero coding** or a harden
 </tr>
 </table>
 
-### One-Command Install &amp; Non-Root Docker
+### One-Command Install, Node.js &amp; Non-Root Docker
 
 **Linux / macOS / Termux:**
 ```bash
@@ -85,6 +86,12 @@ curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/inst
 ```powershell
 irm https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.ps1 | iex
 ```
+
+**Node.js (any platform with Node 18+):**
+```bash
+npm install -g malikclaw
+```
+The npm package is a thin launcher that auto-installs the `@malikclaw/cli-<os>-<cpu>` package containing the native Go binary for your platform. Published alongside every GitHub release.
 
 **Docker (Non-Root `alpine:3.23` Runtime):**
 ```bash

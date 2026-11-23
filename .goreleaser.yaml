@@ -235,6 +235,7 @@ changelog:
 
 release:
   disable: '{{ isEnvSet "NIGHTLY_BUILD" }}'
+  replace_existing_artifacts: true
   footer: >-
 
     ---

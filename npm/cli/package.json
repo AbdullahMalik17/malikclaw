@@ -1,6 +1,6 @@
 {
   "name": "malikclaw",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "MalikClaw - a multi-platform AI agent framework CLI. Installs a tiny shim that runs the native binary shipped in a per-platform @malikclaw/cli-* package.",
   "license": "MIT",
   "type": "commonjs",

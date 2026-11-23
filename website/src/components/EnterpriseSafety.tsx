@@ -16,25 +16,86 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
   const cardStyles = [
     {
       icon: Key,
-      accent: "text-purple-700 dark:text-violet-400",
-      border: "hover:border-purple-500/45",
-      glow: "hover:shadow-[0_0_24px_rgba(139,92,246,0.14)]",
-      badge: "bg-purple-500/10 text-purple-800 dark:text-purple-300 border-purple-500/30",
-    },
-    {
-      icon: UserCheck,
       accent: "text-amber-700 dark:text-amber-400",
       border: "hover:border-amber-500/45",
       glow: "hover:shadow-[0_0_24px_rgba(245,158,11,0.14)]",
       badge: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+      span: "lg:col-span-5",
     },
     {
-      icon: Lock,
+      icon: UserCheck,
       accent: "text-emerald-700 dark:text-emerald-400",
       border: "hover:border-emerald-500/45",
       glow: "hover:shadow-[0_0_24px_rgba(16,185,129,0.14)]",
       badge: "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+      span: "lg:col-span-7",
     },
+    {
+      icon: Lock,
+      accent: "text-amber-700 dark:text-amber-400",
+      border: "hover:border-amber-500/45",
+      glow: "hover:shadow-[0_0_24px_rgba(245,158,11,0.14)]",
+      badge: "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/30",
+      span: "lg:col-span-12",
+    },
+  ];
+
+  const artifacts = [
+    <div
+      key="signing"
+      dir="ltr"
+      aria-hidden="true"
+      className="rounded-xl border border-zinc-800 bg-[#0B0C10] p-3 text-[11px] text-zinc-400 text-left space-y-1.5"
+    >
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-1.5">
+        <span className="text-zinc-300 font-semibold">action_signature.json</span>
+        <span className="text-emerald-400">verified</span>
+      </div>
+      <div className="text-amber-300">tool: telegram_send</div>
+      <div className="truncate text-zinc-500">ed25519: 9f8a3c8e4d21…b7f4</div>
+    </div>,
+    <div
+      key="approval"
+      dir="ltr"
+      aria-hidden="true"
+      className="rounded-xl border border-zinc-800 bg-[#0B0C10] p-3 text-[11px] text-left text-zinc-400 space-y-2.5"
+    >
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-1.5">
+        <span className="text-zinc-300 font-semibold">Approval gate</span>
+        <span className="text-amber-300">awaiting human</span>
+      </div>
+      <div className="text-zinc-300">
+        <span className="text-zinc-500">$ </span>rm -rf /var/data/ledger-cache
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="rounded-md border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 font-bold text-emerald-300">
+          Approve
+        </span>
+        <span className="rounded-md border border-zinc-700 bg-zinc-800/60 px-2.5 py-1 font-semibold text-zinc-300">
+          Deny
+        </span>
+        <span className="ms-auto text-zinc-500">via Telegram</span>
+      </div>
+    </div>,
+    <div
+      key="firewall"
+      dir="ltr"
+      aria-hidden="true"
+      className="rounded-xl border border-zinc-800 bg-[#0B0C10] p-3 text-[11px] text-left text-zinc-400 space-y-1.5"
+    >
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-1.5">
+        <span className="text-zinc-300 font-semibold">Egress policy</span>
+        <span className="text-amber-300">2 requests blocked</span>
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <span className="truncate text-zinc-500">GET 169.254.169.254/latest/meta-data</span>
+        <span className="shrink-0 text-red-400">SSRF_BLOCK</span>
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <span className="truncate text-zinc-500">&ldquo;ignore previous instructions&rdquo; payload</span>
+        <span className="shrink-0 text-amber-300">FENCED</span>
+      </div>
+    </div>,
   ];
 
   return (
@@ -46,7 +107,7 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
       {/* Background Ambient Glow */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-purple-500/5 blur-[140px] pointer-events-none rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 amber-ambient-glow pointer-events-none"
       />
 
       <motion.div
@@ -56,8 +117,8 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
         transition={{ duration: 0.5 }}
         className="text-center mb-16 relative z-10"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-xs font-semibold text-purple-800 dark:text-purple-300 mb-4 shadow-sm">
-          <Shield className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400" aria-hidden="true" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-800 dark:text-amber-300 mb-4 shadow-sm">
+          <Shield className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
           <span>{t.enterpriseSafety.badge}</span>
         </div>
         <h2
@@ -71,11 +132,14 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
         </p>
       </motion.div>
 
-      {/* 3-Card Security Showcase */}
-      <div className="grid md:grid-cols-3 gap-6 relative z-10">
+      {/* Asymmetric Security Bento */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
         {t.enterpriseSafety.cards.map((card, idx) => {
-          const style = cardStyles[idx % cardStyles.length];
+          const styleIndex = idx % cardStyles.length;
+          const style = cardStyles[styleIndex];
           const Icon = style.icon;
+          const artifact = artifacts[styleIndex];
+          const isFullRow = style.span === "lg:col-span-12";
           return (
             <motion.div
               key={card.title}
@@ -83,34 +147,40 @@ export default function EnterpriseSafety({ language }: EnterpriseSafetyProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.12 }}
-              className={`glass-card-interactive p-6 sm:p-8 rounded-2xl ${style.border} ${style.glow} flex flex-col justify-between group relative overflow-hidden`}
+              className={`${style.span} glass-card-interactive p-6 sm:p-8 rounded-2xl ${style.border} ${style.glow} flex flex-col group relative overflow-hidden`}
             >
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-xl bg-surface-2 border border-card-border flex items-center justify-center ${style.accent} transition-colors shadow-sm`}>
-                    <Icon className="w-6 h-6" aria-hidden="true" />
+              <div className={isFullRow ? "flex flex-col lg:flex-row lg:items-start gap-6" : undefined}>
+                <div className={isFullRow ? "lg:flex-1" : undefined}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className={`w-12 h-12 rounded-xl bg-surface-2 border border-card-border flex items-center justify-center ${style.accent} transition-colors shadow-sm`}>
+                      <Icon className="w-6 h-6" aria-hidden="true" />
+                    </div>
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${style.badge}`}>
+                      {card.tag}
+                    </span>
                   </div>
-                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${style.badge}`}>
-                    {card.tag}
-                  </span>
+
+                  <h3 className={`text-xl font-bold text-foreground mb-3 tracking-tight font-sans ${isRTL ? "font-urdu" : "uppercase"}`}>
+                    {card.title}
+                  </h3>
+                  <p className={`text-text-muted text-xs sm:text-sm leading-relaxed font-sans ${isRTL ? "font-urdu" : ""}`}>
+                    {card.description}
+                  </p>
                 </div>
 
-                <h3 className={`text-xl font-bold text-foreground mb-3 tracking-tight font-sans ${isRTL ? "font-urdu" : "uppercase"}`}>
-                  {card.title}
-                </h3>
-                <p className={`text-text-muted text-xs sm:text-sm leading-relaxed font-sans mb-6 ${isRTL ? "font-urdu" : ""}`}>
-                  {card.description}
-                </p>
+                <div className={isFullRow ? "lg:w-[380px] lg:shrink-0" : "mt-6"}>{artifact}</div>
               </div>
 
-              <div className="pt-4 border-t border-card-border flex items-center justify-between text-xs text-text-muted">
-                <span className="flex items-center gap-1.5 text-foreground/85">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
-                  {t.enterpriseSafety.hardwareEnforced}
-                </span>
-                <Link href="/trust" className="text-amber-700 dark:text-amber-400 hover:underline font-semibold flex items-center gap-1">
-                  {t.enterpriseSafety.details} <ArrowRight className="w-3 h-3 rtl:rotate-180" aria-hidden="true" />
-                </Link>
+              <div className="mt-auto pt-6">
+                <div className="pt-4 border-t border-card-border flex items-center justify-between text-xs text-text-muted">
+                  <span className="flex items-center gap-1.5 text-foreground/85">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" aria-hidden="true" />
+                    {t.enterpriseSafety.hardwareEnforced}
+                  </span>
+                  <Link href="/trust" className="text-amber-700 dark:text-amber-400 hover:underline font-semibold flex items-center gap-1">
+                    {t.enterpriseSafety.details} <ArrowRight className="w-3 h-3 rtl:rotate-180" aria-hidden="true" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           );

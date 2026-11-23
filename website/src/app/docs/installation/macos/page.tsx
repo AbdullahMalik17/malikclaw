@@ -1,21 +1,27 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download, Check } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "macOS Installation — MalikClaw Documentation",
+  description:
+    "Install MalikClaw on macOS (Intel and Apple Silicon) with go install, the GHCR Docker image, npm, or the signed Darwin tarball archives.",
+  alternates: { canonical: "/docs/installation/macos" },
+};
+
 export default function MacOSInstallation() {
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-teal-700 dark:prose-a:text-[#0df2c9] prose-headings:text-foreground prose-code:text-teal-800 dark:prose-code:text-[#0df2c9] prose-code:bg-teal-500/10 dark:prose-code:bg-[#0df2c9]/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-amber-700 dark:prose-a:text-amber-400 prose-headings:text-foreground prose-code:text-amber-800 dark:prose-code:text-amber-300 prose-code:bg-amber-500/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
       <h1 className="text-4xl font-extrabold tracking-tight mb-4 text-foreground">macOS Installation</h1>
       <p className="text-xl text-text-muted mb-8">
         Install MalikClaw on macOS (Intel and Apple Silicon).
       </p>
 
-      <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-600/25 mb-8 not-prose">
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 mb-8 not-prose">
         <div className="flex items-start gap-3">
-          <Check className="w-5 h-5 text-teal-700 dark:text-[#0df2c9] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <Check className="w-5 h-5 text-amber-700 dark:text-amber-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div>
-            <h3 className="font-semibold text-teal-800 dark:text-[#0df2c9] mb-1">System Requirements</h3>
+            <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">System Requirements</h3>
             <ul className="text-sm text-text-muted space-y-1">
               <li>• macOS 11.0 (Big Sur) or later</li>
               <li>• 50 MB free disk space</li>
@@ -84,7 +90,7 @@ export default function MacOSInstallation() {
         </a>
         <a
           href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Darwin_arm64.tar.gz"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-700 text-white font-semibold hover:bg-purple-600 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-2 text-foreground font-semibold border border-card-border hover:border-amber-500/60 transition-colors"
         >
           <Download className="w-4 h-4" aria-hidden="true" />
           Apple Silicon (M1/M2/M3)
@@ -127,6 +133,23 @@ export default function MacOSInstallation() {
         </code>
       </div>
 
+      <h2>Method 4: Node.js (npm)</h2>
+      <p>Already manage your toolchain with Node.js? Install the launcher package from the registry:</p>
+
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          npm install -g malikclaw
+        </code>
+      </div>
+
+      <p className="text-sm text-text-muted">
+        Requires Node.js 18+. The npm package is a thin launcher: it automatically installs the matching{" "}
+        <code>@malikclaw/cli-darwin-arm64</code> (or <code>@malikclaw/cli-darwin-x64</code>) package containing the
+        native Go binary for your chip. Update with <code>npm update -g malikclaw</code>. Note: npm packages are
+        published alongside each GitHub release; if the registry 404s for your target version, use{" "}
+        <code>go install</code> or the Docker image instead.
+      </p>
+
       <h2>Apple Silicon Optimization</h2>
       <p>MalikClaw includes native ARM64 builds for M1/M2/M3 Macs:</p>
       <ul>
@@ -152,6 +175,13 @@ export default function MacOSInstallation() {
       <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
         <code className="text-sm text-zinc-100 font-mono block">
           rm &quot;$(go env GOPATH)/bin/malikclaw&quot;
+        </code>
+      </div>
+
+      <h3>npm</h3>
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          npm uninstall -g malikclaw
         </code>
       </div>
 

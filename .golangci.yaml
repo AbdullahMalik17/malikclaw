@@ -80,6 +80,8 @@ linters:
 
   exclusions:
     generated: lax
+    paths:
+      - '(^|/)node_modules/'
     rules:
       - linters:
           - lll

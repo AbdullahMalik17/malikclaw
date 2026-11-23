@@ -202,8 +202,8 @@ func (g *GitHubRegistry) DownloadAndInstall(ctx context.Context, slug, version, 
 	if downloadURL == "" {
 		return nil, fmt.Errorf("no download URL provided for skill %q", slug)
 	}
-	if err := security.ValidateURL(downloadURL, g.allowLocalhost); err != nil {
-		return nil, fmt.Errorf("skill download URL blocked by SSRF policy: %w", err)
+	if validateErr := security.ValidateURL(downloadURL, g.allowLocalhost); validateErr != nil {
+		return nil, fmt.Errorf("skill download URL blocked by SSRF policy: %w", validateErr)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", downloadURL, nil)

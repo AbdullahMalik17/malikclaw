@@ -45,6 +45,7 @@ function Write-Step    { param($msg) Write-Host "`n━━━ $msg ━━━`n" -
 
 # Error handler
 $ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
 trap {
     Write-Error "Installation failed: $_"
     exit 1
@@ -196,7 +197,8 @@ if (!(Test-Path $CONFIG_FILE)) {
         }
     }
 
-    $config | ConvertTo-Json -Depth 10 | Out-File -FilePath $CONFIG_FILE -Encoding utf8
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($CONFIG_FILE, ($config | ConvertTo-Json -Depth 10), $utf8NoBom)
     Write-Success "Generated config: $CONFIG_FILE"
 } else {
     Write-Info "Config exists: $CONFIG_FILE"
@@ -220,7 +222,9 @@ if ($useWSL) {
             if ($LASTEXITCODE -ne 0) { throw "tar.exe exited with code $LASTEXITCODE" }
         } else {
             $wslArchiveUnix = (& wsl wslpath -u $wslArchive).Trim()
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($wslArchiveUnix)) { throw "wslpath failed for $wslArchive (exit $LASTEXITCODE)" }
             $wslTempUnix = (& wsl wslpath -u $wslTempDir).Trim()
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($wslTempUnix)) { throw "wslpath failed for $wslTempDir (exit $LASTEXITCODE)" }
             & wsl tar -xzf $wslArchiveUnix -C $wslTempUnix $BINARY_NAME
             if ($LASTEXITCODE -ne 0) { throw "wsl tar exited with code $LASTEXITCODE" }
         }
@@ -230,9 +234,12 @@ if ($useWSL) {
         }
         Copy-Item -Path $wslExtracted -Destination $wslOutput -Force
         $wslOutputUnix = (& wsl wslpath -u $wslOutput).Trim()
+        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($wslOutputUnix)) { throw "wslpath failed for $wslOutput (exit $LASTEXITCODE)" }
         & wsl chmod +x $wslOutputUnix
         if ($LASTEXITCODE -ne 0) { throw "wsl chmod exited with code $LASTEXITCODE" }
-        & wsl sh -c "mkdir -p ~/.local/bin && ln -sf '$wslOutputUnix' ~/.local/bin/$BINARY_NAME"
+        $wslOutputEscaped = $wslOutputUnix -replace "'", "'\''"
+        & wsl sh -c "mkdir -p ~/.local/bin && ln -sf '$wslOutputEscaped' ~/.local/bin/$BINARY_NAME"
+        if ($LASTEXITCODE -ne 0) { throw "wsl ln exited with code $LASTEXITCODE" }
         Write-Success "WSL2 binary installed: $wslOutput"
     } catch {
         Write-Warn "WSL2 binary download failed ($_); using Windows binary"

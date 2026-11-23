@@ -42,7 +42,7 @@ export default function FeaturesBento({ language }: FeaturesBentoProps) {
       {/* Background Subtle Ambient Glows */}
       <div
         aria-hidden="true"
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-amber-500/5 blur-[160px] pointer-events-none rounded-full"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 amber-ambient-glow pointer-events-none"
       />
 
       <motion.div
@@ -159,7 +159,7 @@ export default function FeaturesBento({ language }: FeaturesBentoProps) {
           className="md:col-span-3 lg:col-span-2 glass-card-interactive p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center gap-6 justify-between group"
         >
           <div className="flex-1">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-700 dark:text-cyan-400 mb-5 shadow-sm">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-700 dark:text-emerald-400 mb-5 shadow-sm">
               <Smartphone className="w-6 h-6" aria-hidden="true" />
             </div>
             <h3 className={`text-2xl font-bold mb-2 text-foreground tracking-tight font-sans ${isUrdu ? "font-urdu" : "uppercase"}`}>
@@ -168,7 +168,7 @@ export default function FeaturesBento({ language }: FeaturesBentoProps) {
             <p className={`text-text-muted text-sm leading-relaxed mb-4 font-sans max-w-md ${isUrdu ? "font-urdu" : ""}`}>
               {t.features.androidDesc}
             </p>
-            <div className="inline-flex flex-wrap items-center gap-2 text-xs font-semibold text-cyan-800 dark:text-cyan-300 bg-cyan-500/10 px-3 py-1.5 rounded-lg border border-cyan-500/25">
+            <div className="inline-flex flex-wrap items-center gap-2 text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/25">
               <TerminalIcon className="w-3.5 h-3.5" aria-hidden="true" />
               <span>{t.features.adbMeta}</span>
             </div>
@@ -178,19 +178,19 @@ export default function FeaturesBento({ language }: FeaturesBentoProps) {
           <div dir="ltr" className="w-full sm:w-72 bg-[#0B0C10] text-zinc-100 p-4 rounded-xl border border-zinc-800 text-xs font-mono shrink-0 shadow-xl text-left">
             <div className="text-zinc-400 mb-3 border-b border-white/[0.08] pb-2 flex justify-between items-center">
               <span className="flex items-center gap-1.5 text-zinc-200 tabular-nums">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
                 ADB: 192.168.1.104
               </span>
-              <span className="text-[10px] text-cyan-300 font-bold bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">
+              <span className="text-[10px] text-emerald-300 font-bold bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
                 {t.features.connected}
               </span>
             </div>
             <div className="space-y-1.5 text-zinc-300 text-[11px] tabular-nums">
-              <div className="text-cyan-300">$ adb shell input tap 450 1200</div>
+              <div className="text-amber-300">$ adb shell input tap 450 1200</div>
               <div className="text-emerald-400 flex items-center gap-1">
                 <Check className="w-3 h-3" aria-hidden="true" /> Tap event dispatched (14ms)
               </div>
-              <div className="text-cyan-300">$ adb exec-out screencap -p</div>
+              <div className="text-amber-300">$ adb exec-out screencap -p</div>
               <div className="text-emerald-400 flex items-center gap-1">
                 <Check className="w-3 h-3" aria-hidden="true" /> OCR matrix match: 99.8%
               </div>

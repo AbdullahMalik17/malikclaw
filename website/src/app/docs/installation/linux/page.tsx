@@ -1,21 +1,27 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Download, Check, Cpu } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Linux Installation — MalikClaw Documentation",
+  description:
+    "Install MalikClaw on Linux and single-board computers with DEB/RPM packages, the install.sh script, npm, go install, manual binaries, systemd, or Docker.",
+  alternates: { canonical: "/docs/installation/linux" },
+};
+
 export default function LinuxInstallation() {
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-teal-700 dark:prose-a:text-[#0df2c9] prose-headings:text-foreground prose-code:text-teal-800 dark:prose-code:text-[#0df2c9] prose-code:bg-teal-500/10 dark:prose-code:bg-[#0df2c9]/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-amber-700 dark:prose-a:text-amber-400 prose-headings:text-foreground prose-code:text-amber-800 dark:prose-code:text-amber-300 prose-code:bg-amber-500/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
       <h1 className="text-4xl font-extrabold tracking-tight mb-4 text-foreground">Linux Installation</h1>
       <p className="text-xl text-text-muted mb-8">
         Install MalikClaw on Linux distributions and embedded devices.
       </p>
 
-      <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-600/25 mb-8 not-prose">
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 mb-8 not-prose">
         <div className="flex items-start gap-3">
-          <Check className="w-5 h-5 text-teal-700 dark:text-[#0df2c9] flex-shrink-0 mt-0.5" aria-hidden="true" />
+          <Check className="w-5 h-5 text-amber-700 dark:text-amber-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
           <div>
-            <h3 className="font-semibold text-teal-800 dark:text-[#0df2c9] mb-1">Supported Architectures</h3>
+            <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-1">Supported Architectures</h3>
             <ul className="text-sm text-text-muted space-y-1">
               <li>• <strong>x86_64</strong> - Desktop/server CPUs (Intel/AMD)</li>
               <li>• <strong>ARM64</strong> - Raspberry Pi 4, Orange Pi, servers</li>
@@ -83,43 +89,43 @@ export default function LinuxInstallation() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-4 not-prose">
         <a
           href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_x86_64.tar.gz"
-          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-teal-600/50 dark:hover:border-[#0df2c9]/50 transition-colors group"
+          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-amber-500/50 transition-colors group"
         >
           <div className="flex items-center gap-3">
-            <Cpu className="w-5 h-5 text-teal-700 dark:text-[#0df2c9]" aria-hidden="true" />
+            <Cpu className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="text-sm font-medium text-foreground">x86_64</span>
           </div>
-          <Download className="w-4 h-4 text-text-muted group-hover:text-teal-700 dark:group-hover:text-[#0df2c9]" aria-hidden="true" />
+          <Download className="w-4 h-4 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400" aria-hidden="true" />
         </a>
         <a
           href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_arm64.tar.gz"
-          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-teal-600/50 dark:hover:border-[#0df2c9]/50 transition-colors group"
+          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-amber-500/50 transition-colors group"
         >
           <div className="flex items-center gap-3">
-            <Cpu className="w-5 h-5 text-purple-700 dark:text-purple-400" aria-hidden="true" />
+            <Cpu className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="text-sm font-medium text-foreground">ARM64</span>
           </div>
-          <Download className="w-4 h-4 text-text-muted group-hover:text-teal-700 dark:group-hover:text-[#0df2c9]" aria-hidden="true" />
+          <Download className="w-4 h-4 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400" aria-hidden="true" />
         </a>
         <a
           href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_armv6.tar.gz"
-          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-teal-600/50 dark:hover:border-[#0df2c9]/50 transition-colors group"
+          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-amber-500/50 transition-colors group"
         >
           <div className="flex items-center gap-3">
-            <Cpu className="w-5 h-5 text-teal-700 dark:text-[#0df2c9]" aria-hidden="true" />
+            <Cpu className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="text-sm font-medium text-foreground">ARMv6 (Pi Zero)</span>
           </div>
-          <Download className="w-4 h-4 text-text-muted group-hover:text-teal-700 dark:group-hover:text-[#0df2c9]" aria-hidden="true" />
+          <Download className="w-4 h-4 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400" aria-hidden="true" />
         </a>
         <a
           href="https://github.com/AbdullahMalik17/malikclaw/releases/latest/download/malikclaw_Linux_armv7.tar.gz"
-          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-teal-600/50 dark:hover:border-[#0df2c9]/50 transition-colors group"
+          className="flex items-center justify-between p-3 rounded-xl bg-card-bg border border-card-border hover:border-amber-500/50 transition-colors group"
         >
           <div className="flex items-center gap-3">
-            <Cpu className="w-5 h-5 text-purple-700 dark:text-purple-400" aria-hidden="true" />
+            <Cpu className="w-5 h-5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="text-sm font-medium text-foreground">ARMv7</span>
           </div>
-          <Download className="w-4 h-4 text-text-muted group-hover:text-teal-700 dark:group-hover:text-[#0df2c9]" aria-hidden="true" />
+          <Download className="w-4 h-4 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400" aria-hidden="true" />
         </a>
       </div>
 
@@ -141,6 +147,23 @@ export default function LinuxInstallation() {
           malikclaw version
         </code>
       </div>
+
+      <h2>Method 4: Node.js (npm)</h2>
+      <p>Already manage your toolchain with Node.js? Install the launcher package from the registry:</p>
+
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          npm install -g malikclaw
+        </code>
+      </div>
+
+      <p className="text-sm text-text-muted">
+        Requires Node.js 18+. The npm package is a thin launcher: it automatically installs the matching{" "}
+        <code>@malikclaw/cli-linux-x64</code> (or <code>@malikclaw/cli-linux-arm64</code>) package containing the
+        native Go binary for your architecture. Update with <code>npm update -g malikclaw</code>. Note: npm packages
+        are published alongside each GitHub release; if the registry 404s for your target version, use the installer
+        script or <code>go install</code>.
+      </p>
 
       <h2>Raspberry Pi Installation</h2>
 
@@ -225,6 +248,13 @@ WantedBy=multi-user.target`}
           sudo apt-get remove malikclaw<br />
           # or<br />
           sudo dnf remove malikclaw
+        </code>
+      </div>
+
+      <h3>npm</h3>
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          npm uninstall -g malikclaw
         </code>
       </div>
 

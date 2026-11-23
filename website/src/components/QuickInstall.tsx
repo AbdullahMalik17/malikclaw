@@ -2,10 +2,10 @@
 
 import { useState, type KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Copy, Check, Cpu, Smartphone, Box, ShieldCheck } from "lucide-react";
+import { Terminal, Copy, Check, Cpu, Smartphone, Box, ShieldCheck, Package } from "lucide-react";
 import { Language, translations } from "@/i18n/translations";
 
-export type InstallMethod = "curl" | "irm" | "docker" | "termux" | "go";
+export type InstallMethod = "curl" | "npm" | "irm" | "docker" | "termux" | "go";
 
 interface InstallOption {
   id: InstallMethod;
@@ -20,6 +20,12 @@ const installOptions: InstallOption[] = [
     label: "cURL / Bash",
     command: "curl -fsSL https://raw.githubusercontent.com/AbdullahMalik17/malikclaw/main/install.sh | bash",
     icon: Terminal,
+  },
+  {
+    id: "npm",
+    label: "npm (Node.js)",
+    command: "npm install -g malikclaw",
+    icon: Package,
   },
   {
     id: "irm",

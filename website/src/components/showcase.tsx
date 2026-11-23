@@ -28,7 +28,7 @@ export default function Showcase({ language }: ShowcaseProps) {
       desc: t.showcase.raspberryPiDesc,
       image: "/assets/nano_bana_pro.jpg",
       tag: "ARM64 • Quad-Core • $15",
-      accent: "text-cyan-800 dark:text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+      accent: "text-emerald-800 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
     },
     {
       id: "termux",
@@ -36,7 +36,7 @@ export default function Showcase({ language }: ShowcaseProps) {
       desc: t.showcase.termuxDesc,
       image: "/assets/termux.jpg",
       tag: "ARM64 • Proot • Zero Cost",
-      accent: "text-purple-800 dark:text-purple-400 border-purple-500/30 bg-purple-500/10",
+      accent: "text-amber-800 dark:text-amber-400 border-amber-500/30 bg-amber-500/10",
     },
   ];
 
@@ -130,7 +130,7 @@ export default function Showcase({ language }: ShowcaseProps) {
         transition={{ duration: 0.5 }}
         className="text-center mt-28 mb-14"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-semibold text-cyan-800 dark:text-cyan-300 mb-4 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-800 dark:text-amber-300 mb-4 shadow-sm">
           <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
           <span>{t.showcase.skillsetBadge}</span>
         </div>

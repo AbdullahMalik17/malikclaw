@@ -38,9 +38,9 @@ const pipelineNodes: PipelineNode[] = [
     id: "act",
     step: "02",
     icon: Terminal,
-    color: "text-cyan-700 dark:text-cyan-400",
-    badgeColor: "bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30",
-    borderColor: "border-cyan-500/60",
+    color: "text-emerald-700 dark:text-emerald-400",
+    badgeColor: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+    borderColor: "border-emerald-500/60",
     payload: `// Step 2: Native Go 1.25+ Dispatcher
 go func(ctx context.Context) {
   cmd := exec.CommandContext(ctx, "pg_dump", "-Fc", "production_db")
@@ -56,9 +56,9 @@ go func(ctx context.Context) {
     id: "observe",
     step: "03",
     icon: Database,
-    color: "text-emerald-700 dark:text-emerald-400",
-    badgeColor: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
-    borderColor: "border-emerald-500/60",
+    color: "text-amber-700 dark:text-amber-400",
+    badgeColor: "bg-amber-500/15 text-amber-800 dark:text-amber-300 border-amber-500/30",
+    borderColor: "border-amber-500/60",
     payload: `// Step 3: Event Stream Evaluator
 [OBSERVATION_EVENT]
 • exit_code: 0 (SUCCESS)
@@ -71,9 +71,9 @@ go func(ctx context.Context) {
     id: "reflect",
     step: "04",
     icon: RefreshCw,
-    color: "text-purple-700 dark:text-purple-400",
-    badgeColor: "bg-purple-500/15 text-purple-800 dark:text-purple-300 border-purple-500/30",
-    borderColor: "border-purple-500/60",
+    color: "text-emerald-700 dark:text-emerald-400",
+    badgeColor: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30",
+    borderColor: "border-emerald-500/60",
     payload: `// Step 4: Episodic Reflection & Memory Write
 {
   "reflection_score": 0.998,

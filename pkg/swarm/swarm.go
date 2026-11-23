@@ -168,8 +168,8 @@ func (s *Swarm) DispatchTask(ctx context.Context, targetNodeID string, task Task
 	targetURL = strings.TrimSuffix(targetURL, "/") + "/swarm/task"
 
 	if !s.allowPrivatePeers {
-		if err := security.ValidateURL(targetURL, s.allowLocalhost); err != nil {
-			return TaskResult{}, fmt.Errorf("peer URL %q blocked by SSRF policy: %w", targetURL, err)
+		if validateErr := security.ValidateURL(targetURL, s.allowLocalhost); validateErr != nil {
+			return TaskResult{}, fmt.Errorf("peer URL %q blocked by SSRF policy: %w", targetURL, validateErr)
 		}
 	}
 

@@ -1,10 +1,16 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Installation Guide — MalikClaw Documentation",
+  description:
+    "Install MalikClaw v2.0.0 on Windows, macOS, Linux, and Android with the installer scripts, npm, go install, or Docker, then verify the binary.",
+  alternates: { canonical: "/docs/installation" },
+};
 
 export default function InstallationPage() {
   return (
-    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-teal-700 dark:prose-a:text-[#0df2c9] prose-headings:text-foreground prose-code:text-teal-800 dark:prose-code:text-[#0df2c9] prose-code:bg-teal-500/10 dark:prose-code:bg-[#0df2c9]/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
+    <div className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0B0C10] prose-pre:border prose-pre:border-zinc-800 prose-a:text-amber-700 dark:prose-a:text-amber-400 prose-headings:text-foreground prose-code:text-amber-800 dark:prose-code:text-amber-300 prose-code:bg-amber-500/10 prose-code:px-1 prose-code:rounded prose-code:before:content-none prose-code:after:content-none">
       <h1 className="text-4xl font-extrabold tracking-tight mb-4 text-foreground">Installation Guide</h1>
       <p className="text-xl text-text-muted mb-8">
         MalikClaw v2.0.0 is designed for easy deployment across multiple platforms. Choose your preferred installation method below.
@@ -26,6 +32,24 @@ export default function InstallationPage() {
         </code>
       </div>
 
+      <h3>Node.js (npm) — All Platforms</h3>
+      <div className="p-4 rounded-xl bg-[#0B0C10] border border-zinc-800 my-4 not-prose overflow-x-auto">
+        <code className="text-sm text-zinc-100 font-mono block">
+          npm install -g malikclaw
+        </code>
+      </div>
+      <p className="text-sm text-text-muted">
+        Requires Node.js 18+. The <code>malikclaw</code> npm package is a tiny shim: npm automatically downloads the
+        matching <code>@malikclaw/cli-&lt;os&gt;-&lt;arch&gt;</code> package for your platform (win32-x64, darwin-arm64,
+        linux-x64, and more) and runs the native Go binary through it. Verify with <code>malikclaw version</code>,
+        and update anytime with <code>npm update -g malikclaw</code>.
+      </p>
+      <p className="text-sm text-text-muted">
+        Note: npm packages are published automatically alongside every GitHub release. If
+        <code>npm install -g malikclaw</code> returns a 404, that release has not been published to the
+        registry yet — use the cURL installer or <code>go install</code> in the meantime.
+      </p>
+
       <h3>macOS</h3>
       <p className="text-sm text-text-muted">
         <code>install.sh</code> has no macOS branch. Install with <code>go install</code>, the Docker image, or the
@@ -39,10 +63,10 @@ export default function InstallationPage() {
 
       <h2>Platform-Specific Guides</h2>
       <ul className="space-y-2 my-4">
-        <li><Link href="/docs/installation/windows" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Windows Installation</Link> - Detailed Windows setup guide</li>
-        <li><Link href="/docs/installation/macos" className="text-teal-700 dark:text-[#0df2c9] hover:underline">macOS Installation</Link> - Go install, Docker, and manual archives</li>
-        <li><Link href="/docs/installation/linux" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Linux Installation</Link> - DEB, RPM, Docker, and binary installation</li>
-        <li><Link href="/docs/installation/android" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Android/Termux</Link> - Run MalikClaw on your phone</li>
+        <li><Link href="/docs/installation/windows" className="text-amber-700 dark:text-amber-400 hover:underline">Windows Installation</Link> - Detailed Windows setup guide</li>
+        <li><Link href="/docs/installation/macos" className="text-amber-700 dark:text-amber-400 hover:underline">macOS Installation</Link> - Go install, Docker, and manual archives</li>
+        <li><Link href="/docs/installation/linux" className="text-amber-700 dark:text-amber-400 hover:underline">Linux Installation</Link> - DEB, RPM, Docker, and binary installation</li>
+        <li><Link href="/docs/installation/android" className="text-amber-700 dark:text-amber-400 hover:underline">Android/Termux</Link> - Run MalikClaw on your phone</li>
       </ul>
 
       <h2>Verify Installation</h2>
@@ -94,7 +118,7 @@ export default function InstallationPage() {
       </div>
 
       <h2>Building from Source</h2>
-      <p>See the <Link href="/docs/installation/source" className="text-teal-700 dark:text-[#0df2c9] hover:underline">Source Installation Guide</Link> for detailed build instructions.</p>
+      <p>See the <Link href="/docs/installation/source" className="text-amber-700 dark:text-amber-400 hover:underline">Source Installation Guide</Link> for detailed build instructions.</p>
     </div>
   );
 }

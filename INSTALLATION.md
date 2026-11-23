@@ -94,6 +94,17 @@ scoop install malikclaw
 yay -S malikclaw
 ```
 
+### Any Platform via npm (Node.js 18+)
+```bash
+npm install -g malikclaw
+malikclaw version
+```
+The `malikclaw` npm package is a thin, dependency-free launcher. npm automatically installs the matching
+`@malikclaw/cli-<os>-<cpu>` package (`win32-x64`, `darwin-arm64`, `linux-x64`, `linux-arm64`, `linux-arm`,
+`linux-riscv64`, `linux-s390x`, `freebsd-x64`, `freebsd-arm64`, …) containing the native Go binary, then the
+launcher runs it and exits. Update with `npm update -g malikclaw`, remove with `npm uninstall -g malikclaw`.
+Published alongside every GitHub release.
+
 ---
 
 ## 🛠️ 4. Build from Source

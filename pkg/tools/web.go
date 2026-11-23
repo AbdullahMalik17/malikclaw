@@ -894,14 +894,14 @@ func (t *WebFetchTool) Execute(ctx context.Context, args map[string]any) *ToolRe
 		return ErrorResult("missing domain in URL")
 	}
 
-	if err := security.ValidateURL(urlStr, allowPrivateWebFetchHosts.Load()); err != nil {
-		if errors.Is(err, security.ErrBlockedHost) || errors.Is(err, security.ErrBlockedIP) {
-			return ErrorResult(fmt.Sprintf("fetching private or local network hosts is not allowed: %v", err))
+	if validateErr := security.ValidateURL(urlStr, allowPrivateWebFetchHosts.Load()); validateErr != nil {
+		if errors.Is(validateErr, security.ErrBlockedHost) || errors.Is(validateErr, security.ErrBlockedIP) {
+			return ErrorResult(fmt.Sprintf("fetching private or local network hosts is not allowed: %v", validateErr))
 		}
 		// Keep lightweight pre-flight behavior consistent when DNS fails transiently in unit tests
 		// unless it's an obvious blocked host/scheme; connect-time DialContext still guards.
-		if !errors.Is(err, security.ErrDNSResolution) {
-			return ErrorResult(fmt.Sprintf("invalid or disallowed URL: %v", err))
+		if !errors.Is(validateErr, security.ErrDNSResolution) {
+			return ErrorResult(fmt.Sprintf("invalid or disallowed URL: %v", validateErr))
 		}
 	}
 
@@ -1014,11 +1014,6 @@ func (t *WebFetchTool) extractText(htmlContent string) string {
 	}
 
 	return strings.Join(cleanLines, "\n")
-}
-
-// newSafeDialContext delegates to security.NewSafeDialContextFunc to mitigate DNS rebinding (TOCTOU).
-func newSafeDialContext(dialer *net.Dialer) func(context.Context, string, string) (net.Conn, error) {
-	return security.NewSafeDialContextFunc(dialer, allowPrivateWebFetchHosts.Load)
 }
 
 // isPrivateOrRestrictedIP delegates to security.IsBlockedIP so all IP range rules

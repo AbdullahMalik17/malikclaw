@@ -15,6 +15,7 @@ readonly BINARY_NAME="malikclaw"
 readonly CONFIG_DIR="$HOME/.malikclaw"
 readonly CONFIG_FILE="$CONFIG_DIR/config.json"
 readonly WORKSPACE_DIR="$CONFIG_DIR/workspace"
+TEMP_DIR=""
 
 # --- Color Codes (ASCII) ---
 readonly RED='\033[0;31m'
@@ -36,6 +37,10 @@ log_step()    { echo -e "\n${MAGENTA}━━━ $1 ${MAGENTA}━━━${NC}"; }
 # --- Graceful Exit Handler ---
 cleanup_and_exit() {
     local exit_code=$?
+    if [[ -n "${TEMP_DIR:-}" && -d "$TEMP_DIR" ]]; then
+        rm -rf "$TEMP_DIR"
+        TEMP_DIR=""
+    fi
     if [[ $exit_code -ne 0 ]]; then
         log_error "Installation failed with exit code $exit_code"
         echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -131,16 +136,33 @@ detect_environment() {
             ARCHIVE_ARCH="riscv64"
             log_info "Architecture: ${CYAN}RISC-V 64${NC}"
             ;;
+        s390x)
+            ARCHIVE_ARCH="s390x"
+            log_info "Architecture: ${CYAN}s390x${NC}"
+            ;;
         *)
             log_error "Unsupported architecture: $ARCH"
-            echo -e "${YELLOW}Supported: x86_64, aarch64/arm64, armv7l, armv6l, riscv64${NC}"
+            echo -e "${YELLOW}Supported: x86_64, aarch64/arm64, armv7l, armv6l, riscv64, s390x${NC}"
+            return 1
+            ;;
+    esac
+    
+    # Validate OS/Arch combination against GoReleaser release matrix
+    case "${ARCHIVE_OS}/${ARCHIVE_ARCH}" in
+        Linux/x86_64|Linux/arm64|Linux/armv7|Linux/armv6|Linux/riscv64|Linux/s390x|\
+        Darwin/x86_64|Darwin/arm64|\
+        Freebsd/x86_64|Freebsd/arm64|Freebsd/armv7|Freebsd/armv6)
+            ;;
+        *)
+            log_error "Unsupported platform combination: ${ARCHIVE_OS}/${ARCHIVE_ARCH}"
+            echo -e "${YELLOW}No release archive is published for ${ARCHIVE_OS}/${ARCHIVE_ARCH}${NC}"
             return 1
             ;;
     esac
     
     # Set binary path based on environment
     if [[ "$ENV_TYPE" == "termux" ]]; then
-        INSTALL_BIN="$PREFIX/bin"
+        INSTALL_BIN="${PREFIX:-/data/data/com.termux/files/usr}/bin"
         log_info "Install Path: ${CYAN}$INSTALL_BIN${NC} (Termux)"
     else
         INSTALL_BIN="/usr/local/bin"
@@ -188,10 +210,10 @@ fetch_binary() {
         return 1
     fi
     
-    local temp_dir archive_path extracted_binary
-    temp_dir=$(mktemp -d)
-    archive_path="$temp_dir/${BINARY_NAME}.tar.gz"
-    extracted_binary="$temp_dir/${BINARY_NAME}"
+    local archive_path extracted_binary
+    TEMP_DIR=$(mktemp -d)
+    archive_path="$TEMP_DIR/${BINARY_NAME}.tar.gz"
+    extracted_binary="$TEMP_DIR/${BINARY_NAME}"
     
     log_info "Downloading from: ${CYAN}$ARCHIVE_URL${NC}"
     
@@ -199,27 +221,31 @@ fetch_binary() {
         log_error "Failed to download release archive"
         echo -e "${YELLOW}Check your internet connection or visit:${NC}"
         echo -e "${CYAN}https://github.com/${REPO_OWNER}/${REPO_NAME}/releases${NC}"
-        rm -rf "$temp_dir"
+        rm -rf "$TEMP_DIR"
+        TEMP_DIR=""
         return 1
     fi
     
     # Verify download succeeded
     if [[ ! -s "$archive_path" ]]; then
         log_error "Downloaded archive is empty"
-        rm -rf "$temp_dir"
+        rm -rf "$TEMP_DIR"
+        TEMP_DIR=""
         return 1
     fi
     
     # Extract release archive
-    if ! tar -xzf "$archive_path" -C "$temp_dir"; then
+    if ! tar -xzf "$archive_path" -C "$TEMP_DIR"; then
         log_error "Failed to extract release archive"
-        rm -rf "$temp_dir"
+        rm -rf "$TEMP_DIR"
+        TEMP_DIR=""
         return 1
     fi
     
     if [[ ! -f "$extracted_binary" ]]; then
         log_error "Binary ${BINARY_NAME} not found in archive"
-        rm -rf "$temp_dir"
+        rm -rf "$TEMP_DIR"
+        TEMP_DIR=""
         return 1
     fi
     
@@ -245,7 +271,8 @@ fetch_binary() {
         fi
     fi
     
-    rm -rf "$temp_dir"
+    rm -rf "$TEMP_DIR"
+    TEMP_DIR=""
     log_success "Binary installed to: ${INSTALL_BIN}/${BINARY_NAME}"
 }
 

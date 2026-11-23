@@ -1,16 +1,24 @@
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import PWARegister from "@/components/pwa-register";
 import ChatWidget from "@/components/chat-widget";
 import { ThemeProvider } from "@/components/theme-provider";
 
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-nastaliq",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "MalikClaw v2.0.0 🦅 — Agentic Era 2026 | Edge AI & Everyday Automation",
+  title: "MalikClaw v2.0.0 — Agentic Era 2026 | Edge AI & Everyday Automation",
   description:
-    "🦅 MalikClaw v2.0.0 (Agentic Era 2026) is an ultra-lightweight Go AI agent (<10MB RAM) built for everyday life automation, WhatsApp/Telegram replies, Android ADB tasks, SSRF & prompt-injection defense, smart multi-model cost routing, and universal SKILL.md + MCP support — in English & Urdu on any $10 SBC or old phone. آگے بڑھو، ملک کلاؤ!",
+    "MalikClaw v2.0.0 (Agentic Era 2026) is an ultra-lightweight Go AI agent (<10MB RAM) built for everyday life automation, WhatsApp/Telegram replies, Android ADB tasks, SSRF & prompt-injection defense, smart multi-model cost routing, and universal SKILL.md + MCP support — in English & Urdu on any $10 SBC or old phone. آگے بڑھو، ملک کلاؤ!",
   keywords: [
     "MalikClaw",
     "MalikClaw v2.0.0",
@@ -139,14 +147,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${GeistSans.variable} ${GeistMono.variable} ${notoNastaliqUrdu.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap"
-        />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
         <link rel="icon" href="/favicon.ico" />

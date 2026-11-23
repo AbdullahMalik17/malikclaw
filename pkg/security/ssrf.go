@@ -144,7 +144,7 @@ func ValidateURL(rawURL string, allowLocalhost bool) error {
 	}
 
 	// Handle IP literal hosts directly without DNS lookup.
-	if ip, err := netip.ParseAddr(host); err == nil {
+	if ip, parseErr := netip.ParseAddr(host); parseErr == nil {
 		if IsBlockedIP(ip, allowLocalhost) {
 			return fmt.Errorf("%w: %s", ErrBlockedIP, ip.String())
 		}

@@ -263,8 +263,8 @@ func TestSkillInstaller_DownloadFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
-	if err := installer.SetAllowLocalhost(true); err != nil {
-		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	if setErr := installer.SetAllowLocalhost(true); setErr != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", setErr)
 	}
 
 	t.Run("successful download", func(t *testing.T) {
@@ -328,8 +328,8 @@ func TestSkillInstaller_DownloadRaw(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
-	if err := installer.SetAllowLocalhost(true); err != nil {
-		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	if setErr := installer.SetAllowLocalhost(true); setErr != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", setErr)
 	}
 
 	// Replace the client with one that points to our test server
@@ -487,8 +487,8 @@ func TestSkillInstaller_GetGithubDirAllFiles(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
-	if err := installer.SetAllowLocalhost(true); err != nil {
-		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	if setErr := installer.SetAllowLocalhost(true); setErr != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", setErr)
 	}
 
 	// Create a test server that mimics GitHub API
@@ -655,8 +655,8 @@ func TestSkillInstaller_ContextCancellation(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewSkillInstaller() error = %v", err)
 	}
-	if err := installer.SetAllowLocalhost(true); err != nil {
-		t.Fatalf("SetAllowLocalhost(true) error = %v", err)
+	if setErr := installer.SetAllowLocalhost(true); setErr != nil {
+		t.Fatalf("SetAllowLocalhost(true) error = %v", setErr)
 	}
 
 	// Create a slow server

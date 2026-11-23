@@ -12,13 +12,6 @@ func onboard() {
 	wizard.Run()
 }
 
-func createWorkspaceTemplates(workspace string) {
-	err := copyEmbeddedToTarget(workspace)
-	if err != nil {
-		fmt.Printf("Error copying workspace templates: %v\n", err)
-	}
-}
-
 func copyEmbeddedToTarget(targetDir string) error {
 	// Ensure target directory exists
 	if err := os.MkdirAll(targetDir, 0o755); err != nil {

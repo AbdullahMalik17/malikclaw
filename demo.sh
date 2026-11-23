@@ -176,11 +176,13 @@ EOF
 
     # Test web search (if DuckDuckGo enabled)
     log_info "Testing web search..."
-    local timeout_cmd=()
     if command -v timeout &>/dev/null; then
-        timeout_cmd=(timeout 30)
-    fi
-    if "${timeout_cmd[@]}" "$MALIKCLAW_CMD" agent -m "What is the capital of Pakistan?" 2>/dev/null; then
+        if timeout 30 "$MALIKCLAW_CMD" agent -m "What is the capital of Pakistan?" 2>/dev/null; then
+            log_success "Web search working!"
+        else
+            log_warn "Web search test failed. Check your internet connection."
+        fi
+    elif "$MALIKCLAW_CMD" agent -m "What is the capital of Pakistan?" 2>/dev/null; then
         log_success "Web search working!"
     else
         log_warn "Web search test failed. Check your internet connection."
@@ -238,7 +240,7 @@ show_config_status() {
 
         # Check tools enabled
         log_info "Enabled tools:"
-        grep -E '"enabled":\s*true' "$CONFIG_FILE" 2>/dev/null | head -5 || log_warn "No tools enabled"
+        grep -m 5 -E '"enabled":\s*true' "$CONFIG_FILE" 2>/dev/null || log_warn "No tools enabled"
     else
         log_error "No configuration found"
     fi

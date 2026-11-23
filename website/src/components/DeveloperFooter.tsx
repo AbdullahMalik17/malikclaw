@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Language, translations } from "@/i18n/translations";
 import { ShieldCheck, Server, Github, Terminal, ArrowRight, BookOpen, MessageSquare, Sparkles, Heart } from "lucide-react";
 import { MALIKCLAW_VERSION } from "@/lib/version";
+import BrandMark from "./BrandMark";
 
 export interface FooterProps {
   language: Language;
@@ -27,7 +28,7 @@ export default function DeveloperFooter({ language }: FooterProps) {
         <div className="relative rounded-3xl overflow-hidden bg-card-bg border border-amber-500/30 p-8 sm:p-12 text-center shadow-xl dark:shadow-[0_0_60px_rgba(245,158,11,0.12)] backdrop-blur-2xl">
 
           {/* Ambient Glow Orbs */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-amber-500/15 blur-[90px] pointer-events-none rounded-full" />
+          <div aria-hidden="true" className="absolute -top-24 left-1/2 -translate-x-1/2 amber-ambient-glow pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center gap-4 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-800 dark:text-amber-300">
@@ -74,7 +75,7 @@ export default function DeveloperFooter({ language }: FooterProps) {
             {/* Column 1: Brand & Bio */}
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-xl" aria-hidden="true">🦅</span>
+                <BrandMark className="h-5 w-5 text-amber-700 dark:text-amber-400" />
                 <span className="text-lg font-bold text-foreground tracking-tight font-sans">MalikClaw</span>
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30 font-bold tabular-nums">
                   {MALIKCLAW_VERSION}
@@ -128,7 +129,7 @@ export default function DeveloperFooter({ language }: FooterProps) {
                 </li>
                 <li>
                   <a href="https://mcpmarket.com/server/malikclaw" target="_blank" rel="noopener noreferrer" className="hover:text-amber-700 dark:hover:text-amber-400 transition-colors flex items-center gap-1.5">
-                    <Server className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400" aria-hidden="true" />
+                    <Server className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
                     <span>{t.footer.mcpMarket}</span>
                   </a>
                 </li>

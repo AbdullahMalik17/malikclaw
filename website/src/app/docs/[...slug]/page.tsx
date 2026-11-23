@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import fs from "fs";
 import path from "path";
@@ -10,21 +11,109 @@ interface DocPageProps {
   params: Promise<{ slug: string[] }>;
 }
 
-const STATIC_MAPPING: Record<string, { file: string; title: string }> = {
-  "quick-start": { file: "getting-started/hello-world.md", title: "Quick Start" },
-  "configuration": { file: "tools_configuration.md", title: "Configuration" },
-  "architecture": { file: "ARCHITECTURE.md", title: "Architecture" },
-  "providers": { file: "PROVIDERS.md", title: "Providers & Models" },
-  "routing": { file: "ROUTING.md", title: "Smart Model Routing" },
-  "security": { file: "SECURITY.md", title: "Security" },
-  "troubleshooting": { file: "troubleshooting.md", title: "Troubleshooting" },
-  "debug": { file: "debug.md", title: "Debug Guide" },
-  "deployment/docker": { file: "deployment/docker.md", title: "Docker Deployment" },
-  "installation/source": { file: "getting-started/installation.md", title: "Build from Source" },
-  "mobile-operation": { file: "deployment/android-termux.md", title: "Android & Mobile Operation" },
-  "antigravity/auth": { file: "ANTIGRAVITY_AUTH.md", title: "AntiGravity Auth" },
-  "antigravity/usage": { file: "ANTIGRAVITY_USAGE.md", title: "AntiGravity Usage" },
+interface DocEntry {
+  file: string;
+  title: string;
+  description: string;
+}
+
+const STATIC_MAPPING: Record<string, DocEntry> = {
+  "quick-start": {
+    file: "getting-started/hello-world.md",
+    title: "Quick Start",
+    description: "Run your first MalikClaw agent in about five minutes: install the binary, onboard, add an API key, and send a message.",
+  },
+  "configuration": {
+    file: "tools_configuration.md",
+    title: "Configuration",
+    description: "Configure MalikClaw: API keys, model selection, workspace paths, tools, and the ~/.malikclaw/config.json reference.",
+  },
+  "architecture": {
+    file: "ARCHITECTURE.md",
+    title: "Architecture",
+    description: "How MalikClaw works: subsystem topology, agent loop, channel adapters, security sandbox, and Go package structure.",
+  },
+  "providers": {
+    file: "PROVIDERS.md",
+    title: "Providers & Models",
+    description: "Set up OpenAI, Anthropic, Gemini, and local Ollama providers, plus per-model pricing for the Smart Cost Router.",
+  },
+  "routing": {
+    file: "ROUTING.md",
+    title: "Smart Model Routing",
+    description: "The three-tier fast / balanced / reasoning cost router and how to tune it for local and frontier models.",
+  },
+  "security": {
+    file: "SECURITY.md",
+    title: "Security",
+    description: "MalikClaw defense in depth: SSRF network firewall, prompt-injection structural guard, and sandbox execution.",
+  },
+  "troubleshooting": {
+    file: "troubleshooting.md",
+    title: "Troubleshooting",
+    description: "Solutions for common MalikClaw install, configuration, channel, and runtime problems.",
+  },
+  "debug": {
+    file: "debug.md",
+    title: "Debug Guide",
+    description: "Diagnose MalikClaw issues with logs, verbose output, and the gateway inspection tooling.",
+  },
+  "deployment/docker": {
+    file: "deployment/docker.md",
+    title: "Docker Deployment",
+    description: "Run MalikClaw in Docker or Docker Compose using the published GHCR images and persistent config volumes.",
+  },
+  "installation/source": {
+    file: "getting-started/installation.md",
+    title: "Build from Source",
+    description: "Build the MalikClaw Go binary from source, including toolchain requirements and release cross-compilation.",
+  },
+  "mobile-operation": {
+    file: "deployment/android-termux.md",
+    title: "Android & Mobile Operation",
+    description: "Operate MalikClaw on Android via Termux: background gateways, battery optimisation, and ADB automation.",
+  },
+  "antigravity/auth": {
+    file: "ANTIGRAVITY_AUTH.md",
+    title: "AntiGravity Auth",
+    description: "Authenticate MalikClaw AntiGravity sessions and configure the credentials it needs.",
+  },
+  "antigravity/usage": {
+    file: "ANTIGRAVITY_USAGE.md",
+    title: "AntiGravity Usage",
+    description: "Use MalikClaw AntiGravity workflows, commands, and configuration options.",
+  },
 };
+
+function docsDir() {
+  return fs.existsSync(path.join(process.cwd(), "docs"))
+    ? path.join(process.cwd(), "docs")
+    : path.join(process.cwd(), "..", "docs");
+}
+
+function channelEntry(slugPath: string): DocEntry {
+  const channelId = slugPath.split("/")[1];
+  const dir = docsDir();
+  const candidates = [
+    `channels/${channelId}/README.md`,
+    `channels/${channelId}/README.ur.md`,
+    `channels/${channelId}/${channelId}_app/README.ur.md`,
+  ];
+  const matched = candidates.find((rel) => fs.existsSync(path.join(dir, rel))) ?? candidates[0];
+  const name = channelId.charAt(0).toUpperCase() + channelId.slice(1);
+  return {
+    file: matched,
+    title: `${name} Channel`,
+    description: `Connect MalikClaw to ${name}: credentials, pairing, permissions, and message handling.`,
+  };
+}
+
+function resolveDoc(slugPath: string): DocEntry | null {
+  if (STATIC_MAPPING[slugPath]) return STATIC_MAPPING[slugPath];
+  const parts = slugPath.split("/");
+  if (parts[0] === "channels" && parts.length === 2) return channelEntry(slugPath);
+  return null;
+}
 
 export async function generateStaticParams() {
   return Object.keys(STATIC_MAPPING).map((slugPath) => ({
@@ -32,43 +121,43 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: DocPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const slugPath = slug.join("/");
+  const doc = resolveDoc(slugPath);
+
+  if (!doc) {
+    return { title: "Documentation — MalikClaw" };
+  }
+
+  return {
+    title: `${doc.title} — MalikClaw Documentation`,
+    description: doc.description,
+    alternates: { canonical: `/docs/${slugPath}` },
+    openGraph: {
+      title: `${doc.title} — MalikClaw Documentation`,
+      description: doc.description,
+      url: `https://malikclaw.vercel.app/docs/${slugPath}`,
+      type: "article",
+    },
+  };
+}
+
 export default async function DocPage({ params }: DocPageProps) {
   const { slug } = await params;
   const slugPath = slug.join("/");
 
-  const mapping: Record<string, { file: string; title: string }> = { ...STATIC_MAPPING };
-
-  const docsDir = fs.existsSync(path.join(process.cwd(), "docs"))
-    ? path.join(process.cwd(), "docs")
-    : path.join(process.cwd(), "..", "docs");
-
-  // Add channels to mapping dynamically with README.md -> README.ur.md fallback
-  if (slug[0] === "channels" && slug.length === 2) {
-    const channelId = slug[1];
-    const candidates = [
-      `channels/${channelId}/README.md`,
-      `channels/${channelId}/README.ur.md`,
-      `channels/${channelId}/${channelId}_app/README.ur.md`,
-    ];
-    const matched = candidates.find((rel) => fs.existsSync(path.join(docsDir, rel))) ?? candidates[0];
-    mapping[slugPath] = {
-      file: matched,
-      title: channelId.charAt(0).toUpperCase() + channelId.slice(1) + " Channel",
-    };
-  }
-
-  const doc = mapping[slugPath];
+  const doc = resolveDoc(slugPath);
   if (!doc) {
     notFound();
   }
 
-  const filePath = path.join(docsDir, doc.file);
+  const filePath = path.join(docsDir(), doc.file);
   if (!fs.existsSync(filePath)) notFound();
 
   const content = fs.readFileSync(filePath, "utf-8");
   const githubUrl = `https://github.com/AbdullahMalik17/malikclaw/edit/main/docs/${doc.file}`;
 
-  // Simple navigation logic over canonical static pages
   const allSlugs = Object.keys(STATIC_MAPPING);
   const currentIndex = allSlugs.indexOf(slugPath);
   const prevSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null;
@@ -78,14 +167,14 @@ export default async function DocPage({ params }: DocPageProps) {
     <div className="max-w-4xl mx-auto">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 text-xs font-medium text-text-muted mb-8 uppercase tracking-wider">
-        <Link href="/docs" className="hover:text-teal-700 dark:hover:text-[#0df2c9] transition-colors">Docs</Link>
+        <Link href="/docs" className="hover:text-amber-700 dark:hover:text-amber-400 transition-colors">Docs</Link>
         <span>/</span>
         <span className="text-foreground">{doc.title}</span>
       </nav>
 
       <div className="prose prose-slate dark:prose-invert max-w-none
         prose-p:text-text-muted prose-p:leading-relaxed prose-p:text-[1.05rem]
-        prose-ul:text-text-muted prose-li:marker:text-teal-700 dark:prose-li:marker:text-[#0df2c9]
+        prose-ul:text-text-muted prose-li:marker:text-amber-700 dark:prose-li:marker:text-amber-400
         prose-hr:border-card-border
         prose-img:rounded-2xl prose-img:border prose-img:border-card-border prose-img:shadow-lg">
 
@@ -96,16 +185,16 @@ export default async function DocPage({ params }: DocPageProps) {
               <h1 className="text-4xl md:text-5xl font-black mb-8 text-foreground tracking-tight" {...props} />
             ),
             h2: (props: ComponentPropsWithoutRef<"h2">) => (
-              <h2 className="text-2xl md:text-3xl font-bold mt-16 mb-6 flex items-center gap-3 text-foreground before:content-[''] before:block before:w-1.5 before:h-8 before:bg-gradient-to-b before:from-amber-500 before:to-cyan-500 before:rounded-full" {...props} />
+              <h2 className="text-2xl md:text-3xl font-bold mt-16 mb-6 flex items-center gap-3 text-foreground before:content-[''] before:block before:w-1.5 before:h-8 before:bg-gradient-to-b before:from-amber-400 before:to-amber-600 before:rounded-full" {...props} />
             ),
             h3: (props: ComponentPropsWithoutRef<"h3">) => (
               <h3 className="text-xl font-bold mt-10 mb-4 text-foreground" {...props} />
             ),
             a: (props: ComponentPropsWithoutRef<"a">) => (
-              <a className="text-teal-700 dark:text-[#0df2c9] hover:text-teal-900 dark:hover:text-white transition-colors underline decoration-current/30 underline-offset-4" {...props} />
+              <a className="text-amber-700 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 transition-colors underline decoration-current/30 underline-offset-4" {...props} />
             ),
             blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
-              <blockquote className="border-s-4 border-purple-600 dark:border-[#8e2de2] bg-purple-500/10 p-6 rounded-e-2xl my-8 text-foreground/85 italic" {...props} />
+              <blockquote className="border-s-4 border-amber-500/70 bg-amber-500/5 p-6 rounded-e-2xl my-8 text-foreground/85 italic" {...props} />
             ),
             pre: (props: ComponentPropsWithoutRef<"pre">) => (
               <div className="relative group my-8">
@@ -117,7 +206,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 return <code className="font-mono text-sm text-zinc-100" {...props} />;
               }
               return (
-                <code className="font-mono text-[0.9em] text-teal-800 dark:text-[#0df2c9] bg-teal-500/10 dark:bg-[#0df2c9]/10 px-1.5 py-0.5 rounded-md border border-teal-600/20 dark:border-[#0df2c9]/20" {...props} />
+                <code className="font-mono text-[0.9em] text-amber-800 dark:text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded-md border border-amber-500/20" {...props} />
               );
             },
             table: (props: ComponentPropsWithoutRef<"table">) => (
@@ -146,8 +235,8 @@ export default async function DocPage({ params }: DocPageProps) {
           <Edit3 className="w-4 h-4" aria-hidden="true" />
           Suggest edits for this page
         </a>
-        <div className="text-sm text-text-muted">
-          Last updated: {new Date().toLocaleDateString()}
+        <div className="text-sm text-text-muted font-mono">
+          {`Source: docs/${doc.file}`}
         </div>
       </div>
 
@@ -159,7 +248,7 @@ export default async function DocPage({ params }: DocPageProps) {
               <ArrowLeft className="w-3 h-3 rtl:rotate-180" aria-hidden="true" /> Previous
             </div>
             <div className="font-semibold text-foreground group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
-              {mapping[prevSlug].title}
+              {STATIC_MAPPING[prevSlug].title}
             </div>
           </Link>
         ) : <div />}
@@ -170,7 +259,7 @@ export default async function DocPage({ params }: DocPageProps) {
               Next <ArrowRight className="w-3 h-3 rtl:rotate-180" aria-hidden="true" />
             </div>
             <div className="font-semibold text-foreground group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
-              {mapping[nextSlug].title}
+              {STATIC_MAPPING[nextSlug].title}
             </div>
           </Link>
         )}

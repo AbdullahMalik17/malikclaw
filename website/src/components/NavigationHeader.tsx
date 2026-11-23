@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Languages, Sun, Moon, Menu, X, Terminal } from "lucide-react";
+import { Github, Languages, Sun, Moon, Menu, X, Terminal, Star } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Language, translations } from "@/i18n/translations";
 import { MALIKCLAW_VERSION } from "@/lib/version";
 import { useGitHubStats } from "@/hooks/use-github-stats";
+import BrandMark from "./BrandMark";
 
 export interface NavigationProps {
   isUrdu: boolean;
@@ -59,7 +60,7 @@ export default function NavigationHeader({
         {/* Left: Brand Logo & Live Version Badge */}
         <Link href="/" className="flex items-center gap-2.5 font-mono group">
           <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-700 dark:text-amber-400 transition-colors group-hover:border-amber-500/60">
-            <span className="text-base select-none" aria-hidden="true">🦅</span>
+            <BrandMark className="h-[18px] w-[18px]" />
           </div>
           <div className="flex items-center gap-2">
             <span className="text-lg font-extrabold tracking-tighter text-foreground group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors font-sans">
@@ -130,8 +131,18 @@ export default function NavigationHeader({
           >
             <Github className="w-3.5 h-3.5 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors" aria-hidden="true" />
             <span>{t.nav.star}</span>
-            <span className="px-1.5 py-0.2 bg-amber-500/15 text-amber-800 dark:text-amber-300 rounded border border-amber-500/30 text-[10px] tabular-nums">
-              {isGitHubLoading ? "★" : `${stars.toLocaleString()} ★`}
+            <span className="px-1.5 py-0.2 bg-amber-500/15 text-amber-800 dark:text-amber-300 rounded border border-amber-500/30 text-[10px] tabular-nums inline-flex items-center gap-1">
+              {isGitHubLoading ? (
+                <>
+                  <Star className="w-3 h-3 opacity-50 animate-pulse" aria-hidden="true" />
+                  <span>—</span>
+                </>
+              ) : (
+                <>
+                  <Star className="w-3 h-3 fill-current" aria-hidden="true" />
+                  <span>{stars.toLocaleString()}</span>
+                </>
+              )}
             </span>
           </a>
 
@@ -211,7 +222,13 @@ export default function NavigationHeader({
                 className="flex items-center justify-center gap-2 text-xs font-bold text-foreground bg-surface-2 border border-card-border py-2.5 rounded-xl hover:border-amber-500/40 transition-colors tabular-nums"
               >
                 <Github className="w-4 h-4 text-amber-700 dark:text-amber-400" aria-hidden="true" />
-                <span>{t.nav.starOnGitHub} ({stars.toLocaleString()} ★)</span>
+                <span className="inline-flex items-center gap-1">
+                  <span>{t.nav.starOnGitHub}</span>
+                  <span className="inline-flex items-center gap-1 tabular-nums">
+                    (<Star className="w-3 h-3 fill-current" aria-hidden="true" />
+                    {stars.toLocaleString()})
+                  </span>
+                </span>
               </a>
             </div>
           </motion.div>

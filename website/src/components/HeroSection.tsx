@@ -24,10 +24,10 @@ export default function HeroSection({ language }: HeroSectionProps) {
     },
     {
       icon: Zap,
-      accent: "text-cyan-700 dark:text-cyan-400",
-      border: "hover:border-cyan-500/50",
-      glow: "group-hover:shadow-[0_0_24px_rgba(6,182,212,0.14)]",
-      badgeBg: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30",
+      accent: "text-emerald-700 dark:text-emerald-400",
+      border: "hover:border-emerald-500/50",
+      glow: "group-hover:shadow-[0_0_24px_rgba(16,185,129,0.14)]",
+      badgeBg: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30",
     },
     {
       icon: Shield,
@@ -38,10 +38,10 @@ export default function HeroSection({ language }: HeroSectionProps) {
     },
     {
       icon: HardDrive,
-      accent: "text-purple-700 dark:text-purple-400",
-      border: "hover:border-purple-500/50",
-      glow: "group-hover:shadow-[0_0_24px_rgba(168,85,247,0.14)]",
-      badgeBg: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/30",
+      accent: "text-amber-700 dark:text-amber-400",
+      border: "hover:border-amber-500/50",
+      glow: "group-hover:shadow-[0_0_24px_rgba(245,158,11,0.14)]",
+      badgeBg: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30",
     },
   ];
 
@@ -53,11 +53,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
       {/* Ambient Cyber Beams and Radial Background Gradients */}
       <div
         aria-hidden="true"
-        className="absolute -top-36 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[450px] bg-gradient-to-b from-amber-500/12 via-cyan-500/8 to-transparent blur-[140px] pointer-events-none rounded-full"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute top-48 left-1/4 w-[300px] h-[300px] bg-purple-500/5 blur-[120px] pointer-events-none rounded-full"
+        className="absolute -top-24 left-1/2 -translate-x-1/2 amber-ambient-glow pointer-events-none"
       />
 
       <motion.div
@@ -86,7 +82,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
           </div>
 
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-1 border border-card-border backdrop-blur-xl text-xs font-medium text-foreground">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400" aria-hidden="true" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" aria-hidden="true" />
             <span className="uppercase tracking-wider">{t.hero.badgeEveryday}</span>
           </div>
         </motion.div>
@@ -94,7 +90,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
         {/* Hero Headline */}
         <motion.h1
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-          className={`text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground max-w-4xl font-sans ${isRTL ? "font-urdu leading-[1.65]" : "leading-[1.08]"}`}
+          className={`text-[clamp(2.5rem,5vw+1rem,4.75rem)] font-extrabold text-balance text-foreground max-w-4xl font-display ${isRTL ? "font-urdu leading-[1.65]" : "leading-[1.05] tracking-[-0.03em]"}`}
         >
           <span className="text-gold-gradient block sm:inline">
             {t.hero.titlePart1}
@@ -130,19 +126,19 @@ export default function HeroSection({ language }: HeroSectionProps) {
 
           <a
             href="#benchmarks"
-            className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-1/90 border border-card-border hover:border-cyan-500/50 text-xs text-foreground transition-colors shadow-sm"
+            className="group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-1/90 border border-card-border hover:border-amber-500/50 text-xs text-foreground transition-colors shadow-sm"
           >
-            <Terminal className="w-3.5 h-3.5 text-cyan-700 dark:text-cyan-400 shrink-0" aria-hidden="true" />
+            <Terminal className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 shrink-0" aria-hidden="true" />
             <span className="font-bold">{t.hero.tracks.devLabel}</span>
             <span className="hidden sm:inline text-text-muted">· {t.hero.tracks.devDesc}</span>
-            <ArrowRight className="w-3 h-3 text-text-muted group-hover:text-cyan-700 dark:group-hover:text-cyan-400 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
+            <ArrowRight className="w-3 h-3 text-text-muted group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5" aria-hidden="true" />
           </a>
 
           <Link
             href="/docs/architecture"
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-2/80 border border-card-border hover:border-purple-500/50 text-xs font-semibold text-text-muted hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-surface-2/80 border border-card-border hover:border-emerald-500/50 text-xs font-semibold text-text-muted hover:text-foreground transition-colors"
           >
-            <BookOpen className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400 shrink-0" aria-hidden="true" />
+            <BookOpen className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400 shrink-0" aria-hidden="true" />
             <span>{t.hero.tracks.archLink}</span>
           </Link>
         </motion.nav>
