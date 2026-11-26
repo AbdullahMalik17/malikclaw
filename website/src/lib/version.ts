@@ -1,1 +1,1 @@
-export const MALIKCLAW_VERSION = "v2.0.0";
+export const MALIKCLAW_VERSION = "v0.2.5";
