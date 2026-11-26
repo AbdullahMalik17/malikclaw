@@ -76,10 +76,19 @@ for (const p of PLATFORMS) {
   if (m[BINARY_FIELD] !== `bin/${p.binary}`) err(`${file}: ${BINARY_FIELD} should be "bin/${p.binary}"`);
   if (!/^\d+\.\d+\.\d+/.test(m.version || "")) err(`${file}: bad version ${m.version}`);
   if (m[BINARY_FIELD] && !m.files?.some((f) => f.startsWith("bin"))) err(`${file}: files must include bin/`);
+  if (m.scripts?.prepublishOnly !== "node ../../scripts/check-publish.js") {
+    err(`${file}: scripts.prepublishOnly must be "node ../../scripts/check-publish.js"`);
+  }
 }
 
-// 3. wrapper optionalDependencies -----------------------------------------
+// 3. wrapper optionalDependencies & zero-dependency invariant -------------
 const wrapper = JSON.parse(fs.readFileSync(path.join(NPM_ROOT, "cli", "package.json"), "utf8"));
+if (Object.keys(wrapper.dependencies || {}).length > 0) {
+  err(`wrapper must have no runtime dependencies, got: ${Object.keys(wrapper.dependencies).join(", ")}`);
+}
+if (wrapper.scripts?.prepublishOnly !== "node ../scripts/check-publish.js") {
+  err(`wrapper scripts.prepublishOnly must be "node ../scripts/check-publish.js"`);
+}
 const deps = wrapper.optionalDependencies || {};
 const names = Object.keys(deps).sort();
 const all = PLATFORMS.map(packageName).sort();

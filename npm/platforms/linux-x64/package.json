@@ -13,6 +13,9 @@
   "files": [
     "bin/"
   ],
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/check-publish.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AbdullahMalik17/malikclaw.git",

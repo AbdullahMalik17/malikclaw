@@ -4,5 +4,7 @@
 
 # Local smoke-test artifacts (junctions/copies of platform packages)
 node_modules/
+package-lock.json
+cli/package-lock.json
 # npm pack output
 *.tgz

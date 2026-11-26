@@ -1,6 +1,6 @@
 {
   "name": "malikclaw",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "MalikClaw - a multi-platform AI agent framework CLI. Installs a tiny shim that runs the native binary shipped in a per-platform @malikclaw/cli-* package.",
   "license": "MIT",
   "type": "commonjs",
@@ -15,7 +15,8 @@
     "node": ">=18"
   },
   "scripts": {
-    "verify": "node ../scripts/verify.js"
+    "verify": "node ../scripts/verify.js",
+    "prepublishOnly": "node ../scripts/check-publish.js"
   },
   "keywords": [
     "malikclaw",
@@ -35,6 +36,5 @@
     "url": "https://github.com/AbdullahMalik17/malikclaw/issues"
   },
   "homepage": "https://github.com/AbdullahMalik17/malikclaw/tree/main/npm#readme",
-  "optionalDependencies": {},
-  "dependencies": {}
+  "optionalDependencies": {}
 }

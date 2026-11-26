@@ -80,8 +80,8 @@ against a `dist/` (or a `gh release download` directory):
 ```sh
 node npm/scripts/build-npm-packages.js --version 0.2.4 --dir dist
 node npm/scripts/verify.js
-npm publish npm/platforms/linux-x64   # ...one per platform, FIRST
-npm publish npm/cli                   # wrapper LAST
+npm publish ./npm/platforms/linux-x64   # ...one per platform, FIRST
+npm publish ./npm/cli                   # wrapper LAST (keep leading ./ so npm doesn't parse github:npm/cli!)
 ```
 
 - `--only <dir,...>` builds a subset (local smoke tests).

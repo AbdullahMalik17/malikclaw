@@ -176,7 +176,7 @@ jobs:
         if: steps.check_token.outputs.has_token == 'true'
         shell: bash
         run: |
-          for pkg in npm/platforms/*/; do
+          for pkg in ./npm/platforms/*/; do
             echo "::group::publish ${pkg}"
             npm publish "${pkg}" --access public --provenance --tag "${NPM_DIST_TAG}"
             echo "::endgroup::"
@@ -185,4 +185,4 @@ jobs:
       - name: Publish malikclaw wrapper (last, so it never points at unpublished packages)
         if: steps.check_token.outputs.has_token == 'true'
         shell: bash
-        run: npm publish npm/cli --access public --provenance --tag "${NPM_DIST_TAG}"
+        run: npm publish ./npm/cli --access public --provenance --tag "${NPM_DIST_TAG}"

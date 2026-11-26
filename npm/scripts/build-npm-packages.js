@@ -245,7 +245,7 @@ function main() {
       Object.keys(wrapper.optionalDependencies).length
     } optionalDependencies.`
   );
-  console.log(`Publish with: npm publish npm/platforms/*  then  npm publish npm/cli`);
+  console.log(`Publish with: npm publish ./npm/platforms/*  then  npm publish ./npm/cli`);
 }
 
 main();
