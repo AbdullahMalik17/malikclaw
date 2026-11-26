@@ -20,11 +20,16 @@ on:
         required: false
         type: boolean
         default: false
+      npm_only:
+        description: "Skip GoReleaser and publish npm packages from an existing GitHub Release"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   create-tag:
     name: Create Git Tag
-    if: github.event_name != 'push'
+    if: github.event_name != 'push' && !inputs.npm_only
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -51,7 +56,7 @@ jobs:
   release:
     name: GoReleaser Release
     needs: create-tag
-    if: ${{ always() && !cancelled() && (needs.create-tag.result == 'success' || needs.create-tag.result == 'skipped') }}
+    if: ${{ always() && !cancelled() && !inputs.npm_only && (needs.create-tag.result == 'success' || needs.create-tag.result == 'skipped') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -120,6 +125,7 @@ jobs:
   npm:
     name: Publish npm packages
     needs: release
+    if: ${{ always() && !cancelled() && (needs.release.result == 'success' || (inputs.npm_only && needs.release.result == 'skipped')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
