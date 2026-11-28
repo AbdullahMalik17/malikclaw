@@ -21,6 +21,10 @@
     <a href="https://github.com/AbdullahMalik17/malikclaw/network/members"><img src="https://img.shields.io/github/forks/AbdullahMalik17/malikclaw?style=social" alt="GitHub forks" /></a>
     <a href="https://github.com/AbdullahMalik17/malikclaw/issues"><img src="https://img.shields.io/github/issues/AbdullahMalik17/malikclaw" alt="GitHub issues" /></a>
     <a href="https://mcpmarket.com/server/malikclaw?utm_source=readme&amp;utm_medium=badge"><img src="https://mcpmarket.com/badge/server/malikclaw.svg?style=compact&amp;theme=dark" alt="Listed on MCP Market" /></a>
+    <a href="https://www.npmjs.com/package/malikclaw"><img src="https://img.shields.io/npm/v/malikclaw?color=CB3837&amp;logo=npm&amp;logoColor=white" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/malikclaw"><img src="https://img.shields.io/badge/downloads-4%2C311%2B-10B981?logo=npm&amp;logoColor=white" alt="4,311+ Downloads" /></a>
+    <a href="https://inspect.software/software/AbdullahMalik17/malikclaw"><img src="https://img.shields.io/badge/inspect.software-84%2F100%20Excellent%20%C2%B7%2093%20Eng-2563EB" alt="inspect.software 84/100" /></a>
+    <a href="https://vettiq.ai/mcp/malikclaw/"><img src="https://img.shields.io/badge/VettIQ-5%2F100%20Risk%20(Approved)-10B981" alt="VettIQ Approved" /></a>
   </p>
 
   <img src="assets/demo.gif" alt="MalikClaw Terminal Demo" width="900" height="520" style="max-width: 100%; height: auto;" />
