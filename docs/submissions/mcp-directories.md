@@ -4,6 +4,37 @@
 > **Canonical URLs:** Website `https://malikclaw.vercel.app` • GitHub `https://github.com/AbdullahMalik17/malikclaw` • MCP Market `https://mcpmarket.com/server/malikclaw` • Go Docs `https://pkg.go.dev/github.com/AbdullahMalik17/malikclaw`  
 > **Canonical Specs:** `Go 1.25+` (`go 1.25.7`) • `MIT` License • `21` Channels (`pkg/channels/`) • Docker `ghcr.io/abdullahmalik17/malikclaw:latest` (`-p 18790:18790 -v ~/.malikclaw:/home/malikclaw/.malikclaw`)
 
+## Directory & Distribution Status (November 28, 2026)
+
+The 13 third-party directory entries below were supplied as already indexing MalikClaw; the first-party GitHub repository is the fourteenth discovery listing, and GitHub Releases is an additional distribution surface. Third-party sites could not be independently fetched during this update, so their current listing status should be rechecked before treating it as externally verified.
+
+| Directory / Surface | MalikClaw entry | Status |
+|---|---|---|
+| npmjs.com | [malikclaw package](https://www.npmjs.com/package/malikclaw) | Reported live; not independently fetched |
+| pkg.go.dev | [Go module](https://pkg.go.dev/github.com/AbdullahMalik17/malikclaw) | Reported live; not independently fetched |
+| deps.dev | [Go module](https://deps.dev/go/github.com/AbdullahMalik17/malikclaw) | Reported live; not independently fetched |
+| MCP Market | [MalikClaw](https://mcpmarket.com/server/malikclaw) | Reported live; not independently fetched |
+| inspect.software | [MalikClaw inspection](https://inspect.software/software/AbdullahMalik17/malikclaw) | Reported live; not independently fetched |
+| VettIQ | [MalikClaw assessment](https://vettiq.ai/mcp/malikclaw/) | Reported live; not independently fetched |
+| AgentMods | [Directory](https://agentmods.dev/) | Reported live; not independently fetched |
+| SkillsMP | [Creator catalog](https://skillsmp.com/creators/abdullahmalik17) | Reported live; not independently fetched |
+| AgentHotspot | [Directory](https://agenthotspot.com/) | Reported live; not independently fetched |
+| AgentRank AI | [Directory](https://agentrank-ai.com/) | Reported live; not independently fetched |
+| Skills Registry | [Directory](https://skillsregistry.net/) | Reported live; not independently fetched |
+| M8ven | [Directory](https://m8ven.ai/) | Reported live; not independently fetched |
+| GitHub curated index | [linny006/mcp-servers-live](https://github.com/linny006/mcp-servers-live) | Reported live; not independently fetched |
+| GitHub repository | [AbdullahMalik17/malikclaw](https://github.com/AbdullahMalik17/malikclaw) | Live source and discovery listing |
+| GitHub Releases | [MalikClaw releases](https://github.com/AbdullahMalik17/malikclaw/releases) | Additional distribution surface |
+
+### Remaining Directory Targets
+
+| Directory | Submission status |
+|---|---|
+| [Glama](https://glama.ai/) | To submit as an MCP Client |
+| [Smithery](https://smithery.ai/) | Hold until the MCP server bridge exists |
+| [PulseMCP](https://www.pulsemcp.com/) | To submit as an MCP Client |
+| [MCP.so](https://mcp.so/) | To submit as an MCP Client |
+
 ---
 
 ## Architectural Gate: MCP Client / Host vs. MCP Server
