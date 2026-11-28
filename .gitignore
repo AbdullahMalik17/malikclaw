@@ -6,6 +6,8 @@ build/
 *.dll
 *.so
 *.dylib
+__pycache__/
+*.py[cod]
 *.test
 *.out
 /malikclaw

@@ -100,7 +100,12 @@ def get_odoo() -> OdooConnection:
         _odoo_connection.connect()
     return _odoo_connection
 
-@mcp.tool()
+@mcp.tool(annotations={
+    "readOnlyHint": False,
+    "destructiveHint": False,
+    "idempotentHint": False,
+    "openWorldHint": True,
+})
 def create_customer_invoice(
     customer_name: str,
     invoice_lines: List[Dict[str, Any]],
@@ -154,7 +159,12 @@ def create_customer_invoice(
         'status': data['state']
     }
 
-@mcp.tool()
+@mcp.tool(annotations={
+    "readOnlyHint": True,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": True,
+})
 def get_financial_summary(date_from: str = None, date_to: str = None) -> Dict[str, Any]:
     """Get revenue and expense totals for a date range (YYYY-MM-DD)."""
     odoo = get_odoo()
@@ -182,7 +192,12 @@ def get_financial_summary(date_from: str = None, date_to: str = None) -> Dict[st
         'profit': revenue - expenses
     }
 
-@mcp.tool()
+@mcp.tool(annotations={
+    "readOnlyHint": True,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": True,
+})
 def list_products(limit: int = 10) -> List[Dict[str, Any]]:
     """List products from Odoo."""
     odoo = get_odoo()
@@ -190,7 +205,12 @@ def list_products(limit: int = 10) -> List[Dict[str, Any]]:
     products = odoo.read('product.product', ids, ['name', 'list_price'])
     return [{'id': p['id'], 'name': p['name'], 'price': p['list_price']} for p in products]
 
-@mcp.tool()
+@mcp.tool(annotations={
+    "readOnlyHint": True,
+    "destructiveHint": False,
+    "idempotentHint": True,
+    "openWorldHint": True,
+})
 def search_partners(name: str = None, limit: int = 10) -> List[Dict[str, Any]]:
     """Search for customers or vendors in Odoo."""
     odoo = get_odoo()
